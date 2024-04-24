@@ -179,10 +179,7 @@ export const getTimeZonedDateFromDate = (
     throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
   }
 
-  const zonedTime = getZonedDate(
-    toDate(`${sDateValue.date}T00:00`, { timeZone }),
-    timeZone,
-  )
+  const zonedTime = getZonedDate(dateFromISO, timeZone)
 
   return zonedTime
 }
