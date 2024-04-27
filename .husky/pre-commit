@@ -1,1 +1,1 @@
-yarn lint-staged --allow-empty && yarn tsdoc
+yarn lint-staged && yarn tsdoc
