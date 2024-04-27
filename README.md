@@ -15,6 +15,8 @@ Features:
 
 <!-- TSDOC_START -->
 
+## :toolbox: Functions
+
 - [sDate](#gear-sdate)
 - [getDateToday](#gear-getdatetoday)
 - [getNextDateByWeekday](#gear-getnextdatebyweekday)
