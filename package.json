@@ -22,6 +22,7 @@
     "test:utc": "TZ=Etc/Universal vitest run",
     "test:watch": "vitest",
     "smoke": "yarn build && yarn lint && yarn test:utc",
+    "tsdoc": "tsdoc --src=src/sDate.ts,src/sTime.ts,src/sTimestamp.ts,src/constants.ts,src/sWeekdays.ts --repo=https://github.com/ericvera/scdate",
     "-- PRE-COMMIT HOOKS --": "",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
@@ -43,6 +44,7 @@
     "pinst": "^3.0.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
+    "tsdoc-markdown": "^0.6.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.1",
     "vitest": "^1.5.1"
