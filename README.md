@@ -5,7 +5,7 @@
 
 Date and time library optimized for dealing with schedules.
 
-_This package is in active pre-release development so there may be breaking changes until v1.0.0 is released._
+_`scdate` is in active pre-release development so there may be breaking changes until v1.0.0 is released._
 
 Features:
 
@@ -14,8 +14,6 @@ Features:
 - Serializable to simple ISO formatted string
 
 <!-- TSDOC_START -->
-
-## :toolbox: Functions
 
 - [sDate](#gear-sdate)
 - [getDateToday](#gear-getdatetoday)
