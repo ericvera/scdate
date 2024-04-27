@@ -567,7 +567,13 @@ Parameters:
 - `timestamp`: An instance of STimestamp that will be returned or a string
   in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L39)
+Examples:
+
+```ts
+const timestamp = sTimestamp('2024-03-10T01:59')
+```
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L45)
 
 ### :gear: getTimestampFromUTCMilliseconds
 
@@ -577,7 +583,7 @@ Returns the current timestamp for the given UTC date in the given time zone.
 | --------------------------------- | ----------------------------------------------------------------- |
 | `getTimestampFromUTCMilliseconds` | `(utcDateInMilliseconds: number, timeZone: string) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L54)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L60)
 
 ### :gear: getTimestampNow
 
@@ -587,7 +593,7 @@ Returns the current timestamp for the given time zone.
 | ----------------- | ---------------------------------- |
 | `getTimestampNow` | `(timeZone: string) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L66)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L72)
 
 ### :gear: getTimestampFromDateAndTime
 
@@ -597,7 +603,7 @@ Returns a timestamp for the given date and time.
 | ----------------------------- | -------------------------------------------------------------- |
 | `getTimestampFromDateAndTime` | `(date: string or SDate, time: string or STime) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L73)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L79)
 
 ### :gear: getTimeZonedDateFromTimestamp
 
@@ -608,7 +614,7 @@ zone.
 | ------------------------------- | ------------------------------------------------------------- |
 | `getTimeZonedDateFromTimestamp` | `(timestamp: string or STimestamp, timeZone: string) => Date` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L91)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L97)
 
 ### :gear: getSecondsToTimestamp
 
@@ -656,7 +662,7 @@ In 'America/New_York'
 | ----------------------- | --------------------------------------------------------------- |
 | `getSecondsToTimestamp` | `(timestamp: string or STimestamp, timeZone: string) => number` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L147)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L153)
 
 ### :gear: getDateFromTimestamp
 
@@ -666,7 +672,7 @@ Returns the date part of the given timestamp.
 | ---------------------- | -------------------------------------------- |
 | `getDateFromTimestamp` | `(timestamp: string or STimestamp) => SDate` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L167)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L173)
 
 ### :gear: getTimeFromTimestamp
 
@@ -676,7 +682,7 @@ Returns the time part of the given timestamp.
 | ---------------------- | -------------------------------------------- |
 | `getTimeFromTimestamp` | `(timestamp: string or STimestamp) => STime` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L176)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L182)
 
 ### :gear: getShortTimestampString
 
@@ -687,7 +693,7 @@ short format is a combination of the short date and the 12-hour time.
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `getShortTimestampString` | `(timestamp: string or STimestamp, timeZone: string, locale: LocalesArgument, options: STimestampShortStringOptions) => string` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L186)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L192)
 
 ### :gear: addDaysToTimestamp
 
@@ -700,7 +706,7 @@ time zones.
 | -------------------- | --------------------------------------------------------------- |
 | `addDaysToTimestamp` | `(timestamp: string or STimestamp, days: number) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L215)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L221)
 
 ### :gear: addMinutesToTimestamp
 
@@ -716,7 +722,7 @@ time at 2024-03-10T02:00.)
 | ----------------------- | ------------------------------------------------------------------------------------ |
 | `addMinutesToTimestamp` | `(timestamp: string or STimestamp, minutes: number, timeZone: string) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L236)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L242)
 
 ### :gear: isSameTimestamp
 
@@ -726,7 +732,7 @@ Returns true if the two timestamps are the same.
 | ----------------- | --------------------------------------------------------------------------------- |
 | `isSameTimestamp` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L262)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L268)
 
 ### :gear: isBeforeTimestamp
 
@@ -736,7 +742,7 @@ Returns true if the first timestamp is before the second timestamp.
 | ------------------- | --------------------------------------------------------------------------------- |
 | `isBeforeTimestamp` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L275)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L281)
 
 ### :gear: isSameTimestampOrBefore
 
@@ -747,7 +753,7 @@ timestamp.
 | ------------------------- | --------------------------------------------------------------------------------- |
 | `isSameTimestampOrBefore` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L289)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L295)
 
 ### :gear: isAfterTimestamp
 
@@ -757,7 +763,7 @@ Returns true if the first timestamp is after the second timestamp.
 | ------------------ | --------------------------------------------------------------------------------- |
 | `isAfterTimestamp` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L302)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L308)
 
 ### :gear: isSameTimestampOrAfter
 
@@ -767,7 +773,7 @@ Returns true if the first timestamp is the same or after the second
 | ------------------------ | --------------------------------------------------------------------------------- |
 | `isSameTimestampOrAfter` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L315)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L321)
 
 ### :gear: sWeekdays
 
