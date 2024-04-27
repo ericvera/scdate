@@ -1,2 +1,1 @@
-yarn tsdoc
-yarn lint-staged
+yarn tsdoc && yarn lint-staged
