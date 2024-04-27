@@ -2,12 +2,13 @@
  * --- Factory ---
  */
 
+import { daysInWeek } from 'date-fns/constants'
 import { Weekday } from './constants'
 import { SDate } from './internal/SDate'
 import { SWeekdays } from './internal/SWeekdays'
-import { DayToWeekday, DaysPerWeek } from './internal/constants'
+import { DayToWeekday } from './internal/constants'
 import { getAtIndex, hasFlag } from './internal/utils'
-import { getWeekdayStringIndex } from './internal/weekdays'
+import { getIndexForWeekday } from './internal/weekdays'
 import {
   addDaysToDate,
   getDaysBetweenDates,
@@ -125,7 +126,7 @@ export const filterWeekdaysForDates = (
   const diff = getDaysBetweenDates(sFromDate, sToDate)
 
   // All selected weekdays are already included
-  if (diff >= DaysPerWeek) {
+  if (diff >= daysInWeek) {
     return sWeekdaysInstance
   }
 
@@ -158,7 +159,7 @@ export const addWeekdayToWeekdays = (
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
   const newWeekdays = [...sWeekdaysInstance.weekdays]
-  const weekdayIndex = getWeekdayStringIndex(weekdayToAdd)
+  const weekdayIndex = getIndexForWeekday(weekdayToAdd)
 
   newWeekdays[weekdayIndex] = getAtIndex(AllWeekdaysIncludedMask, weekdayIndex)
 
@@ -177,7 +178,7 @@ export const doesWeekdaysIncludeWeekday = (
   weekday: Weekday,
 ) => {
   const sWeekdaysInstance = sWeekdays(weekdays)
-  const weekdayIndex = getWeekdayStringIndex(weekday)
+  const weekdayIndex = getIndexForWeekday(weekday)
 
   return getAtIndex(sWeekdaysInstance.weekdays, weekdayIndex) !== NotIncludedDay
 }

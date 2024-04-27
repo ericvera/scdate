@@ -16,19 +16,10 @@ export const getISOTimeFromISOTimestamp = (isoTimestamp: string): string => {
   return isoTimestamp.slice(StartOfTimeIndex)
 }
 
-export const getISOTimestampFromZonedDate = (date: Readonly<Date>): string => {
+export const getISOTimestampFromZonedDate = (date: Date): string => {
   const ISOTimestampLength = 16
 
   return formatISO(date).slice(0, ISOTimestampLength)
-}
-
-// TODO: Really needed?
-export const getISOTimestampFromUnzonedDate = (
-  date: Readonly<Date>,
-): string => {
-  const EndOfISOTimestampLength = 16
-
-  return date.toISOString().slice(0, EndOfISOTimestampLength)
 }
 
 export const validateISOTimestamp = (isoTimestamp: string): void => {

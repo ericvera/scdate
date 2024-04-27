@@ -21,17 +21,10 @@ export const getISODateFromISODate = (isoDate: string): string => {
   return isoDate.slice(StartOfDateIndex)
 }
 
-export const getISODateFromZonedDate = (date: Readonly<Date>): string => {
+export const getISODateFromZonedDate = (date: Date): string => {
   const EndOfISODateIndex = 10
 
   return formatISO(date).slice(0, EndOfISODateIndex)
-}
-
-// TODO: Really needed?
-export const getISODateFromUnzonedDate = (date: Readonly<Date>): string => {
-  const EndOfISODateIndex = 10
-
-  return date.toISOString().slice(0, EndOfISODateIndex)
 }
 
 export const validateISODate = (isoDate: string) => {

@@ -1,5 +1,9 @@
+import { secondsInHour, secondsInMinute } from 'date-fns/constants'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { TestLocalTimeZone } from './__test__/constants'
+import {
+  TestLocalTimeZone,
+  TestLocalTimeZoneWithDaylight,
+} from './__test__/constants'
 import { setFakeTimer } from './__test__/setFakeTimer'
 import { sDate } from './sDate'
 import { sTime } from './sTime'
@@ -12,7 +16,7 @@ import {
   getTimeFromTimestamp,
   getTimeZonedDateFromTimestamp,
   getTimestampFromDateAndTime,
-  getTimestampFromUTCDate,
+  getTimestampFromUTCMilliseconds,
   getTimestampNow,
   isAfterTimestamp,
   isBeforeTimestamp,
@@ -107,22 +111,25 @@ describe('getTimestampFromUTCDate', () => {
   it('works for valid date and time', () => {
     setFakeTimer('2022-02-03T13:22')
 
-    const timestamp = getTimestampFromUTCDate(new Date(), TestLocalTimeZone)
+    const timestamp = getTimestampFromUTCMilliseconds(
+      Date.now(),
+      TestLocalTimeZone,
+    )
 
     expect(timestamp).toMatchInlineSnapshot(`"2022-02-03T13:22"`)
   })
 
   it('throws for invalid date', () => {
     expect(() => {
-      getTimestampFromUTCDate(new Date('p'), TestLocalTimeZone)
+      getTimestampFromUTCMilliseconds(Number.NaN, TestLocalTimeZone)
     }).toThrowErrorMatchingInlineSnapshot(`[Error: Invalid date. Date: 'NaN']`)
   })
 
   it('throws for invalid time zone', () => {
     expect(() => {
-      getTimestampFromUTCDate(new Date(), 'Puerco Rico')
+      getTimestampFromUTCMilliseconds(Date.now(), 'Puerto Rico')
     }).toThrowErrorMatchingInlineSnapshot(
-      `[Error: Invalid time zone. Time zone: 'Puerco Rico']`,
+      `[Error: Invalid time zone. Time zone: 'Puerto Rico']`,
     )
   })
 })
@@ -261,6 +268,55 @@ describe('getSecondsToTimestamp', () => {
     expect(
       getSecondsToTimestamp('2022-04-04T05:20', TestLocalTimeZone),
     ).toMatchInlineSnapshot(`-90`)
+  })
+
+  it('works for a time zone with daylight saving time (Spring)', () => {
+    setFakeTimer('2024-03-10T01:59', TestLocalTimeZoneWithDaylight)
+
+    const timestamp = sTimestamp('2024-03-10T03:00')
+
+    // Expects 60 sedonds because daylight saving time will move the clock from
+    // 02:00 to 03:00.
+    expect(
+      getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
+    ).toBe(1 * secondsInMinute)
+  })
+
+  it('works for a time zone with daylight saving time (Spring) including time in Daylight transition time', () => {
+    // Time is Eastern Standard Time (UTC-5) equivalent to 06:59 UTC
+    setFakeTimer('2024-03-10T01:59', TestLocalTimeZoneWithDaylight)
+
+    // Times is Eastern Daylight Time (UTC-4) and equivalent to 06:00 UTC
+    const timestamp = sTimestamp('2024-03-10T02:00')
+
+    // Expects 59 minutes past (negative value)
+    expect(
+      getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
+    ).toBe(-59 * secondsInMinute)
+  })
+
+  it('works for a time zone with daylight saving time (Fall)', () => {
+    // Times is Eastern Daylight Time (UTC-4) and equivalent to 04:59 UTC
+    setFakeTimer('2024-11-03T00:59', TestLocalTimeZoneWithDaylight)
+
+    // Time is Eastern Standard Time (UTC-5) equivalent to 08:00 UTC
+    const timestamp = sTimestamp('2024-11-03T03:00')
+
+    expect(
+      getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
+    ).toBe(3 * secondsInHour + 1 * secondsInMinute)
+  })
+
+  it('works for a time zone with daylight saving time (Fall) including time in Daylight transition time', () => {
+    // Times is Eastern Daylight Time (UTC-4) and equivalent to 05:59 UTC
+    setFakeTimer('2024-11-03T01:59', TestLocalTimeZoneWithDaylight)
+
+    // Time is Eastern Standard Time (UTC-5) equivalent to 07:00 UTC
+    const timestamp = sTimestamp('2024-11-03T02:00')
+
+    expect(
+      getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
+    ).toBe(1 * secondsInMinute + 1 * secondsInHour)
   })
 
   it('throws for invalid timestamp', () => {
@@ -482,6 +538,14 @@ describe('addMinutesToTimestamp', () => {
     expect(
       addMinutesToTimestamp('2021-01-01T00:00', 0, TestLocalTimeZone),
     ).toMatchInlineSnapshot(`"2021-01-01T00:00"`)
+  })
+
+  it('works for a time zone with daylight saving time', () => {
+    const timestamp = sTimestamp('2024-03-10T01:59')
+
+    expect(
+      addMinutesToTimestamp(timestamp, 60, TestLocalTimeZoneWithDaylight),
+    ).toMatchInlineSnapshot(`"2024-03-10T03:59"`)
   })
 
   it('throws for invalid timestamp', () => {

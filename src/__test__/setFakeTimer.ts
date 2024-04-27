@@ -2,7 +2,10 @@ import { fromZonedTime } from 'date-fns-tz'
 import { vi } from 'vitest'
 import { TestLocalTimeZone } from './constants'
 
-export const setFakeTimer = (isoDateTime: string): void => {
+export const setFakeTimer = (
+  isoDateTime: string,
+  timeZone: string = TestLocalTimeZone,
+): void => {
   const [date = '', time = ''] = isoDateTime.split('T')
 
   const [year, month, day] = date.split('-')
@@ -25,7 +28,7 @@ export const setFakeTimer = (isoDateTime: string): void => {
     parseInt(ms),
   )
 
-  const now = fromZonedTime(localNow, TestLocalTimeZone)
+  const now = fromZonedTime(localNow, timeZone)
 
   vi.useFakeTimers({
     now,

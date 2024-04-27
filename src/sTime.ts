@@ -1,15 +1,11 @@
+import { minutesInDay, minutesInHour } from 'date-fns/constants'
 import { STime } from './internal/STime'
-import {
-  HoursPerDay,
-  MinutesPerDay,
-  MinutesPerHour,
-} from './internal/constants'
 import {
   getISOHoursFromISOTime,
   getISOMinutesFromISOTime,
   getISOTimeFromDate,
 } from './internal/time'
-import { getZonedDate } from './internal/zoned'
+import { getTimeZonedDate } from './internal/zoned'
 
 /**
  * --- Factory ---
@@ -37,7 +33,7 @@ export const sTime = (time: string | STime): STime => {
  * Returns the current time in the given time zone.
  */
 export const getTimeNow = (timeZone: string): STime => {
-  const date = getZonedDate(new Date(), timeZone)
+  const date = getTimeZonedDate(Date.now(), timeZone)
 
   return sTime(getISOTimeFromDate(date))
 }
@@ -120,15 +116,12 @@ export const getTimeInMinutes = (
 ): number => {
   const sTimeValue = sTime(time)
 
-  const MidnightInMinutes24Value = HoursPerDay * MinutesPerHour
-  const MidnightInMinutes0Value = 0
-
   const timeInMinutesMidnight0 =
-    getHoursFromTime(sTimeValue) * MinutesPerHour +
+    getHoursFromTime(sTimeValue) * minutesInHour +
     getMinutesFromTime(sTimeValue)
 
-  if (midnightIs24 && timeInMinutesMidnight0 === MidnightInMinutes0Value) {
-    return MidnightInMinutes24Value
+  if (midnightIs24 && timeInMinutesMidnight0 === 0) {
+    return minutesInDay
   }
 
   return timeInMinutesMidnight0
@@ -148,14 +141,14 @@ export const addMinutesToTime = (
 ): STime => {
   const sTimeValue = sTime(time)
 
-  let totalMinutes = (getTimeInMinutes(sTimeValue) + minutes) % MinutesPerDay
+  let totalMinutes = (getTimeInMinutes(sTimeValue) + minutes) % minutesInDay
 
   if (totalMinutes < 0) {
-    totalMinutes += MinutesPerDay
+    totalMinutes += minutesInDay
   }
 
-  const newHours = Math.floor(totalMinutes / MinutesPerHour)
-  const newMinutes = totalMinutes % MinutesPerHour
+  const newHours = Math.floor(totalMinutes / minutesInHour)
+  const newMinutes = totalMinutes % minutesInHour
 
   return sTime(
     `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`,

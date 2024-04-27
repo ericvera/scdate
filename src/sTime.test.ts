@@ -1,11 +1,7 @@
+import { minutesInDay, minutesInHour } from 'date-fns/constants'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { TestLocalTimeZone } from './__test__/constants'
 import { setFakeTimer } from './__test__/setFakeTimer'
-import {
-  HoursPerDay,
-  MinutesPerDay,
-  MinutesPerHour,
-} from './internal/constants'
 import {
   addMinutesToTime,
   get12HourTimeString,
@@ -130,25 +126,23 @@ describe('getTimeFromMinutes', () => {
   })
 
   it('works for midnight (24:00)', () => {
-    expect(
-      getTimeFromMinutes(HoursPerDay * MinutesPerHour),
-    ).toMatchInlineSnapshot(`"00:00"`)
+    expect(getTimeFromMinutes(minutesInDay)).toMatchInlineSnapshot(`"00:00"`)
   })
 
   it('works for time past midnight (24:01)', () => {
-    expect(
-      getTimeFromMinutes(HoursPerDay * MinutesPerHour + 1),
-    ).toMatchInlineSnapshot(`"00:01"`)
+    expect(getTimeFromMinutes(minutesInDay + 1)).toMatchInlineSnapshot(
+      `"00:01"`,
+    )
   })
 
   it('works for noon', () => {
-    expect(
-      getTimeFromMinutes((HoursPerDay / 2) * MinutesPerHour),
-    ).toMatchInlineSnapshot(`"12:00"`)
+    expect(getTimeFromMinutes(minutesInDay / 2)).toMatchInlineSnapshot(
+      `"12:00"`,
+    )
   })
 
   it('works for other times', () => {
-    expect(getTimeFromMinutes(3 * MinutesPerHour + 33)).toMatchInlineSnapshot(
+    expect(getTimeFromMinutes(3 * minutesInHour + 33)).toMatchInlineSnapshot(
       `"03:33"`,
     )
   })
@@ -295,15 +289,15 @@ describe('getTimeInMinutes', () => {
   it('works for midnight (24:00)', () => {
     const time = getTimeAtMidnight()
 
-    expect(getTimeInMinutes(time, true)).toBe(HoursPerDay * MinutesPerHour)
+    expect(getTimeInMinutes(time, true)).toBe(minutesInDay)
   })
 
   it('works for noon', () => {
-    expect(getTimeInMinutes('12:00', true)).toBe(12 * MinutesPerHour)
+    expect(getTimeInMinutes('12:00', true)).toBe(12 * minutesInHour)
   })
 
   it('works for other times', () => {
-    expect(getTimeInMinutes('03:33', true)).toBe(3 * MinutesPerHour + 33)
+    expect(getTimeInMinutes('03:33', true)).toBe(3 * minutesInHour + 33)
   })
 
   it('throws for invalid time', () => {
@@ -334,7 +328,7 @@ describe('addMinutesToTime', () => {
     const time = sTime('14:09')
 
     expect(
-      addMinutesToTime(time, -(MinutesPerDay * 100 + 5)),
+      addMinutesToTime(time, -(minutesInDay * 100 + 5)),
     ).toMatchInlineSnapshot(`"14:04"`)
   })
 
@@ -343,9 +337,9 @@ describe('addMinutesToTime', () => {
   })
 
   it('works to add positive minutes (more than a day)', () => {
-    expect(
-      addMinutesToTime('14:09', HoursPerDay * MinutesPerHour + 5),
-    ).toMatchInlineSnapshot(`"14:14"`)
+    expect(addMinutesToTime('14:09', minutesInDay + 5)).toMatchInlineSnapshot(
+      `"14:14"`,
+    )
   })
 
   it('throws for invalid time', () => {

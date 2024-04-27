@@ -12,7 +12,7 @@ export const getISOMinutesFromISOTime = (isoTime: string): string => {
   return isoTime.slice(StartOfMinutesIndex)
 }
 
-export const getISOTimeFromDate = (date: Readonly<Date>): string => {
+export const getISOTimeFromDate = (date: Date): string => {
   const StartOfISOTimeIndex = 11
   const EndOfISOTimeIndex = 16
 

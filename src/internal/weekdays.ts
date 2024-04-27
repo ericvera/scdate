@@ -13,7 +13,7 @@ export const validateWeekdays = (weekdays: string): void => {
   return
 }
 
-export const getWeekdayStringIndex = (weekday: Weekday): number => {
+export const getIndexForWeekday = (weekday: Weekday): number => {
   const weekdayIndex = DayToWeekday.indexOf(weekday)
 
   if (weekdayIndex < 0) {

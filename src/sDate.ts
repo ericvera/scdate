@@ -1,19 +1,21 @@
 import { differenceInDays, lastDayOfMonth } from 'date-fns'
-import { toDate } from 'date-fns-tz'
+import { daysInWeek } from 'date-fns/constants'
 import { Weekday } from './constants'
 import { SDate } from './internal/SDate'
-import { DayToWeekday, DaysPerWeek } from './internal/constants'
+import { DayToWeekday } from './internal/constants'
 import {
   getDateAsUTCDateMini,
   getISODateFromISODate,
-  getISODateFromUnzonedDate,
   getISODateFromZonedDate,
   getISOMonthFromISODate,
   getISOYearFromISODate,
 } from './internal/date'
 import { getAtIndex } from './internal/utils'
-import { getWeekdayStringIndex } from './internal/weekdays'
-import { getZonedDate } from './internal/zoned'
+import { getIndexForWeekday } from './internal/weekdays'
+import {
+  getMillisecondsInUTCFromDate,
+  getTimeZonedDate,
+} from './internal/zoned'
 
 export interface SDateShortStringOptions {
   includeWeekday: boolean
@@ -46,7 +48,7 @@ export const sDate = (date: string | SDate): SDate => {
  * Returns the current date in the given time zone.
  */
 export const getDateToday = (timeZone: string): SDate => {
-  const date = getZonedDate(new Date(), timeZone)
+  const date = getTimeZonedDate(Date.now(), timeZone)
 
   return sDate(getISODateFromZonedDate(date))
 }
@@ -59,7 +61,7 @@ export const getNextDateByWeekday = (
   weekday: Weekday,
 ): SDate => {
   const sDateValue = sDate(date)
-  const weekdayIndex = getWeekdayStringIndex(weekday)
+  const weekdayIndex = getIndexForWeekday(weekday)
 
   const todaysWeekdayIndex = DayToWeekday.indexOf(
     getWeekdayFromDate(sDateValue),
@@ -69,7 +71,7 @@ export const getNextDateByWeekday = (
   let adjustment = weekdayIndex - todaysWeekdayIndex
 
   if (adjustment <= 0) {
-    adjustment += DaysPerWeek
+    adjustment += daysInWeek
   }
 
   return addDaysToDate(sDateValue, adjustment)
@@ -83,7 +85,7 @@ export const getPreviousDateByWeekday = (
   weekday: Weekday,
 ) => {
   const sDateValue = sDate(date)
-  const weekdayIndex = getWeekdayStringIndex(weekday)
+  const weekdayIndex = getIndexForWeekday(weekday)
 
   const todaysWeekdayIndex = DayToWeekday.indexOf(
     getWeekdayFromDate(sDateValue),
@@ -93,7 +95,7 @@ export const getPreviousDateByWeekday = (
   let adjustment = weekdayIndex - todaysWeekdayIndex
 
   if (adjustment >= 0) {
-    adjustment -= DaysPerWeek
+    adjustment -= daysInWeek
   }
 
   return addDaysToDate(sDateValue, adjustment)
@@ -107,7 +109,7 @@ export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
   const nativeDate = getDateAsUTCDateMini(sDateValue)
   nativeDate.setDate(1)
 
-  return sDate(getISODateFromUnzonedDate(nativeDate))
+  return sDate(getISODateFromZonedDate(nativeDate))
 }
 
 /**
@@ -118,7 +120,7 @@ export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
   const nativeDate = getDateAsUTCDateMini(sDateValue)
   const lastDay = lastDayOfMonth(nativeDate)
 
-  return sDate(getISODateFromUnzonedDate(lastDay))
+  return sDate(getISODateFromZonedDate(lastDay))
 }
 
 /**
@@ -173,13 +175,9 @@ export const getTimeZonedDateFromDate = (
 ): Date => {
   const sDateValue = sDate(date)
 
-  const dateFromISO = toDate(`${sDateValue.date}T00:00`, { timeZone })
+  const milliseconds = getMillisecondsInUTCFromDate(sDateValue, timeZone)
 
-  if (isNaN(dateFromISO.valueOf())) {
-    throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
-  }
-
-  const zonedTime = getZonedDate(dateFromISO, timeZone)
+  const zonedTime = getTimeZonedDate(milliseconds, timeZone)
 
   return zonedTime
 }
@@ -226,7 +224,7 @@ export const getShortDateString = (
   date: string | SDate,
   timeZone: string,
   locale: Intl.LocalesArgument,
-  options: Readonly<SDateShortStringOptions>,
+  options: SDateShortStringOptions,
 ): string => {
   const sDateValue = sDate(date)
 
@@ -260,7 +258,7 @@ export const addDaysToDate = (date: string | SDate, days: number): SDate => {
   const nativeDate = getDateAsUTCDateMini(sDateValue)
   nativeDate.setDate(nativeDate.getDate() + days)
 
-  return sDate(getISODateFromUnzonedDate(nativeDate))
+  return sDate(getISODateFromZonedDate(nativeDate))
 }
 
 /**
@@ -276,7 +274,7 @@ export const addMonthsToDate = (
 
   nativeDate.setMonth(nativeDate.getMonth() + months)
 
-  return sDate(getISODateFromUnzonedDate(nativeDate))
+  return sDate(getISODateFromZonedDate(nativeDate))
 }
 
 /**
@@ -289,7 +287,7 @@ export const addYearsToDate = (date: string | SDate, years: number): SDate => {
 
   nativeDate.setFullYear(nativeDate.getFullYear() + years)
 
-  return sDate(getISODateFromUnzonedDate(nativeDate))
+  return sDate(getISODateFromZonedDate(nativeDate))
 }
 
 /**
