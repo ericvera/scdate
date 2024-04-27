@@ -33,8 +33,14 @@ export interface STimestampShortStringOptions {
 /**
  * Factory function for creating a new STimestamp instance or returns the same
  * instance if already an instance of STimestamp.
+ *
  * @param timestamp An instance of STimestamp that will be returned or a string
  *  in the ISO-8601 format (YYYY-MM-DDTHH:MM)
+ *
+ * @example
+ * ```ts
+ * const timestamp = sTimestamp('2024-03-10T01:59')
+ * ```
  */
 export const sTimestamp = (timestamp: string | STimestamp): STimestamp => {
   if (timestamp instanceof STimestamp) {
