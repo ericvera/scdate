@@ -47,7 +47,7 @@
     "tsdoc-markdown": "^0.6.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.7.1",
-    "vitest": "^1.5.1"
+    "vitest": "^1.5.2"
   },
   "prettier": {
     "tabWidth": 2,
