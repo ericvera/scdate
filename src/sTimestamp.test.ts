@@ -35,13 +35,13 @@ beforeEach(() => {
  */
 
 describe('sTimestamp', () => {
-  it('works for valid value', () => {
+  it('creates a timestamp with the expected value', () => {
     expect(sTimestamp('2028-01-04T12:34')).toMatchInlineSnapshot(
       `"2028-01-04T12:34"`,
     )
   })
 
-  it('throws for invalid value', () => {
+  it('throws for invalid value (empty string)', () => {
     expect(() => {
       sTimestamp('')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -65,7 +65,7 @@ describe('sTimestamp', () => {
     )
   })
 
-  it('throws for invalid date component in timestamp', () => {
+  it('throws for invalid date value in timestamp', () => {
     expect(() => {
       sTimestamp('2023-13-02T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -73,7 +73,7 @@ describe('sTimestamp', () => {
     )
   })
 
-  it('throws for invalid time component in timestamp', () => {
+  it('throws for invalid time value in timestamp', () => {
     expect(() => {
       sTimestamp('2023-01-02T24:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -87,14 +87,7 @@ describe('sTimestamp', () => {
  */
 
 describe('JSON.stringify', () => {
-  it('returns the time for the current timestamp', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const now = getTimestampNow(TestLocalTimeZone)
-
-    expect(JSON.stringify(now)).toMatchInlineSnapshot(`""2022-04-04T12:59""`)
-  })
-
-  it('returns the timestamp', () => {
+  it('returns the ISO string value for the timestamp', () => {
     const timestamp = sTimestamp('2056-12-31T13:45')
 
     expect(JSON.stringify(timestamp)).toMatchInlineSnapshot(

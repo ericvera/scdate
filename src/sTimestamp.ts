@@ -20,6 +20,8 @@ export interface STimestampShortStringOptions {
   onTodayAtText: () => string
 }
 
+// TODO: Ensure timeZone is properly documented
+// TODO: Add tests for timeZone addMinuteToTimestamp
 // TODO: Go through all usage of native Date objects and ensure that there are no timezone issues (timeZone is only used if needed)
 // TODO: Go through all methods that return a Date and change naming to specigy getNativeDate...
 // TODO: Go through all method names to ensure consistency
