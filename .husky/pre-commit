@@ -1,1 +1,2 @@
+yarn tsdoc
 yarn lint-staged
