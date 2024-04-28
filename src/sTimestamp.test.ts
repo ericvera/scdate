@@ -526,15 +526,37 @@ describe('addMinutesToTimestamp', () => {
     ).toMatchInlineSnapshot(`"2021-01-01T00:00"`)
   })
 
-  it('works for a time zone with daylight saving time', () => {
+  it('works for a time zone with daylight saving time (Spring)', () => {
+    // one minute before daylight saving time starts
     const timestamp = sTimestamp('2024-03-10T01:59')
 
+    // Local time moves from 02:00 to 03:00 so 60 minutes later is 03:59
     expect(
       addMinutesToTimestamp(timestamp, 60, TestLocalTimeZoneWithDaylight),
     ).toMatchInlineSnapshot(`"2024-03-10T03:59"`)
   })
 
-  // TODO: Add tests for daylight saving time
+  it('works for a time zone with daylight saving time (Spring during transition)', () => {
+    // start of daylight saving time, but it is a local time that would never
+    // be seen in a watch that automatically adjusts the time
+    const timestamp = sTimestamp('2024-03-10T02:00')
+
+    // due to conversion to UTC first 02:00 becomes 01:00 daylight saving time
+    // so 5 minutes later is 01:05 DST
+    expect(
+      addMinutesToTimestamp(timestamp, 5, TestLocalTimeZoneWithDaylight),
+    ).toMatchInlineSnapshot(`"2024-03-10T01:05"`)
+  })
+
+  it('works for a time zone with daylight saving time (Fall)', () => {
+    // one minute before daylight saving time ends
+    const timestamp = sTimestamp('2024-11-03T01:59')
+
+    // local time moves from 02:00 to 01:00 so 60 minutes later is again 01:59
+    expect(
+      addMinutesToTimestamp(timestamp, 60, TestLocalTimeZoneWithDaylight),
+    ).toMatchInlineSnapshot(`"2024-11-03T01:59"`)
+  })
 
   it('throws for invalid timestamp', () => {
     expect(() => {
