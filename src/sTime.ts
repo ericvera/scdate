@@ -12,10 +12,9 @@ import { getTimeZonedDate } from './internal/zoned'
  */
 
 /**
- * Factory function for creating a new STime instance or returns the same
- * instance if already an instance of STime.
- * @param time An instance of STime that will be returned or a string in the
- *  ISO-8601 format (HH:MM).
+ * Returns a new STime instance.
+ *
+ * @param time And instance of STime or a string in the format 'HH:MM'.
  */
 export const sTime = (time: string | STime): STime => {
   if (time instanceof STime) {
@@ -30,7 +29,10 @@ export const sTime = (time: string | STime): STime => {
  */
 
 /**
- * Returns the current time in the given time zone.
+ * Returns a new STime instance with the current time in the given time zone.
+ *
+ * @param timeZone The time zone to get the current time in. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getTimeNow = (timeZone: string): STime => {
   const date = getTimeZonedDate(Date.now(), timeZone)
@@ -39,13 +41,15 @@ export const getTimeNow = (timeZone: string): STime => {
 }
 
 /**
- * Returns the time at midnight (00:00).
+ * Returns a new STime instance with the time at midnight (00:00).
  */
 export const getTimeAtMidnight = (): STime => sTime('00:00')
 
 /**
- * Returns the time resulting from adding the given number of minutes to
- * midnight.
+ * Returns a new STime instance with the time resulting from adding the given
+ * number of minutes to midnight (00:00).
+ *
+ * @param timeInMinutes The number of minutes to add to midnight.
  */
 export const getTimeFromMinutes = (timeInMinutes: number): STime => {
   const midnight = getTimeAtMidnight()
@@ -58,7 +62,10 @@ export const getTimeFromMinutes = (timeInMinutes: number): STime => {
  */
 
 /**
- * Returns the hours part of the given time.
+ * Returns the hours from the given time.
+ *
+ * @param time The time to get the hours from. It can be an STime or a string
+ * in the HH:MM format.
  */
 export const getHoursFromTime = (time: string | STime): number => {
   const sTimeValue = sTime(time)
@@ -67,9 +74,12 @@ export const getHoursFromTime = (time: string | STime): number => {
 }
 
 /**
- * Returns the hours part of the given time as a string.
+ * Returns the hours from given time as a string (1 - 12).
+ *
+ * @param time The time to get the hours from. It can be an STime or a string
+ * in the HH:MM format.
  */
-export const getHoursStringFromTime = (time: string | STime): string => {
+export const get12HoursHoursStringFromTime = (time: string | STime): string => {
   const HoursPMStart = 12
   const sTimeValue = sTime(time)
 
@@ -79,7 +89,10 @@ export const getHoursStringFromTime = (time: string | STime): string => {
 }
 
 /**
- * Returns the minutes part of the given time.
+ * Returns the minutes from the given time.
+ *
+ * @param time The time to get the minutes from. It can be an STime or a string
+ * in the HH:MM format.
  */
 export const getMinutesFromTime = (time: string | STime): number => {
   const sTimeValue = sTime(time)
@@ -88,7 +101,10 @@ export const getMinutesFromTime = (time: string | STime): number => {
 }
 
 /**
- * Returns the minutes part of the given time as a string.
+ * Returns the minutes from given time as a string (00-59).
+ *
+ * @param time The time to get the minutes from. It can be an STime or a string
+ * in the HH:MM format.
  */
 export const getMinutesStringFromTime = (time: string | STime): string => {
   const sTimeValue = sTime(time)
@@ -97,18 +113,24 @@ export const getMinutesStringFromTime = (time: string | STime): string => {
 }
 
 /**
- * Returns the time in the 12-hour format (HH:MM AM/PM).
+ * Returns a string that represents the time in a 12-hour format (HH:MM AM/PM).
+ *
+ * @param time The time to get the string from. It can be an STime or a string
+ * in the HH:MM format.
  */
 export const get12HourTimeString = (time: string | STime): string => {
   const sTimeValue = sTime(time)
 
-  return `${getHoursStringFromTime(sTimeValue)}:${getMinutesStringFromTime(sTimeValue)} ${
+  return `${get12HoursHoursStringFromTime(sTimeValue)}:${getMinutesStringFromTime(sTimeValue)} ${
     isTimePM(sTimeValue) ? 'PM' : 'AM'
   }`
 }
 
 /**
  * Returns the time converted to minutes since midnight.
+ *
+ * @param time The time to get the minutes from. It can be an STime or a string
+ * in the HH:MM format.
  */
 export const getTimeInMinutes = (
   time: string | STime,
@@ -132,8 +154,13 @@ export const getTimeInMinutes = (
  */
 
 /**
- * Adds the given number of minutes to the given time. The time will wrap around
- * a 24 hour clock.
+ * Returns a new STime instance with the time resulting from adding the given
+ * number of minutes to the given time. The time will wrap around a 24 hour
+ * clock.
+ *
+ * @param time The time to add the minutes to. It can be an STime or a string
+ * in the HH:MM format.
+ * @param minutes The number of minutes to add.
  */
 export const addMinutesToTime = (
   time: string | STime,
@@ -160,7 +187,12 @@ export const addMinutesToTime = (
  */
 
 /**
- * Returns whether the two times are the same.
+ * Returns true when the two times are the same and false otherwise.
+ *
+ * @param time1 The first time to compare. It can be an STime or a string in the
+ * HH:MM format.
+ * @param time2 The second time to compare. It can be an STime or a string in
+ * the HH:MM format.
  */
 export const isSameTime = (
   time1: string | STime,
@@ -173,7 +205,13 @@ export const isSameTime = (
 }
 
 /**
- * Returns whether the first time is after the second.
+ * Returns true when first time represents a time that happens after the second
+ * time. Returns false otherwise.
+ *
+ * @param time1 The first time to compare. It can be an STime or a string in the
+ * HH:MM format.
+ * @param time2 The second time to compare. It can be an STime or a string in
+ * the HH:MM format.
  */
 export const isAfterTime = (
   time1: string | STime,
@@ -186,7 +224,13 @@ export const isAfterTime = (
 }
 
 /**
- * Returns whether the first time is the same or after the second.
+ * Returns true when first time represents a time that happens after or at the
+ * same time as the second time. Returns false otherwise.
+ *
+ * @param time1 The first time to compare. It can be an STime or a string in the
+ * HH:MM format.
+ * @param time2 The second time to compare. It can be an STime or a string in
+ * the HH:MM format.
  */
 export const isSameTimeOrAfter = (
   time1: string | STime,
@@ -199,7 +243,13 @@ export const isSameTimeOrAfter = (
 }
 
 /**
- * Returns whether the first time is before the second.
+ * Returns true when first time represents a time that happens before the
+ * second time. Returns false otherwise.
+ *
+ * @param time1 The first time to compare. It can be an STime or a string in the
+ * HH:MM format.
+ * @param time2 The second time to compare. It can be an STime or a string in
+ * the HH:MM format.
  */
 export const isBeforeTime = (
   time1: string | STime,
@@ -212,7 +262,13 @@ export const isBeforeTime = (
 }
 
 /**
- * Returns whether the first time is the same or before the second.
+ * Returns true when first time represents a time that happens before or at the
+ * same time as the second time. Returns false otherwise.
+ *
+ * @param time1 The first time to compare. It can be an STime or a string in the
+ * HH:MM format.
+ * @param time2 The second time to compare. It can be an STime or a string in
+ * the HH:MM format.
  */
 export const isSameTimeOrBefore = (
   time1: string | STime,
@@ -225,7 +281,11 @@ export const isSameTimeOrBefore = (
 }
 
 /**
- * Returns whether the given time is in the PM.
+ * Returns true when the given time is at or after noon (12:00) and false
+ * otherwise.
+ *
+ * @param time The time to check. It can be an STime or a string in the HH:MM
+ * format.
  */
 export const isTimePM = (time: string | STime): boolean => {
   const sTimeValue = sTime(time)

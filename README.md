@@ -53,7 +53,7 @@ For a list of valid time zones run `Intl.supportedValuesOf('timeZone')` in your 
 - [getTimeAtMidnight](#gear-gettimeatmidnight)
 - [getTimeFromMinutes](#gear-gettimefromminutes)
 - [getHoursFromTime](#gear-gethoursfromtime)
-- [getHoursStringFromTime](#gear-gethoursstringfromtime)
+- [get12HoursHoursStringFromTime](#gear-get12hourshoursstringfromtime)
 - [getMinutesFromTime](#gear-getminutesfromtime)
 - [getMinutesStringFromTime](#gear-getminutesstringfromtime)
 - [get12HourTimeString](#gear-get12hourtimestring)
@@ -268,10 +268,10 @@ Parameters:
 
 ### :gear: getDaysBetweenDates
 
-Get the number of days between the first date to the second date. The value
-is positive if the first date is before the second date, and negative if the
-first date is after the second date. This accounts for calendar days and not
-full 24-hour periods which could be different due to daylight saving
+Returns the number of days between the first date to the second date. The
+value is positive if the first date is before the second date, and negative
+if the first date is after the second date. This accounts for calendar days
+and not full 24-hour periods which could be different due to daylight saving
 adjustments.
 
 | Function              | Type                                                         |
@@ -289,7 +289,8 @@ Parameters:
 
 ### :gear: getFullDateString
 
-Get the full string representation of the given date in the given locale.
+Returns a string representation that includes all of the date components of
+the given date formatted according to the given locale.
 
 | Function            | Type                                                         |
 | ------------------- | ------------------------------------------------------------ |
@@ -313,7 +314,7 @@ getFullDateString('2021-02-05', 'en')
 //=> 'Friday, February 5, 2021'
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L267)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L268)
 
 ### :gear: getShortDateString
 
@@ -350,7 +351,7 @@ getShortDateString('2021-02-05', TestLocalTimeZone, 'es', {
 //=> 'vie, 5 feb 21' (year when not in current year)
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L308)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L309)
 
 ### :gear: addDaysToDate
 
@@ -368,7 +369,7 @@ Parameters:
   YYYY-MM-DD format.
 - `days`: The number of days to add to the date.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L345)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L346)
 
 ### :gear: addMonthsToDate
 
@@ -386,7 +387,7 @@ Parameters:
   YYYY-MM-DD format.
 - `months`: The number of months to add to the date.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L363)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L364)
 
 ### :gear: addYearsToDate
 
@@ -404,11 +405,12 @@ Parameters:
   YYYY-MM-DD format.
 - `years`: The number of years to add to the date.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L384)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L385)
 
 ### :gear: isSameDate
 
-Returns whether the two given dates are the same day.
+Returns true when the two given dates represent the same day and false
+otherwise.
 
 | Function     | Type                                                          |
 | ------------ | ------------------------------------------------------------- |
@@ -421,11 +423,12 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L405)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L407)
 
 ### :gear: isBeforeDate
 
-Returns whether the first given date is before the second given date.
+Returns true when the first date represents a date before the second date and
+false otherwise.
 
 | Function       | Type                                                          |
 | -------------- | ------------------------------------------------------------- |
@@ -438,12 +441,12 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L423)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L426)
 
 ### :gear: isSameDateOrBefore
 
-Returns whether the first given date is the same day or before the second
-given date.
+Returns true when the first date represents a date that happens on the same
+date or before the second date and false otherwise.
 
 | Function             | Type                                                          |
 | -------------------- | ------------------------------------------------------------- |
@@ -456,11 +459,12 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in the
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L442)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L445)
 
 ### :gear: isAfterDate
 
-Returns whether the first given date is after the second given date.
+Returns true when the first date represents a date that happens after the
+second date and false otherwise.
 
 | Function      | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
@@ -473,12 +477,12 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in the
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L460)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L464)
 
 ### :gear: isSameDateOrAfter
 
-Returns whether the first given date is the same day or after the second
-given date.
+Returns true when the first date represents a date that happens on the same
+date or after the second date and false otherwise.
 
 | Function            | Type                                                          |
 | ------------------- | ------------------------------------------------------------- |
@@ -491,11 +495,11 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in the
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L479)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L483)
 
 ### :gear: isDateToday
 
-Returns whether the given date is today.
+Returns true when the date is today and false otherwise.
 
 | Function      | Type                                                   |
 | ------------- | ------------------------------------------------------ |
@@ -508,12 +512,13 @@ Parameters:
 - `timeZone`: The time zone to check if the date is today. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L497)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L501)
 
 ### :gear: areDatesInSameMonth
 
-Returns whether the month on the first date is the same as the month on the
-second date. It also checks that the year is the same.
+Returns true when the month on the first date is the same as the month on the
+second date. It also checks that the year is the same. Returns false
+otherwise.
 
 | Function              | Type                                                          |
 | --------------------- | ------------------------------------------------------------- |
@@ -523,7 +528,7 @@ Parameters:
 
 - `date1`: The first date to compare. It can be an SDate or a string in the
   YYYY-MM-DD format.
-- `date2`: The second date to compare. It can be an SDate or a string in the
+- `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
 Examples:
@@ -538,11 +543,12 @@ areDatesInSameMonth('2022-02-05', '2023-02-15')
 //=> false (different years)
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L527)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L532)
 
 ### :gear: isDateInCurrentMonth
 
-Returns whether the given date is in the current month.
+Returns true when the date represents a date in the current month and year.
+Returns false otherwise.
 
 | Function               | Type                                                   |
 | ---------------------- | ------------------------------------------------------ |
@@ -555,12 +561,12 @@ Parameters:
 - `timeZone`: The time zone to check if the date is in the current month.
   See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L548)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L554)
 
 ### :gear: areDatesInSameYear
 
-Returns whether the year on the first date is the same as the year on the
-second date.
+Returns true when the year of the first date is the same as the year on the
+second date. Returns false otherwise.
 
 | Function             | Type                                                          |
 | -------------------- | ------------------------------------------------------------- |
@@ -573,11 +579,12 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L566)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L572)
 
 ### :gear: isDateInCurrentYear
 
-Returns whether the given date is in the current year.
+Returns true when the year component of the date matches the current year in
+the given time zone. Returns false otherwise.
 
 | Function              | Type                                                   |
 | --------------------- | ------------------------------------------------------ |
@@ -590,12 +597,11 @@ Parameters:
 - `timeZone`: The time zone to check if the date is in the current year.
   See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L586)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L593)
 
 ### :gear: sTime
 
-Factory function for creating a new STime instance or returns the same
-instance if already an instance of STime.
+Returns a new STime instance.
 
 | Function | Type                               |
 | -------- | ---------------------------------- |
@@ -603,91 +609,124 @@ instance if already an instance of STime.
 
 Parameters:
 
-- `time`: An instance of STime that will be returned or a string in the
-  ISO-8601 format (HH:MM).
+- `time`: And instance of STime or a string in the format 'HH:MM'.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L20)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L19)
 
 ### :gear: getTimeNow
 
-Returns the current time in the given time zone.
+Returns a new STime instance with the current time in the given time zone.
 
 | Function     | Type                          |
 | ------------ | ----------------------------- |
 | `getTimeNow` | `(timeZone: string) => STime` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L35)
+Parameters:
+
+- `timeZone`: The time zone to get the current time in. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L37)
 
 ### :gear: getTimeAtMidnight
 
-Returns the time at midnight (00:00).
+Returns a new STime instance with the time at midnight (00:00).
 
 | Function            | Type          |
 | ------------------- | ------------- |
 | `getTimeAtMidnight` | `() => STime` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L44)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L46)
 
 ### :gear: getTimeFromMinutes
 
-Returns the time resulting from adding the given number of minutes to
-midnight.
+Returns a new STime instance with the time resulting from adding the given
+number of minutes to midnight (00:00).
 
 | Function             | Type                               |
 | -------------------- | ---------------------------------- |
 | `getTimeFromMinutes` | `(timeInMinutes: number) => STime` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L50)
+Parameters:
+
+- `timeInMinutes`: The number of minutes to add to midnight.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L54)
 
 ### :gear: getHoursFromTime
 
-Returns the hours part of the given time.
+Returns the hours from the given time.
 
 | Function           | Type                                |
 | ------------------ | ----------------------------------- |
 | `getHoursFromTime` | `(time: string or STime) => number` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L63)
+Parameters:
 
-### :gear: getHoursStringFromTime
+- `time`: The time to get the hours from. It can be an STime or a string
+  in the HH:MM format.
 
-Returns the hours part of the given time as a string.
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L70)
 
-| Function                 | Type                                |
-| ------------------------ | ----------------------------------- |
-| `getHoursStringFromTime` | `(time: string or STime) => string` |
+### :gear: get12HoursHoursStringFromTime
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L72)
+Returns the hours from given time as a string (1 - 12).
+
+| Function                        | Type                                |
+| ------------------------------- | ----------------------------------- |
+| `get12HoursHoursStringFromTime` | `(time: string or STime) => string` |
+
+Parameters:
+
+- `time`: The time to get the hours from. It can be an STime or a string
+  in the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L82)
 
 ### :gear: getMinutesFromTime
 
-Returns the minutes part of the given time.
+Returns the minutes from the given time.
 
 | Function             | Type                                |
 | -------------------- | ----------------------------------- |
 | `getMinutesFromTime` | `(time: string or STime) => number` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L84)
+Parameters:
+
+- `time`: The time to get the minutes from. It can be an STime or a string
+  in the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L97)
 
 ### :gear: getMinutesStringFromTime
 
-Returns the minutes part of the given time as a string.
+Returns the minutes from given time as a string (00-59).
 
 | Function                   | Type                                |
 | -------------------------- | ----------------------------------- |
 | `getMinutesStringFromTime` | `(time: string or STime) => string` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L93)
+Parameters:
+
+- `time`: The time to get the minutes from. It can be an STime or a string
+  in the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L109)
 
 ### :gear: get12HourTimeString
 
-Returns the time in the 12-hour format (HH:MM AM/PM).
+Returns a string that represents the time in a 12-hour format (HH:MM AM/PM).
 
 | Function              | Type                                |
 | --------------------- | ----------------------------------- |
 | `get12HourTimeString` | `(time: string or STime) => string` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L102)
+Parameters:
+
+- `time`: The time to get the string from. It can be an STime or a string
+  in the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L121)
 
 ### :gear: getTimeInMinutes
 
@@ -697,78 +736,135 @@ Returns the time converted to minutes since midnight.
 | ------------------ | ----------------------------------------------------------- |
 | `getTimeInMinutes` | `(time: string or STime, midnightIs24?: boolean) => number` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L113)
+Parameters:
+
+- `time`: The time to get the minutes from. It can be an STime or a string
+  in the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L135)
 
 ### :gear: addMinutesToTime
 
-Adds the given number of minutes to the given time. The time will wrap around
-a 24 hour clock.
+Returns a new STime instance with the time resulting from adding the given
+number of minutes to the given time. The time will wrap around a 24 hour
+clock.
 
 | Function           | Type                                                |
 | ------------------ | --------------------------------------------------- |
 | `addMinutesToTime` | `(time: string or STime, minutes: number) => STime` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L138)
+Parameters:
+
+- `time`: The time to add the minutes to. It can be an STime or a string
+  in the HH:MM format.
+- `minutes`: The number of minutes to add.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L165)
 
 ### :gear: isSameTime
 
-Returns whether the two times are the same.
+Returns true when the two times are the same and false otherwise.
 
 | Function     | Type                                                          |
 | ------------ | ------------------------------------------------------------- |
 | `isSameTime` | `(time1: string or STime, time2: string or STime) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L165)
+Parameters:
+
+- `time1`: The first time to compare. It can be an STime or a string in the
+  HH:MM format.
+- `time2`: The second time to compare. It can be an STime or a string in
+  the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L197)
 
 ### :gear: isAfterTime
 
-Returns whether the first time is after the second.
+Returns true when first time represents a time that happens after the second
+time. Returns false otherwise.
 
 | Function      | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | `isAfterTime` | `(time1: string or STime, time2: string or STime) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L178)
+Parameters:
+
+- `time1`: The first time to compare. It can be an STime or a string in the
+  HH:MM format.
+- `time2`: The second time to compare. It can be an STime or a string in
+  the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L216)
 
 ### :gear: isSameTimeOrAfter
 
-Returns whether the first time is the same or after the second.
+Returns true when first time represents a time that happens after or at the
+same time as the second time. Returns false otherwise.
 
 | Function            | Type                                                          |
 | ------------------- | ------------------------------------------------------------- |
 | `isSameTimeOrAfter` | `(time1: string or STime, time2: string or STime) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L191)
+Parameters:
+
+- `time1`: The first time to compare. It can be an STime or a string in the
+  HH:MM format.
+- `time2`: The second time to compare. It can be an STime or a string in
+  the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L235)
 
 ### :gear: isBeforeTime
 
-Returns whether the first time is before the second.
+Returns true when first time represents a time that happens before the
+second time. Returns false otherwise.
 
 | Function       | Type                                                          |
 | -------------- | ------------------------------------------------------------- |
 | `isBeforeTime` | `(time1: string or STime, time2: string or STime) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L204)
+Parameters:
+
+- `time1`: The first time to compare. It can be an STime or a string in the
+  HH:MM format.
+- `time2`: The second time to compare. It can be an STime or a string in
+  the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L254)
 
 ### :gear: isSameTimeOrBefore
 
-Returns whether the first time is the same or before the second.
+Returns true when first time represents a time that happens before or at the
+same time as the second time. Returns false otherwise.
 
 | Function             | Type                                                          |
 | -------------------- | ------------------------------------------------------------- |
 | `isSameTimeOrBefore` | `(time1: string or STime, time2: string or STime) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L217)
+Parameters:
+
+- `time1`: The first time to compare. It can be an STime or a string in the
+  HH:MM format.
+- `time2`: The second time to compare. It can be an STime or a string in
+  the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L273)
 
 ### :gear: isTimePM
 
-Returns whether the given time is in the PM.
+Returns true when the given time is at or after noon (12:00) and false
+otherwise.
 
 | Function   | Type                                 |
 | ---------- | ------------------------------------ |
 | `isTimePM` | `(time: string or STime) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L230)
+Parameters:
+
+- `time`: The time to check. It can be an STime or a string in the HH:MM
+  format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTime.ts#L290)
 
 ### :gear: sTimestamp
 
@@ -783,17 +879,13 @@ Parameters:
 - `timestamp`: An instance of STimestamp or a string in the
   YYYY-MM-DDTHH:MM format.
 
-Examples:
-
-```ts
-const timestamp = sTimestamp('2024-03-10T01:59')
-```
-
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L44)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L36)
 
 ### :gear: getTimestampFromUTCMilliseconds
 
-Returns the current timestamp for the given UTC date in the given time zone.
+Returns a new STimestamp instance set to the date and time that results from
+converting the given number of milliseconds since the Unix epoch to the given
+time zone.
 
 | Function                          | Type                                                              |
 | --------------------------------- | ----------------------------------------------------------------- |
@@ -802,40 +894,62 @@ Returns the current timestamp for the given UTC date in the given time zone.
 Parameters:
 
 - `utcDateInMilliseconds`: The number of milliseconds since the Unix epoch.
-- `timeZone`: The time zone to use when creating the timestamp.
+- `timeZone`: The time zone to use when creating the timestamp. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L63)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L57)
 
 ### :gear: getTimestampNow
 
-Returns the current timestamp for the given time zone.
+Returns a new STimestamp instance set to the current date and time in the
+given time zone.
 
 | Function          | Type                               |
 | ----------------- | ---------------------------------- |
 | `getTimestampNow` | `(timeZone: string) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L75)
+Parameters:
+
+- `timeZone`: The time zone to use when creating the timestamp. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L73)
 
 ### :gear: getTimestampFromDateAndTime
 
-Returns a timestamp for the given date and time.
+Returns a new STimestamp instance set to the date and time that results from
+combining the given date and time.
 
 | Function                      | Type                                                           |
 | ----------------------------- | -------------------------------------------------------------- |
 | `getTimestampFromDateAndTime` | `(date: string or SDate, time: string or STime) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L82)
+Parameters:
+
+- `date`: The date to use when creating the timestamp. It can be an SDate
+  or a string in the YYYY-MM-DD format.
+- `time`: The time to use when creating the timestamp. It can be an STime
+  or a string in the HH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L86)
 
 ### :gear: getTimeZonedDateFromTimestamp
 
-Returns a native Date adjusted so that the local time matches the local time
-at the specified time zone.
+Returns a native Date adjusted so that the local time of that date matches
+the local timestamp at the specified time zone.
 
 | Function                        | Type                                                          |
 | ------------------------------- | ------------------------------------------------------------- |
 | `getTimeZonedDateFromTimestamp` | `(timestamp: string or STimestamp, timeZone: string) => Date` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L100)
+Parameters:
+
+- `date`: The date to get the time zoned date from. It can be an SDate or a
+  string in the YYYY-MM-DD format.
+- `timeZone`: The time zone to adjust the date to. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L109)
 
 ### :gear: getSecondsToTimestamp
 
@@ -845,16 +959,17 @@ timestamp is in the past, the number of seconds will be negative.
 
 Daylight Saving Notes:
 
-The following notes uses America/New_York as the time zone to explain how
+The following notes use `America/New_York` as the time zone to explain how
 Daylight Savings is handled, but it works the same across time zones on their
-respective Daylight schedules as defined by Intl API.
+respective Daylight Saving schedules as defined by Intl API.
 
 Notice that when looking at a watch (that adjusts for Daylight Saving
 automatically) on 2024-03-10 (the day Daylight Savings goes into effect and
-the time moves forward one hour) the times between 02:00 and 02:59 never happen
-as the watch goes from 01:59 to 03:00. In the case of 2024-11-03 (the day the
-time zone goes back to Standard Time), the times between 01:00 and 01:59
-happen twice as the first time the watch hits 02:00 it goes back to 01:00.
+the time moves forward one hour) the times between 02:00 and 02:59 never
+happen as the watch goes from 01:59 to 03:00. In the case of 2024-11-03 (the
+day the time zone goes back to Standard Time), the times between 01:00 and
+01:59 happen twice as the first time the watch hits 02:00 it goes back to
+01:00.
 
 To account for time zone changes, this method converts the timestamp to UTC
 milliseconds (for both the current time and the expected timestamp) before
@@ -871,11 +986,15 @@ Standard Time as can be derived from the table below.
 
 In 'America/New_York'
 
-| Transition to Eastern Daylight Time (EDT) in 2024 ----------------------------------------|
+Transition to Eastern Daylight Time (EDT) in 2024
+| Time Zone | T1 | T2 | T3 |
+|------------------|-----------------------|------------------------|-----------------------|
 | America/New_York | 2024-03-10T01:59(EST) | 2024-03-10T02:00(EDT) | 2024-03-10T03:00(EST) |
 | UTC | 2024-03-10T06:59 | 2024-03-10T06:00 | 2024-03-10T07:00 |
 
-| Transition to Eastern Standard Time (EST) in 2024 ----------------------------------------|
+Transition to Eastern Standard Time (EST) in 2024
+| Time Zone | T1 | T2 | T3 |
+|------------------|-----------------------|------------------------|-----------------------|
 | America/New_York | 2024-11-03T01:59(EDT) | 2024-11-03T02:00(EST) | 2024-11-03T03:00(EST) |
 | UTC | 2024-11-03T05:59 | 2024-11-03T07:00 | 2024-11-03T08:00 |
 
@@ -883,123 +1002,268 @@ In 'America/New_York'
 | ----------------------- | --------------------------------------------------------------- |
 | `getSecondsToTimestamp` | `(timestamp: string or STimestamp, timeZone: string) => number` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L156)
+Parameters:
+
+- `timestamp`: The timestamp to get the seconds to. It can be an STimestamp
+  or a string in the YYYY-MM-DDTHH:MM format.
+- `timeZone`: The time zone to use when creating the timestamp. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L174)
 
 ### :gear: getDateFromTimestamp
 
-Returns the date part of the given timestamp.
+Returns a new SDate instance set to the date part of the given timestamp.
 
 | Function               | Type                                         |
 | ---------------------- | -------------------------------------------- |
 | `getDateFromTimestamp` | `(timestamp: string or STimestamp) => SDate` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L176)
+Parameters:
+
+- `timestamp`: The timestamp to get the date from. It can be an STimestamp
+  or a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L197)
 
 ### :gear: getTimeFromTimestamp
 
-Returns the time part of the given timestamp.
+Returns a new STime instance set to the time part of the given timestamp.
 
 | Function               | Type                                         |
 | ---------------------- | -------------------------------------------- |
 | `getTimeFromTimestamp` | `(timestamp: string or STimestamp) => STime` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L185)
+Parameters:
+
+- `timestamp`: The timestamp to get the time from. It can be an STimestamp
+  or a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L209)
 
 ### :gear: getShortTimestampString
 
-Returns a string representation of the timestamp in the short format. The
-short format is a combination of the short date and the 12-hour time.
+Returns a string representation that includes a minimum set of components
+from the given timestamp. This is a combination of the the results of
+the `getShortDateString` method, and `get12HourTimeString`.
 
 | Function                  | Type                                                                                                                            |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `getShortTimestampString` | `(timestamp: string or STimestamp, timeZone: string, locale: LocalesArgument, options: STimestampShortStringOptions) => string` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L195)
+Parameters:
+
+- `timestamp`: The timestamp to get the short string from. It can be an
+  STimestamp or a string in the YYYY-MM-DDTHH:MM format.
+- `timeZone`: The time zone to use when creating the short string. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+- `locale`: The locale to use for the string representation.
+- `options`: An object with options for the short string representation.
+
+Examples:
+
+```ts
+// Example when the timestamp is today
+getShortTimestampString('2021-08-10T08:00', 'America/Puerto_Rico', 'en', {
+  includeWeekday: true,
+  onTodayAtText: () => 'Today at',
+})
+//=> 'Today at 8:00 AM'
+```
+
+```ts
+// Example when the timestamp is not today
+getShortTimestampString('2022-09-11T08:00', 'America/Puerto_Rico', 'es', {
+  includeWeekday: true,
+  onTodayAtText: () => 'Hoy a las',
+})
+//=> 'dom, 11 sept 22 8:00 AM'
+```
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L247)
 
 ### :gear: addDaysToTimestamp
 
-Returns a new timestamp resulting from adding the given number of calendar
-days (rather than 24-horu days) to the given timestamp. Because it adds
-calendar days rather than 24-hour days, this operation is not affected by
-time zones.
+Returns a new STimestamp instance resulting from adding the given number of
+calendar days to the given timestamp. Because it adds calendar days rather
+than 24-hour days, this operation is not affected by time zones.
 
 | Function             | Type                                                            |
 | -------------------- | --------------------------------------------------------------- |
 | `addDaysToTimestamp` | `(timestamp: string or STimestamp, days: number) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L224)
+Parameters:
+
+- `timestamp`: The timestamp to add days to. It can be an STimestamp or a
+  string in the YYYY-MM-DDTHH:MM format.
+- `days`: The number of days to add to the timestamp.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L279)
 
 ### :gear: addMinutesToTimestamp
 
-Returns a new timestamp resulting from adding the given number of minutes to
-the given timestamp. Time is converted from the given time zone to UTC before
-the minutes are added, and then converted back to the specified time zone.
-This results in the resulting time being adjusted for daylight saving time
+Returns a new STimestamp instance resulting from adding the given number of
+minutes to the given timestamp.
+
+Daylight Saving Time Notes:
+
+The following notes use `America/New_York` as the time zone to explain how
+Daylight Savings is handled, but it works the same across time zones on their
+respective Daylight Saving schedules as defined by Intl API.
+
+Notice that when looking at a watch (that adjusts for Daylight Saving
+automatically) on 2024-03-10 (the day Daylight Savings goes into effect and
+the time moves forward one hour) the times between 02:00 and 02:59 never
+happen as the watch goes from 01:59 to 03:00. In the case of 2024-11-03 (the
+day the time zone goes back to Standard Time), the times between 01:00 and
+01:59 happen twice as the first time the watch hits 02:00 it goes back to
+01:00.
+
+To account for time zone changes, this method converts the timestamp to UTC
+milliseconds before adding the specified minutes. This works as expected for
+all times, but the expectation for the transition times (those that don't
+happen on a watch that automatically adjusts or that happen twice) it can
+work in unexpected ways.
+
+Time is converted from the given time zone to
+UTC before the minutes are added, and then converted back to the specified
+time zone. This results in the resulting time being adjusted for daylight saving time
 changes. (e.g. Adding 60 minutes to 2024-03-10T01:59 in America/New_York will
 result in 2024-03-10T03:59 as time move forward one hour for daylight saving
 time at 2024-03-10T02:00.)
+
+For example, adding one minute to 2024-03-10T01:59 will result in
+2024-03-10T03:00 as expected. However, trying to add one minute to
+2024-03-10T02:00 (a time that technically does not exist on a watch that
+automatically adjusts for Daylight Saving) will result in 2024-03-10T01:01.
+This is because 2024-03-10T02:00 is converted to 2024-03-10T06:00 UTC (due
+to timezone offset being -4 starting from 02:00 local time) and one minute
+later would be 2024-03-10T06:01 UTC which would be 2024-03-10T01:01 in
+`America/New_York`. A similar situation happens when the time zone
+transitions from Daylight Saving Time to Standard Time as can be derived from
+the table below.
+
+In 'America/New_York'
+
+Transition to Eastern Daylight Time (EDT) in 2024
+| Time Zone | T1 | T2 | T3 |
+|------------------|-----------------------|------------------------|-----------------------|
+| America/New_York | 2024-03-10T01:59(EST) | 2024-03-10T02:00(EDT) | 2024-03-10T03:00(EST) |
+| UTC | 2024-03-10T06:59 | 2024-03-10T06:00 | 2024-03-10T07:00 |
+
+Transition to Eastern Standard Time (EST) in 2024
+| Time Zone | T1 | T2 | T3 |
+|------------------|-----------------------|------------------------|-----------------------|
+| America/New_York | 2024-11-03T01:59(EDT) | 2024-11-03T02:00(EST) | 2024-11-03T03:00(EST) |
+| UTC | 2024-11-03T05:59 | 2024-11-03T07:00 | 2024-11-03T08:00 |
 
 | Function                | Type                                                                                 |
 | ----------------------- | ------------------------------------------------------------------------------------ |
 | `addMinutesToTimestamp` | `(timestamp: string or STimestamp, minutes: number, timeZone: string) => STimestamp` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L245)
+Parameters:
+
+- `timestamp`: The timestamp to add minutes to. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+- `minutes`: The number of minutes to add to the timestamp.
+- `timeZone`: The time zone to use when creating the timestamp. See
+  `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L353)
 
 ### :gear: isSameTimestamp
 
-Returns true if the two timestamps are the same.
+Returns true if the two timestamps represent the same date and time. Returns
+false otherwise.
 
 | Function          | Type                                                                              |
 | ----------------- | --------------------------------------------------------------------------------- |
 | `isSameTimestamp` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L271)
+Parameters:
+
+- `timestamp1`: The first timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+- `timestamp2`: The second timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L385)
 
 ### :gear: isBeforeTimestamp
 
-Returns true if the first timestamp is before the second timestamp.
+Returns true if the first timestamp represents a date and time that happens
+before the second timestamp. Returns false otherwise.
 
 | Function            | Type                                                                              |
 | ------------------- | --------------------------------------------------------------------------------- |
 | `isBeforeTimestamp` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L284)
+Parameters:
+
+- `timestamp1`: The first timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+- `timestamp2`: The second timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L404)
 
 ### :gear: isSameTimestampOrBefore
 
-Returns true if the first timestamp is the same or before the second
-timestamp.
+Returns true if the first timestamp represents a date and time that happens
+on or before the second timestamp. Returns false otherwise.
 
 | Function                  | Type                                                                              |
 | ------------------------- | --------------------------------------------------------------------------------- |
 | `isSameTimestampOrBefore` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L298)
+Parameters:
+
+- `timestamp1`: The first timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+- `timestamp2`: The second timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L423)
 
 ### :gear: isAfterTimestamp
 
-Returns true if the first timestamp is after the second timestamp.
+Returns true if the first timestamp represents a date and time that happens
+after the second timestamp. Returns false otherwise.
 
 | Function           | Type                                                                              |
 | ------------------ | --------------------------------------------------------------------------------- |
 | `isAfterTimestamp` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L311)
+Parameters:
+
+- `timestamp1`: The first timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+- `timestamp2`: The second timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L442)
 
 ### :gear: isSameTimestampOrAfter
 
-Returns true if the first timestamp is the same or after the second
+Returns true if the first timestamp represents a date and time that happens
+on or after the second timestamp. Returns false otherwise.
 
 | Function                 | Type                                                                              |
 | ------------------------ | --------------------------------------------------------------------------------- |
 | `isSameTimestampOrAfter` | `(timestamp1: string or STimestamp, timestamp2: string or STimestamp) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L324)
+Parameters:
+
+- `timestamp1`: The first timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+- `timestamp2`: The second timestamp to compare. It can be an STimestamp or
+  a string in the YYYY-MM-DDTHH:MM format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L461)
 
 ### :gear: sWeekdays
 
-Factory function for creating a new SWeekdays instance or returns the
-instance if already an instance of SWeekdays.
+Returns a new SWeekdays instance.
 
 | Function    | Type                                           |
 | ----------- | ---------------------------------------------- |
@@ -1007,26 +1271,55 @@ instance if already an instance of SWeekdays.
 
 Parameters:
 
-- `weekdays`: An instance of SWeekdays that will be returned or a string
-  in the format 'SMTWTFS'. Each in the string represents a weekday starting
-  on Sunday and ending on Saturday using the first letter of the english word
-  for the week day. If the weekday is excluded, the position is filled with a
-  '-' character. E.g. in 'SM----S', the weekdays Sunday, Monday, and Saturday
-  are included while the rest are excluded.
+- `weekdays`: An instance of SWeekdays that will be returned or a string in
+  the SMTWTFS format. Each character in the string represents a weekday
+  starting on Sunday and ending on Saturday using the first letter of the
+  English word for the week day. If the weekday is excluded, the position is
+  filled with a '-' character.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L36)
+Examples:
+
+```ts
+sWeekdays('SM----S')
+// Returns an instance of SWeekdays with the weekdays Sunday, Monday, and
+// Saturday included while the rest are excluded.
+```
+
+```ts
+sWeekdays('SMTWTFS')
+// Returns an instance of SWeekdays with all weekdays included.
+```
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L48)
 
 ### :gear: getWeekdaysFromWeekdayFlags
 
 Returns a new SWeekdays instance with all provided weekdays included. The
-provided weekdays can be any combination of the Weekday enum values. e.g.
-`Weekday.Monday | Weekday.Wednesday | Weekday.Friday`.
+provided weekdays can be any combination of the Weekday enum values.
 
 | Function                      | Type                               |
 | ----------------------------- | ---------------------------------- |
 | `getWeekdaysFromWeekdayFlags` | `(weekdays: Weekday) => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L53)
+Parameters:
+
+- `weekdays`: A combination of the Weekday enum values.
+
+Examples:
+
+```ts
+getWeekdaysFromWeekdayFlags(Weekday.Monday | Weekday.Wednesday | Weekday.Friday)
+// Returns an instance of SWeekdays with the weekdays Monday, Wednesday, and
+// Friday included while the rest are excluded.
+```
+
+```ts
+getWeekdaysFromWeekdayFlags(Weekday.Tuesday)
+// Returns an instance of SWeekdays with the weekday Tuesday included while
+// the rest are excluded.
+```
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L80)
 
 ### :gear: getWeekdaysWithAllIncluded
 
@@ -1036,7 +1329,7 @@ Returns a new SWeekdays instance with all weekdays included.
 | ---------------------------- | ----------------- |
 | `getWeekdaysWithAllIncluded` | `() => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L70)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L97)
 
 ### :gear: getWeekdaysWithNoneIncluded
 
@@ -1046,29 +1339,58 @@ Returns a new SWeekdays instance with no weekdays included.
 | ----------------------------- | ----------------- |
 | `getWeekdaysWithNoneIncluded` | `() => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L77)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L104)
 
 ### :gear: shiftWeekdaysForward
 
 Returns a new SWeekdays instance with the weekdays shifted forward by one
-day. e.g. 'SM----S' becomes 'SMT----'.
+day.
 
 | Function               | Type                                           |
 | ---------------------- | ---------------------------------------------- |
 | `shiftWeekdaysForward` | `(weekdays: string or SWeekdays) => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L89)
+Parameters:
+
+- `weekdays`: The weekdays to shift forward. It can be an SWeekdays or a
+  string in the SMTWTFS format.
+
+Examples:
+
+```ts
+shiftWeekdaysForward('SM----S')
+// Returns an instance of SWeekdays with the weekdays shifted forward by one
+// day. 'SM----S' becomes 'SMT----'.
+```
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L126)
 
 ### :gear: filterWeekdaysForDates
 
-Returns a new SWeekdays where only the weekdays that are both included in the
-provided weekdays that are within the date range are included.
+Returns a new SWeekdays instance where only the weekdays that are within the
+provided date range are included.
 
 | Function                 | Type                                                                                               |
 | ------------------------ | -------------------------------------------------------------------------------------------------- |
 | `filterWeekdaysForDates` | `(weekdays: string or SWeekdays, fromDate: string or SDate, toDate: string or SDate) => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L113)
+Parameters:
+
+- `weekdays`: The weekdays to filter. It can be an SWeekdays or a string in
+  the SMTWTFS format.
+- `fromDate`: The start date of the range. It can be an SDate or a string
+  in the YYYY-MM-DD format.
+- `toDate`: The end date of the range. It can be an SDate or a string in
+  the YYYY-MM-DD format.
+
+Examples:
+
+```ts
+filterWeekdaysForDates('SMTWTFS', '2020-03-05', '2020-03-05')
+// Returns an instance of SWeekdays with only Thursday included.
+```
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L163)
 
 ### :gear: addWeekdayToWeekdays
 
@@ -1079,28 +1401,48 @@ current set of weekdays.
 | ---------------------- | --------------------------------------------------------------------- |
 | `addWeekdayToWeekdays` | `(weekdays: string or SWeekdays, weekdayToAdd: Weekday) => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L156)
+Parameters:
+
+- `weekdays`: The weekdays to add the weekday to. It can be an SWeekdays or
+  a string in the SMTWTFS format.
+- `weekdayToAdd`: The weekday to add.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L210)
 
 ### :gear: doesWeekdaysIncludeWeekday
 
-Returns true if the provided weekdays include the provided weekday.
+Returns true if the provided weekdays include the provided weekday. Returns
+false otherwise.
 
 | Function                     | Type                                                           |
 | ---------------------------- | -------------------------------------------------------------- |
 | `doesWeekdaysIncludeWeekday` | `(weekdays: string or SWeekdays, weekday: Weekday) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L176)
+Parameters:
+
+- `weekdays`: The weekdays to check. It can be an SWeekdays or a string in
+  the SMTWTFS format.
+- `weekday`: The weekday to check.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L235)
 
 ### :gear: doesWeekdaysHaveOverlapWithWeekdays
 
 Returns true if any of the included weekdays in weekdays1 is also included in
-weekdays2.
+weekdays2. Returns false otherwise.
 
 | Function                              | Type                                                                          |
 | ------------------------------------- | ----------------------------------------------------------------------------- |
 | `doesWeekdaysHaveOverlapWithWeekdays` | `(weekdays1: string or SWeekdays, weekdays2: string or SWeekdays) => boolean` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L190)
+Parameters:
+
+- `weekdays1`: The first set of weekdays to compare. It can be an SWeekdays
+  or a string in the SMTWTFS format.
+- `weekdays2`: The second set of weekdays to compare. It can be an
+  SWeekdays or a string in the SMTWTFS format.
+
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L254)
 
 ## :nut_and_bolt: Enum
 

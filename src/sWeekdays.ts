@@ -24,14 +24,26 @@ const NoWeekdaysIncluded = NotIncludedDay.repeat(AllWeekdaysIncludedMask.length)
 const WeekdaysCount = AllWeekdaysIncludedMask.length
 
 /**
- * Factory function for creating a new SWeekdays instance or returns the
- * instance if already an instance of SWeekdays.
- * @param weekdays An instance of SWeekdays that will be returned or a string
- *  in the format 'SMTWTFS'. Each in the string represents a weekday starting
- *  on Sunday and ending on Saturday using the first letter of the english word
- *  for the week day. If the weekday is excluded, the position is filled with a
- *  '-' character. E.g. in 'SM----S', the weekdays Sunday, Monday, and Saturday
- *  are included while the rest are excluded.
+ * Returns a new SWeekdays instance.
+ *
+ * @param weekdays An instance of SWeekdays that will be returned or a string in
+ * the SMTWTFS format. Each character in the string represents a weekday
+ * starting on Sunday and ending on Saturday using the first letter of the
+ * English word for the week day. If the weekday is excluded, the position is
+ * filled with a '-' character.
+ *
+ * @example
+ * ```ts
+ * sWeekdays('SM----S')
+ * // Returns an instance of SWeekdays with the weekdays Sunday, Monday, and
+ * // Saturday included while the rest are excluded.
+ * ```
+ *
+ * @example
+ * ```ts
+ * sWeekdays('SMTWTFS')
+ * // Returns an instance of SWeekdays with all weekdays included.
+ * ```
  */
 export const sWeekdays = (weekdays: string | SWeekdays): SWeekdays => {
   if (weekdays instanceof SWeekdays) {
@@ -47,8 +59,23 @@ export const sWeekdays = (weekdays: string | SWeekdays): SWeekdays => {
 
 /**
  * Returns a new SWeekdays instance with all provided weekdays included. The
- * provided weekdays can be any combination of the Weekday enum values. e.g.
- * `Weekday.Monday | Weekday.Wednesday | Weekday.Friday`.
+ * provided weekdays can be any combination of the Weekday enum values.
+ *
+ * @param weekdays A combination of the Weekday enum values.
+ *
+ * @example
+ * ```ts
+ * getWeekdaysFromWeekdayFlags(Weekday.Monday | Weekday.Wednesday | Weekday.Friday)
+ * // Returns an instance of SWeekdays with the weekdays Monday, Wednesday, and
+ * // Friday included while the rest are excluded.
+ * ```
+ *
+ * @example
+ * ```ts
+ * getWeekdaysFromWeekdayFlags(Weekday.Tuesday)
+ * // Returns an instance of SWeekdays with the weekday Tuesday included while
+ * // the rest are excluded.
+ * ```
  */
 export const getWeekdaysFromWeekdayFlags = (weekdays: Weekday): SWeekdays => {
   const newWeekdays = [...AllWeekdaysIncludedMask]
@@ -84,7 +111,17 @@ export const getWeekdaysWithNoneIncluded = (): SWeekdays => {
 
 /**
  * Returns a new SWeekdays instance with the weekdays shifted forward by one
- * day. e.g. 'SM----S' becomes 'SMT----'.
+ * day.
+ *
+ * @param weekdays The weekdays to shift forward. It can be an SWeekdays or a
+ * string in the SMTWTFS format.
+ *
+ * @example
+ * ```ts
+ * shiftWeekdaysForward('SM----S')
+ * // Returns an instance of SWeekdays with the weekdays shifted forward by one
+ * // day. 'SM----S' becomes 'SMT----'.
+ * ```
  */
 export const shiftWeekdaysForward = (
   weekdays: string | SWeekdays,
@@ -107,8 +144,21 @@ export const shiftWeekdaysForward = (
 }
 
 /**
- * Returns a new SWeekdays where only the weekdays that are both included in the
- * provided weekdays that are within the date range are included.
+ * Returns a new SWeekdays instance where only the weekdays that are within the
+ * provided date range are included.
+ *
+ * @param weekdays The weekdays to filter. It can be an SWeekdays or a string in
+ * the SMTWTFS format.
+ * @param fromDate The start date of the range. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
+ * @param toDate The end date of the range. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
+ *
+ * @example
+ * ```ts
+ * filterWeekdaysForDates('SMTWTFS', '2020-03-05', '2020-03-05')
+ * // Returns an instance of SWeekdays with only Thursday included.
+ * ```
  */
 export const filterWeekdaysForDates = (
   weekdays: string | SWeekdays,
@@ -152,6 +202,10 @@ export const filterWeekdaysForDates = (
 /**
  * Returns a new SWeekdays instance with the provided weekday added to the
  * current set of weekdays.
+ *
+ * @param weekdays The weekdays to add the weekday to. It can be an SWeekdays or
+ * a string in the SMTWTFS format.
+ * @param weekdayToAdd The weekday to add.
  */
 export const addWeekdayToWeekdays = (
   weekdays: string | SWeekdays,
@@ -171,7 +225,12 @@ export const addWeekdayToWeekdays = (
  */
 
 /**
- * Returns true if the provided weekdays include the provided weekday.
+ * Returns true if the provided weekdays include the provided weekday. Returns
+ * false otherwise.
+ *
+ * @param weekdays The weekdays to check. It can be an SWeekdays or a string in
+ * the SMTWTFS format.
+ * @param weekday The weekday to check.
  */
 export const doesWeekdaysIncludeWeekday = (
   weekdays: string | SWeekdays,
@@ -185,7 +244,12 @@ export const doesWeekdaysIncludeWeekday = (
 
 /**
  * Returns true if any of the included weekdays in weekdays1 is also included in
- * weekdays2.
+ * weekdays2. Returns false otherwise.
+ *
+ * @param weekdays1 The first set of weekdays to compare. It can be an SWeekdays
+ * or a string in the SMTWTFS format.
+ * @param weekdays2 The second set of weekdays to compare. It can be an
+ * SWeekdays or a string in the SMTWTFS format.
  */
 export const doesWeekdaysHaveOverlapWithWeekdays = (
   weekdays1: string | SWeekdays,

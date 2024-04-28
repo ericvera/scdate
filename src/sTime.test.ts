@@ -5,8 +5,8 @@ import { setFakeTimer } from './__test__/setFakeTimer'
 import {
   addMinutesToTime,
   get12HourTimeString,
+  get12HoursHoursStringFromTime,
   getHoursFromTime,
-  getHoursStringFromTime,
   getMinutesFromTime,
   getMinutesStringFromTime,
   getTimeAtMidnight,
@@ -173,27 +173,27 @@ describe('getHoursFromTime', () => {
   })
 })
 
-describe('getHoursStringFromTime', () => {
+describe('get12HoursHoursStringFromTime', () => {
   it('returns the hours text for the current time (now)', () => {
     setFakeTimer('2022-04-04T12:59:59')
     const now = getTimeNow(TestLocalTimeZone)
 
-    expect(getHoursStringFromTime(now)).toMatchInlineSnapshot(`"12"`)
+    expect(get12HoursHoursStringFromTime(now)).toMatchInlineSnapshot(`"12"`)
   })
 
   it('returns the hours text for time (midnight)', () => {
-    expect(getHoursStringFromTime('00:01')).toMatchInlineSnapshot(`"12"`)
+    expect(get12HoursHoursStringFromTime('00:01')).toMatchInlineSnapshot(`"12"`)
   })
 
   it('returns the hours text for time', () => {
     const time = sTime('23:59')
 
-    expect(getHoursStringFromTime(time)).toMatchInlineSnapshot(`"11"`)
+    expect(get12HoursHoursStringFromTime(time)).toMatchInlineSnapshot(`"11"`)
   })
 
   it('throws for invalid time', () => {
     expect(() => {
-      getHoursStringFromTime('29:00')
+      get12HoursHoursStringFromTime('29:00')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid ISO time value. Expected from 00:00 to 23:59. Current value: '29:00'.]`,
     )

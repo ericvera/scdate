@@ -221,10 +221,10 @@ export const getTimeZonedDateFromDate = (
 }
 
 /**
- * Get the number of days between the first date to the second date. The value
- * is positive if the first date is before the second date, and negative if the
- * first date is after the second date. This accounts for calendar days and not
- * full 24-hour periods which could be different due to daylight saving
+ * Returns the number of days between the first date to the second date. The
+ * value is positive if the first date is before the second date, and negative
+ * if the first date is after the second date. This accounts for calendar days
+ * and not full 24-hour periods which could be different due to daylight saving
  * adjustments.
  *
  * @param date1 The first date to get the days between. It can be an SDate or a
@@ -246,7 +246,8 @@ export const getDaysBetweenDates = (
 }
 
 /**
- * Get the full string representation of the given date in the given locale.
+ * Returns a string representation that includes all of the date components of
+ * the given date formatted according to the given locale.
  *
  * @param date The date to get the full string representation for. It can be an
  * SDate or a string in the YYYY-MM-DD format.
@@ -395,7 +396,8 @@ export const addYearsToDate = (date: string | SDate, years: number): SDate => {
  */
 
 /**
- * Returns whether the two given dates are the same day.
+ * Returns true when the two given dates represent the same day and false
+ * otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
@@ -413,7 +415,8 @@ export const isSameDate = (
 }
 
 /**
- * Returns whether the first given date is before the second given date.
+ * Returns true when the first date represents a date before the second date and
+ * false otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
@@ -431,8 +434,8 @@ export const isBeforeDate = (
 }
 
 /**
- * Returns whether the first given date is the same day or before the second
- * given date.
+ * Returns true when the first date represents a date that happens on the same
+ * date or before the second date and false otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
@@ -450,7 +453,8 @@ export const isSameDateOrBefore = (
 }
 
 /**
- * Returns whether the first given date is after the second given date.
+ * Returns true when the first date represents a date that happens after the
+ * second date and false otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
@@ -468,8 +472,8 @@ export const isAfterDate = (
 }
 
 /**
- * Returns whether the first given date is the same day or after the second
- * given date.
+ * Returns true when the first date represents a date that happens on the same
+ * date or after the second date and false otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
@@ -487,7 +491,7 @@ export const isSameDateOrAfter = (
 }
 
 /**
- * Returns whether the given date is today.
+ * Returns true when the date is today and false otherwise.
  *
  * @param date The date to check if it is today. It can be an SDate or a string
  * in the YYYY-MM-DD format.
@@ -504,12 +508,13 @@ export const isDateToday = (
 }
 
 /**
- * Returns whether the month on the first date is the same as the month on the
- * second date. It also checks that the year is the same.
+ * Returns true when the month on the first date is the same as the month on the
+ * second date. It also checks that the year is the same. Returns false
+ * otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
- * @param date2 The second date to compare. It can be an SDate or a string in the
+ * @param date2 The second date to compare. It can be an SDate or a string in
  * the YYYY-MM-DD format.
  *
  * @example
@@ -538,7 +543,8 @@ export const areDatesInSameMonth = (
 }
 
 /**
- * Returns whether the given date is in the current month.
+ * Returns true when the date represents a date in the current month and year.
+ * Returns false otherwise.
  *
  * @param date The date to check if it is in the current month. It can be an
  * SDate or a string in the YYYY-MM-DD format.
@@ -555,8 +561,8 @@ export const isDateInCurrentMonth = (
 }
 
 /**
- * Returns whether the year on the first date is the same as the year on the
- * second date.
+ * Returns true when the year of the first date is the same as the year on the
+ * second date. Returns false otherwise.
  *
  * @param date1 The first date to compare. It can be an SDate or a string in the
  * YYYY-MM-DD format.
@@ -576,7 +582,8 @@ export const areDatesInSameYear = (
 }
 
 /**
- * Returns whether the given date is in the current year.
+ * Returns true when the year component of the date matches the current year in
+ * the given time zone. Returns false otherwise.
  *
  * @param date The date to check if it is in the current year. It can be an
  * SDate or a string in the YYYY-MM-DD format.
