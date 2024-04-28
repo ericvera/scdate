@@ -82,14 +82,8 @@ describe('sDate', () => {
  */
 describe('JSON.stringify', () => {
   it('returns the date for the current date', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(JSON.stringify(today)).toMatchInlineSnapshot(`""2022-04-04""`)
-  })
-
-  it('returns the date for the current date', () => {
     const date = sDate('2035-12-31')
+
     expect(JSON.stringify(date)).toMatchInlineSnapshot(`""2035-12-31""`)
   })
 })

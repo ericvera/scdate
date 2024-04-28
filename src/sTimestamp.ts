@@ -31,11 +31,10 @@ export interface STimestampShortStringOptions {
  */
 
 /**
- * Factory function for creating a new STimestamp instance or returns the same
- * instance if already an instance of STimestamp.
+ * Returns a new STimestamp instance.
  *
- * @param timestamp An instance of STimestamp that will be returned or a string
- *  in the ISO-8601 format (YYYY-MM-DDTHH:MM)
+ * @param timestamp An instance of STimestamp or a string in the
+ * YYYY-MM-DDTHH:MM format.
  *
  * @example
  * ```ts
@@ -56,6 +55,10 @@ export const sTimestamp = (timestamp: string | STimestamp): STimestamp => {
 
 /**
  * Returns the current timestamp for the given UTC date in the given time zone.
+ *
+ * @param utcDateInMilliseconds The number of milliseconds since the Unix epoch.
+ * @param timeZone The time zone to use when creating the timestamp.
+ *
  */
 export const getTimestampFromUTCMilliseconds = (
   utcDateInMilliseconds: number,
@@ -91,8 +94,8 @@ export const getTimestampFromDateAndTime = (
  */
 
 /**
- * Returns the native Date representation of the timestamp in the given time
- * zone.
+ * Returns a native Date adjusted so that the local time matches the local time
+ * at the specified time zone.
  */
 export const getTimeZonedDateFromTimestamp = (
   timestamp: string | STimestamp,
@@ -214,7 +217,7 @@ export const getShortTimestampString = (
 
 /**
  * Returns a new timestamp resulting from adding the given number of calendar
- * days (rather than 24-horu days) to the given timestamp. Becaues it adds
+ * days (rather than 24-horu days) to the given timestamp. Because it adds
  * calendar days rather than 24-hour days, this operation is not affected by
  * time zones.
  */

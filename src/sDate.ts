@@ -27,10 +27,9 @@ export interface SDateShortStringOptions {
  */
 
 /**
- * Factory function for creating a new SDate instance or returns the same
- * instance if already an instance of SDate.
- * @param date An instance of SDate that will be returned or a string in the
- *  ISO-8601 format (YYYY-MM-DD).
+ * Returns a new SDate instance.
+ *
+ * @param date An instance of SDate or a string in the YYYY-MM-DD format.
  */
 export const sDate = (date: string | SDate): SDate => {
   if (date instanceof SDate) {
@@ -45,7 +44,10 @@ export const sDate = (date: string | SDate): SDate => {
  */
 
 /**
- * Returns the current date in the given time zone.
+ * Returns a new SDate instance with the current date in the given time zone.
+ *
+ * @param timeZone The time zone to get the current date for. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getDateToday = (timeZone: string): SDate => {
   const date = getTimeZonedDate(Date.now(), timeZone)
@@ -54,7 +56,12 @@ export const getDateToday = (timeZone: string): SDate => {
 }
 
 /**
- * Get the next date that matches the given weekday after the given date.
+ * Returns a new SDate instance set to the next date after the provided date
+ * that match the given weekday.
+ *
+ * @param date The date to start from (not included). It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param weekday The weekday to find the next date for.
  */
 export const getNextDateByWeekday = (
   date: string | SDate,
@@ -78,7 +85,12 @@ export const getNextDateByWeekday = (
 }
 
 /**
- * Get the previous date that matches the given weekday before the given date.
+ * Returns a new SDate instance set to date that is before the provided date and
+ * matches the given weekday.
+ *
+ * @param date The date to start from (not included).
+ * @param weekday The weekday to find the previous date for. It can be an SDate
+ * or a string in the YYYY-MM-DD format.
  */
 export const getPreviousDateByWeekday = (
   date: string | SDate,
@@ -102,7 +114,11 @@ export const getPreviousDateByWeekday = (
 }
 
 /**
- * Returns the date for the first day of the month for the given date.
+ * Returns a new SDate instance set to the first day of the month for the
+ * provided date.
+ *
+ * @param date The date to get the first day of the month for. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
  */
 export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
   const sDateValue = sDate(date)
@@ -113,7 +129,11 @@ export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
 }
 
 /**
- * Returns the date for the last day of the month for the given date.
+ * Returns a new SDate instance set to the last day of the month for the
+ * provided date.
+ *
+ * @param date The date to get the last day of the month for. It can be an SDate
+ * or a string in the YYYY-MM-DD format.
  */
 export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
   const sDateValue = sDate(date)
@@ -129,6 +149,9 @@ export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
 
 /**
  * Returns the year from the given date.
+ *
+ * @param date The date to get the year from. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  */
 export const getYearFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -137,8 +160,11 @@ export const getYearFromDate = (date: string | SDate): number => {
 }
 
 /**
- * Returns the month from the given date. Return sa 0-index value (i.e. Janary
+ * Returns the month from the given date. Returns a 0-index value (i.e. Janary
  * is 0 and December is 11) to match the result from native Date object.
+ *
+ * @param date The date to get the month from. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  */
 export const getMonthFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -148,6 +174,9 @@ export const getMonthFromDate = (date: string | SDate): number => {
 
 /**
  * Returns the day of the month from the given date.
+ *
+ * @param date The date to get the day from. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  */
 export const getDateFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -156,7 +185,11 @@ export const getDateFromDate = (date: string | SDate): number => {
 }
 
 /**
- * Returns the day of the week from the given date.
+ * Returns the day of the week from the given date (Sunday to Saturday / 0 to
+ * 6).
+ *
+ * @param date The date to get the weekday from. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
  */
 export const getWeekdayFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -166,8 +199,13 @@ export const getWeekdayFromDate = (date: string | SDate): number => {
 }
 
 /**
- * Returns the native Date representation of the given date in the given time
- * zone.
+ * Returns a native Date adjusted so that the local time of that date matches
+ * the local time at the specified time zone.
+ *
+ * @param date The date to get the time zoned date from. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param timeZone The time zone to adjust the date to. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getTimeZonedDateFromDate = (
   date: string | SDate,
@@ -183,10 +221,16 @@ export const getTimeZonedDateFromDate = (
 }
 
 /**
- * Get the number of days from the first date to the second date. The value is
- * positive if the first date is before the second date, and negative if the
+ * Get the number of days between the first date to the second date. The value
+ * is positive if the first date is before the second date, and negative if the
  * first date is after the second date. This accounts for calendar days and not
- * full 24-hour periods which could be different due to daylight saving time.
+ * full 24-hour periods which could be different due to daylight saving
+ * adjustments.
+ *
+ * @param date1 The first date to get the days between. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param date2 The second date to get the days between. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
  */
 export const getDaysBetweenDates = (
   date1: string | SDate,
@@ -203,6 +247,22 @@ export const getDaysBetweenDates = (
 
 /**
  * Get the full string representation of the given date in the given locale.
+ *
+ * @param date The date to get the full string representation for. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
+ * @param locale The locale to use for the string representation.
+ *
+ * @example
+ * ```ts
+ * getFullDateString('2021-02-05', 'es')
+ * //=> 'viernes, 5 de febrero de 2021'
+ * ```
+ *
+ * @example
+ * ```ts
+ * getFullDateString('2021-02-05', 'en')
+ * //=> 'Friday, February 5, 2021'
+ * ```
  */
 export const getFullDateString = (
   date: string | SDate,
@@ -219,6 +279,31 @@ export const getFullDateString = (
 
 /**
  * Get the short string representation of the given date in the given locale.
+ *
+ * @param date The date to get the short string representation for. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
+ * @param timeZone The time zone used to determine if in the current year. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param locale The locale to use for the string representation.
+ * @param options The options to customize the short string representation.
+ *
+ * @example
+ * ```ts
+ * getShortDateString('2021-02-05', TestLocalTimeZone, 'en', {
+ *   onTodayText,
+ *   includeWeekday: false,
+ * }),
+ * //=> 'Feb 5' (year is not shown when in the current year)
+ * ```
+ *
+ * @example
+ * ```ts
+ * getShortDateString('2021-02-05', TestLocalTimeZone, 'es', {
+ *   onTodayText,
+ *   includeWeekday: true,
+ * })
+ * //=> 'vie, 5 feb 21' (year when not in current year)
+ * ```
  */
 export const getShortDateString = (
   date: string | SDate,
@@ -249,8 +334,13 @@ export const getShortDateString = (
  */
 
 /**
- * Returns the date resulting from adding the given number of days to the given
- * date.
+ * Returns a new SDates instance with the date resulting from adding the given
+ * number of days to the given date. Because it adds calendar days rather than
+ * 24-hour days, this operation is not affected by time zones.
+ *
+ * @param date The date to add days to. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param days The number of days to add to the date.
  */
 export const addDaysToDate = (date: string | SDate, days: number): SDate => {
   const sDateValue = sDate(date)
@@ -262,8 +352,13 @@ export const addDaysToDate = (date: string | SDate, days: number): SDate => {
 }
 
 /**
- * Returns the date resulting from adding the given number of months to the
- * given date.
+ * Returns a new SDate instance with the date resulting from adding the given
+ * number of months to the given date. Because it just adds to the month
+ * component of the date, this operation is not affected by time zones.
+ *
+ * @param date The date to add months to. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param months The number of months to add to the date.
  */
 export const addMonthsToDate = (
   date: string | SDate,
@@ -278,8 +373,13 @@ export const addMonthsToDate = (
 }
 
 /**
- * Returns the date resulting from adding the given number of years to the given
- * date.
+ * Returns a new SDate instance with the date resulting from adding the given
+ * number of years to the given date. Because this only adds to the year
+ * component of the date, this method is not affected by leap years.
+ *
+ * @param date The date to add years to. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param years The number of years to add to the date.
  */
 export const addYearsToDate = (date: string | SDate, years: number): SDate => {
   const sDateValue = sDate(date)
@@ -296,6 +396,11 @@ export const addYearsToDate = (date: string | SDate, years: number): SDate => {
 
 /**
  * Returns whether the two given dates are the same day.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  */
 export const isSameDate = (
   date1: string | SDate,
@@ -309,6 +414,11 @@ export const isSameDate = (
 
 /**
  * Returns whether the first given date is before the second given date.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  */
 export const isBeforeDate = (
   date1: string | SDate,
@@ -323,6 +433,11 @@ export const isBeforeDate = (
 /**
  * Returns whether the first given date is the same day or before the second
  * given date.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in the
+ * the YYYY-MM-DD format.
  */
 export const isSameDateOrBefore = (
   date1: string | SDate,
@@ -336,6 +451,11 @@ export const isSameDateOrBefore = (
 
 /**
  * Returns whether the first given date is after the second given date.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in the
+ * the YYYY-MM-DD format.
  */
 export const isAfterDate = (
   date1: string | SDate,
@@ -350,6 +470,11 @@ export const isAfterDate = (
 /**
  * Returns whether the first given date is the same day or after the second
  * given date.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in the
+ * the YYYY-MM-DD format.
  */
 export const isSameDateOrAfter = (
   date1: string | SDate,
@@ -363,6 +488,11 @@ export const isSameDateOrAfter = (
 
 /**
  * Returns whether the given date is today.
+ *
+ * @param date The date to check if it is today. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
+ * @param timeZone The time zone to check if the date is today. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const isDateToday = (
   date: string | SDate,
@@ -376,6 +506,23 @@ export const isDateToday = (
 /**
  * Returns whether the month on the first date is the same as the month on the
  * second date. It also checks that the year is the same.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in the
+ * the YYYY-MM-DD format.
+ *
+ * @example
+ * ```ts
+ * areDatesInSameMonth('2021-02-05', '2021-02-15')
+ * //=> true
+ * ```
+ *
+ * @example
+ * ```ts
+ * areDatesInSameMonth('2022-02-05', '2023-02-15')
+ * //=> false (different years)
+ * ```
  */
 export const areDatesInSameMonth = (
   date1: string | SDate,
@@ -392,6 +539,11 @@ export const areDatesInSameMonth = (
 
 /**
  * Returns whether the given date is in the current month.
+ *
+ * @param date The date to check if it is in the current month. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
+ * @param timeZone The time zone to check if the date is in the current month.
+ * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const isDateInCurrentMonth = (
   date: string | SDate,
@@ -405,6 +557,11 @@ export const isDateInCurrentMonth = (
 /**
  * Returns whether the year on the first date is the same as the year on the
  * second date.
+ *
+ * @param date1 The first date to compare. It can be an SDate or a string in the
+ * YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  */
 export const areDatesInSameYear = (
   date1: string | SDate,
@@ -420,6 +577,11 @@ export const areDatesInSameYear = (
 
 /**
  * Returns whether the given date is in the current year.
+ *
+ * @param date The date to check if it is in the current year. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
+ * @param timeZone The time zone to check if the date is in the current year.
+ * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const isDateInCurrentYear = (
   date: string | SDate,
