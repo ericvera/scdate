@@ -20,9 +20,6 @@ export interface STimestampShortStringOptions {
   onTodayAtText: () => string
 }
 
-// TODO: Ensure timeZone related tests are properly documented
-// TODO: Add tests for timeZone addMinuteToTimestamp
-
 /**
  * --- Factory ---
  */

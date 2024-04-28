@@ -21,8 +21,12 @@ beforeEach(() => {
  * --- Factory ---
  */
 describe('sWeekdays', () => {
-  it('works for valid value', () => {
+  it('works when given a valid string', () => {
     expect(sWeekdays('S-----S')).toMatchInlineSnapshot(`"S-----S"`)
+  })
+
+  it('works when given a valid SWeekdays', () => {
+    expect(sWeekdays(sWeekdays('S-----S'))).toMatchInlineSnapshot(`"S-----S"`)
   })
 
   it('throws for invalid value', () => {
@@ -55,19 +59,19 @@ describe('sWeekdays', () => {
  */
 
 describe('JSON.stringify', () => {
-  it('returns weekdays for all active', () => {
+  it('works for all active', () => {
     const all = getWeekdaysWithAllIncluded()
 
     expect(JSON.stringify(all)).toMatchInlineSnapshot(`""SMTWTFS""`)
   })
 
-  it('returns weekdays for none active', () => {
+  it('works for none active', () => {
     const all = getWeekdaysWithNoneIncluded()
 
     expect(JSON.stringify(all)).toMatchInlineSnapshot(`""-------""`)
   })
 
-  it('returns weekdays for none active', () => {
+  it('works for some active', () => {
     const some = sWeekdays('S-----S')
 
     expect(JSON.stringify(some)).toMatchInlineSnapshot(`""S-----S""`)
@@ -113,13 +117,13 @@ describe('getWeekdaysFromWeekdayFlags', () => {
 })
 
 describe('getWeekdaysWithAllIncluded', () => {
-  it('works for all', () => {
+  it('works', () => {
     expect(getWeekdaysWithAllIncluded()).toMatchInlineSnapshot(`"SMTWTFS"`)
   })
 })
 
 describe('getWeekdaysWithNoneIncluded', () => {
-  it('works for none', () => {
+  it('works', () => {
     expect(getWeekdaysWithNoneIncluded()).toMatchInlineSnapshot(`"-------"`)
   })
 })
@@ -290,9 +294,9 @@ describe('addWeekdayToWeekdays', () => {
   })
 
   it('works when adding a day', () => {
-    expect(addWeekdayToWeekdays('---W---', Weekday.Fri)).toMatchInlineSnapshot(
-      `"---W-F-"`,
-    )
+    expect(
+      addWeekdayToWeekdays(sWeekdays('---W---'), Weekday.Fri),
+    ).toMatchInlineSnapshot(`"---W-F-"`)
   })
 
   it('works when adding a single day that exists already', () => {

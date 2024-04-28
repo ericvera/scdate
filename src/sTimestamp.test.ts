@@ -35,10 +35,16 @@ beforeEach(() => {
  */
 
 describe('sTimestamp', () => {
-  it('creates a timestamp with the expected value', () => {
+  it('works given a valid string', () => {
     expect(sTimestamp('2028-01-04T12:34')).toMatchInlineSnapshot(
       `"2028-01-04T12:34"`,
     )
+  })
+
+  it('works given a valid STimestamp', () => {
+    const timestamp = sTimestamp('2028-01-04T12:34')
+
+    expect(sTimestamp(timestamp)).toMatchInlineSnapshot(`"2028-01-04T12:34"`)
   })
 
   it('throws for invalid value (empty string)', () => {
@@ -87,7 +93,7 @@ describe('sTimestamp', () => {
  */
 
 describe('JSON.stringify', () => {
-  it('returns the ISO string value for the timestamp', () => {
+  it('returns the string value for the timestamp in YYYY-MM-DDTHH:MM format', () => {
     const timestamp = sTimestamp('2056-12-31T13:45')
 
     expect(JSON.stringify(timestamp)).toMatchInlineSnapshot(
@@ -100,8 +106,8 @@ describe('JSON.stringify', () => {
  * --- Factory helpers ---
  */
 
-describe('getTimestampFromUTCDate', () => {
-  it('works for valid date and time', () => {
+describe('getTimestampFromUTCMilliseconds', () => {
+  it('works for a valid value', () => {
     setFakeTimer('2022-02-03T13:22')
 
     const timestamp = getTimestampFromUTCMilliseconds(
@@ -112,7 +118,7 @@ describe('getTimestampFromUTCDate', () => {
     expect(timestamp).toMatchInlineSnapshot(`"2022-02-03T13:22"`)
   })
 
-  it('throws for invalid date', () => {
+  it('throws for NaN date value', () => {
     expect(() => {
       getTimestampFromUTCMilliseconds(Number.NaN, TestLocalTimeZone)
     }).toThrowErrorMatchingInlineSnapshot(`[Error: Invalid date. Date: 'NaN']`)
@@ -128,7 +134,7 @@ describe('getTimestampFromUTCDate', () => {
 })
 
 describe('getTimestampNow', () => {
-  it('works for a day at midnight', () => {
+  it('works at midnight', () => {
     setFakeTimer('2022-04-04T00:00')
 
     expect(getTimestampNow(TestLocalTimeZone)).toMatchInlineSnapshot(
@@ -136,7 +142,7 @@ describe('getTimestampNow', () => {
     )
   })
 
-  it('works for a day a second before midnight', () => {
+  it('works a second before midnight', () => {
     setFakeTimer('2022-04-03T23:59:59')
 
     expect(getTimestampNow(TestLocalTimeZone)).toMatchInlineSnapshot(
@@ -144,7 +150,7 @@ describe('getTimestampNow', () => {
     )
   })
 
-  it('works for a day in the middle of the day', () => {
+  it('works in the middle of the day', () => {
     setFakeTimer('2022-04-04T12:59:59')
 
     expect(getTimestampNow(TestLocalTimeZone)).toMatchInlineSnapshot(
@@ -162,7 +168,7 @@ describe('getTimestampNow', () => {
 })
 
 describe('getTimestampFromDateAndTime', () => {
-  it('works for valid date and time', () => {
+  it('works for a valid SDate and STime', () => {
     const timestamp = getTimestampFromDateAndTime(
       sDate('2022-12-03'),
       sTime('12:34'),
@@ -199,22 +205,20 @@ describe('getTimestampFromDateAndTime', () => {
  */
 
 describe('getTimeZonedDateFromTimestamp', () => {
-  it('works for now', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const now = getTimestampNow(TestLocalTimeZone)
-
+  it('works for valid string', () => {
     expect(
-      getTimeZonedDateFromTimestamp(now, TestLocalTimeZone).toLocaleString(
-        'en-US',
-      ),
+      getTimeZonedDateFromTimestamp(
+        '2022-04-04T00:00',
+        TestLocalTimeZone,
+      ).toLocaleString('en-US'),
     ).toMatchInlineSnapshot(`"4/4/2022, 12:00:00 AM"`)
   })
 
-  it('works for date string string', () => {
+  it('works for a valid STimestamp', () => {
+    const timestamp = sTimestamp('2021-01-01T01:23')
     expect(
       getTimeZonedDateFromTimestamp(
-        '2021-01-01T01:23',
+        timestamp,
         TestLocalTimeZone,
       ).toLocaleString('en-US'),
     ).toMatchInlineSnapshot(`"1/1/2021, 1:23:00 AM"`)
@@ -242,6 +246,7 @@ describe('getSecondsToTimestamp', () => {
     setFakeTimer('2022-04-04T05:20')
 
     const timestamp = sTimestamp('2022-04-04T05:20')
+
     expect(
       getSecondsToTimestamp(timestamp, TestLocalTimeZone),
     ).toMatchInlineSnapshot(`0`)
@@ -330,17 +335,17 @@ describe('getSecondsToTimestamp', () => {
 })
 
 describe('getDateFromTimestamp', () => {
-  it('works for now', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const now = getTimestampNow(TestLocalTimeZone)
-
-    expect(getDateFromTimestamp(now)).toMatchInlineSnapshot(`"2022-04-04"`)
-  })
-
-  it('works for date string', () => {
+  it('works for a valid string', () => {
     expect(getDateFromTimestamp('2021-01-01T01:23')).toMatchInlineSnapshot(
       `"2021-01-01"`,
+    )
+  })
+
+  it('works for a valid STimestamp', () => {
+    const timestamp = sTimestamp('2022-04-04T00:00')
+
+    expect(getDateFromTimestamp(timestamp)).toMatchInlineSnapshot(
+      `"2022-04-04"`,
     )
   })
 
@@ -354,18 +359,16 @@ describe('getDateFromTimestamp', () => {
 })
 
 describe('getTimeFromTimestamp', () => {
-  it('works for now', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const now = getTimestampNow(TestLocalTimeZone)
-
-    expect(getTimeFromTimestamp(now)).toMatchInlineSnapshot(`"00:00"`)
-  })
-
   it('works for date string', () => {
     expect(getTimeFromTimestamp('2021-01-01T01:23')).toMatchInlineSnapshot(
       `"01:23"`,
     )
+  })
+
+  it('works for a valid STimestamp', () => {
+    const timestamp = sTimestamp('2022-04-04T00:00')
+
+    expect(getTimeFromTimestamp(timestamp)).toMatchInlineSnapshot(`"00:00"`)
   })
 
   it('throws for invalid timestamp', () => {
@@ -453,16 +456,6 @@ describe('getShortTimestampString', () => {
  */
 
 describe('addDaysToTimestamp', () => {
-  it('works for a day one year later', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const now = getTimestampNow(TestLocalTimeZone)
-
-    expect(addDaysToTimestamp(now, 365)).toMatchInlineSnapshot(
-      `"2023-04-04T00:00"`,
-    )
-  })
-
   it('works for the next day', () => {
     expect(addDaysToTimestamp('2021-01-01T01:23', 1)).toMatchInlineSnapshot(
       `"2021-01-02T01:23"`,
@@ -494,12 +487,12 @@ describe('addDaysToTimestamp', () => {
 
 describe('addMinutesToTimestamp', () => {
   it('works for a day one year later', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const now = getTimestampNow(TestLocalTimeZone)
-
     expect(
-      addMinutesToTimestamp(now, 365 * 24 * 60, TestLocalTimeZone),
+      addMinutesToTimestamp(
+        '2022-04-04T00:00',
+        365 * 24 * 60,
+        TestLocalTimeZone,
+      ),
     ).toMatchInlineSnapshot(`"2023-04-04T00:00"`)
   })
 
@@ -540,6 +533,8 @@ describe('addMinutesToTimestamp', () => {
       addMinutesToTimestamp(timestamp, 60, TestLocalTimeZoneWithDaylight),
     ).toMatchInlineSnapshot(`"2024-03-10T03:59"`)
   })
+
+  // TODO: Add tests for daylight saving time
 
   it('throws for invalid timestamp', () => {
     expect(() => {

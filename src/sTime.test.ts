@@ -31,11 +31,11 @@ beforeEach(() => {
  */
 
 describe('sTime', () => {
-  it('works for a valid time', () => {
+  it('works when given a valid string value', () => {
     expect(sTime('12:34')).toMatchInlineSnapshot(`"12:34"`)
   })
 
-  it('works when it received an sTime', () => {
+  it('works when given a valid STime', () => {
     expect(sTime(sTime('12:34'))).toMatchInlineSnapshot(`"12:34"`)
   })
 
@@ -77,14 +77,7 @@ describe('sTime', () => {
  */
 
 describe('JSON.stringify', () => {
-  it('returns the time for the current time', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const time = getTimeNow(TestLocalTimeZone)
-
-    expect(JSON.stringify(time)).toMatchInlineSnapshot(`""12:59""`)
-  })
-
-  it('returns the time', () => {
+  it('returns the string value for the time in HH:MM format', () => {
     const time = sTime('13:45')
     expect(JSON.stringify(time)).toMatchInlineSnapshot(`""13:45""`)
   })
@@ -146,6 +139,10 @@ describe('getTimeFromMinutes', () => {
       `"03:33"`,
     )
   })
+
+  it('works for negative minutes', () => {
+    expect(getTimeFromMinutes(-1)).toMatchInlineSnapshot(`"23:59"`)
+  })
 })
 
 /**
@@ -153,14 +150,13 @@ describe('getTimeFromMinutes', () => {
  */
 
 describe('getHoursFromTime', () => {
-  it('returns the hours for the current time (now)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const now = getTimeNow(TestLocalTimeZone)
+  it('works for a valid STime', () => {
+    const time = sTime('12:59')
 
-    expect(getHoursFromTime(now)).toMatchInlineSnapshot(`12`)
+    expect(getHoursFromTime(time)).toMatchInlineSnapshot(`12`)
   })
 
-  it('returns the hours for time', () => {
+  it('works for a valid string', () => {
     expect(getHoursFromTime('00:01')).toMatchInlineSnapshot(`0`)
   })
 
@@ -174,18 +170,17 @@ describe('getHoursFromTime', () => {
 })
 
 describe('get12HoursHoursStringFromTime', () => {
-  it('returns the hours text for the current time (now)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const now = getTimeNow(TestLocalTimeZone)
+  it('works for a valid STime', () => {
+    const time = sTime('12:59')
 
-    expect(get12HoursHoursStringFromTime(now)).toMatchInlineSnapshot(`"12"`)
+    expect(get12HoursHoursStringFromTime(time)).toMatchInlineSnapshot(`"12"`)
   })
 
-  it('returns the hours text for time (midnight)', () => {
+  it('works for a valid string (midnight)', () => {
     expect(get12HoursHoursStringFromTime('00:01')).toMatchInlineSnapshot(`"12"`)
   })
 
-  it('returns the hours text for time', () => {
+  it('works for after noon', () => {
     const time = sTime('23:59')
 
     expect(get12HoursHoursStringFromTime(time)).toMatchInlineSnapshot(`"11"`)
@@ -201,14 +196,13 @@ describe('get12HoursHoursStringFromTime', () => {
 })
 
 describe('getMinutesFromTime', () => {
-  it('returns the minutes for the current time (now)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const now = getTimeNow(TestLocalTimeZone)
+  it('works for a valid STime', () => {
+    const time = sTime('12:59')
 
-    expect(getMinutesFromTime(now)).toMatchInlineSnapshot(`59`)
+    expect(getMinutesFromTime(time)).toMatchInlineSnapshot(`59`)
   })
 
-  it('returns the minutes for time', () => {
+  it('works for a valid string', () => {
     expect(getMinutesFromTime('00:01')).toMatchInlineSnapshot(`1`)
   })
 
@@ -222,14 +216,13 @@ describe('getMinutesFromTime', () => {
 })
 
 describe('getMinutesStringFromTime', () => {
-  it('returns the minutes text for the current time (now)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const now = getTimeNow(TestLocalTimeZone)
+  it('works for a valid STime', () => {
+    const time = sTime('12:59')
 
-    expect(getMinutesStringFromTime(now)).toMatchInlineSnapshot(`"59"`)
+    expect(getMinutesStringFromTime(time)).toMatchInlineSnapshot(`"59"`)
   })
 
-  it('returns the minutes text for time (requires padding)', () => {
+  it('works for a valid string and includes padding', () => {
     expect(getMinutesStringFromTime('00:01')).toMatchInlineSnapshot(`"01"`)
   })
 
@@ -555,19 +548,12 @@ describe('isSameTimeOrBefore', () => {
 })
 
 describe('isTimePM', () => {
-  it('returns the isPM for the current time (now)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const now = getTimeNow(TestLocalTimeZone)
-
-    expect(isTimePM(now)).toBe(true)
+  it('works for string value (midnight)', () => {
+    expect(isTimePM('00:00')).toBe(false)
   })
 
-  it('returns the isPM for time (midnight)', () => {
-    expect(isTimePM('00:01')).toBe(false)
-  })
-
-  it('returns the isPM for time', () => {
-    expect(isTimePM('23:59')).toBe(true)
+  it('works for STime', () => {
+    expect(isTimePM(sTime('23:59'))).toBe(true)
   })
 
   it('throws for invalid time', () => {

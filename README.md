@@ -879,7 +879,7 @@ Parameters:
 - `timestamp`: An instance of STimestamp or a string in the
   YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L36)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L33)
 
 ### :gear: getTimestampFromUTCMilliseconds
 
@@ -897,7 +897,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L57)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L54)
 
 ### :gear: getTimestampNow
 
@@ -913,7 +913,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L73)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L70)
 
 ### :gear: getTimestampFromDateAndTime
 
@@ -931,7 +931,7 @@ Parameters:
 - `time`: The time to use when creating the timestamp. It can be an STime
   or a string in the HH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L86)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L83)
 
 ### :gear: getTimeZonedDateFromTimestamp
 
@@ -949,7 +949,7 @@ Parameters:
 - `timeZone`: The time zone to adjust the date to. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L109)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L106)
 
 ### :gear: getSecondsToTimestamp
 
@@ -1009,7 +1009,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L174)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L171)
 
 ### :gear: getDateFromTimestamp
 
@@ -1024,7 +1024,7 @@ Parameters:
 - `timestamp`: The timestamp to get the date from. It can be an STimestamp
   or a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L197)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L194)
 
 ### :gear: getTimeFromTimestamp
 
@@ -1039,7 +1039,7 @@ Parameters:
 - `timestamp`: The timestamp to get the time from. It can be an STimestamp
   or a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L209)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L206)
 
 ### :gear: getShortTimestampString
 
@@ -1080,7 +1080,7 @@ getShortTimestampString('2022-09-11T08:00', 'America/Puerto_Rico', 'es', {
 //=> 'dom, 11 sept 22 8:00 AM'
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L247)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L244)
 
 ### :gear: addDaysToTimestamp
 
@@ -1098,7 +1098,7 @@ Parameters:
   string in the YYYY-MM-DDTHH:MM format.
 - `days`: The number of days to add to the timestamp.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L279)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L276)
 
 ### :gear: addMinutesToTimestamp
 
@@ -1169,7 +1169,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L353)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L350)
 
 ### :gear: isSameTimestamp
 
@@ -1187,7 +1187,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L385)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L382)
 
 ### :gear: isBeforeTimestamp
 
@@ -1205,7 +1205,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L404)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L401)
 
 ### :gear: isSameTimestampOrBefore
 
@@ -1223,7 +1223,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L423)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L420)
 
 ### :gear: isAfterTimestamp
 
@@ -1241,7 +1241,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L442)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L439)
 
 ### :gear: isSameTimestampOrAfter
 
@@ -1259,7 +1259,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L461)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L458)
 
 ### :gear: sWeekdays
 

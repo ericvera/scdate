@@ -1,5 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { TestLocalTimeZone } from './__test__/constants'
+import {
+  TestLocalTimeZone,
+  TestLocalTimeZoneWithDaylight,
+} from './__test__/constants'
 import { setFakeTimer } from './__test__/setFakeTimer'
 import { Weekday } from './constants'
 import {
@@ -40,11 +43,11 @@ beforeEach(() => {
  * --- Factory ---
  */
 describe('sDate', () => {
-  it('works for valid value', () => {
+  it('works given a valid string', () => {
     expect(sDate('2022-03-02')).toMatchInlineSnapshot(`"2022-03-02"`)
   })
 
-  it('throw for invalid value', () => {
+  it('throws given an invalid value', () => {
     expect(() => {
       sDate('')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -52,7 +55,7 @@ describe('sDate', () => {
     )
   })
 
-  it('throws error for invalid length data', () => {
+  it('throws given invalid length data', () => {
     expect(() => {
       sDate('20231203')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -60,7 +63,7 @@ describe('sDate', () => {
     )
   })
 
-  it('throws error for invalid characters', () => {
+  it('throws given invalid characters', () => {
     expect(() => {
       sDate('2023-s2-03')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -68,7 +71,7 @@ describe('sDate', () => {
     )
   })
 
-  it('throws error for date that does not exist', () => {
+  it('throws given a date that does not exist', () => {
     expect(() => {
       sDate('2023-11-31')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -81,7 +84,7 @@ describe('sDate', () => {
  * --- Serialization ---
  */
 describe('JSON.stringify', () => {
-  it('returns the date for the current date', () => {
+  it('returns the string value for the date in YYYY-MM-DD format', () => {
     const date = sDate('2035-12-31')
 
     expect(JSON.stringify(date)).toMatchInlineSnapshot(`""2035-12-31""`)
@@ -93,7 +96,7 @@ describe('JSON.stringify', () => {
  */
 
 describe('getDateToday', () => {
-  it('works for a day at midnight', () => {
+  it('works at midnight', () => {
     setFakeTimer('2022-04-04T00:00')
 
     expect(getDateToday(TestLocalTimeZone)).toMatchInlineSnapshot(
@@ -101,7 +104,7 @@ describe('getDateToday', () => {
     )
   })
 
-  it('works for a day a second before midnight', () => {
+  it('works a second before midnight', () => {
     setFakeTimer('2022-04-03T23:59:59')
 
     expect(getDateToday(TestLocalTimeZone)).toMatchInlineSnapshot(
@@ -109,7 +112,7 @@ describe('getDateToday', () => {
     )
   })
 
-  it('works for a day in the middle of the day', () => {
+  it('works in the middle of the day', () => {
     setFakeTimer('2022-04-04T12:59:59')
 
     expect(getDateToday(TestLocalTimeZone)).toMatchInlineSnapshot(
@@ -117,7 +120,23 @@ describe('getDateToday', () => {
     )
   })
 
-  it('throws error for invalid timezone', () => {
+  it('works during the transition to daylight saving time', () => {
+    setFakeTimer('2024-03-10T02:30', TestLocalTimeZoneWithDaylight)
+
+    expect(getDateToday(TestLocalTimeZoneWithDaylight)).toMatchInlineSnapshot(
+      `"2024-03-10"`,
+    )
+  })
+
+  it('works during the transition from daylight saving time', () => {
+    setFakeTimer('2024-11-03T01:30', TestLocalTimeZoneWithDaylight)
+
+    expect(getDateToday(TestLocalTimeZoneWithDaylight)).toMatchInlineSnapshot(
+      `"2024-11-03"`,
+    )
+  })
+
+  it('throws for invalid timezone', () => {
     expect(() => {
       getDateToday('invalid')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -127,35 +146,33 @@ describe('getDateToday', () => {
 })
 
 describe('getNextDateByWeekday', () => {
-  it('works on same weekday (returns next)', () => {
+  it('returns the next date and not the current date when on a date with the desired weekday', () => {
     const date = sDate('2023-03-18')
     const result = getNextDateByWeekday(date, Weekday.Sat)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-25"`)
   })
 
-  it('works on first weekday by index', () => {
-    const date = sDate('2023-03-18')
-    const result = getNextDateByWeekday(date, Weekday.Sun)
+  it('works when the desired weekday is Sunday (first weekday by index)', () => {
+    const result = getNextDateByWeekday('2023-03-18', Weekday.Sun)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-19"`)
   })
 
-  it('works on last weekday by index', () => {
+  it('works when the desired weekday is Saturday (last weekday by index)', () => {
     const date = sDate('2023-03-19')
     const result = getNextDateByWeekday(date, Weekday.Sat)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-25"`)
   })
 
-  it('works on weekdays that require wrap around of weekdays (Tue -> Mon)', () => {
-    const date = sDate('2023-03-21')
-    const result = getNextDateByWeekday(date, Weekday.Mon)
+  it('works when the calculation requires to wrap around of weekdays (Tue -> Mon)', () => {
+    const result = getNextDateByWeekday('2023-03-21', Weekday.Mon)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-27"`)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       getNextDateByWeekday('2023-3-21', Weekday.Sun)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -163,7 +180,7 @@ describe('getNextDateByWeekday', () => {
     )
   })
 
-  it('throws error for invalid weekday', () => {
+  it('throws for invalid weekday', () => {
     expect(() => {
       getNextDateByWeekday('2023-03-21', Weekday.Sun | Weekday.Thu)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -173,33 +190,33 @@ describe('getNextDateByWeekday', () => {
 })
 
 describe('getPreviousDateByWeekday', () => {
-  it('works on same weekday (returns previous)', () => {
+  it('returns the previous matching date when called on a date that matches the desired weekday', () => {
     const date = sDate('2023-03-18')
     const result = getPreviousDateByWeekday(date, Weekday.Sat)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-11"`)
   })
 
-  it('works on first weekday by index', () => {
+  it('returns the previous date when desired weekday is Sunday (first weekday by index)', () => {
     const result = getPreviousDateByWeekday('2023-03-18', Weekday.Sun)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-12"`)
   })
 
-  it('works on last weekday by index', () => {
+  it('returns the previous date when desired weekday is Saturday (last weekday by index)', () => {
     const result = getPreviousDateByWeekday('2023-03-19', Weekday.Sat)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-18"`)
   })
 
-  it('works on weekdays that require wrap around of weekdays (Tue -> Sat)', () => {
+  it('returns the previous date when the calculation required to wrap around weekdays (Tue -> Sat)', () => {
     const date = sDate('2023-03-21')
     const result = getPreviousDateByWeekday(date, Weekday.Sat)
 
     expect(result).toMatchInlineSnapshot(`"2023-03-18"`)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       getPreviousDateByWeekday('2023-3-21', Weekday.Sun)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -207,7 +224,7 @@ describe('getPreviousDateByWeekday', () => {
     )
   })
 
-  it('throws error for invalid weekday', () => {
+  it('throws for invalid weekday', () => {
     expect(() => {
       getPreviousDateByWeekday('2023-03-21', 'asd' as unknown as Weekday)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -217,7 +234,7 @@ describe('getPreviousDateByWeekday', () => {
 })
 
 describe('getDateForFirstDayOfMonth', () => {
-  it('works for first day of year', () => {
+  it('works on the first day of year', () => {
     setFakeTimer('2022-01-01T00:05')
 
     const today = getDateToday(TestLocalTimeZone)
@@ -227,37 +244,37 @@ describe('getDateForFirstDayOfMonth', () => {
     )
   })
 
-  it('works for feb with 28 days', () => {
+  it('works on the last day of February (non leap year)', () => {
     expect(getDateForFirstDayOfMonth('2021-02-28')).toMatchInlineSnapshot(
       `"2021-02-01"`,
     )
   })
 
-  it('works for feb with 29 days', () => {
+  it('works on the last day of February (leap year)', () => {
     expect(getDateForFirstDayOfMonth('2020-02-29')).toMatchInlineSnapshot(
       `"2020-02-01"`,
     )
   })
 
-  it('works for last day of month', () => {
+  it('works when given a date that is the last day of the month', () => {
     expect(getDateForFirstDayOfMonth('2021-12-31')).toMatchInlineSnapshot(
       `"2021-12-01"`,
     )
   })
 
-  it('works for middle of month', () => {
+  it('works for a date in the middle of month', () => {
     expect(getDateForFirstDayOfMonth('2021-06-12')).toMatchInlineSnapshot(
       `"2021-06-01"`,
     )
   })
 
-  it('works for first day of month', () => {
+  it('works for a date that is the first day of month', () => {
     expect(getDateForFirstDayOfMonth('2021-06-01')).toMatchInlineSnapshot(
       `"2021-06-01"`,
     )
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       getDateForFirstDayOfMonth('2023-3-21')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -267,7 +284,7 @@ describe('getDateForFirstDayOfMonth', () => {
 })
 
 describe('getDateForLastDayOfMonth', () => {
-  it('works for first day of year', () => {
+  it('works for the first day of year', () => {
     setFakeTimer('2022-01-01T00:05')
 
     const today = getDateToday(TestLocalTimeZone)
@@ -277,31 +294,31 @@ describe('getDateForLastDayOfMonth', () => {
     )
   })
 
-  it('works for feb with 28 days', () => {
+  it('works for the last day of February (non leap year)', () => {
     const date = sDate('2021-02-01')
 
     expect(getDateForLastDayOfMonth(date)).toMatchInlineSnapshot(`"2021-02-28"`)
   })
 
-  it('works for feb with 29 days', () => {
+  it('works for the last day of February (leap year)', () => {
     expect(getDateForLastDayOfMonth('2020-02-03')).toMatchInlineSnapshot(
       `"2020-02-29"`,
     )
   })
 
-  it('works for last day of month', () => {
+  it('works for the last day of month', () => {
     expect(getDateForLastDayOfMonth('2021-12-31')).toMatchInlineSnapshot(
       `"2021-12-31"`,
     )
   })
 
-  it('works for middle of month', () => {
+  it('works for the middle of month', () => {
     expect(getDateForLastDayOfMonth('2021-06-12')).toMatchInlineSnapshot(
       `"2021-06-30"`,
     )
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       getDateForLastDayOfMonth('2023-00-21')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -314,18 +331,15 @@ describe('getDateForLastDayOfMonth', () => {
  * --- Getters ---
  */
 describe('getYearFromDate', () => {
-  it('returns the year for the current date (today)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(getYearFromDate(today)).toMatchInlineSnapshot(`2022`)
-  })
-
-  it('returns the year for the current date', () => {
+  it('works for a valid date (string)', () => {
     expect(getYearFromDate('2035-12-31')).toMatchInlineSnapshot(`2035`)
   })
 
-  it('throws error for invalid date', () => {
+  it('works for a valid date (SDate)', () => {
+    expect(getYearFromDate(sDate('2035-12-31'))).toMatchInlineSnapshot(`2035`)
+  })
+
+  it('throws for invalid date', () => {
     expect(() => {
       getYearFromDate('2035-12-31T12:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -335,18 +349,15 @@ describe('getYearFromDate', () => {
 })
 
 describe('getMonthFromDate', () => {
-  it('returns the month for the current date (adjusted to match Date as 0-based index)', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(getMonthFromDate(today)).toMatchInlineSnapshot(`3`)
-  })
-
-  it('returns the month for the current date (adjusted to match Date as 0-based index)', () => {
+  it('works for a valid date (string) (adjusted to match Date as 0-based index)', () => {
     expect(getMonthFromDate('2035-12-31')).toMatchInlineSnapshot(`11`)
   })
 
-  it('throws error for invalid date', () => {
+  it('works for a valid date (SDate) (adjusted to match Date as 0-based index)', () => {
+    expect(getMonthFromDate(sDate('2035-12-31'))).toMatchInlineSnapshot(`11`)
+  })
+
+  it('throws for invalid date', () => {
     expect(() => {
       getMonthFromDate('2035-12-34')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -356,18 +367,15 @@ describe('getMonthFromDate', () => {
 })
 
 describe('getDateFromDate', () => {
-  it('returns the date for the current date', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(getDateFromDate(today)).toMatchInlineSnapshot(`4`)
-  })
-
-  it('returns the date for the current date', () => {
+  it('works for a valid date (string)', () => {
     expect(getDateFromDate('2035-12-31')).toMatchInlineSnapshot(`31`)
   })
 
-  it('throws error for invalid date', () => {
+  it('works for a valid date (SDate)', () => {
+    expect(getDateFromDate(sDate('2035-12-31'))).toMatchInlineSnapshot(`31`)
+  })
+
+  it('throws for invalid date', () => {
     expect(() => {
       getDateFromDate('2035-12-34')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -377,18 +385,15 @@ describe('getDateFromDate', () => {
 })
 
 describe('getWeekdayFromDate', () => {
-  it('returns the weekday for the current date', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(getWeekdayFromDate(today)).toBe(Weekday.Mon)
-  })
-
-  it('returns the weekday for the current date', () => {
+  it('works for a valid date (string)', () => {
     expect(getWeekdayFromDate('2035-12-30')).toBe(Weekday.Sun)
   })
 
-  it('throws error for invalid date', () => {
+  it('works for a valid date (SDate)', () => {
+    expect(getWeekdayFromDate(sDate('2035-12-30'))).toBe(Weekday.Sun)
+  })
+
+  it('throws for invalid date', () => {
     expect(() => {
       getWeekdayFromDate('11:00:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -398,18 +403,7 @@ describe('getWeekdayFromDate', () => {
 })
 
 describe('getTimeZonedDateFromDate', () => {
-  it('returns the date for the current date', () => {
-    setFakeTimer('2022-04-04T12:59:59')
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(
-      getTimeZonedDateFromDate(today, TestLocalTimeZone).toLocaleString(
-        'en-US',
-      ),
-    ).toMatchInlineSnapshot(`"4/4/2022, 12:00:00 AM"`)
-  })
-
-  it('returns the date for the current date', () => {
+  it('works for a valid date (string)', () => {
     expect(
       getTimeZonedDateFromDate('2035-12-31', TestLocalTimeZone).toLocaleString(
         'en-US',
@@ -417,7 +411,16 @@ describe('getTimeZonedDateFromDate', () => {
     ).toMatchInlineSnapshot(`"12/31/2035, 12:00:00 AM"`)
   })
 
-  it('throws error for invalid date', () => {
+  it('works for a valid date (SDate)', () => {
+    expect(
+      getTimeZonedDateFromDate(
+        sDate('2035-12-31'),
+        TestLocalTimeZone,
+      ).toLocaleString('en-US'),
+    ).toMatchInlineSnapshot(`"12/31/2035, 12:00:00 AM"`)
+  })
+
+  it('throws for invalid date', () => {
     expect(() => {
       getTimeZonedDateFromDate('11:00:00', TestLocalTimeZone)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -425,7 +428,7 @@ describe('getTimeZonedDateFromDate', () => {
     )
   })
 
-  it('throws error for invalid timezone', () => {
+  it('throws for invalid timezone', () => {
     expect(() => {
       getTimeZonedDateFromDate('2035-12-31', TestLocalTimeZone + '1')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -435,13 +438,13 @@ describe('getTimeZonedDateFromDate', () => {
 })
 
 describe('getDaysBetweenDates', () => {
-  it('works for same day', () => {
+  it('works for same day (both SDate)', () => {
     const a = sDate('2045-03-01')
 
     expect(getDaysBetweenDates(a, a)).toMatchInlineSnapshot(`0`)
   })
 
-  it('works for same date but different instances', () => {
+  it('works for same date (SDate and string)', () => {
     const a = sDate('2045-03-01')
 
     expect(getDaysBetweenDates(a, '2045-03-01')).toMatchInlineSnapshot(`0`)
@@ -459,15 +462,7 @@ describe('getDaysBetweenDates', () => {
     ).toMatchInlineSnapshot(`-4`)
   })
 
-  it('works for year that start from same instance but are different', () => {
-    const a = sDate('2045-03-01')
-
-    expect(getDaysBetweenDates(a, addDaysToDate(a, 1))).toMatchInlineSnapshot(
-      `1`,
-    )
-  })
-
-  it('throws error for invalid date (first date)', () => {
+  it('throws for invalid date (first date)', () => {
     expect(() => {
       getDaysBetweenDates('2045-03-05T11:00', '2045-03-04')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -475,7 +470,7 @@ describe('getDaysBetweenDates', () => {
     )
   })
 
-  it('throws error for invalid date (second date)', () => {
+  it('throws for invalid date (second date)', () => {
     expect(() => {
       getDaysBetweenDates('2045-03-05', '2045-03-0')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -485,20 +480,20 @@ describe('getDaysBetweenDates', () => {
 })
 
 describe('getFullDateString', () => {
-  it('works with locale set to ES', () => {
+  it('works with locale set to ES (SDate)', () => {
     const a = sDate('2021-02-05')
     expect(getFullDateString(a, 'es')).toMatchInlineSnapshot(
       `"viernes, 5 de febrero de 2021"`,
     )
   })
 
-  it('works with locale set to EN', () => {
+  it('works with locale set to EN (string)', () => {
     expect(getFullDateString('2022-08-05', 'en')).toMatchInlineSnapshot(
       `"Friday, August 5, 2022"`,
     )
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       getFullDateString('2022-08-05T11:00', 'en')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -506,7 +501,7 @@ describe('getFullDateString', () => {
     )
   })
 
-  it('throws error for invalid locale', () => {
+  it('throws for invalid locale', () => {
     expect(() => {
       getFullDateString('2022-08-05', 'en1')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -518,7 +513,7 @@ describe('getFullDateString', () => {
 describe('getShortDateString', () => {
   const onTodayText = (): string => 'Today'
 
-  it('works with locale set to ES (current year)', () => {
+  it('works with locale set to ES (current year) (string)', () => {
     setFakeTimer('2021-04-05')
 
     expect(
@@ -529,7 +524,7 @@ describe('getShortDateString', () => {
     ).toMatchInlineSnapshot(`"5 feb"`)
   })
 
-  it('works with locale set to EN (current year)', () => {
+  it('works with locale set to EN (current year) (SDate)', () => {
     setFakeTimer('2022-12-05')
 
     const a = sDate('2022-08-05')
@@ -551,7 +546,7 @@ describe('getShortDateString', () => {
     ).toMatchInlineSnapshot(`"vie, 5 feb 21"`)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       getShortDateString('2022-08-05T', TestLocalTimeZone, 'en', {
         onTodayText,
@@ -562,7 +557,7 @@ describe('getShortDateString', () => {
     )
   })
 
-  it('throws error for invalid locale', () => {
+  it('throws for invalid locale', () => {
     expect(() => {
       getShortDateString('2022-08-05', TestLocalTimeZone, 'en1', {
         onTodayText,
@@ -573,7 +568,7 @@ describe('getShortDateString', () => {
     )
   })
 
-  it('throws error for invalid timezone', () => {
+  it('throws for invalid timezone', () => {
     expect(() => {
       getShortDateString('2022-08-05', 'invalid', 'en', {
         onTodayText,
@@ -603,16 +598,16 @@ describe('addDaysToDate', () => {
   })
 
   it('works for the previous day', () => {
-    expect(addDaysToDate('2021-01-01', -1)).toMatchInlineSnapshot(
-      `"2020-12-31"`,
-    )
+    const date = sDate('2021-01-01')
+
+    expect(addDaysToDate(date, -1)).toMatchInlineSnapshot(`"2020-12-31"`)
   })
 
   it('works for the no change in day', () => {
     expect(addDaysToDate('2021-01-01', 0)).toMatchInlineSnapshot(`"2021-01-01"`)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       addDaysToDate('2021-01-0', 1)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -648,7 +643,7 @@ describe('addMonthsToDate', () => {
     )
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       addMonthsToDate('2021-01-0', 1)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -658,15 +653,13 @@ describe('addMonthsToDate', () => {
 })
 
 describe('addYearsToDate', () => {
-  it('works for a day 12 years later', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(addYearsToDate(today, 12)).toMatchInlineSnapshot(`"2034-04-04"`)
+  it('works for a day 12 years later (string)', () => {
+    expect(addYearsToDate('2022-04-04', 12)).toMatchInlineSnapshot(
+      `"2034-04-04"`,
+    )
   })
 
-  it('works for the next year', () => {
+  it('works for the next year (SDate)', () => {
     const date = sDate('2021-01-01')
 
     expect(addYearsToDate(date, 1)).toMatchInlineSnapshot(`"2022-01-01"`)
@@ -684,7 +677,7 @@ describe('addYearsToDate', () => {
     )
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       addYearsToDate('2021-01-0', 1)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -717,7 +710,7 @@ describe('isSameDate', () => {
     expect(isSameDate(a, '2022-01-01')).toBe(true)
   })
 
-  it('throws error for invalid first date', () => {
+  it('throws for invalid first date', () => {
     expect(() => {
       isSameDate('2021-12-31T11:00', '2022-01-01')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -725,7 +718,7 @@ describe('isSameDate', () => {
     )
   })
 
-  it('throws error for invalid second date', () => {
+  it('throws for invalid second date', () => {
     expect(() => {
       isSameDate('2021-12-31', '2022-01-01T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -754,7 +747,7 @@ describe('isBeforeDate', () => {
     expect(isBeforeDate(a, '2022-01-01')).toBe(false)
   })
 
-  it('throws error for invalid first date', () => {
+  it('throws for invalid first date', () => {
     expect(() => {
       isBeforeDate('2021-12-31T11:00', '2022-01-01')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -762,7 +755,7 @@ describe('isBeforeDate', () => {
     )
   })
 
-  it('throws error for invalid second date', () => {
+  it('throws for invalid second date', () => {
     expect(() => {
       isBeforeDate('2021-12-31', '2022-01-01T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -791,7 +784,7 @@ describe('isSameDateOrBefore', () => {
     expect(isSameDateOrBefore(a, '2022-01-01')).toBe(true)
   })
 
-  it('throws error for invalid first date', () => {
+  it('throws for invalid first date', () => {
     expect(() => {
       isSameDateOrBefore('2021-12-31T11:00', '2022-01-01')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -799,7 +792,7 @@ describe('isSameDateOrBefore', () => {
     )
   })
 
-  it('throws error for invalid second date', () => {
+  it('throws for invalid second date', () => {
     expect(() => {
       isSameDateOrBefore('2021-12-31', '2022-01-01T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -828,7 +821,7 @@ describe('isAfterDate', () => {
     expect(isAfterDate(a, '2022-01-01')).toBe(false)
   })
 
-  it('throws error for invalid first date', () => {
+  it('throws for invalid first date', () => {
     expect(() => {
       isAfterDate('2021-12-31T11:00', '2022-01-01')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -836,7 +829,7 @@ describe('isAfterDate', () => {
     )
   })
 
-  it('throws error for invalid second date', () => {
+  it('throws for invalid second date', () => {
     expect(() => {
       isAfterDate('2021-12-31', '2022-01-01T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -865,7 +858,7 @@ describe('isSameDateOrAfter', () => {
     expect(isSameDateOrAfter(a, '2022-01-01')).toBe(true)
   })
 
-  it('throws error for invalid first date', () => {
+  it('throws for invalid first date', () => {
     expect(() => {
       isSameDateOrAfter('2021-12-31T11:00', '2022-01-01')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -873,7 +866,7 @@ describe('isSameDateOrAfter', () => {
     )
   })
 
-  it('throws error for invalid second date', () => {
+  it('throws for invalid second date', () => {
     expect(() => {
       isSameDateOrAfter('2021-12-31', '2022-01-01T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -883,14 +876,6 @@ describe('isSameDateOrAfter', () => {
 })
 
 describe('isDateToday', () => {
-  it('works for a day at midnight from today', () => {
-    setFakeTimer('2022-04-04T00:00')
-
-    const today = getDateToday(TestLocalTimeZone)
-
-    expect(isDateToday(today, TestLocalTimeZone)).toBe(true)
-  })
-
   it('works for date on same day', () => {
     setFakeTimer('2021-01-01T00:00')
 
@@ -905,7 +890,7 @@ describe('isDateToday', () => {
     expect(isDateToday('2021-01-02', TestLocalTimeZone)).toBe(false)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       isDateToday('2021-01-01T11:00', TestLocalTimeZone)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -927,7 +912,7 @@ describe('areDatesInSameMonth', () => {
     expect(areDatesInSameMonth('2045-03-01', b)).toBe(true)
   })
 
-  it('returns false for months that are in different years', () => {
+  it('works for dates in the same month number, but different years', () => {
     const a = sDate('2045-03-01')
 
     expect(areDatesInSameMonth(a, '2022-03-01')).toBe(false)
@@ -937,7 +922,7 @@ describe('areDatesInSameMonth', () => {
     expect(areDatesInSameMonth('2001-12-01', '2045-03-02')).toBe(false)
   })
 
-  it('throws error for invalid date (first date)', () => {
+  it('throws for invalid date (first date)', () => {
     expect(() => {
       areDatesInSameMonth('2045-03-05T11:00', '2045-03-04')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -945,7 +930,7 @@ describe('areDatesInSameMonth', () => {
     )
   })
 
-  it('throws error for invalid date (second date)', () => {
+  it('throws for invalid date (second date)', () => {
     expect(() => {
       areDatesInSameMonth('2045-03-05', '2045-03-0')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -991,7 +976,7 @@ describe('isDateInCurrentMonth', () => {
     expect(isDateInCurrentMonth(date, TestLocalTimeZone)).toBe(false)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       isDateInCurrentMonth('2021-01-01T11:00', TestLocalTimeZone)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -999,7 +984,7 @@ describe('isDateInCurrentMonth', () => {
     )
   })
 
-  it('throws error for invalid timezone', () => {
+  it('throws for invalid timezone', () => {
     expect(() => {
       isDateInCurrentMonth('2021-01-01', TestLocalTimeZone + '1')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -1031,7 +1016,7 @@ describe('areDatesInSameYear', () => {
     expect(areDatesInSameYear('2001-12-01', '2045-03-02')).toBe(false)
   })
 
-  it('throws error for invalid date (first date)', () => {
+  it('throws for invalid date (first date)', () => {
     expect(() => {
       areDatesInSameYear('2045-03-05T11:00', '2045-03-04')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -1039,7 +1024,7 @@ describe('areDatesInSameYear', () => {
     )
   })
 
-  it('throws error for invalid date (second date)', () => {
+  it('throws for invalid date (second date)', () => {
     expect(() => {
       areDatesInSameYear('2045-03-05', '2045-03-0')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -1057,13 +1042,13 @@ describe('isDateInCurrentYear', () => {
     expect(isDateInCurrentYear(today, TestLocalTimeZone)).toBe(true)
   })
 
-  it('returns false if one minute to the current year', () => {
+  it('works whe one minute to the current year', () => {
     setFakeTimer('2022-12-31T23:59')
 
     expect(isDateInCurrentYear('2023-01-01', TestLocalTimeZone)).toBe(false)
   })
 
-  it('returns true if exactly at the current year', () => {
+  it('works when exactly at the current year', () => {
     setFakeTimer('2023-01-01T00:00')
 
     expect(isDateInCurrentYear('2023-01-01', TestLocalTimeZone)).toBe(true)
@@ -1089,7 +1074,7 @@ describe('isDateInCurrentYear', () => {
     expect(isDateInCurrentYear(date, TestLocalTimeZone)).toBe(false)
   })
 
-  it('throws error for invalid date', () => {
+  it('throws for invalid date', () => {
     expect(() => {
       isDateInCurrentYear('2021-01-01T11:00', TestLocalTimeZone)
     }).toThrowErrorMatchingInlineSnapshot(
@@ -1097,7 +1082,7 @@ describe('isDateInCurrentYear', () => {
     )
   })
 
-  it('throws error for invalid timezone', () => {
+  it('throws for invalid timezone', () => {
     expect(() => {
       isDateInCurrentYear('2021-01-01', TestLocalTimeZone + '1')
     }).toThrowErrorMatchingInlineSnapshot(
