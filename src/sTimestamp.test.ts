@@ -268,7 +268,7 @@ describe('getSecondsToTimestamp', () => {
     ).toMatchInlineSnapshot(`-90`)
   })
 
-  it.only('works for a time zone with daylight saving time (Spring)', () => {
+  it('works for a time zone with daylight saving time (Spring)', () => {
     setFakeTimer('2024-03-10T01:59', TestLocalTimeZoneWithDaylight)
 
     const timestamp = sTimestamp('2024-03-10T03:00')
