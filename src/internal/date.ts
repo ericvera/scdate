@@ -1,5 +1,4 @@
 import { UTCDateMini } from '@date-fns/utc'
-import { formatISO } from 'date-fns'
 import { SDate } from './SDate'
 
 export const getISOYearFromISODate = (isoDate: string): string => {
@@ -22,9 +21,7 @@ export const getISODateFromISODate = (isoDate: string): string => {
 }
 
 export const getISODateFromZonedDate = (date: Date): string => {
-  const EndOfISODateIndex = 10
-
-  return formatISO(date).slice(0, EndOfISODateIndex)
+  return `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
 }
 
 export const validateISODate = (isoDate: string) => {

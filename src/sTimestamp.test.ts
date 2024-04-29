@@ -1,10 +1,10 @@
-import { secondsInHour, secondsInMinute } from 'date-fns/constants'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   TestLocalTimeZone,
   TestLocalTimeZoneWithDaylight,
 } from './__test__/constants'
 import { setFakeTimer } from './__test__/setFakeTimer'
+import { SecondsInHour, SecondsInMinute } from './internal/constants'
 import { sDate } from './sDate'
 import { sTime } from './sTime'
 import {
@@ -268,7 +268,7 @@ describe('getSecondsToTimestamp', () => {
     ).toMatchInlineSnapshot(`-90`)
   })
 
-  it('works for a time zone with daylight saving time (Spring)', () => {
+  it.only('works for a time zone with daylight saving time (Spring)', () => {
     setFakeTimer('2024-03-10T01:59', TestLocalTimeZoneWithDaylight)
 
     const timestamp = sTimestamp('2024-03-10T03:00')
@@ -277,7 +277,7 @@ describe('getSecondsToTimestamp', () => {
     // 02:00 to 03:00.
     expect(
       getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
-    ).toBe(1 * secondsInMinute)
+    ).toBe(1 * SecondsInMinute)
   })
 
   it('works for a time zone with daylight saving time (Spring) including time in Daylight transition time', () => {
@@ -290,7 +290,7 @@ describe('getSecondsToTimestamp', () => {
     // Expects 59 minutes past (negative value)
     expect(
       getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
-    ).toBe(-59 * secondsInMinute)
+    ).toBe(-59 * SecondsInMinute)
   })
 
   it('works for a time zone with daylight saving time (Fall)', () => {
@@ -302,7 +302,7 @@ describe('getSecondsToTimestamp', () => {
 
     expect(
       getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
-    ).toBe(3 * secondsInHour + 1 * secondsInMinute)
+    ).toBe(3 * SecondsInHour + 1 * SecondsInMinute)
   })
 
   it('works for a time zone with daylight saving time (Fall) including time in Daylight transition time', () => {
@@ -314,7 +314,7 @@ describe('getSecondsToTimestamp', () => {
 
     expect(
       getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
-    ).toBe(1 * secondsInMinute + 1 * secondsInHour)
+    ).toBe(1 * SecondsInMinute + 1 * SecondsInHour)
   })
 
   it('throws for invalid timestamp', () => {

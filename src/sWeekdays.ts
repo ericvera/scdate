@@ -2,11 +2,10 @@
  * --- Factory ---
  */
 
-import { daysInWeek } from 'date-fns/constants'
 import { Weekday } from './constants'
 import { SDate } from './internal/SDate'
 import { SWeekdays } from './internal/SWeekdays'
-import { DayToWeekday } from './internal/constants'
+import { DayToWeekday, DaysInWeek } from './internal/constants'
 import { getAtIndex, hasFlag } from './internal/utils'
 import { getIndexForWeekday } from './internal/weekdays'
 import {
@@ -176,7 +175,7 @@ export const filterWeekdaysForDates = (
   const diff = getDaysBetweenDates(sFromDate, sToDate)
 
   // All selected weekdays are already included
-  if (diff >= daysInWeek) {
+  if (diff >= DaysInWeek) {
     return sWeekdaysInstance
   }
 

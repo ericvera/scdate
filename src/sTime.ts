@@ -1,5 +1,5 @@
-import { minutesInDay, minutesInHour } from 'date-fns/constants'
 import { STime } from './internal/STime'
+import { MinutesInDay, MinutesInHour } from './internal/constants'
 import {
   getISOHoursFromISOTime,
   getISOMinutesFromISOTime,
@@ -139,11 +139,11 @@ export const getTimeInMinutes = (
   const sTimeValue = sTime(time)
 
   const timeInMinutesMidnight0 =
-    getHoursFromTime(sTimeValue) * minutesInHour +
+    getHoursFromTime(sTimeValue) * MinutesInHour +
     getMinutesFromTime(sTimeValue)
 
   if (midnightIs24 && timeInMinutesMidnight0 === 0) {
-    return minutesInDay
+    return MinutesInDay
   }
 
   return timeInMinutesMidnight0
@@ -168,14 +168,14 @@ export const addMinutesToTime = (
 ): STime => {
   const sTimeValue = sTime(time)
 
-  let totalMinutes = (getTimeInMinutes(sTimeValue) + minutes) % minutesInDay
+  let totalMinutes = (getTimeInMinutes(sTimeValue) + minutes) % MinutesInDay
 
   if (totalMinutes < 0) {
-    totalMinutes += minutesInDay
+    totalMinutes += MinutesInDay
   }
 
-  const newHours = Math.floor(totalMinutes / minutesInHour)
-  const newMinutes = totalMinutes % minutesInHour
+  const newHours = Math.floor(totalMinutes / MinutesInHour)
+  const newMinutes = totalMinutes % MinutesInHour
 
   return sTime(
     `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`,

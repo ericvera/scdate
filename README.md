@@ -115,7 +115,7 @@ Parameters:
 
 - `date`: An instance of SDate or a string in the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L34)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L36)
 
 ### :gear: getDateToday
 
@@ -130,7 +130,7 @@ Parameters:
 - `timeZone`: The time zone to get the current date for. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L52)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L54)
 
 ### :gear: getNextDateByWeekday
 
@@ -147,7 +147,7 @@ Parameters:
   string in the YYYY-MM-DD format.
 - `weekday`: The weekday to find the next date for.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L66)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L68)
 
 ### :gear: getPreviousDateByWeekday
 
@@ -164,7 +164,7 @@ Parameters:
 - `weekday`: The weekday to find the previous date for. It can be an SDate
   or a string in the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L95)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L97)
 
 ### :gear: getDateForFirstDayOfMonth
 
@@ -180,7 +180,7 @@ Parameters:
 - `date`: The date to get the first day of the month for. It can be an
   SDate or a string in the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L123)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L125)
 
 ### :gear: getDateForLastDayOfMonth
 
@@ -196,7 +196,7 @@ Parameters:
 - `date`: The date to get the last day of the month for. It can be an SDate
   or a string in the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L138)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L140)
 
 ### :gear: getYearFromDate
 
@@ -211,7 +211,7 @@ Parameters:
 - `date`: The date to get the year from. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L156)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L159)
 
 ### :gear: getMonthFromDate
 
@@ -227,7 +227,7 @@ Parameters:
 - `date`: The date to get the month from. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L169)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L172)
 
 ### :gear: getDateFromDate
 
@@ -242,7 +242,7 @@ Parameters:
 - `date`: The date to get the day from. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L181)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L184)
 
 ### :gear: getWeekdayFromDate
 
@@ -258,7 +258,7 @@ Parameters:
 - `date`: The date to get the weekday from. It can be an SDate or a string
   in the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L194)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L197)
 
 ### :gear: getTimeZonedDateFromDate
 
@@ -276,7 +276,7 @@ Parameters:
 - `timeZone`: The time zone to adjust the date to. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L210)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L213)
 
 ### :gear: getDaysBetweenDates
 
@@ -297,7 +297,7 @@ Parameters:
 - `date2`: The second date to get the days between. It can be an SDate or a
   string in the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L235)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L238)
 
 ### :gear: getFullDateString
 
@@ -326,7 +326,7 @@ getFullDateString('2021-02-05', 'en')
 //=> 'Friday, February 5, 2021'
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L268)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L271)
 
 ### :gear: getShortDateString
 
@@ -363,7 +363,7 @@ getShortDateString('2021-02-05', TestLocalTimeZone, 'es', {
 //=> 'vie, 5 feb 21' (year when not in current year)
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L309)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L312)
 
 ### :gear: addDaysToDate
 
@@ -381,7 +381,7 @@ Parameters:
   YYYY-MM-DD format.
 - `days`: The number of days to add to the date.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L346)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L349)
 
 ### :gear: addMonthsToDate
 
@@ -399,7 +399,7 @@ Parameters:
   YYYY-MM-DD format.
 - `months`: The number of months to add to the date.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L364)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L367)
 
 ### :gear: addYearsToDate
 
@@ -417,7 +417,7 @@ Parameters:
   YYYY-MM-DD format.
 - `years`: The number of years to add to the date.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L385)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L388)
 
 ### :gear: isSameDate
 
@@ -435,7 +435,7 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L407)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L410)
 
 ### :gear: isBeforeDate
 
@@ -453,7 +453,7 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L426)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L429)
 
 ### :gear: isSameDateOrBefore
 
@@ -471,7 +471,7 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in the
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L445)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L448)
 
 ### :gear: isAfterDate
 
@@ -489,7 +489,7 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in the
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L464)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L467)
 
 ### :gear: isSameDateOrAfter
 
@@ -507,7 +507,7 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in the
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L483)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L486)
 
 ### :gear: isDateToday
 
@@ -524,7 +524,7 @@ Parameters:
 - `timeZone`: The time zone to check if the date is today. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L501)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L504)
 
 ### :gear: areDatesInSameMonth
 
@@ -555,7 +555,7 @@ areDatesInSameMonth('2022-02-05', '2023-02-15')
 //=> false (different years)
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L532)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L535)
 
 ### :gear: isDateInCurrentMonth
 
@@ -573,7 +573,7 @@ Parameters:
 - `timeZone`: The time zone to check if the date is in the current month.
   See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L554)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L557)
 
 ### :gear: areDatesInSameYear
 
@@ -591,7 +591,7 @@ Parameters:
 - `date2`: The second date to compare. It can be an SDate or a string in
   the YYYY-MM-DD format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L572)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L575)
 
 ### :gear: isDateInCurrentYear
 
@@ -609,7 +609,7 @@ Parameters:
 - `timeZone`: The time zone to check if the date is in the current year.
   See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L593)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sDate.ts#L596)
 
 ### :gear: sTime
 
@@ -891,7 +891,7 @@ Parameters:
 - `timestamp`: An instance of STimestamp or a string in the
   YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L33)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L36)
 
 ### :gear: getTimestampFromUTCMilliseconds
 
@@ -909,7 +909,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L54)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L57)
 
 ### :gear: getTimestampNow
 
@@ -925,7 +925,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L70)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L73)
 
 ### :gear: getTimestampFromDateAndTime
 
@@ -943,7 +943,7 @@ Parameters:
 - `time`: The time to use when creating the timestamp. It can be an STime
   or a string in the HH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L83)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L86)
 
 ### :gear: getTimeZonedDateFromTimestamp
 
@@ -961,7 +961,7 @@ Parameters:
 - `timeZone`: The time zone to adjust the date to. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L106)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L109)
 
 ### :gear: getSecondsToTimestamp
 
@@ -1021,7 +1021,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L171)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L174)
 
 ### :gear: getDateFromTimestamp
 
@@ -1036,7 +1036,7 @@ Parameters:
 - `timestamp`: The timestamp to get the date from. It can be an STimestamp
   or a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L194)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L197)
 
 ### :gear: getTimeFromTimestamp
 
@@ -1051,7 +1051,7 @@ Parameters:
 - `timestamp`: The timestamp to get the time from. It can be an STimestamp
   or a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L206)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L209)
 
 ### :gear: getShortTimestampString
 
@@ -1092,7 +1092,7 @@ getShortTimestampString('2022-09-11T08:00', 'America/Puerto_Rico', 'es', {
 //=> 'dom, 11 sept 22 8:00 AM'
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L244)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L247)
 
 ### :gear: addDaysToTimestamp
 
@@ -1110,7 +1110,7 @@ Parameters:
   string in the YYYY-MM-DDTHH:MM format.
 - `days`: The number of days to add to the timestamp.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L276)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L279)
 
 ### :gear: addMinutesToTimestamp
 
@@ -1181,7 +1181,7 @@ Parameters:
 - `timeZone`: The time zone to use when creating the timestamp. See
   `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L350)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L353)
 
 ### :gear: isSameTimestamp
 
@@ -1199,7 +1199,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L382)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L385)
 
 ### :gear: isBeforeTimestamp
 
@@ -1217,7 +1217,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L401)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L404)
 
 ### :gear: isSameTimestampOrBefore
 
@@ -1235,7 +1235,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L420)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L423)
 
 ### :gear: isAfterTimestamp
 
@@ -1253,7 +1253,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L439)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L442)
 
 ### :gear: isSameTimestampOrAfter
 
@@ -1271,7 +1271,7 @@ Parameters:
 - `timestamp2`: The second timestamp to compare. It can be an STimestamp or
   a string in the YYYY-MM-DDTHH:MM format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L458)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sTimestamp.ts#L461)
 
 ### :gear: sWeekdays
 
@@ -1302,7 +1302,7 @@ sWeekdays('SMTWTFS')
 // Returns an instance of SWeekdays with all weekdays included.
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L48)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L47)
 
 ### :gear: getWeekdaysFromWeekdayFlags
 
@@ -1331,7 +1331,7 @@ getWeekdaysFromWeekdayFlags(Weekday.Tuesday)
 // the rest are excluded.
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L80)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L79)
 
 ### :gear: getWeekdaysWithAllIncluded
 
@@ -1341,7 +1341,7 @@ Returns a new SWeekdays instance with all weekdays included.
 | ---------------------------- | ----------------- |
 | `getWeekdaysWithAllIncluded` | `() => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L97)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L96)
 
 ### :gear: getWeekdaysWithNoneIncluded
 
@@ -1351,7 +1351,7 @@ Returns a new SWeekdays instance with no weekdays included.
 | ----------------------------- | ----------------- |
 | `getWeekdaysWithNoneIncluded` | `() => SWeekdays` |
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L104)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L103)
 
 ### :gear: shiftWeekdaysForward
 
@@ -1375,7 +1375,7 @@ shiftWeekdaysForward('SM----S')
 // day. 'SM----S' becomes 'SMT----'.
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L126)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L125)
 
 ### :gear: filterWeekdaysForDates
 
@@ -1402,7 +1402,7 @@ filterWeekdaysForDates('SMTWTFS', '2020-03-05', '2020-03-05')
 // Returns an instance of SWeekdays with only Thursday included.
 ```
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L163)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L162)
 
 ### :gear: addWeekdayToWeekdays
 
@@ -1419,7 +1419,7 @@ Parameters:
   a string in the SMTWTFS format.
 - `weekdayToAdd`: The weekday to add.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L210)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L209)
 
 ### :gear: doesWeekdaysIncludeWeekday
 
@@ -1436,7 +1436,7 @@ Parameters:
   the SMTWTFS format.
 - `weekday`: The weekday to check.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L235)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L234)
 
 ### :gear: doesWeekdaysHaveOverlapWithWeekdays
 
@@ -1454,7 +1454,7 @@ Parameters:
 - `weekdays2`: The second set of weekdays to compare. It can be an
   SWeekdays or a string in the SMTWTFS format.
 
-[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L254)
+[:link: Source](https://github.com/ericvera/scdate/tree/main/src/sWeekdays.ts#L253)
 
 ## :nut_and_bolt: Enum
 

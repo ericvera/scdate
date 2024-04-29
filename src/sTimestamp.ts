@@ -1,7 +1,10 @@
-import { millisecondsInMinute, millisecondsInSecond } from 'date-fns/constants'
 import { SDate } from './internal/SDate'
 import { STime } from './internal/STime'
 import { STimestamp } from './internal/STimestamp'
+import {
+  MillisecondsInMinute,
+  MillisecondsInSecond,
+} from './internal/constants'
 import {
   getISODateFromISOTimestamp,
   getISOTimeFromISOTimestamp,
@@ -181,7 +184,7 @@ export const getSecondsToTimestamp = (
   )
 
   return Math.floor(
-    (millisecondsAtTimestamp - millisecondsNow) / millisecondsInSecond,
+    (millisecondsAtTimestamp - millisecondsNow) / MillisecondsInSecond,
   )
 }
 
@@ -356,7 +359,7 @@ export const addMinutesToTimestamp = (
 
   const newMillisecondsInUTC =
     getMillisecondsInUTCFromTimestamp(sTimestampValue, timeZone) +
-    minutes * millisecondsInMinute
+    minutes * MillisecondsInMinute
 
   const newTimestamp = getTimestampFromUTCMilliseconds(
     newMillisecondsInUTC,

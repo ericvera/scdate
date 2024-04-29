@@ -1,8 +1,10 @@
-import { differenceInDays, lastDayOfMonth } from 'date-fns'
-import { daysInWeek } from 'date-fns/constants'
 import { Weekday } from './constants'
 import { SDate } from './internal/SDate'
-import { DayToWeekday } from './internal/constants'
+import {
+  DayToWeekday,
+  DaysInWeek,
+  MillisecondsInDay,
+} from './internal/constants'
 import {
   getDateAsUTCDateMini,
   getISODateFromISODate,
@@ -78,7 +80,7 @@ export const getNextDateByWeekday = (
   let adjustment = weekdayIndex - todaysWeekdayIndex
 
   if (adjustment <= 0) {
-    adjustment += daysInWeek
+    adjustment += DaysInWeek
   }
 
   return addDaysToDate(sDateValue, adjustment)
@@ -107,7 +109,7 @@ export const getPreviousDateByWeekday = (
   let adjustment = weekdayIndex - todaysWeekdayIndex
 
   if (adjustment >= 0) {
-    adjustment -= daysInWeek
+    adjustment -= DaysInWeek
   }
 
   return addDaysToDate(sDateValue, adjustment)
@@ -138,9 +140,10 @@ export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
 export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
-  const lastDay = lastDayOfMonth(nativeDate)
+  nativeDate.setFullYear(nativeDate.getFullYear(), nativeDate.getMonth() + 1, 0)
+  nativeDate.setHours(0, 0, 0, 0)
 
-  return sDate(getISODateFromZonedDate(lastDay))
+  return sDate(getISODateFromZonedDate(nativeDate))
 }
 
 /**
@@ -239,10 +242,10 @@ export const getDaysBetweenDates = (
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
 
-  return differenceInDays(
-    getDateAsUTCDateMini(sDate2),
-    getDateAsUTCDateMini(sDate1),
-  )
+  const ms1 = getDateAsUTCDateMini(sDate1).getTime()
+  const ms2 = getDateAsUTCDateMini(sDate2).getTime()
+
+  return Math.round((ms2 - ms1) / MillisecondsInDay)
 }
 
 /**

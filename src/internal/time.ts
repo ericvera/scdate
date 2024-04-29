@@ -1,5 +1,3 @@
-import { formatISO } from 'date-fns'
-
 export const getISOHoursFromISOTime = (isoTime: string): string => {
   const EndOfHoursIndex = 2
 
@@ -13,10 +11,7 @@ export const getISOMinutesFromISOTime = (isoTime: string): string => {
 }
 
 export const getISOTimeFromDate = (date: Date): string => {
-  const StartOfISOTimeIndex = 11
-  const EndOfISOTimeIndex = 16
-
-  return formatISO(date).slice(StartOfISOTimeIndex, EndOfISOTimeIndex)
+  return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
 }
 
 export const validateISOTime = (isoTime: string): void => {
