@@ -11,11 +11,23 @@ Features:
 - Time zone required for operations only when relevant
 - Serializable to simple ISO formatted strings
 
+## Dependencies
+
+This package has the following dependencies:
+
+- `date-fns-tz`: used for time zone calculations
+- `date-fns`: it is a peer dependency of `date-fns-tz`
+- `@date-fns/utc`: used for its `UTCDateMini` implementation that simplifies some of the time calculations
+
 ## Design Decisions
 
 ### ISO formatted values
 
-A subset of [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) is used as the valid format for SDate, STime, and STimestamp. This was done to make the values human readable.
+A subset of [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) is used as the valid format for SDate, STime, and STimestamp. This was done because:
+
+- the format is human readable
+- the values are easily sortable as strings
+- the values are easily comparable as strings
 
 ### No seconds in time components
 
