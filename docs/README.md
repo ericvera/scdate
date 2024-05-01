@@ -1,0 +1,93 @@
+scdate • Docs
+
+---
+
+# scdate
+
+## Enumerations
+
+- [Weekday](enumerations/Weekday.md)
+
+## Classes
+
+- [SDate](classes/SDate.md)
+- [STime](classes/STime.md)
+- [STimestamp](classes/STimestamp.md)
+- [SWeekdays](classes/SWeekdays.md)
+
+## Interfaces
+
+- [SDateShortStringOptions](interfaces/SDateShortStringOptions.md)
+- [STimestampShortStringOptions](interfaces/STimestampShortStringOptions.md)
+
+## Functions
+
+- [addDaysToDate](functions/addDaysToDate.md)
+- [addDaysToTimestamp](functions/addDaysToTimestamp.md)
+- [addMinutesToTime](functions/addMinutesToTime.md)
+- [addMinutesToTimestamp](functions/addMinutesToTimestamp.md)
+- [addMonthsToDate](functions/addMonthsToDate.md)
+- [addWeekdayToWeekdays](functions/addWeekdayToWeekdays.md)
+- [addYearsToDate](functions/addYearsToDate.md)
+- [areDatesInSameMonth](functions/areDatesInSameMonth.md)
+- [areDatesInSameYear](functions/areDatesInSameYear.md)
+- [doesWeekdaysHaveOverlapWithWeekdays](functions/doesWeekdaysHaveOverlapWithWeekdays.md)
+- [doesWeekdaysIncludeWeekday](functions/doesWeekdaysIncludeWeekday.md)
+- [filterWeekdaysForDates](functions/filterWeekdaysForDates.md)
+- [get12HourTimeString](functions/get12HourTimeString.md)
+- [get12HoursHoursStringFromTime](functions/get12HoursHoursStringFromTime.md)
+- [getDateForFirstDayOfMonth](functions/getDateForFirstDayOfMonth.md)
+- [getDateForLastDayOfMonth](functions/getDateForLastDayOfMonth.md)
+- [getDateFromDate](functions/getDateFromDate.md)
+- [getDateFromTimestamp](functions/getDateFromTimestamp.md)
+- [getDateToday](functions/getDateToday.md)
+- [getDaysBetweenDates](functions/getDaysBetweenDates.md)
+- [getFullDateString](functions/getFullDateString.md)
+- [getHoursFromTime](functions/getHoursFromTime.md)
+- [getMinutesFromTime](functions/getMinutesFromTime.md)
+- [getMinutesStringFromTime](functions/getMinutesStringFromTime.md)
+- [getMonthFromDate](functions/getMonthFromDate.md)
+- [getNextDateByWeekday](functions/getNextDateByWeekday.md)
+- [getPreviousDateByWeekday](functions/getPreviousDateByWeekday.md)
+- [getSecondsToTimestamp](functions/getSecondsToTimestamp.md)
+- [getShortDateString](functions/getShortDateString.md)
+- [getShortTimestampString](functions/getShortTimestampString.md)
+- [getTimeAtMidnight](functions/getTimeAtMidnight.md)
+- [getTimeFromMinutes](functions/getTimeFromMinutes.md)
+- [getTimeFromTimestamp](functions/getTimeFromTimestamp.md)
+- [getTimeInMinutes](functions/getTimeInMinutes.md)
+- [getTimeNow](functions/getTimeNow.md)
+- [getTimeZonedDateFromDate](functions/getTimeZonedDateFromDate.md)
+- [getTimeZonedDateFromTimestamp](functions/getTimeZonedDateFromTimestamp.md)
+- [getTimestampFromDateAndTime](functions/getTimestampFromDateAndTime.md)
+- [getTimestampFromUTCMilliseconds](functions/getTimestampFromUTCMilliseconds.md)
+- [getTimestampNow](functions/getTimestampNow.md)
+- [getWeekdayFromDate](functions/getWeekdayFromDate.md)
+- [getWeekdaysFromWeekdayFlags](functions/getWeekdaysFromWeekdayFlags.md)
+- [getWeekdaysWithAllIncluded](functions/getWeekdaysWithAllIncluded.md)
+- [getWeekdaysWithNoneIncluded](functions/getWeekdaysWithNoneIncluded.md)
+- [getYearFromDate](functions/getYearFromDate.md)
+- [isAfterDate](functions/isAfterDate.md)
+- [isAfterTime](functions/isAfterTime.md)
+- [isAfterTimestamp](functions/isAfterTimestamp.md)
+- [isBeforeDate](functions/isBeforeDate.md)
+- [isBeforeTime](functions/isBeforeTime.md)
+- [isBeforeTimestamp](functions/isBeforeTimestamp.md)
+- [isDateInCurrentMonth](functions/isDateInCurrentMonth.md)
+- [isDateInCurrentYear](functions/isDateInCurrentYear.md)
+- [isDateToday](functions/isDateToday.md)
+- [isSameDate](functions/isSameDate.md)
+- [isSameDateOrAfter](functions/isSameDateOrAfter.md)
+- [isSameDateOrBefore](functions/isSameDateOrBefore.md)
+- [isSameTime](functions/isSameTime.md)
+- [isSameTimeOrAfter](functions/isSameTimeOrAfter.md)
+- [isSameTimeOrBefore](functions/isSameTimeOrBefore.md)
+- [isSameTimestamp](functions/isSameTimestamp.md)
+- [isSameTimestampOrAfter](functions/isSameTimestampOrAfter.md)
+- [isSameTimestampOrBefore](functions/isSameTimestampOrBefore.md)
+- [isTimePM](functions/isTimePM.md)
+- [sDate](functions/sDate.md)
+- [sTime](functions/sTime.md)
+- [sTimestamp](functions/sTimestamp.md)
+- [sWeekdays](functions/sWeekdays.md)
+- [shiftWeekdaysForward](functions/shiftWeekdaysForward.md)

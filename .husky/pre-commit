@@ -1,23 +1,25 @@
-yarn tsdoc
+yarn docs
 yarn lint-staged
 
 # Check if there are unstaged changes to README.md
-README_MODIFIED=$(git ls-files --modified README.md)
+DOCS_ADDED=$(git ls-files --others --exclude-standard docs/)
+DOCS_MODIFIED=$(git ls-files --modified docs/)
+DOCS_DELETED=$(git ls-files --deleted docs/)
 
 
 
-if [[ ! -z "${README_MODIFIED}" ]]; then
+if [[ ! -z "${DOCS_ADDED}" || ! -z "${DOCS_MODIFIED}" || ! -z "${DOCS_DELETED}" ]]; then
     echo "---------------------------------------------------------------------"
     echo "Commit blocked by pre-commit hook."
     echo "---------------------------------------------------------------------"
     echo "WHY?"
-    echo "There are unstaged changes to README.md which means that those"
-    echo "changes won't be committed. In order to ensure that the documentation"
-    echo "stays up to date with the code documentation is generated using tsdoc"
-    echo "as a precommit hook."
+    echo "There are unstaged changes in the /docs directory which means that"
+    echo "those changes won't be committed. In order to ensure that the "
+    echo "documentation stays up to date with the code documentation is"
+    echo "generated using tsdoc as a precommit hook."
     echo ""
     echo "FIX"
-    echo " 1. Review the changes to README.md"
+    echo " 1. Review the changes to files in the `docs` directory"
     echo " 2. Stage the changes"
     echo " 3. Commit the changes"
     echo "---------------------------------------------------------------------"

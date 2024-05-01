@@ -1,0 +1,14 @@
+{
+  "plugin": ["typedoc-plugin-markdown"],
+  // meta
+  "gitRemote": "origin",
+  // in
+  "entryPoints": ["./src/index.ts"],
+  "entryModule": "index",
+  // out
+  "out": "./docs",
+  // out format
+  "readme": "none",
+  "enumMembersFormat": "table",
+  "parametersFormat": "table"
+}
