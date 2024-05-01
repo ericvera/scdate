@@ -24,4 +24,4 @@ second time. Returns false otherwise.
 
 ## Source
 
-[sTime.ts:254](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/sTime.ts#L254)
+[sTime.ts:254](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTime.ts#L254)

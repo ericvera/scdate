@@ -25,4 +25,4 @@ than 24-hour days, this operation is not affected by time zones.
 
 ## Source
 
-[sTimestamp.ts:279](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/sTimestamp.ts#L279)
+[sTimestamp.ts:279](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTimestamp.ts#L279)

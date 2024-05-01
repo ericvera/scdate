@@ -30,7 +30,7 @@ with a '-' character.
 
 #### Source
 
-[internal/SWeekdays.ts:13](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/internal/SWeekdays.ts#L13)
+[internal/SWeekdays.ts:13](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/SWeekdays.ts#L13)
 
 ## Properties
 
@@ -40,7 +40,7 @@ with a '-' character.
 
 #### Source
 
-[internal/SWeekdays.ts:11](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/internal/SWeekdays.ts#L11)
+[internal/SWeekdays.ts:11](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/SWeekdays.ts#L11)
 
 ## Methods
 
@@ -54,4 +54,4 @@ with a '-' character.
 
 #### Source
 
-[internal/SWeekdays.ts:19](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/internal/SWeekdays.ts#L19)
+[internal/SWeekdays.ts:19](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/SWeekdays.ts#L19)

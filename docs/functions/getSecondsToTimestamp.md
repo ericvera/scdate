@@ -66,4 +66,4 @@ Transition to Eastern Standard Time (EST) in 2024
 
 ## Source
 
-[sTimestamp.ts:174](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/sTimestamp.ts#L174)
+[sTimestamp.ts:174](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTimestamp.ts#L174)

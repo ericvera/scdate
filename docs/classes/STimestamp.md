@@ -26,7 +26,7 @@ STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 
 #### Source
 
-[internal/STimestamp.ts:9](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/internal/STimestamp.ts#L9)
+[internal/STimestamp.ts:9](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/STimestamp.ts#L9)
 
 ## Properties
 
@@ -36,7 +36,7 @@ STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 
 #### Source
 
-[internal/STimestamp.ts:7](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/internal/STimestamp.ts#L7)
+[internal/STimestamp.ts:7](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/STimestamp.ts#L7)
 
 ## Methods
 
@@ -50,4 +50,4 @@ STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 
 #### Source
 
-[internal/STimestamp.ts:15](https://github.com/ericvera/scdate/blob/26a0ee551696abb8d0e853bcc8b83fccd84ac8ae/src/internal/STimestamp.ts#L15)
+[internal/STimestamp.ts:15](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/STimestamp.ts#L15)

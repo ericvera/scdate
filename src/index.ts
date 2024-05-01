@@ -3,3 +3,8 @@ export * from './sDate'
 export * from './sTime'
 export * from './sTimestamp'
 export * from './sWeekdays'
+
+export type * from './internal/SDate'
+export type * from './internal/STime'
+export type * from './internal/STimestamp'
+export type * from './internal/SWeekdays'
