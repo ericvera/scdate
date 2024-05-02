@@ -14,7 +14,7 @@
 
 #### Source
 
-[sDate.ts:23](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L23)
+[sDate.ts:23](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L23)
 
 ---
 
@@ -28,4 +28,4 @@
 
 #### Source
 
-[sDate.ts:24](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L24)
+[sDate.ts:24](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L24)

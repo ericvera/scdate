@@ -22,4 +22,4 @@ Returns a new SDate instance set to the date part of the given timestamp.
 
 ## Source
 
-[sTimestamp.ts:197](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTimestamp.ts#L197)
+[sTimestamp.ts:197](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L197)

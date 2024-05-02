@@ -37,4 +37,4 @@ sWeekdays('SMTWTFS')
 
 ## Source
 
-[sWeekdays.ts:47](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sWeekdays.ts#L47)
+[sWeekdays.ts:47](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L47)

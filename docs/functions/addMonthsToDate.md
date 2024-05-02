@@ -25,4 +25,4 @@ component of the date, this operation is not affected by time zones.
 
 ## Source
 
-[sDate.ts:367](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L367)
+[sDate.ts:367](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L367)

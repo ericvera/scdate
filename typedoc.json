@@ -1,7 +1,6 @@
 {
   "plugin": ["typedoc-plugin-markdown"],
-  // meta
-  "gitRemote": "origin",
+  "gitRevision": "main",
   // in
   "entryPoints": ["./src/index.ts"],
   "entryModule": "index",

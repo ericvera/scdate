@@ -32,4 +32,4 @@ filterWeekdaysForDates('SMTWTFS', '2020-03-05', '2020-03-05')
 
 ## Source
 
-[sWeekdays.ts:162](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sWeekdays.ts#L162)
+[sWeekdays.ts:162](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L162)

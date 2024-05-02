@@ -22,4 +22,4 @@ Returns the minutes from given time as a string (00-59).
 
 ## Source
 
-[sTime.ts:109](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTime.ts#L109)
+[sTime.ts:109](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L109)

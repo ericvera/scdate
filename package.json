@@ -23,7 +23,7 @@
     "test:watch": "vitest",
     "test:utc:watch": "TZ=Etc/Universal yarn test:watch",
     "smoke": "yarn build && yarn lint && yarn test:utc",
-    "docs": "typedoc",
+    "docs": "typedoc && prettier --ignore-unknown --write docs/",
     "-- PRE-COMMIT HOOKS --": "",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",

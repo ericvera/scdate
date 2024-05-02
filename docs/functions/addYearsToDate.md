@@ -25,4 +25,4 @@ component of the date, this method is not affected by leap years.
 
 ## Source
 
-[sDate.ts:388](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L388)
+[sDate.ts:388](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L388)

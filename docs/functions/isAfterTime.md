@@ -24,4 +24,4 @@ time. Returns false otherwise.
 
 ## Source
 
-[sTime.ts:216](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTime.ts#L216)
+[sTime.ts:216](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L216)

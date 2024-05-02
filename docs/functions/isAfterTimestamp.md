@@ -24,4 +24,4 @@ after the second timestamp. Returns false otherwise.
 
 ## Source
 
-[sTimestamp.ts:442](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTimestamp.ts#L442)
+[sTimestamp.ts:442](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L442)

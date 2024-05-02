@@ -22,4 +22,4 @@ Returns a string that represents the time in a 12-hour format (HH:MM AM/PM).
 
 ## Source
 
-[sTime.ts:121](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTime.ts#L121)
+[sTime.ts:121](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L121)

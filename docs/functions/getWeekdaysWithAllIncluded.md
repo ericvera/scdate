@@ -16,4 +16,4 @@ Returns a new SWeekdays instance with all weekdays included.
 
 ## Source
 
-[sWeekdays.ts:96](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sWeekdays.ts#L96)
+[sWeekdays.ts:96](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L96)

@@ -26,7 +26,7 @@ SDate represents a date in the ISO-8601 format (YYYY-MM-DD)
 
 #### Source
 
-[internal/SDate.ts:9](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/SDate.ts#L9)
+[internal/SDate.ts:9](https://github.com/ericvera/scdate/blob/main/src/internal/SDate.ts#L9)
 
 ## Properties
 
@@ -36,7 +36,7 @@ SDate represents a date in the ISO-8601 format (YYYY-MM-DD)
 
 #### Source
 
-[internal/SDate.ts:7](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/SDate.ts#L7)
+[internal/SDate.ts:7](https://github.com/ericvera/scdate/blob/main/src/internal/SDate.ts#L7)
 
 ## Methods
 
@@ -50,4 +50,4 @@ SDate represents a date in the ISO-8601 format (YYYY-MM-DD)
 
 #### Source
 
-[internal/SDate.ts:15](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/internal/SDate.ts#L15)
+[internal/SDate.ts:15](https://github.com/ericvera/scdate/blob/main/src/internal/SDate.ts#L15)

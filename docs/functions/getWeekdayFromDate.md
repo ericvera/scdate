@@ -23,4 +23,4 @@ Returns the day of the week from the given date (Sunday to Saturday / 0 to
 
 ## Source
 
-[sDate.ts:197](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L197)
+[sDate.ts:197](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L197)

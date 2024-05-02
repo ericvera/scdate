@@ -49,4 +49,4 @@ getShortTimestampString('2022-09-11T08:00', 'America/Puerto_Rico', 'es', {
 
 ## Source
 
-[sTimestamp.ts:247](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTimestamp.ts#L247)
+[sTimestamp.ts:247](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L247)

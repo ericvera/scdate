@@ -23,4 +23,4 @@ Returns true when the two times are the same and false otherwise.
 
 ## Source
 
-[sTime.ts:197](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sTime.ts#L197)
+[sTime.ts:197](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L197)

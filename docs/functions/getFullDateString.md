@@ -38,4 +38,4 @@ getFullDateString('2021-02-05', 'en')
 
 ## Source
 
-[sDate.ts:271](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L271)
+[sDate.ts:271](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L271)

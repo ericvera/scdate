@@ -24,4 +24,4 @@ matches the given weekday.
 
 ## Source
 
-[sDate.ts:97](https://github.com/ericvera/scdate/blob/98b214c4aab6f5cdb39bc8c115252b89b40ce8a7/src/sDate.ts#L97)
+[sDate.ts:97](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L97)
