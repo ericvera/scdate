@@ -36,13 +36,14 @@ export const validateISODate = (isoDate: string) => {
   const month = Number(getISOMonthFromISODate(isoDate)) - 1
   const date = Number(getISODateFromISODate(isoDate))
 
-  const nativeDate = new Date(year, month, date)
+  const nativeDate = new Date()
+  nativeDate.setUTCFullYear(year, month, date)
 
   // This will result in an error if for example the date uses 32 as the date
   if (
-    nativeDate.getFullYear() !== year ||
-    nativeDate.getMonth() !== month ||
-    nativeDate.getDate() !== date
+    nativeDate.getUTCFullYear() !== year ||
+    nativeDate.getUTCMonth() !== month ||
+    nativeDate.getUTCDate() !== date
   ) {
     throw new Error(`Invalid ISO date value. Current value: '${isoDate}'.`)
   }
