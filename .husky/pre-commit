@@ -1,14 +1,16 @@
+#!/usr/bin/env sh
+
 yarn docs
 yarn lint-staged
 
 # Check if there are unstaged changes to README.md
-DOCS_ADDED=$(git ls-files --others --exclude-standard docs/)
-DOCS_MODIFIED=$(git ls-files --modified docs/)
-DOCS_DELETED=$(git ls-files --deleted docs/)
+DOCS_ADDED=$(git ls-files --others --exclude-standard docs)
+DOCS_MODIFIED=$(git ls-files --modified docs)
+DOCS_DELETED=$(git ls-files --deleted docs)
 
 
 
-if [[ ! -z "${DOCS_ADDED}" || ! -z "${DOCS_MODIFIED}" || ! -z "${DOCS_DELETED}" ]]; then
+if [ "$DOCS_ADDED" != "" ] || [ "$DOCS_MODIFIED" != "" ] || [ "$DOCS_DELETED" != "" ]; then
     echo "---------------------------------------------------------------------"
     echo "Commit blocked by pre-commit hook."
     echo "---------------------------------------------------------------------"
@@ -19,7 +21,7 @@ if [[ ! -z "${DOCS_ADDED}" || ! -z "${DOCS_MODIFIED}" || ! -z "${DOCS_DELETED}" 
     echo "generated using tsdoc as a precommit hook."
     echo ""
     echo "FIX"
-    echo " 1. Review the changes to files in the `docs` directory"
+    echo " 1. Review the changes to files in the docs directory"
     echo " 2. Stage the changes"
     echo " 3. Commit the changes"
     echo "---------------------------------------------------------------------"
