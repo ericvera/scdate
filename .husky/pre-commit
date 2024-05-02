@@ -8,8 +8,6 @@ DOCS_ADDED=$(git ls-files --others --exclude-standard docs)
 DOCS_MODIFIED=$(git ls-files --modified docs)
 DOCS_DELETED=$(git ls-files --deleted docs)
 
-
-
 if [ "$DOCS_ADDED" != "" ] || [ "$DOCS_MODIFIED" != "" ] || [ "$DOCS_DELETED" != "" ]; then
     echo "---------------------------------------------------------------------"
     echo "Commit blocked by pre-commit hook."
