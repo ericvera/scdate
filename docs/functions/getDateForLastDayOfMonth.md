@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,9 +13,9 @@ provided date.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                                                  |
-| :-------- | :----------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to get the last day of the month for. It can be an SDate<br />or a string in the YYYY-MM-DD format. |
+| Parameter | Type                                       | Description                                                                                             |
+| :-------- | :----------------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to get the last day of the month for. It can be an SDate or a string in the YYYY-MM-DD format. |
 
 ## Returns
 

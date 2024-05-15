@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ combining the given date and time.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                                                |
-| :-------- | :----------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
-| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to use when creating the timestamp. It can be an SDate<br />or a string in the YYYY-MM-DD format. |
-| `time`    | `string` \| [`STime`](../classes/STime.md) | The time to use when creating the timestamp. It can be an STime<br />or a string in the HH:MM format.      |
+| Parameter | Type                                       | Description                                                                                           |
+| :-------- | :----------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to use when creating the timestamp. It can be an SDate or a string in the YYYY-MM-DD format. |
+| `time`    | `string` \| [`STime`](../classes/STime.md) | The time to use when creating the timestamp. It can be an STime or a string in the HH:MM format.      |
 
 ## Returns
 

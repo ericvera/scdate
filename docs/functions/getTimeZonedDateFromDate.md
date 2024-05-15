@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ the local time at the specified time zone.
 
 ## Parameters
 
-| Parameter  | Type                                       | Description                                                                                                        |
-| :--------- | :----------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
-| `date`     | `string` \| [`SDate`](../classes/SDate.md) | The date to get the time zoned date from. It can be an SDate or a<br />string in the YYYY-MM-DD format.            |
-| `timeZone` | `string`                                   | The time zone to adjust the date to. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter  | Type                                       | Description                                                                                                   |
+| :--------- | :----------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| `date`     | `string` \| [`SDate`](../classes/SDate.md) | The date to get the time zoned date from. It can be an SDate or a string in the YYYY-MM-DD format.            |
+| `timeZone` | `string`                                   | The time zone to adjust the date to. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 

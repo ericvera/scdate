@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -16,10 +16,10 @@ adjustments.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                                            |
-| :-------- | :----------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to get the days between. It can be an SDate or a<br />string in the YYYY-MM-DD format.  |
-| `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to get the days between. It can be an SDate or a<br />string in the YYYY-MM-DD format. |
+| Parameter | Type                                       | Description                                                                                       |
+| :-------- | :----------------------------------------- | :------------------------------------------------------------------------------------------------ |
+| `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to get the days between. It can be an SDate or a string in the YYYY-MM-DD format.  |
+| `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to get the days between. It can be an SDate or a string in the YYYY-MM-DD format. |
 
 ## Returns
 

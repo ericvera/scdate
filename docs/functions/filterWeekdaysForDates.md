@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,11 +13,11 @@ provided date range are included.
 
 ## Parameters
 
-| Parameter  | Type                                               | Description                                                                                |
-| :--------- | :------------------------------------------------- | :----------------------------------------------------------------------------------------- |
-| `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to filter. It can be an SWeekdays or a string in<br />the SMTWTFS format.     |
-| `fromDate` | `string` \| [`SDate`](../classes/SDate.md)         | The start date of the range. It can be an SDate or a string<br />in the YYYY-MM-DD format. |
-| `toDate`   | `string` \| [`SDate`](../classes/SDate.md)         | The end date of the range. It can be an SDate or a string in<br />the YYYY-MM-DD format.   |
+| Parameter  | Type                                               | Description                                                                           |
+| :--------- | :------------------------------------------------- | :------------------------------------------------------------------------------------ |
+| `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to filter. It can be an SWeekdays or a string in the SMTWTFS format.     |
+| `fromDate` | `string` \| [`SDate`](../classes/SDate.md)         | The start date of the range. It can be an SDate or a string in the YYYY-MM-DD format. |
+| `toDate`   | `string` \| [`SDate`](../classes/SDate.md)         | The end date of the range. It can be an SDate or a string in the YYYY-MM-DD format.   |
 
 ## Returns
 

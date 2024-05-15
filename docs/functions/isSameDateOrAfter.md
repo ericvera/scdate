@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ date or after the second date and false otherwise.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                                   |
-| :-------- | :----------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to compare. It can be an SDate or a string in the<br />YYYY-MM-DD format.      |
-| `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to compare. It can be an SDate or a string in the<br />the YYYY-MM-DD format. |
+| Parameter | Type                                       | Description                                                                              |
+| :-------- | :----------------------------------------- | :--------------------------------------------------------------------------------------- |
+| `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to compare. It can be an SDate or a string in the YYYY-MM-DD format.      |
+| `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to compare. It can be an SDate or a string in the the YYYY-MM-DD format. |
 
 ## Returns
 

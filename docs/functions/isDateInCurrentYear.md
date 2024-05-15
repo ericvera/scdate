@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ the given time zone. Returns false otherwise.
 
 ## Parameters
 
-| Parameter  | Type                                       | Description                                                                                                                              |
-| :--------- | :----------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| `date`     | `string` \| [`SDate`](../classes/SDate.md) | The date to check if it is in the current year. It can be an<br />SDate or a string in the YYYY-MM-DD format.                            |
-| `timeZone` | `string`                                   | The time zone to check if the date is in the current year.<br />See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter  | Type                                       | Description                                                                                                                         |
+| :--------- | :----------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `date`     | `string` \| [`SDate`](../classes/SDate.md) | The date to check if it is in the current year. It can be an SDate or a string in the YYYY-MM-DD format.                            |
+| `timeZone` | `string`                                   | The time zone to check if the date is in the current year. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 

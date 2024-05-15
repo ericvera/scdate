@@ -1,4 +1,4 @@
-scdate • Docs
+**scdate** • **Docs**
 
 ---
 

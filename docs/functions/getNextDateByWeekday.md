@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ that match the given weekday.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                                          |
-| :-------- | :----------------------------------------- | :--------------------------------------------------------------------------------------------------- |
-| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to start from (not included). It can be an SDate or a<br />string in the YYYY-MM-DD format. |
-| `weekday` | [`Weekday`](../enumerations/Weekday.md)    | The weekday to find the next date for.                                                               |
+| Parameter | Type                                       | Description                                                                                     |
+| :-------- | :----------------------------------------- | :---------------------------------------------------------------------------------------------- |
+| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to start from (not included). It can be an SDate or a string in the YYYY-MM-DD format. |
+| `weekday` | [`Weekday`](../enumerations/Weekday.md)    | The weekday to find the next date for.                                                          |
 
 ## Returns
 

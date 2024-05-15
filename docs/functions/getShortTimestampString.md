@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -14,18 +14,18 @@ the `getShortDateString` method, and `get12HourTimeString`.
 
 ## Parameters
 
-| Parameter   | Type                                                                            | Description                                                                                                                        |
-| :---------- | :------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md)                            | The timestamp to get the short string from. It can be an<br />STimestamp or a string in the YYYY-MM-DDTHH:MM format.               |
-| `timeZone`  | `string`                                                                        | The time zone to use when creating the short string. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
-| `locale`    | `LocalesArgument`                                                               | The locale to use for the string representation.                                                                                   |
-| `options`   | [`STimestampShortStringOptions`](../interfaces/STimestampShortStringOptions.md) | An object with options for the short string representation.                                                                        |
+| Parameter   | Type                                                                            | Description                                                                                                                   |
+| :---------- | :------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------- |
+| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md)                            | The timestamp to get the short string from. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format.               |
+| `timeZone`  | `string`                                                                        | The time zone to use when creating the short string. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| `locale`    | `LocalesArgument`                                                               | The locale to use for the string representation.                                                                              |
+| `options`   | [`STimestampShortStringOptions`](../interfaces/STimestampShortStringOptions.md) | An object with options for the short string representation.                                                                   |
 
 ## Returns
 
 `string`
 
-## Example
+## Examples
 
 ```ts
 // Example when the timestamp is today
@@ -35,8 +35,6 @@ getShortTimestampString('2021-08-10T08:00', 'America/Puerto_Rico', 'en', {
 })
 //=> 'Today at 8:00 AM'
 ```
-
-## Example
 
 ```ts
 // Example when the timestamp is not today

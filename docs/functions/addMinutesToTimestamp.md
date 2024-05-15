@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -65,11 +65,11 @@ Transition to Eastern Standard Time (EST) in 2024
 
 ## Parameters
 
-| Parameter   | Type                                                 | Description                                                                                                                     |
-| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The timestamp to add minutes to. It can be an STimestamp or<br />a string in the YYYY-MM-DDTHH:MM format.                       |
-| `minutes`   | `number`                                             | The number of minutes to add to the timestamp.                                                                                  |
-| `timeZone`  | `string`                                             | The time zone to use when creating the timestamp. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter   | Type                                                 | Description                                                                                                                |
+| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The timestamp to add minutes to. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format.                       |
+| `minutes`   | `number`                                             | The number of minutes to add to the timestamp.                                                                             |
+| `timeZone`  | `string`                                             | The time zone to use when creating the timestamp. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 

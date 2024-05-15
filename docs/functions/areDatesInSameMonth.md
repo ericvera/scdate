@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -14,23 +14,21 @@ otherwise.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                               |
-| :-------- | :----------------------------------------- | :---------------------------------------------------------------------------------------- |
-| `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to compare. It can be an SDate or a string in the<br />YYYY-MM-DD format.  |
-| `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to compare. It can be an SDate or a string in<br />the YYYY-MM-DD format. |
+| Parameter | Type                                       | Description                                                                          |
+| :-------- | :----------------------------------------- | :----------------------------------------------------------------------------------- |
+| `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to compare. It can be an SDate or a string in the YYYY-MM-DD format.  |
+| `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to compare. It can be an SDate or a string in the YYYY-MM-DD format. |
 
 ## Returns
 
 `boolean`
 
-## Example
+## Examples
 
 ```ts
 areDatesInSameMonth('2021-02-05', '2021-02-15')
 //=> true
 ```
-
-## Example
 
 ```ts
 areDatesInSameMonth('2022-02-05', '2023-02-15')

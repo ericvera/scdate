@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ false otherwise.
 
 ## Parameters
 
-| Parameter  | Type                                               | Description                                                                           |
-| :--------- | :------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to check. It can be an SWeekdays or a string in<br />the SMTWTFS format. |
-| `weekday`  | [`Weekday`](../enumerations/Weekday.md)            | The weekday to check.                                                                 |
+| Parameter  | Type                                               | Description                                                                      |
+| :--------- | :------------------------------------------------- | :------------------------------------------------------------------------------- |
+| `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to check. It can be an SWeekdays or a string in the SMTWTFS format. |
+| `weekday`  | [`Weekday`](../enumerations/Weekday.md)            | The weekday to check.                                                            |
 
 ## Returns
 

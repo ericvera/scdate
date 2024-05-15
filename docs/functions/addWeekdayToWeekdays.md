@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ current set of weekdays.
 
 ## Parameters
 
-| Parameter      | Type                                               | Description                                                                                        |
-| :------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------------------- |
-| `weekdays`     | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to add the weekday to. It can be an SWeekdays or<br />a string in the SMTWTFS format. |
-| `weekdayToAdd` | [`Weekday`](../enumerations/Weekday.md)            | The weekday to add.                                                                                |
+| Parameter      | Type                                               | Description                                                                                   |
+| :------------- | :------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
+| `weekdays`     | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to add the weekday to. It can be an SWeekdays or a string in the SMTWTFS format. |
+| `weekdayToAdd` | [`Weekday`](../enumerations/Weekday.md)            | The weekday to add.                                                                           |
 
 ## Returns
 

@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -12,9 +12,9 @@ Returns a new STimestamp instance.
 
 ## Parameters
 
-| Parameter   | Type                                                 | Description                                                                |
-| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------- |
-| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | An instance of STimestamp or a string in the<br />YYYY-MM-DDTHH:MM format. |
+| Parameter   | Type                                                 | Description                                                           |
+| :---------- | :--------------------------------------------------- | :-------------------------------------------------------------------- |
+| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | An instance of STimestamp or a string in the YYYY-MM-DDTHH:MM format. |
 
 ## Returns
 

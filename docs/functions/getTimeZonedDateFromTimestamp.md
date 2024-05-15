@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,10 +13,10 @@ the local timestamp at the specified time zone.
 
 ## Parameters
 
-| Parameter   | Type                                                 | Description                                                                                                        |
-| :---------- | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
-| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | -                                                                                                                  |
-| `timeZone`  | `string`                                             | The time zone to adjust the date to. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter   | Type                                                 | Description                                                                                                   |
+| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | -                                                                                                             |
+| `timeZone`  | `string`                                             | The time zone to adjust the date to. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 

@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -14,10 +14,10 @@ than 24-hour days, this operation is not affected by time zones.
 
 ## Parameters
 
-| Parameter   | Type                                                 | Description                                                                                            |
-| :---------- | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The timestamp to add days to. It can be an STimestamp or a<br />string in the YYYY-MM-DDTHH:MM format. |
-| `days`      | `number`                                             | The number of days to add to the timestamp.                                                            |
+| Parameter   | Type                                                 | Description                                                                                       |
+| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------ |
+| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The timestamp to add days to. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format. |
+| `days`      | `number`                                             | The number of days to add to the timestamp.                                                       |
 
 ## Returns
 

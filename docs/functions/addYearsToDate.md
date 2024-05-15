@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -14,10 +14,10 @@ component of the date, this method is not affected by leap years.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                             |
-| :-------- | :----------------------------------------- | :-------------------------------------------------------------------------------------- |
-| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to add years to. It can be an SDate or a string in the<br />YYYY-MM-DD format. |
-| `years`   | `number`                                   | The number of years to add to the date.                                                 |
+| Parameter | Type                                       | Description                                                                        |
+| :-------- | :----------------------------------------- | :--------------------------------------------------------------------------------- |
+| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to add years to. It can be an SDate or a string in the YYYY-MM-DD format. |
+| `years`   | `number`                                   | The number of years to add to the date.                                            |
 
 ## Returns
 

@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -21,15 +21,13 @@ provided weekdays can be any combination of the Weekday enum values.
 
 [`SWeekdays`](../classes/SWeekdays.md)
 
-## Example
+## Examples
 
 ```ts
 getWeekdaysFromWeekdayFlags(Weekday.Monday | Weekday.Wednesday | Weekday.Friday)
 // Returns an instance of SWeekdays with the weekdays Monday, Wednesday, and
 // Friday included while the rest are excluded.
 ```
-
-## Example
 
 ```ts
 getWeekdaysFromWeekdayFlags(Weekday.Tuesday)

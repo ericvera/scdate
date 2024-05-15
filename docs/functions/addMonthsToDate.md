@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -14,10 +14,10 @@ component of the date, this operation is not affected by time zones.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                              |
-| :-------- | :----------------------------------------- | :--------------------------------------------------------------------------------------- |
-| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to add months to. It can be an SDate or a string in the<br />YYYY-MM-DD format. |
-| `months`  | `number`                                   | The number of months to add to the date.                                                 |
+| Parameter | Type                                       | Description                                                                         |
+| :-------- | :----------------------------------------- | :---------------------------------------------------------------------------------- |
+| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to add months to. It can be an SDate or a string in the YYYY-MM-DD format. |
+| `months`  | `number`                                   | The number of months to add to the date.                                            |
 
 ## Returns
 

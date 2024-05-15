@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -12,9 +12,9 @@ Returns the year from the given date.
 
 ## Parameters
 
-| Parameter | Type                                       | Description                                                                                  |
-| :-------- | :----------------------------------------- | :------------------------------------------------------------------------------------------- |
-| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to get the year from. It can be an SDate or a string in<br />the YYYY-MM-DD format. |
+| Parameter | Type                                       | Description                                                                             |
+| :-------- | :----------------------------------------- | :-------------------------------------------------------------------------------------- |
+| `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to get the year from. It can be an SDate or a string in the YYYY-MM-DD format. |
 
 ## Returns
 

@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -12,10 +12,10 @@ Returns the time converted to minutes since midnight.
 
 ## Parameters
 
-| Parameter      | Type                                       | Default value | Description                                                                                |
-| :------------- | :----------------------------------------- | :------------ | :----------------------------------------------------------------------------------------- |
-| `time`         | `string` \| [`STime`](../classes/STime.md) | `undefined`   | The time to get the minutes from. It can be an STime or a string<br />in the HH:MM format. |
-| `midnightIs24` | `boolean`                                  | `false`       | -                                                                                          |
+| Parameter      | Type                                       | Default value | Description                                                                           |
+| :------------- | :----------------------------------------- | :------------ | :------------------------------------------------------------------------------------ |
+| `time`         | `string` \| [`STime`](../classes/STime.md) | `undefined`   | The time to get the minutes from. It can be an STime or a string in the HH:MM format. |
+| `midnightIs24` | `boolean`                                  | `false`       | -                                                                                     |
 
 ## Returns
 

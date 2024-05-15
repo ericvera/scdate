@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,9 +13,9 @@ day.
 
 ## Parameters
 
-| Parameter  | Type                                               | Description                                                                                   |
-| :--------- | :------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to shift forward. It can be an SWeekdays or a<br />string in the SMTWTFS format. |
+| Parameter  | Type                                               | Description                                                                              |
+| :--------- | :------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to shift forward. It can be an SWeekdays or a string in the SMTWTFS format. |
 
 ## Returns
 

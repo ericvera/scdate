@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -12,9 +12,9 @@ Returns a new STime instance with the current time in the given time zone.
 
 ## Parameters
 
-| Parameter  | Type     | Description                                                                                                             |
-| :--------- | :------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `timeZone` | `string` | The time zone to get the current time in. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter  | Type     | Description                                                                                                        |
+| :--------- | :------- | :----------------------------------------------------------------------------------------------------------------- |
+| `timeZone` | `string` | The time zone to get the current time in. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 

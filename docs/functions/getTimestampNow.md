@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -13,9 +13,9 @@ given time zone.
 
 ## Parameters
 
-| Parameter  | Type     | Description                                                                                                                     |
-| :--------- | :------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| `timeZone` | `string` | The time zone to use when creating the timestamp. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter  | Type     | Description                                                                                                                |
+| :--------- | :------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `timeZone` | `string` | The time zone to use when creating the timestamp. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 

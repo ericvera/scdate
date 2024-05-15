@@ -1,4 +1,4 @@
-[scdate](../README.md) • Docs
+[**scdate**](../README.md) • **Docs**
 
 ---
 
@@ -55,10 +55,10 @@ Transition to Eastern Standard Time (EST) in 2024
 
 ## Parameters
 
-| Parameter   | Type                                                 | Description                                                                                                                     |
-| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The timestamp to get the seconds to. It can be an STimestamp<br />or a string in the YYYY-MM-DDTHH:MM format.                   |
-| `timeZone`  | `string`                                             | The time zone to use when creating the timestamp. See<br />`Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
+| Parameter   | Type                                                 | Description                                                                                                                |
+| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The timestamp to get the seconds to. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format.                   |
+| `timeZone`  | `string`                                             | The time zone to use when creating the timestamp. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 
