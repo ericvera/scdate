@@ -1,6 +1,6 @@
 import { fromZonedTime } from 'date-fns-tz'
 import { vi } from 'vitest'
-import { TestLocalTimeZone } from './constants'
+import { TestLocalTimeZone } from './constants.js'
 
 export const setFakeTimer = (
   isoDateTime: string,

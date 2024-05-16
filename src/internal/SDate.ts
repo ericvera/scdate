@@ -1,4 +1,4 @@
-import { validateISODate } from './date'
+import { validateISODate } from './date.js'
 
 /**
  * SDate represents a date in the ISO-8601 format (YYYY-MM-DD)

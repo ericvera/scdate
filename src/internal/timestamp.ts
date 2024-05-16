@@ -1,7 +1,7 @@
 import { UTCDateMini } from '@date-fns/utc'
-import { STimestamp } from './STimestamp'
-import { getISODateFromZonedDate, validateISODate } from './date'
-import { getISOTimeFromDate, validateISOTime } from './time'
+import { STimestamp } from './STimestamp.js'
+import { getISODateFromZonedDate, validateISODate } from './date.js'
+import { getISOTimeFromDate, validateISOTime } from './time.js'
 
 export const getISODateFromISOTimestamp = (isoTimestamp: string): string => {
   const EndOfDateIndex = 10

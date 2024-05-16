@@ -1,4 +1,4 @@
-import { validateWeekdays } from './weekdays'
+import { validateWeekdays } from './weekdays.js'
 
 /**
  * SWeekdays represents a string of weekdays in the format 'SMTWTFS' where each

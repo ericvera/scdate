@@ -1,5 +1,5 @@
-import { Weekday } from '../constants'
-import { DayToWeekday } from './constants'
+import { Weekday } from '../constants.js'
+import { DayToWeekday } from './constants.js'
 
 export const validateWeekdays = (weekdays: string): void => {
   const ValidWeekdays = /^[S-][M-][T-][W-][T-][F-][S-]$/

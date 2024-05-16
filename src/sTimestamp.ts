@@ -1,22 +1,22 @@
-import { SDate } from './internal/SDate'
-import { STime } from './internal/STime'
-import { STimestamp } from './internal/STimestamp'
+import { SDate } from './internal/SDate.js'
+import { STime } from './internal/STime.js'
+import { STimestamp } from './internal/STimestamp.js'
 import {
   MillisecondsInMinute,
   MillisecondsInSecond,
-} from './internal/constants'
+} from './internal/constants.js'
 import {
   getISODateFromISOTimestamp,
   getISOTimeFromISOTimestamp,
   getISOTimestampFromZonedDate,
   getTimestampAsUTCDateMini,
-} from './internal/timestamp'
+} from './internal/timestamp.js'
 import {
   getMillisecondsInUTCFromTimestamp,
   getTimeZonedDate,
-} from './internal/zoned'
-import { getShortDateString, sDate } from './sDate'
-import { get12HourTimeString, sTime } from './sTime'
+} from './internal/zoned.js'
+import { getShortDateString, sDate } from './sDate.js'
+import { get12HourTimeString, sTime } from './sTime.js'
 
 export interface STimestampShortStringOptions {
   includeWeekday: boolean

@@ -1,4 +1,4 @@
-import { Weekday } from '../constants'
+import { Weekday } from '../constants.js'
 
 export const DayToWeekday: Weekday[] = [
   Weekday.Sun,

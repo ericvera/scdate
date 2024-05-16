@@ -2,9 +2,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   TestLocalTimeZone,
   TestLocalTimeZoneWithDaylight,
-} from './__test__/constants'
-import { setFakeTimer } from './__test__/setFakeTimer'
-import { Weekday } from './constants'
+} from './__test__/constants.js'
+import { setFakeTimer } from './__test__/setFakeTimer.js'
+import { Weekday } from './constants.js'
 import {
   addDaysToDate,
   addMonthsToDate,
@@ -33,7 +33,7 @@ import {
   isSameDateOrAfter,
   isSameDateOrBefore,
   sDate,
-} from './sDate'
+} from './sDate.js'
 
 beforeEach(() => {
   vi.useRealTimers()

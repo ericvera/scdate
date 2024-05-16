@@ -1,5 +1,5 @@
 import { UTCDateMini } from '@date-fns/utc'
-import { SDate } from './SDate'
+import { SDate } from './SDate.js'
 
 export const getISOYearFromISODate = (isoDate: string): string => {
   const EndOfYearIndex = 4

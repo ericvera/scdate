@@ -1,9 +1,9 @@
 import { UTCDateMini } from '@date-fns/utc'
 import { getTimezoneOffset, toZonedTime } from 'date-fns-tz'
-import { SDate } from './SDate'
-import { STimestamp } from './STimestamp'
-import { getDateAsUTCDateMini } from './date'
-import { getTimestampAsUTCDateMini } from './timestamp'
+import { SDate } from './SDate.js'
+import { STimestamp } from './STimestamp.js'
+import { getDateAsUTCDateMini } from './date.js'
+import { getTimestampAsUTCDateMini } from './timestamp.js'
 
 const getValidatedTimeZoneOffset = (timeZone: string, utcDate: UTCDateMini) => {
   const timeZoneOffset = getTimezoneOffset(timeZone, utcDate)

@@ -1,11 +1,11 @@
-import { STime } from './internal/STime'
-import { MinutesInDay, MinutesInHour } from './internal/constants'
+import { STime } from './internal/STime.js'
+import { MinutesInDay, MinutesInHour } from './internal/constants.js'
 import {
   getISOHoursFromISOTime,
   getISOMinutesFromISOTime,
   getISOTimeFromDate,
-} from './internal/time'
-import { getTimeZonedDate } from './internal/zoned'
+} from './internal/time.js'
+import { getTimeZonedDate } from './internal/zoned.js'
 
 /**
  * --- Factory ---

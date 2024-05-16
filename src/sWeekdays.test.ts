@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Weekday } from './constants'
-import { sDate } from './sDate'
+import { Weekday } from './constants.js'
+import { sDate } from './sDate.js'
 import {
   addWeekdayToWeekdays,
   doesWeekdaysHaveOverlapWithWeekdays,
@@ -11,7 +11,7 @@ import {
   getWeekdaysWithNoneIncluded,
   sWeekdays,
   shiftWeekdaysForward,
-} from './sWeekdays'
+} from './sWeekdays.js'
 
 beforeEach(() => {
   vi.useRealTimers()

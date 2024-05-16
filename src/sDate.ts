@@ -1,23 +1,23 @@
-import { Weekday } from './constants'
-import { SDate } from './internal/SDate'
+import { Weekday } from './constants.js'
+import { SDate } from './internal/SDate.js'
 import {
   DayToWeekday,
   DaysInWeek,
   MillisecondsInDay,
-} from './internal/constants'
+} from './internal/constants.js'
 import {
   getDateAsUTCDateMini,
   getISODateFromISODate,
   getISODateFromZonedDate,
   getISOMonthFromISODate,
   getISOYearFromISODate,
-} from './internal/date'
-import { getAtIndex } from './internal/utils'
-import { getIndexForWeekday } from './internal/weekdays'
+} from './internal/date.js'
+import { getAtIndex } from './internal/utils.js'
+import { getIndexForWeekday } from './internal/weekdays.js'
 import {
   getMillisecondsInUTCFromDate,
   getTimeZonedDate,
-} from './internal/zoned'
+} from './internal/zoned.js'
 
 export interface SDateShortStringOptions {
   includeWeekday: boolean

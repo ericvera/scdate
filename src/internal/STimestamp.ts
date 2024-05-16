@@ -1,4 +1,4 @@
-import { validateISOTimestamp } from './timestamp'
+import { validateISOTimestamp } from './timestamp.js'
 
 /**
  * STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)

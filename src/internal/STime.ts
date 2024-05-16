@@ -1,4 +1,4 @@
-import { validateISOTime } from './time'
+import { validateISOTime } from './time.js'
 
 /**
  * STime represents a time in the ISO-8601 format (HH:MM)

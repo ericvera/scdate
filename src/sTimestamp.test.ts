@@ -2,11 +2,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   TestLocalTimeZone,
   TestLocalTimeZoneWithDaylight,
-} from './__test__/constants'
-import { setFakeTimer } from './__test__/setFakeTimer'
-import { SecondsInHour, SecondsInMinute } from './internal/constants'
-import { sDate } from './sDate'
-import { sTime } from './sTime'
+} from './__test__/constants.js'
+import { setFakeTimer } from './__test__/setFakeTimer.js'
+import { SecondsInHour, SecondsInMinute } from './internal/constants.js'
+import { sDate } from './sDate.js'
+import { sTime } from './sTime.js'
 import {
   addDaysToTimestamp,
   addMinutesToTimestamp,
@@ -24,7 +24,7 @@ import {
   isSameTimestampOrAfter,
   isSameTimestampOrBefore,
   sTimestamp,
-} from './sTimestamp'
+} from './sTimestamp.js'
 
 beforeEach(() => {
   vi.useRealTimers()

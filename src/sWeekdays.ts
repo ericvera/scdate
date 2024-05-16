@@ -2,12 +2,12 @@
  * --- Factory ---
  */
 
-import { Weekday } from './constants'
-import { SDate } from './internal/SDate'
-import { SWeekdays } from './internal/SWeekdays'
-import { DayToWeekday, DaysInWeek } from './internal/constants'
-import { getAtIndex, hasFlag } from './internal/utils'
-import { getIndexForWeekday } from './internal/weekdays'
+import { Weekday } from './constants.js'
+import { SDate } from './internal/SDate.js'
+import { SWeekdays } from './internal/SWeekdays.js'
+import { DayToWeekday, DaysInWeek } from './internal/constants.js'
+import { getAtIndex, hasFlag } from './internal/utils.js'
+import { getIndexForWeekday } from './internal/weekdays.js'
 import {
   addDaysToDate,
   getDaysBetweenDates,
@@ -15,7 +15,7 @@ import {
   isAfterDate,
   isSameDateOrBefore,
   sDate,
-} from './sDate'
+} from './sDate.js'
 
 const AllWeekdaysIncludedMask = 'SMTWTFS'
 const NotIncludedDay = '-'
