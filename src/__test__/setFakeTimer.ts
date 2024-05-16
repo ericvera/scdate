@@ -9,7 +9,7 @@ export const setFakeTimer = (
   const [date = '', time = ''] = isoDateTime.split('T')
 
   const [year, month, day] = date.split('-')
-  const [hours = '0', minutes = '0', seconds = '0', ms = '0'] =
+  const [hours = '0', minutes = '0', seconds = '0'] =
     time.length > 0 ? time.split(':') : []
 
   if (year === undefined || month === undefined || day === undefined) {
@@ -25,7 +25,6 @@ export const setFakeTimer = (
     parseInt(hours),
     parseInt(minutes),
     parseInt(seconds),
-    parseInt(ms),
   )
 
   const now = fromZonedTime(localNow, timeZone)
