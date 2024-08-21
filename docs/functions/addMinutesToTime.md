@@ -15,7 +15,7 @@ clock.
 ## Parameters
 
 | Parameter | Type                                       | Description                                                                         |
-| :-------- | :----------------------------------------- | :---------------------------------------------------------------------------------- |
+| --------- | ------------------------------------------ | ----------------------------------------------------------------------------------- |
 | `time`    | `string` \| [`STime`](../classes/STime.md) | The time to add the minutes to. It can be an STime or a string in the HH:MM format. |
 | `minutes` | `number`                                   | The number of minutes to add.                                                       |
 
@@ -23,6 +23,6 @@ clock.
 
 [`STime`](../classes/STime.md)
 
-## Source
+## Defined in
 
 [sTime.ts:165](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L165)

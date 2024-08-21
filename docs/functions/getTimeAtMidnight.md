@@ -14,6 +14,6 @@ Returns a new STime instance with the time at midnight (00:00).
 
 [`STime`](../classes/STime.md)
 
-## Source
+## Defined in
 
 [sTime.ts:46](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L46)

@@ -15,7 +15,7 @@ the `getShortDateString` method, and `get12HourTimeString`.
 ## Parameters
 
 | Parameter   | Type                                                                            | Description                                                                                                                   |
-| :---------- | :------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------- |
+| ----------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md)                            | The timestamp to get the short string from. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format.               |
 | `timeZone`  | `string`                                                                        | The time zone to use when creating the short string. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 | `locale`    | `LocalesArgument`                                                               | The locale to use for the string representation.                                                                              |
@@ -45,6 +45,6 @@ getShortTimestampString('2022-09-11T08:00', 'America/Puerto_Rico', 'es', {
 //=> 'dom, 11 sept 22 8:00 AM'
 ```
 
-## Source
+## Defined in
 
 [sTimestamp.ts:247](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L247)

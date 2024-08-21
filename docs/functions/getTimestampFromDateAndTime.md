@@ -14,7 +14,7 @@ combining the given date and time.
 ## Parameters
 
 | Parameter | Type                                       | Description                                                                                           |
-| :-------- | :----------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| --------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to use when creating the timestamp. It can be an SDate or a string in the YYYY-MM-DD format. |
 | `time`    | `string` \| [`STime`](../classes/STime.md) | The time to use when creating the timestamp. It can be an STime or a string in the HH:MM format.      |
 
@@ -22,6 +22,6 @@ combining the given date and time.
 
 [`STimestamp`](../classes/STimestamp.md)
 
-## Source
+## Defined in
 
 [sTimestamp.ts:86](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L86)

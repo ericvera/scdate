@@ -14,7 +14,7 @@ false otherwise.
 ## Parameters
 
 | Parameter  | Type                                               | Description                                                                      |
-| :--------- | :------------------------------------------------- | :------------------------------------------------------------------------------- |
+| ---------- | -------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to check. It can be an SWeekdays or a string in the SMTWTFS format. |
 | `weekday`  | [`Weekday`](../enumerations/Weekday.md)            | The weekday to check.                                                            |
 
@@ -22,6 +22,6 @@ false otherwise.
 
 `boolean`
 
-## Source
+## Defined in
 
 [sWeekdays.ts:234](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L234)

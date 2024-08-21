@@ -14,7 +14,7 @@ the local timestamp at the specified time zone.
 ## Parameters
 
 | Parameter   | Type                                                 | Description                                                                                                   |
-| :---------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| ----------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `timestamp` | `string` \| [`STimestamp`](../classes/STimestamp.md) | -                                                                                                             |
 | `timeZone`  | `string`                                             | The time zone to adjust the date to. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
@@ -22,6 +22,6 @@ the local timestamp at the specified time zone.
 
 `Date`
 
-## Source
+## Defined in
 
 [sTimestamp.ts:109](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L109)

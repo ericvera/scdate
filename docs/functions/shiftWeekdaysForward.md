@@ -14,7 +14,7 @@ day.
 ## Parameters
 
 | Parameter  | Type                                               | Description                                                                              |
-| :--------- | :------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The weekdays to shift forward. It can be an SWeekdays or a string in the SMTWTFS format. |
 
 ## Returns
@@ -29,6 +29,6 @@ shiftWeekdaysForward('SM----S')
 // day. 'SM----S' becomes 'SMT----'.
 ```
 
-## Source
+## Defined in
 
 [sWeekdays.ts:125](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L125)

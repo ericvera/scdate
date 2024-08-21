@@ -14,13 +14,13 @@ number of minutes to midnight (00:00).
 ## Parameters
 
 | Parameter       | Type     | Description                               |
-| :-------------- | :------- | :---------------------------------------- |
+| --------------- | -------- | ----------------------------------------- |
 | `timeInMinutes` | `number` | The number of minutes to add to midnight. |
 
 ## Returns
 
 [`STime`](../classes/STime.md)
 
-## Source
+## Defined in
 
 [sTime.ts:54](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L54)

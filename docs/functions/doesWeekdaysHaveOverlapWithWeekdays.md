@@ -14,7 +14,7 @@ weekdays2. Returns false otherwise.
 ## Parameters
 
 | Parameter   | Type                                               | Description                                                                                      |
-| :---------- | :------------------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| ----------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | `weekdays1` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The first set of weekdays to compare. It can be an SWeekdays or a string in the SMTWTFS format.  |
 | `weekdays2` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | The second set of weekdays to compare. It can be an SWeekdays or a string in the SMTWTFS format. |
 
@@ -22,6 +22,6 @@ weekdays2. Returns false otherwise.
 
 `boolean`
 
-## Source
+## Defined in
 
 [sWeekdays.ts:253](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L253)

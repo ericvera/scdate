@@ -17,14 +17,14 @@ STime represents a time in the ISO-8601 format (HH:MM)
 #### Parameters
 
 | Parameter  | Type     |
-| :--------- | :------- |
+| ---------- | -------- |
 | `isoValue` | `string` |
 
 #### Returns
 
 [`STime`](STime.md)
 
-#### Source
+#### Defined in
 
 [internal/STime.ts:9](https://github.com/ericvera/scdate/blob/main/src/internal/STime.ts#L9)
 
@@ -34,7 +34,7 @@ STime represents a time in the ISO-8601 format (HH:MM)
 
 > `readonly` **time**: `string`
 
-#### Source
+#### Defined in
 
 [internal/STime.ts:7](https://github.com/ericvera/scdate/blob/main/src/internal/STime.ts#L7)
 
@@ -48,6 +48,6 @@ STime represents a time in the ISO-8601 format (HH:MM)
 
 `string`
 
-#### Source
+#### Defined in
 
 [internal/STime.ts:15](https://github.com/ericvera/scdate/blob/main/src/internal/STime.ts#L15)

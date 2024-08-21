@@ -14,7 +14,7 @@ before the second timestamp. Returns false otherwise.
 ## Parameters
 
 | Parameter    | Type                                                 | Description                                                                                          |
-| :----------- | :--------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
+| ------------ | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | `timestamp1` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The first timestamp to compare. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format.  |
 | `timestamp2` | `string` \| [`STimestamp`](../classes/STimestamp.md) | The second timestamp to compare. It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM format. |
 
@@ -22,6 +22,6 @@ before the second timestamp. Returns false otherwise.
 
 `boolean`
 
-## Source
+## Defined in
 
 [sTimestamp.ts:404](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L404)

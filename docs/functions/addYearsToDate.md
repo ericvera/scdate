@@ -15,7 +15,7 @@ component of the date, this method is not affected by leap years.
 ## Parameters
 
 | Parameter | Type                                       | Description                                                                        |
-| :-------- | :----------------------------------------- | :--------------------------------------------------------------------------------- |
+| --------- | ------------------------------------------ | ---------------------------------------------------------------------------------- |
 | `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to add years to. It can be an SDate or a string in the YYYY-MM-DD format. |
 | `years`   | `number`                                   | The number of years to add to the date.                                            |
 
@@ -23,6 +23,6 @@ component of the date, this method is not affected by leap years.
 
 [`SDate`](../classes/SDate.md)
 
-## Source
+## Defined in
 
 [sDate.ts:388](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L388)

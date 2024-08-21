@@ -14,7 +14,7 @@ provided weekdays can be any combination of the Weekday enum values.
 ## Parameters
 
 | Parameter  | Type                                    | Description                               |
-| :--------- | :-------------------------------------- | :---------------------------------------- |
+| ---------- | --------------------------------------- | ----------------------------------------- |
 | `weekdays` | [`Weekday`](../enumerations/Weekday.md) | A combination of the Weekday enum values. |
 
 ## Returns
@@ -35,6 +35,6 @@ getWeekdaysFromWeekdayFlags(Weekday.Tuesday)
 // the rest are excluded.
 ```
 
-## Source
+## Defined in
 
 [sWeekdays.ts:79](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L79)

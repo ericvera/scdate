@@ -21,14 +21,14 @@ with a '-' character.
 #### Parameters
 
 | Parameter  | Type     |
-| :--------- | :------- |
+| ---------- | -------- |
 | `weekdays` | `string` |
 
 #### Returns
 
 [`SWeekdays`](SWeekdays.md)
 
-#### Source
+#### Defined in
 
 [internal/SWeekdays.ts:13](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L13)
 
@@ -38,7 +38,7 @@ with a '-' character.
 
 > `readonly` **weekdays**: `string`
 
-#### Source
+#### Defined in
 
 [internal/SWeekdays.ts:11](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L11)
 
@@ -52,6 +52,6 @@ with a '-' character.
 
 `string`
 
-#### Source
+#### Defined in
 
 [internal/SWeekdays.ts:19](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L19)

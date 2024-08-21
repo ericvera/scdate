@@ -15,7 +15,7 @@ number of days to the given date. Because it adds calendar days rather than
 ## Parameters
 
 | Parameter | Type                                       | Description                                                                       |
-| :-------- | :----------------------------------------- | :-------------------------------------------------------------------------------- |
+| --------- | ------------------------------------------ | --------------------------------------------------------------------------------- |
 | `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to add days to. It can be an SDate or a string in the YYYY-MM-DD format. |
 | `days`    | `number`                                   | The number of days to add to the date.                                            |
 
@@ -23,6 +23,6 @@ number of days to the given date. Because it adds calendar days rather than
 
 [`SDate`](../classes/SDate.md)
 
-## Source
+## Defined in
 
 [sDate.ts:349](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L349)

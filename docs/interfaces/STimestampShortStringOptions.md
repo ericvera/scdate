@@ -12,7 +12,7 @@
 
 > **includeWeekday**: `boolean`
 
-#### Source
+#### Defined in
 
 [sTimestamp.ts:22](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L22)
 
@@ -26,6 +26,6 @@
 
 `string`
 
-#### Source
+#### Defined in
 
 [sTimestamp.ts:23](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L23)

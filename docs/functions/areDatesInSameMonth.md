@@ -15,7 +15,7 @@ otherwise.
 ## Parameters
 
 | Parameter | Type                                       | Description                                                                          |
-| :-------- | :----------------------------------------- | :----------------------------------------------------------------------------------- |
+| --------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
 | `date1`   | `string` \| [`SDate`](../classes/SDate.md) | The first date to compare. It can be an SDate or a string in the YYYY-MM-DD format.  |
 | `date2`   | `string` \| [`SDate`](../classes/SDate.md) | The second date to compare. It can be an SDate or a string in the YYYY-MM-DD format. |
 
@@ -35,6 +35,6 @@ areDatesInSameMonth('2022-02-05', '2023-02-15')
 //=> false (different years)
 ```
 
-## Source
+## Defined in
 
 [sDate.ts:535](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L535)

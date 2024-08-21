@@ -14,7 +14,7 @@ matches the given weekday.
 ## Parameters
 
 | Parameter | Type                                       | Description                                                                                         |
-| :-------- | :----------------------------------------- | :-------------------------------------------------------------------------------------------------- |
+| --------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
 | `date`    | `string` \| [`SDate`](../classes/SDate.md) | The date to start from (not included).                                                              |
 | `weekday` | [`Weekday`](../enumerations/Weekday.md)    | The weekday to find the previous date for. It can be an SDate or a string in the YYYY-MM-DD format. |
 
@@ -22,6 +22,6 @@ matches the given weekday.
 
 [`SDate`](../classes/SDate.md)
 
-## Source
+## Defined in
 
 [sDate.ts:97](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L97)

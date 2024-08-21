@@ -17,14 +17,14 @@ SDate represents a date in the ISO-8601 format (YYYY-MM-DD)
 #### Parameters
 
 | Parameter  | Type     |
-| :--------- | :------- |
+| ---------- | -------- |
 | `isoValue` | `string` |
 
 #### Returns
 
 [`SDate`](SDate.md)
 
-#### Source
+#### Defined in
 
 [internal/SDate.ts:9](https://github.com/ericvera/scdate/blob/main/src/internal/SDate.ts#L9)
 
@@ -34,7 +34,7 @@ SDate represents a date in the ISO-8601 format (YYYY-MM-DD)
 
 > `readonly` **date**: `string`
 
-#### Source
+#### Defined in
 
 [internal/SDate.ts:7](https://github.com/ericvera/scdate/blob/main/src/internal/SDate.ts#L7)
 
@@ -48,6 +48,6 @@ SDate represents a date in the ISO-8601 format (YYYY-MM-DD)
 
 `string`
 
-#### Source
+#### Defined in
 
 [internal/SDate.ts:15](https://github.com/ericvera/scdate/blob/main/src/internal/SDate.ts#L15)

@@ -14,6 +14,6 @@ Returns a new SWeekdays instance with no weekdays included.
 
 [`SWeekdays`](../classes/SWeekdays.md)
 
-## Source
+## Defined in
 
 [sWeekdays.ts:103](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L103)

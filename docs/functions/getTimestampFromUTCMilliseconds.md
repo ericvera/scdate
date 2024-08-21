@@ -15,7 +15,7 @@ time zone.
 ## Parameters
 
 | Parameter               | Type     | Description                                                                                                                |
-| :---------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------- |
+| ----------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `utcDateInMilliseconds` | `number` | The number of milliseconds since the Unix epoch.                                                                           |
 | `timeZone`              | `string` | The time zone to use when creating the timestamp. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
@@ -23,6 +23,6 @@ time zone.
 
 [`STimestamp`](../classes/STimestamp.md)
 
-## Source
+## Defined in
 
 [sTimestamp.ts:57](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L57)

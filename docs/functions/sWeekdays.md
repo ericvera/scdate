@@ -13,7 +13,7 @@ Returns a new SWeekdays instance.
 ## Parameters
 
 | Parameter  | Type                                               | Description                                                                                                                                                                                                                                                                                                         |
-| :--------- | :------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ---------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `weekdays` | `string` \| [`SWeekdays`](../classes/SWeekdays.md) | An instance of SWeekdays that will be returned or a string in the SMTWTFS format. Each character in the string represents a weekday starting on Sunday and ending on Saturday using the first letter of the English word for the week day. If the weekday is excluded, the position is filled with a '-' character. |
 
 ## Returns
@@ -33,6 +33,6 @@ sWeekdays('SMTWTFS')
 // Returns an instance of SWeekdays with all weekdays included.
 ```
 
-## Source
+## Defined in
 
 [sWeekdays.ts:47](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L47)

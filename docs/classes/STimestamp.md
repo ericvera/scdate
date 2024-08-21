@@ -17,14 +17,14 @@ STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 #### Parameters
 
 | Parameter   | Type     |
-| :---------- | :------- |
+| ----------- | -------- |
 | `timestamp` | `string` |
 
 #### Returns
 
 [`STimestamp`](STimestamp.md)
 
-#### Source
+#### Defined in
 
 [internal/STimestamp.ts:9](https://github.com/ericvera/scdate/blob/main/src/internal/STimestamp.ts#L9)
 
@@ -34,7 +34,7 @@ STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 
 > `readonly` **timestamp**: `string`
 
-#### Source
+#### Defined in
 
 [internal/STimestamp.ts:7](https://github.com/ericvera/scdate/blob/main/src/internal/STimestamp.ts#L7)
 
@@ -48,6 +48,6 @@ STimestamp represents a timestamp in the ISO-8601 format (YYYY-MM-DDTHH:MM)
 
 `string`
 
-#### Source
+#### Defined in
 
 [internal/STimestamp.ts:15](https://github.com/ericvera/scdate/blob/main/src/internal/STimestamp.ts#L15)

@@ -14,13 +14,13 @@ given time zone.
 ## Parameters
 
 | Parameter  | Type     | Description                                                                                                                |
-| :--------- | :------- | :------------------------------------------------------------------------------------------------------------------------- |
+| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `timeZone` | `string` | The time zone to use when creating the timestamp. See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones. |
 
 ## Returns
 
 [`STimestamp`](../classes/STimestamp.md)
 
-## Source
+## Defined in
 
 [sTimestamp.ts:73](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L73)
