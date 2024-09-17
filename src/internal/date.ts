@@ -49,5 +49,5 @@ export const validateISODate = (isoDate: string) => {
   }
 }
 
-export const getDateAsUTCDateMini = (date: SDate): UTCDateMini =>
+export const getDateAsUTCDateMini = (date: SDate) =>
   new UTCDateMini(`${date.date}T00:00Z`)

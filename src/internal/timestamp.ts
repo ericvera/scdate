@@ -35,5 +35,5 @@ export const validateISOTimestamp = (isoTimestamp: string): void => {
   validateISOTime(isoTime)
 }
 
-export const getTimestampAsUTCDateMini = (timestamp: STimestamp): UTCDateMini =>
+export const getTimestampAsUTCDateMini = (timestamp: STimestamp) =>
   new UTCDateMini(`${timestamp.timestamp}Z`)
