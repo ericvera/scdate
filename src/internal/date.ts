@@ -1,4 +1,4 @@
-import { UTCDateMini } from '@date-fns/utc'
+import { UTCDate, UTCDateMini } from '@date-fns/utc'
 import { SDate } from './SDate.js'
 
 export const getISOYearFromISODate = (isoDate: string): string => {
@@ -49,5 +49,5 @@ export const validateISODate = (isoDate: string) => {
   }
 }
 
-export const getDateAsUTCDateMini = (date: SDate) =>
+export const getDateAsUTCDateMini = (date: SDate): UTCDate =>
   new UTCDateMini(`${date.date}T00:00Z`)

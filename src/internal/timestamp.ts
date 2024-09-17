@@ -1,4 +1,4 @@
-import { UTCDateMini } from '@date-fns/utc'
+import { UTCDate, UTCDateMini } from '@date-fns/utc'
 import { STimestamp } from './STimestamp.js'
 import { getISODateFromZonedDate, validateISODate } from './date.js'
 import { getISOTimeFromDate, validateISOTime } from './time.js'
@@ -35,5 +35,5 @@ export const validateISOTimestamp = (isoTimestamp: string): void => {
   validateISOTime(isoTime)
 }
 
-export const getTimestampAsUTCDateMini = (timestamp: STimestamp) =>
+export const getTimestampAsUTCDateMini = (timestamp: STimestamp): UTCDate =>
   new UTCDateMini(`${timestamp.timestamp}Z`)
