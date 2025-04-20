@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: doesWeekdaysHaveOverlapWithWeekdays()
 
 > **doesWeekdaysHaveOverlapWithWeekdays**(`weekdays1`, `weekdays2`): `boolean`
+
+Defined in: [sWeekdays.ts:253](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L253)
 
 Returns true if any of the included weekdays in weekdays1 is also included in
 weekdays2. Returns false otherwise.
@@ -21,7 +23,3 @@ weekdays2. Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sWeekdays.ts:253](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L253)

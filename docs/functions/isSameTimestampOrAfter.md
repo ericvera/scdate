@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isSameTimestampOrAfter()
 
 > **isSameTimestampOrAfter**(`timestamp1`, `timestamp2`): `boolean`
+
+Defined in: [sTimestamp.ts:483](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L483)
 
 Returns true if the first timestamp represents a date and time that happens
 on or after the second timestamp. Returns false otherwise.
@@ -21,7 +23,3 @@ on or after the second timestamp. Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sTimestamp.ts:461](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L461)

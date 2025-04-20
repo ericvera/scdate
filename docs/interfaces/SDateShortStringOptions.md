@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -6,15 +6,15 @@
 
 # Interface: SDateShortStringOptions
 
+Defined in: [sDate.ts:20](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L20)
+
 ## Properties
 
 ### includeWeekday
 
 > **includeWeekday**: `boolean`
 
-#### Defined in
-
-[sDate.ts:23](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L23)
+Defined in: [sDate.ts:21](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L21)
 
 ---
 
@@ -22,10 +22,8 @@
 
 > **onTodayText**: () => `string`
 
+Defined in: [sDate.ts:22](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L22)
+
 #### Returns
 
 `string`
-
-#### Defined in
-
-[sDate.ts:24](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L24)

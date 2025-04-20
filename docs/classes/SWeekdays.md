@@ -1,10 +1,12 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
 [scdate](../README.md) / SWeekdays
 
 # Class: SWeekdays
+
+Defined in: [internal/SWeekdays.ts:10](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L10)
 
 SWeekdays represents a string of weekdays in the format 'SMTWTFS' where each
 position is represented by a flag indicating if the weekday (starting on
@@ -18,6 +20,8 @@ with a '-' character.
 
 > **new SWeekdays**(`weekdays`): [`SWeekdays`](SWeekdays.md)
 
+Defined in: [internal/SWeekdays.ts:13](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L13)
+
 #### Parameters
 
 | Parameter  | Type     |
@@ -28,19 +32,13 @@ with a '-' character.
 
 [`SWeekdays`](SWeekdays.md)
 
-#### Defined in
-
-[internal/SWeekdays.ts:13](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L13)
-
 ## Properties
 
 ### weekdays
 
 > `readonly` **weekdays**: `string`
 
-#### Defined in
-
-[internal/SWeekdays.ts:11](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L11)
+Defined in: [internal/SWeekdays.ts:11](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L11)
 
 ## Methods
 
@@ -48,10 +46,8 @@ with a '-' character.
 
 > **toJSON**(): `string`
 
+Defined in: [internal/SWeekdays.ts:19](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L19)
+
 #### Returns
 
 `string`
-
-#### Defined in
-
-[internal/SWeekdays.ts:19](https://github.com/ericvera/scdate/blob/main/src/internal/SWeekdays.ts#L19)

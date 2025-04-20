@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getFullDateString()
 
 > **getFullDateString**(`date`, `locale`): `string`
+
+Defined in: [sDate.ts:293](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L293)
 
 Returns a string representation that includes all of the date components of
 the given date formatted according to the given locale.
@@ -33,7 +35,3 @@ getFullDateString('2021-02-05', 'es')
 getFullDateString('2021-02-05', 'en')
 //=> 'Friday, February 5, 2021'
 ```
-
-## Defined in
-
-[sDate.ts:271](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L271)

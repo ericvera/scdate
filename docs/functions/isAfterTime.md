@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isAfterTime()
 
 > **isAfterTime**(`time1`, `time2`): `boolean`
+
+Defined in: [sTime.ts:216](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L216)
 
 Returns true when first time represents a time that happens after the second
 time. Returns false otherwise.
@@ -21,7 +23,3 @@ time. Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sTime.ts:216](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L216)

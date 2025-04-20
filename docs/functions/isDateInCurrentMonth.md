@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isDateInCurrentMonth()
 
 > **isDateInCurrentMonth**(`date`, `timeZone`): `boolean`
+
+Defined in: [sDate.ts:579](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L579)
 
 Returns true when the date represents a date in the current month and year.
 Returns false otherwise.
@@ -21,7 +23,3 @@ Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:557](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L557)

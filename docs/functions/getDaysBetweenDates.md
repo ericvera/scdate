@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getDaysBetweenDates()
 
 > **getDaysBetweenDates**(`date1`, `date2`): `number`
+
+Defined in: [sDate.ts:260](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L260)
 
 Returns the number of days between the first date to the second date. The
 value is positive if the first date is before the second date, and negative
@@ -24,7 +26,3 @@ adjustments.
 ## Returns
 
 `number`
-
-## Defined in
-
-[sDate.ts:238](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L238)

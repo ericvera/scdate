@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getSecondsToTimestamp()
 
 > **getSecondsToTimestamp**(`timestamp`, `timeZone`): `number`
+
+Defined in: [sTimestamp.ts:196](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L196)
 
 Returns the number of seconds from now to the given timestamp. If the
 timestamp is in the future, the number of seconds will be positive. If the
@@ -63,7 +65,3 @@ Transition to Eastern Standard Time (EST) in 2024
 ## Returns
 
 `number`
-
-## Defined in
-
-[sTimestamp.ts:174](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L174)

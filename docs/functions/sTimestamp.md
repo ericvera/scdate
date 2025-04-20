@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: sTimestamp()
 
 > **sTimestamp**(`timestamp`): [`STimestamp`](../classes/STimestamp.md)
+
+Defined in: [sTimestamp.ts:34](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L34)
 
 Returns a new STimestamp instance.
 
@@ -19,7 +21,3 @@ Returns a new STimestamp instance.
 ## Returns
 
 [`STimestamp`](../classes/STimestamp.md)
-
-## Defined in
-
-[sTimestamp.ts:36](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L36)

@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isSameTimeOrBefore()
 
 > **isSameTimeOrBefore**(`time1`, `time2`): `boolean`
+
+Defined in: [sTime.ts:273](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L273)
 
 Returns true when first time represents a time that happens before or at the
 same time as the second time. Returns false otherwise.
@@ -21,7 +23,3 @@ same time as the second time. Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sTime.ts:273](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L273)

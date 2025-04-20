@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getDateFromDate()
 
 > **getDateFromDate**(`date`): `number`
+
+Defined in: [sDate.ts:182](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L182)
 
 Returns the day of the month from the given date.
 
@@ -19,7 +21,3 @@ Returns the day of the month from the given date.
 ## Returns
 
 `number`
-
-## Defined in
-
-[sDate.ts:184](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L184)

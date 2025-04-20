@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: addDaysToDate()
 
 > **addDaysToDate**(`date`, `days`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:371](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L371)
 
 Returns a new SDates instance with the date resulting from adding the given
 number of days to the given date. Because it adds calendar days rather than
@@ -22,7 +24,3 @@ number of days to the given date. Because it adds calendar days rather than
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:349](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L349)

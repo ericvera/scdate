@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: addYearsToDate()
 
 > **addYearsToDate**(`date`, `years`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:410](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L410)
 
 Returns a new SDate instance with the date resulting from adding the given
 number of years to the given date. Because this only adds to the year
@@ -22,7 +24,3 @@ component of the date, this method is not affected by leap years.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:388](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L388)

@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getDateFromTimestamp()
 
 > **getDateFromTimestamp**(`timestamp`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sTimestamp.ts:219](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L219)
 
 Returns a new SDate instance set to the date part of the given timestamp.
 
@@ -19,7 +21,3 @@ Returns a new SDate instance set to the date part of the given timestamp.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sTimestamp.ts:197](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L197)

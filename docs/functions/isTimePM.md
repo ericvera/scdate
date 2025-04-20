@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isTimePM()
 
 > **isTimePM**(`time`): `boolean`
+
+Defined in: [sTime.ts:290](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L290)
 
 Returns true when the given time is at or after noon (12:00) and false
 otherwise.
@@ -20,7 +22,3 @@ otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sTime.ts:290](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L290)

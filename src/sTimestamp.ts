@@ -1,3 +1,4 @@
+import { getTimezoneOffset } from 'date-fns-tz'
 import { SDate } from './internal/SDate.js'
 import { STime } from './internal/STime.js'
 import { STimestamp } from './internal/STimestamp.js'
@@ -11,10 +12,7 @@ import {
   getISOTimestampFromZonedDate,
   getTimestampAsUTCDateMini,
 } from './internal/timestamp.js'
-import {
-  getMillisecondsInUTCFromTimestamp,
-  getTimeZonedDate,
-} from './internal/zoned.js'
+import { getTimeZonedDate } from './internal/zoned.js'
 import { getShortDateString, sDate } from './sDate.js'
 import { get12HourTimeString, sTime } from './sTime.js'
 
@@ -98,6 +96,30 @@ export const getTimestampFromDateAndTime = (
  */
 
 /**
+ * Returns the number of milliseconds since the Unix epoch (January 1, 1970, 00:00:00 UTC)
+ * for the given timestamp in the specified time zone.
+ *
+ * @param timestamp The timestamp to convert to UTC milliseconds. It can be an STimestamp
+ * or a string in the YYYY-MM-DDTHH:MM format.
+ * @param timeZone The time zone to use when converting the timestamp. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ */
+export const getUTCMillisecondsFromTimestamp = (
+  timestamp: string | STimestamp,
+  timeZone: string,
+): number => {
+  const sTimestampValue = sTimestamp(timestamp)
+  const utcDate = getTimestampAsUTCDateMini(sTimestampValue)
+
+  const timeZoneOffset = getTimezoneOffset(timeZone, utcDate)
+  if (isNaN(timeZoneOffset)) {
+    throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
+  }
+
+  return utcDate.getTime() - timeZoneOffset
+}
+
+/**
  * Returns a native Date adjusted so that the local time of that date matches
  * the local timestamp at the specified time zone.
  *
@@ -112,7 +134,7 @@ export const getTimeZonedDateFromTimestamp = (
 ): Date => {
   const sTimestampValue = sTimestamp(timestamp)
 
-  const dateInUTCMilliseconds = getMillisecondsInUTCFromTimestamp(
+  const dateInUTCMilliseconds = getUTCMillisecondsFromTimestamp(
     sTimestampValue,
     timeZone,
   )
@@ -178,7 +200,7 @@ export const getSecondsToTimestamp = (
   const sTimestampValue = sTimestamp(timestamp)
 
   const millisecondsNow = Date.now()
-  const millisecondsAtTimestamp = getMillisecondsInUTCFromTimestamp(
+  const millisecondsAtTimestamp = getUTCMillisecondsFromTimestamp(
     sTimestampValue,
     timeZone,
   )
@@ -314,10 +336,10 @@ export const addDaysToTimestamp = (
  *
  * Time is converted from the given time zone to
  * UTC before the minutes are added, and then converted back to the specified
- * time zone. This results in the resulting time being adjusted for daylight saving time
- * changes. (e.g. Adding 60 minutes to 2024-03-10T01:59 in America/New_York will
- * result in 2024-03-10T03:59 as time move forward one hour for daylight saving
- * time at 2024-03-10T02:00.)
+ * time zone. This results in the resulting time being adjusted for daylight
+ * saving time changes. (e.g. Adding 60 minutes to 2024-03-10T01:59 in
+ * America/New_York will result in 2024-03-10T03:59 as time move forward one
+ * hour for daylight saving time at 2024-03-10T02:00.)
  *
  * For example, adding one minute to 2024-03-10T01:59 will result in
  * 2024-03-10T03:00 as expected. However, trying to add one minute to
@@ -358,7 +380,7 @@ export const addMinutesToTimestamp = (
   const sTimestampValue = sTimestamp(timestamp)
 
   const newMillisecondsInUTC =
-    getMillisecondsInUTCFromTimestamp(sTimestampValue, timeZone) +
+    getUTCMillisecondsFromTimestamp(sTimestampValue, timeZone) +
     minutes * MillisecondsInMinute
 
   const newTimestamp = getTimestampFromUTCMilliseconds(

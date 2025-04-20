@@ -1,3 +1,4 @@
+import { getTimezoneOffset } from 'date-fns-tz'
 import { Weekday } from './constants.js'
 import { SDate } from './internal/SDate.js'
 import {
@@ -14,10 +15,7 @@ import {
 } from './internal/date.js'
 import { getAtIndex } from './internal/utils.js'
 import { getIndexForWeekday } from './internal/weekdays.js'
-import {
-  getMillisecondsInUTCFromDate,
-  getTimeZonedDate,
-} from './internal/zoned.js'
+import { getTimeZonedDate } from './internal/zoned.js'
 
 export interface SDateShortStringOptions {
   includeWeekday: boolean
@@ -202,6 +200,30 @@ export const getWeekdayFromDate = (date: string | SDate): number => {
 }
 
 /**
+ * Returns the number of milliseconds since the Unix epoch (January 1, 1970, 00:00:00 UTC)
+ * for the given date in the specified time zone.
+ *
+ * @param date The date to convert to UTC milliseconds. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
+ * @param timeZone The time zone to use when converting the date. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ */
+export const getUTCMillisecondsFromDate = (
+  date: string | SDate,
+  timeZone: string,
+): number => {
+  const sDateValue = sDate(date)
+  const utcDate = getDateAsUTCDateMini(sDateValue)
+
+  const timeZoneOffset = getTimezoneOffset(timeZone, utcDate)
+  if (isNaN(timeZoneOffset)) {
+    throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
+  }
+
+  return utcDate.getTime() - timeZoneOffset
+}
+
+/**
  * Returns a native Date adjusted so that the local time of that date matches
  * the local time at the specified time zone.
  *
@@ -216,7 +238,7 @@ export const getTimeZonedDateFromDate = (
 ): Date => {
   const sDateValue = sDate(date)
 
-  const milliseconds = getMillisecondsInUTCFromDate(sDateValue, timeZone)
+  const milliseconds = getUTCMillisecondsFromDate(sDateValue, timeZone)
 
   const zonedTime = getTimeZonedDate(milliseconds, timeZone)
 

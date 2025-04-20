@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimestampFromUTCMilliseconds()
 
 > **getTimestampFromUTCMilliseconds**(`utcDateInMilliseconds`, `timeZone`): [`STimestamp`](../classes/STimestamp.md)
+
+Defined in: [sTimestamp.ts:55](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L55)
 
 Returns a new STimestamp instance set to the date and time that results from
 converting the given number of milliseconds since the Unix epoch to the given
@@ -22,7 +24,3 @@ time zone.
 ## Returns
 
 [`STimestamp`](../classes/STimestamp.md)
-
-## Defined in
-
-[sTimestamp.ts:57](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L57)

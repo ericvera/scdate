@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: shiftWeekdaysForward()
 
 > **shiftWeekdaysForward**(`weekdays`): [`SWeekdays`](../classes/SWeekdays.md)
+
+Defined in: [sWeekdays.ts:125](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L125)
 
 Returns a new SWeekdays instance with the weekdays shifted forward by one
 day.
@@ -28,7 +30,3 @@ shiftWeekdaysForward('SM----S')
 // Returns an instance of SWeekdays with the weekdays shifted forward by one
 // day. 'SM----S' becomes 'SMT----'.
 ```
-
-## Defined in
-
-[sWeekdays.ts:125](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L125)

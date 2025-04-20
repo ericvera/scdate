@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getNextDateByWeekday()
 
 > **getNextDateByWeekday**(`date`, `weekday`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:66](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L66)
 
 Returns a new SDate instance set to the next date after the provided date
 that match the given weekday.
@@ -21,7 +23,3 @@ that match the given weekday.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:68](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L68)

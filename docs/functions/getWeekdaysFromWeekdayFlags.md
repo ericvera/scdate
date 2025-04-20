@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getWeekdaysFromWeekdayFlags()
 
 > **getWeekdaysFromWeekdayFlags**(`weekdays`): [`SWeekdays`](../classes/SWeekdays.md)
+
+Defined in: [sWeekdays.ts:79](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L79)
 
 Returns a new SWeekdays instance with all provided weekdays included. The
 provided weekdays can be any combination of the Weekday enum values.
@@ -34,7 +36,3 @@ getWeekdaysFromWeekdayFlags(Weekday.Tuesday)
 // Returns an instance of SWeekdays with the weekday Tuesday included while
 // the rest are excluded.
 ```
-
-## Defined in
-
-[sWeekdays.ts:79](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L79)

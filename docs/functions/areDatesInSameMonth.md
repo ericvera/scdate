@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: areDatesInSameMonth()
 
 > **areDatesInSameMonth**(`date1`, `date2`): `boolean`
+
+Defined in: [sDate.ts:557](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L557)
 
 Returns true when the month on the first date is the same as the month on the
 second date. It also checks that the year is the same. Returns false
@@ -34,7 +36,3 @@ areDatesInSameMonth('2021-02-05', '2021-02-15')
 areDatesInSameMonth('2022-02-05', '2023-02-15')
 //=> false (different years)
 ```
-
-## Defined in
-
-[sDate.ts:535](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L535)

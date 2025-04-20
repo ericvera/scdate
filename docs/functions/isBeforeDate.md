@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isBeforeDate()
 
 > **isBeforeDate**(`date1`, `date2`): `boolean`
+
+Defined in: [sDate.ts:451](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L451)
 
 Returns true when the first date represents a date before the second date and
 false otherwise.
@@ -21,7 +23,3 @@ false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:429](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L429)

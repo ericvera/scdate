@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isAfterDate()
 
 > **isAfterDate**(`date1`, `date2`): `boolean`
+
+Defined in: [sDate.ts:489](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L489)
 
 Returns true when the first date represents a date that happens after the
 second date and false otherwise.
@@ -21,7 +23,3 @@ second date and false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:467](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L467)

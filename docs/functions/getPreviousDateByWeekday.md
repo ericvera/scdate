@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getPreviousDateByWeekday()
 
 > **getPreviousDateByWeekday**(`date`, `weekday`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:95](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L95)
 
 Returns a new SDate instance set to date that is before the provided date and
 matches the given weekday.
@@ -21,7 +23,3 @@ matches the given weekday.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:97](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L97)

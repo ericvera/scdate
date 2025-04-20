@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: areDatesInSameYear()
 
 > **areDatesInSameYear**(`date1`, `date2`): `boolean`
+
+Defined in: [sDate.ts:597](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L597)
 
 Returns true when the year of the first date is the same as the year on the
 second date. Returns false otherwise.
@@ -21,7 +23,3 @@ second date. Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:575](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L575)

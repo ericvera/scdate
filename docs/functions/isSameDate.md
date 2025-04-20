@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isSameDate()
 
 > **isSameDate**(`date1`, `date2`): `boolean`
+
+Defined in: [sDate.ts:432](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L432)
 
 Returns true when the two given dates represent the same day and false
 otherwise.
@@ -21,7 +23,3 @@ otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:410](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L410)

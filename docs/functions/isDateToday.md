@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isDateToday()
 
 > **isDateToday**(`date`, `timeZone`): `boolean`
+
+Defined in: [sDate.ts:526](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L526)
 
 Returns true when the date is today and false otherwise.
 
@@ -20,7 +22,3 @@ Returns true when the date is today and false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:504](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L504)

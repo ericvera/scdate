@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimeZonedDateFromDate()
 
 > **getTimeZonedDateFromDate**(`date`, `timeZone`): `Date`
+
+Defined in: [sDate.ts:235](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L235)
 
 Returns a native Date adjusted so that the local time of that date matches
 the local time at the specified time zone.
@@ -21,7 +23,3 @@ the local time at the specified time zone.
 ## Returns
 
 `Date`
-
-## Defined in
-
-[sDate.ts:213](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L213)

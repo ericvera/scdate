@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: addMinutesToTimestamp()
 
 > **addMinutesToTimestamp**(`timestamp`, `minutes`, `timeZone`): [`STimestamp`](../classes/STimestamp.md)
+
+Defined in: [sTimestamp.ts:375](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L375)
 
 Returns a new STimestamp instance resulting from adding the given number of
 minutes to the given timestamp.
@@ -33,10 +35,10 @@ work in unexpected ways.
 
 Time is converted from the given time zone to
 UTC before the minutes are added, and then converted back to the specified
-time zone. This results in the resulting time being adjusted for daylight saving time
-changes. (e.g. Adding 60 minutes to 2024-03-10T01:59 in America/New_York will
-result in 2024-03-10T03:59 as time move forward one hour for daylight saving
-time at 2024-03-10T02:00.)
+time zone. This results in the resulting time being adjusted for daylight
+saving time changes. (e.g. Adding 60 minutes to 2024-03-10T01:59 in
+America/New_York will result in 2024-03-10T03:59 as time move forward one
+hour for daylight saving time at 2024-03-10T02:00.)
 
 For example, adding one minute to 2024-03-10T01:59 will result in
 2024-03-10T03:00 as expected. However, trying to add one minute to
@@ -74,7 +76,3 @@ Transition to Eastern Standard Time (EST) in 2024
 ## Returns
 
 [`STimestamp`](../classes/STimestamp.md)
-
-## Defined in
-
-[sTimestamp.ts:353](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L353)

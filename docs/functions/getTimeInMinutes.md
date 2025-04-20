@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimeInMinutes()
 
 > **getTimeInMinutes**(`time`, `midnightIs24`): `number`
+
+Defined in: [sTime.ts:135](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L135)
 
 Returns the time converted to minutes since midnight.
 
@@ -20,7 +22,3 @@ Returns the time converted to minutes since midnight.
 ## Returns
 
 `number`
-
-## Defined in
-
-[sTime.ts:135](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L135)

@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimeZonedDateFromTimestamp()
 
 > **getTimeZonedDateFromTimestamp**(`timestamp`, `timeZone`): `Date`
+
+Defined in: [sTimestamp.ts:131](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L131)
 
 Returns a native Date adjusted so that the local time of that date matches
 the local timestamp at the specified time zone.
@@ -21,7 +23,3 @@ the local timestamp at the specified time zone.
 ## Returns
 
 `Date`
-
-## Defined in
-
-[sTimestamp.ts:109](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L109)

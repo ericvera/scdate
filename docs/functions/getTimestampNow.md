@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimestampNow()
 
 > **getTimestampNow**(`timeZone`): [`STimestamp`](../classes/STimestamp.md)
+
+Defined in: [sTimestamp.ts:71](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L71)
 
 Returns a new STimestamp instance set to the current date and time in the
 given time zone.
@@ -20,7 +22,3 @@ given time zone.
 ## Returns
 
 [`STimestamp`](../classes/STimestamp.md)
-
-## Defined in
-
-[sTimestamp.ts:73](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L73)

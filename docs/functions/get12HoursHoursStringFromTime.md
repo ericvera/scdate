@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: get12HoursHoursStringFromTime()
 
 > **get12HoursHoursStringFromTime**(`time`): `string`
+
+Defined in: [sTime.ts:82](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L82)
 
 Returns the hours from given time as a string (1 - 12).
 
@@ -19,7 +21,3 @@ Returns the hours from given time as a string (1 - 12).
 ## Returns
 
 `string`
-
-## Defined in
-
-[sTime.ts:82](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L82)

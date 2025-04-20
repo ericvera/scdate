@@ -18,6 +18,7 @@ import {
   getTimestampFromDateAndTime,
   getTimestampFromUTCMilliseconds,
   getTimestampNow,
+  getUTCMillisecondsFromTimestamp,
   isAfterTimestamp,
   isBeforeTimestamp,
   isSameTimestamp,
@@ -129,6 +130,30 @@ describe('getTimestampFromUTCMilliseconds', () => {
       getTimestampFromUTCMilliseconds(Date.now(), 'Puerto Rico')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid time zone. Time zone: 'Puerto Rico']`,
+    )
+  })
+})
+
+describe('getUTCMillisecondsFromTimestamp', () => {
+  it('returns UTC milliseconds for a timestamp', () => {
+    const timestamp = sTimestamp('2023-10-15T14:30')
+    const utcMilliseconds = getUTCMillisecondsFromTimestamp(
+      timestamp,
+      TestLocalTimeZone,
+    )
+
+    // 1697394600000 is '2023-10-15T18:30' in UTC (+4 from local time zone) which
+    // is what is expected for the timestamp in the local time zone.
+    expect(utcMilliseconds).toBe(1697394600000)
+  })
+
+  it('throws for invalid timezone', () => {
+    const timestamp = sTimestamp('2023-10-15T14:30')
+
+    expect(() => {
+      getUTCMillisecondsFromTimestamp(timestamp, 'Invalid/TimeZone')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid time zone. Time zone: 'Invalid/TimeZone']`,
     )
   })
 })

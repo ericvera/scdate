@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isDateInCurrentYear()
 
 > **isDateInCurrentYear**(`date`, `timeZone`): `boolean`
+
+Defined in: [sDate.ts:618](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L618)
 
 Returns true when the year component of the date matches the current year in
 the given time zone. Returns false otherwise.
@@ -21,7 +23,3 @@ the given time zone. Returns false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:596](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L596)

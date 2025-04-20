@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: sTime()
 
 > **sTime**(`time`): [`STime`](../classes/STime.md)
+
+Defined in: [sTime.ts:19](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L19)
 
 Returns a new STime instance.
 
@@ -19,7 +21,3 @@ Returns a new STime instance.
 ## Returns
 
 [`STime`](../classes/STime.md)
-
-## Defined in
-
-[sTime.ts:19](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L19)

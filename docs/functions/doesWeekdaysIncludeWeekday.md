@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: doesWeekdaysIncludeWeekday()
 
 > **doesWeekdaysIncludeWeekday**(`weekdays`, `weekday`): `boolean`
+
+Defined in: [sWeekdays.ts:234](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L234)
 
 Returns true if the provided weekdays include the provided weekday. Returns
 false otherwise.
@@ -21,7 +23,3 @@ false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sWeekdays.ts:234](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L234)

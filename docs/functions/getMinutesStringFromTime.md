@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getMinutesStringFromTime()
 
 > **getMinutesStringFromTime**(`time`): `string`
+
+Defined in: [sTime.ts:109](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L109)
 
 Returns the minutes from given time as a string (00-59).
 
@@ -19,7 +21,3 @@ Returns the minutes from given time as a string (00-59).
 ## Returns
 
 `string`
-
-## Defined in
-
-[sTime.ts:109](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L109)

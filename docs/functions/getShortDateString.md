@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getShortDateString()
 
 > **getShortDateString**(`date`, `timeZone`, `locale`, `options`): `string`
+
+Defined in: [sDate.ts:334](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L334)
 
 Get the short string representation of the given date in the given locale.
 
@@ -40,7 +42,3 @@ getShortDateString('2021-02-05', TestLocalTimeZone, 'es', {
 })
 //=> 'vie, 5 feb 21' (year when not in current year)
 ```
-
-## Defined in
-
-[sDate.ts:312](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L312)

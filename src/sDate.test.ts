@@ -22,6 +22,7 @@ import {
   getPreviousDateByWeekday,
   getShortDateString,
   getTimeZonedDateFromDate,
+  getUTCMillisecondsFromDate,
   getWeekdayFromDate,
   getYearFromDate,
   isAfterDate,
@@ -141,6 +142,27 @@ describe('getDateToday', () => {
       getDateToday('invalid')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid time zone. Time zone: 'invalid']`,
+    )
+  })
+})
+
+describe('getUTCMillisecondsFromDate', () => {
+  it('returns UTC milliseconds for a date', () => {
+    const date = sDate('2023-10-15')
+    const utcMilliseconds = getUTCMillisecondsFromDate(date, TestLocalTimeZone)
+
+    // 1697342400000 is '2023-10-15T04:00' in UTC which is what is expected for
+    // the date in the local time zone.
+    expect(utcMilliseconds).toBe(1697342400000)
+  })
+
+  it('throws for invalid timezone', () => {
+    const date = sDate('2023-10-15')
+
+    expect(() => {
+      getUTCMillisecondsFromDate(date, 'Invalid/TimeZone')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid time zone. Time zone: 'Invalid/TimeZone']`,
     )
   })
 })

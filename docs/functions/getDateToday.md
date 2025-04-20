@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getDateToday()
 
 > **getDateToday**(`timeZone`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:52](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L52)
 
 Returns a new SDate instance with the current date in the given time zone.
 
@@ -19,7 +21,3 @@ Returns a new SDate instance with the current date in the given time zone.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:54](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L54)

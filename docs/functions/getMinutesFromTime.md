@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getMinutesFromTime()
 
 > **getMinutesFromTime**(`time`): `number`
+
+Defined in: [sTime.ts:97](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L97)
 
 Returns the minutes from the given time.
 
@@ -19,7 +21,3 @@ Returns the minutes from the given time.
 ## Returns
 
 `number`
-
-## Defined in
-
-[sTime.ts:97](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L97)

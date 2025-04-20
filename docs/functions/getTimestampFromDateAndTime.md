@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimestampFromDateAndTime()
 
 > **getTimestampFromDateAndTime**(`date`, `time`): [`STimestamp`](../classes/STimestamp.md)
+
+Defined in: [sTimestamp.ts:84](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L84)
 
 Returns a new STimestamp instance set to the date and time that results from
 combining the given date and time.
@@ -21,7 +23,3 @@ combining the given date and time.
 ## Returns
 
 [`STimestamp`](../classes/STimestamp.md)
-
-## Defined in
-
-[sTimestamp.ts:86](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L86)

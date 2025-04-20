@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimeNow()
 
 > **getTimeNow**(`timeZone`): [`STime`](../classes/STime.md)
+
+Defined in: [sTime.ts:37](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L37)
 
 Returns a new STime instance with the current time in the given time zone.
 
@@ -19,7 +21,3 @@ Returns a new STime instance with the current time in the given time zone.
 ## Returns
 
 [`STime`](../classes/STime.md)
-
-## Defined in
-
-[sTime.ts:37](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L37)

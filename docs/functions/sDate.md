@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: sDate()
 
 > **sDate**(`date`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:34](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L34)
 
 Returns a new SDate instance.
 
@@ -19,7 +21,3 @@ Returns a new SDate instance.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:36](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L36)

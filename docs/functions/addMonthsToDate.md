@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: addMonthsToDate()
 
 > **addMonthsToDate**(`date`, `months`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:389](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L389)
 
 Returns a new SDate instance with the date resulting from adding the given
 number of months to the given date. Because it just adds to the month
@@ -22,7 +24,3 @@ component of the date, this operation is not affected by time zones.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:367](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L367)

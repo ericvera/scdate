@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getDateForFirstDayOfMonth()
 
 > **getDateForFirstDayOfMonth**(`date`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:123](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L123)
 
 Returns a new SDate instance set to the first day of the month for the
 provided date.
@@ -20,7 +22,3 @@ provided date.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:125](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L125)

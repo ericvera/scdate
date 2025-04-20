@@ -1,4 +1,4 @@
-**scdate** • **Docs**
+**scdate**
 
 ---
 
@@ -62,6 +62,8 @@
 - [getTimestampNow](functions/getTimestampNow.md)
 - [getTimeZonedDateFromDate](functions/getTimeZonedDateFromDate.md)
 - [getTimeZonedDateFromTimestamp](functions/getTimeZonedDateFromTimestamp.md)
+- [getUTCMillisecondsFromDate](functions/getUTCMillisecondsFromDate.md)
+- [getUTCMillisecondsFromTimestamp](functions/getUTCMillisecondsFromTimestamp.md)
 - [getWeekdayFromDate](functions/getWeekdayFromDate.md)
 - [getWeekdaysFromWeekdayFlags](functions/getWeekdaysFromWeekdayFlags.md)
 - [getWeekdaysWithAllIncluded](functions/getWeekdaysWithAllIncluded.md)

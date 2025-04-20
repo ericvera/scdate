@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: addMinutesToTime()
 
 > **addMinutesToTime**(`time`, `minutes`): [`STime`](../classes/STime.md)
+
+Defined in: [sTime.ts:165](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L165)
 
 Returns a new STime instance with the time resulting from adding the given
 number of minutes to the given time. The time will wrap around a 24 hour
@@ -22,7 +24,3 @@ clock.
 ## Returns
 
 [`STime`](../classes/STime.md)
-
-## Defined in
-
-[sTime.ts:165](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L165)

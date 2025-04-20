@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getShortTimestampString()
 
 > **getShortTimestampString**(`timestamp`, `timeZone`, `locale`, `options`): `string`
+
+Defined in: [sTimestamp.ts:269](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L269)
 
 Returns a string representation that includes a minimum set of components
 from the given timestamp. This is a combination of the the results of
@@ -44,7 +46,3 @@ getShortTimestampString('2022-09-11T08:00', 'America/Puerto_Rico', 'es', {
 })
 //=> 'dom, 11 sept 22 8:00 AM'
 ```
-
-## Defined in
-
-[sTimestamp.ts:247](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L247)

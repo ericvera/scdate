@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getTimeFromMinutes()
 
 > **getTimeFromMinutes**(`timeInMinutes`): [`STime`](../classes/STime.md)
+
+Defined in: [sTime.ts:54](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L54)
 
 Returns a new STime instance with the time resulting from adding the given
 number of minutes to midnight (00:00).
@@ -20,7 +22,3 @@ number of minutes to midnight (00:00).
 ## Returns
 
 [`STime`](../classes/STime.md)
-
-## Defined in
-
-[sTime.ts:54](https://github.com/ericvera/scdate/blob/main/src/sTime.ts#L54)

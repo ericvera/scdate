@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getDateForLastDayOfMonth()
 
 > **getDateForLastDayOfMonth**(`date`): [`SDate`](../classes/SDate.md)
+
+Defined in: [sDate.ts:138](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L138)
 
 Returns a new SDate instance set to the last day of the month for the
 provided date.
@@ -20,7 +22,3 @@ provided date.
 ## Returns
 
 [`SDate`](../classes/SDate.md)
-
-## Defined in
-
-[sDate.ts:140](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L140)

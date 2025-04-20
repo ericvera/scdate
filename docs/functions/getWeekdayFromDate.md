@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getWeekdayFromDate()
 
 > **getWeekdayFromDate**(`date`): `number`
+
+Defined in: [sDate.ts:195](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L195)
 
 Returns the day of the week from the given date (Sunday to Saturday / 0 to
 6).
@@ -20,7 +22,3 @@ Returns the day of the week from the given date (Sunday to Saturday / 0 to
 ## Returns
 
 `number`
-
-## Defined in
-
-[sDate.ts:197](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L197)

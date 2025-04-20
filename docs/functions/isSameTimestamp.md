@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isSameTimestamp()
 
 > **isSameTimestamp**(`timestamp1`, `timestamp2`): `boolean`
+
+Defined in: [sTimestamp.ts:407](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L407)
 
 Returns true if the two timestamps represent the same date and time. Returns
 false otherwise.
@@ -21,7 +23,3 @@ false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sTimestamp.ts:385](https://github.com/ericvera/scdate/blob/main/src/sTimestamp.ts#L385)

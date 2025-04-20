@@ -1,41 +1,4 @@
-import { UTCDate } from '@date-fns/utc'
-import { getTimezoneOffset, toZonedTime } from 'date-fns-tz'
-import { SDate } from './SDate.js'
-import { STimestamp } from './STimestamp.js'
-import { getDateAsUTCDateMini } from './date.js'
-import { getTimestampAsUTCDateMini } from './timestamp.js'
-
-const getValidatedTimeZoneOffset = (timeZone: string, utcDate: UTCDate) => {
-  const timeZoneOffset = getTimezoneOffset(timeZone, utcDate)
-
-  if (isNaN(timeZoneOffset)) {
-    throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
-  }
-
-  return timeZoneOffset
-}
-
-export const getMillisecondsInUTCFromTimestamp = (
-  timestamp: STimestamp,
-  timeZone: string,
-): number => {
-  const utcDate = getTimestampAsUTCDateMini(timestamp)
-
-  const timeZoneOffset = getValidatedTimeZoneOffset(timeZone, utcDate)
-
-  return utcDate.getTime() - timeZoneOffset
-}
-
-export const getMillisecondsInUTCFromDate = (
-  date: SDate,
-  timeZone: string,
-): number => {
-  const utcDate = getDateAsUTCDateMini(date)
-
-  const timeZoneOffset = getValidatedTimeZoneOffset(timeZone, utcDate)
-
-  return utcDate.getTime() - timeZoneOffset
-}
+import { toZonedTime } from 'date-fns-tz'
 
 /**
  * @param timeZone For a list of valid time zones run

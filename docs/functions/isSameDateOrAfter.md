@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: isSameDateOrAfter()
 
 > **isSameDateOrAfter**(`date1`, `date2`): `boolean`
+
+Defined in: [sDate.ts:508](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L508)
 
 Returns true when the first date represents a date that happens on the same
 date or after the second date and false otherwise.
@@ -21,7 +23,3 @@ date or after the second date and false otherwise.
 ## Returns
 
 `boolean`
-
-## Defined in
-
-[sDate.ts:486](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L486)

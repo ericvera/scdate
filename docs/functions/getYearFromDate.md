@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: getYearFromDate()
 
 > **getYearFromDate**(`date`): `number`
+
+Defined in: [sDate.ts:157](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L157)
 
 Returns the year from the given date.
 
@@ -19,7 +21,3 @@ Returns the year from the given date.
 ## Returns
 
 `number`
-
-## Defined in
-
-[sDate.ts:159](https://github.com/ericvera/scdate/blob/main/src/sDate.ts#L159)

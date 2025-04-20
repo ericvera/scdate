@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: addWeekdayToWeekdays()
 
 > **addWeekdayToWeekdays**(`weekdays`, `weekdayToAdd`): [`SWeekdays`](../classes/SWeekdays.md)
+
+Defined in: [sWeekdays.ts:209](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L209)
 
 Returns a new SWeekdays instance with the provided weekday added to the
 current set of weekdays.
@@ -21,7 +23,3 @@ current set of weekdays.
 ## Returns
 
 [`SWeekdays`](../classes/SWeekdays.md)
-
-## Defined in
-
-[sWeekdays.ts:209](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L209)

@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: sWeekdays()
 
 > **sWeekdays**(`weekdays`): [`SWeekdays`](../classes/SWeekdays.md)
+
+Defined in: [sWeekdays.ts:47](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L47)
 
 Returns a new SWeekdays instance.
 
@@ -32,7 +34,3 @@ sWeekdays('SM----S')
 sWeekdays('SMTWTFS')
 // Returns an instance of SWeekdays with all weekdays included.
 ```
-
-## Defined in
-
-[sWeekdays.ts:47](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L47)

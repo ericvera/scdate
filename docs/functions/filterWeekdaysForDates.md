@@ -1,4 +1,4 @@
-[**scdate**](../README.md) • **Docs**
+[**scdate**](../README.md)
 
 ---
 
@@ -7,6 +7,8 @@
 # Function: filterWeekdaysForDates()
 
 > **filterWeekdaysForDates**(`weekdays`, `fromDate`, `toDate`): [`SWeekdays`](../classes/SWeekdays.md)
+
+Defined in: [sWeekdays.ts:162](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L162)
 
 Returns a new SWeekdays instance where only the weekdays that are within the
 provided date range are included.
@@ -29,7 +31,3 @@ provided date range are included.
 filterWeekdaysForDates('SMTWTFS', '2020-03-05', '2020-03-05')
 // Returns an instance of SWeekdays with only Thursday included.
 ```
-
-## Defined in
-
-[sWeekdays.ts:162](https://github.com/ericvera/scdate/blob/main/src/sWeekdays.ts#L162)
