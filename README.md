@@ -36,7 +36,3 @@ The library was designed with schedules in mind that do not require second or sm
 ## Time zones
 
 For a list of valid time zones run `Intl.supportedValuesOf('timeZone')` in your environment.
-
-## API Reference
-
-See [docs](docs/README.md)
