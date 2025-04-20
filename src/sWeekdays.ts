@@ -77,7 +77,7 @@ export const sWeekdays = (weekdays: string | SWeekdays): SWeekdays => {
  * ```
  */
 export const getWeekdaysFromWeekdayFlags = (weekdays: Weekday): SWeekdays => {
-  const newWeekdays = [...AllWeekdaysIncludedMask]
+  const newWeekdays = Array.from(AllWeekdaysIncludedMask)
 
   for (let i = 0; i < DayToWeekday.length; i++) {
     const weekday = getAtIndex(DayToWeekday, i)
@@ -126,7 +126,7 @@ export const shiftWeekdaysForward = (
   weekdays: string | SWeekdays,
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
-  const after = [...NoWeekdaysIncluded]
+  const after = Array.from(NoWeekdaysIncluded)
 
   const DayShift = 1
 
@@ -211,7 +211,7 @@ export const addWeekdayToWeekdays = (
   weekdayToAdd: Weekday,
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
-  const newWeekdays = [...sWeekdaysInstance.weekdays]
+  const newWeekdays = Array.from(sWeekdaysInstance.weekdays)
   const weekdayIndex = getIndexForWeekday(weekdayToAdd)
 
   newWeekdays[weekdayIndex] = getAtIndex(AllWeekdaysIncludedMask, weekdayIndex)
