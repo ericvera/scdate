@@ -391,6 +391,11 @@ export const addDaysToDate = (date: string | SDate, days: number): SDate => {
  * @param date The date to add months to. It can be an SDate or a string in the
  * YYYY-MM-DD format.
  * @param months The number of months to add to the date.
+ * @param options Additional options for controlling the behavior of the function.
+ * @param options.capToCommonDate When true, if the original date is the 29th,
+ * 30th, or 31st, the result will be capped to the 28th of the month (the last
+ * date common to all months) rather than the last day of the target month.
+ * This ensures consistent date handling across all months.
  *
  * @example
  * ```ts
@@ -409,10 +414,19 @@ export const addDaysToDate = (date: string | SDate, days: number): SDate => {
  * addMonthsToDate('2024-01-31', 1)
  * //=> '2024-02-29' (February in leap year)
  * ```
+ *
+ * @example
+ * ```ts
+ * addMonthsToDate('2023-01-31', 3, { capToCommonDate: true })
+ * //=> '2023-04-28' (capped to the 28th regardless of month length)
+ * ```
  */
 export const addMonthsToDate = (
   date: string | SDate,
   months: number,
+  options?: {
+    capToCommonDate?: boolean
+  },
 ): SDate => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
@@ -426,15 +440,20 @@ export const addMonthsToDate = (
   // Then set the new month
   nativeDate.setMonth(currentMonth + months)
 
-  // Get the last day of the target month
-  const lastDayOfMonth = new UTCDateMini(
-    nativeDate.getFullYear(),
-    nativeDate.getMonth() + 1,
-    0,
-  ).getDate()
+  // If capToCommonDate is true and the original day is greater than 28, cap to 28
+  if (options?.capToCommonDate && currentDay > 28) {
+    nativeDate.setDate(28)
+  } else {
+    // Get the last day of the target month
+    const lastDayOfMonth = new UTCDateMini(
+      nativeDate.getFullYear(),
+      nativeDate.getMonth() + 1,
+      0,
+    ).getDate()
 
-  // Set the day, clamping to the last day of the month if necessary
-  nativeDate.setDate(Math.min(currentDay, lastDayOfMonth))
+    // Set the day, clamping to the last day of the month if necessary
+    nativeDate.setDate(Math.min(currentDay, lastDayOfMonth))
+  }
 
   return sDate(getISODateFromZonedDate(nativeDate))
 }

@@ -104,7 +104,11 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
 
 - **`getDateForLastDayOfMonth(date)`**: Returns a new date set to the last day of the month, which varies depending on the month and year (accounting for leap years).
 
-- **`addMonthsToDate(date, months)`**: Properly handles month boundaries by clamping to the last day of the target month. For example, adding one month to January 31 will result in February 28/29 (depending on leap year), adding 3 months will result in April 30, and adding 5 months will result in June 30. This ensures consistent and predictable date handling when crossing between months with different numbers of days.
+- **`addMonthsToDate(date, months, options?)`**: Properly handles month boundaries by clamping to the last day of the target month. For example, adding one month to January 31 will result in February 28/29 (depending on leap year), adding 3 months will result in April 30, and adding 5 months will result in June 30. This ensures consistent and predictable date handling when crossing between months with different numbers of days.
+
+  Accepts an optional `options` object with:
+
+  - `capToCommonDate`: When set to `true`, dates greater than the 28th will always be capped to the 28th of the target month (the last date common to all months). For example, `addMonthsToDate('2023-01-31', 3, { capToCommonDate: true })` will result in `'2023-04-28'` rather than `'2023-04-30'`. This is useful for scheduling scenarios where you need consistent date behavior across all months.
 
 - **`isDateToday(date, timeZone)`**: The comparison is time-zone aware, so a date that is "today" in one time zone might not be "today" in another time zone.
 

@@ -716,6 +716,58 @@ describe('addMonthsToDate', () => {
     )
   })
 
+  it('caps dates beyond 28th to the 28th of the month', () => {
+    expect(
+      addMonthsToDate('2023-01-29', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-28"`)
+    expect(
+      addMonthsToDate('2023-01-30', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-28"`)
+    expect(
+      addMonthsToDate('2023-01-31', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-28"`)
+  })
+
+  it('caps dates to 28th even in months with 31 days', () => {
+    expect(
+      addMonthsToDate('2023-01-31', 2, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-03-28"`)
+    expect(
+      addMonthsToDate('2023-01-29', 2, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-03-28"`)
+  })
+
+  it('preserves dates up to and including the 28th', () => {
+    expect(
+      addMonthsToDate('2023-01-28', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-28"`)
+    expect(
+      addMonthsToDate('2023-01-15', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-15"`)
+    expect(
+      addMonthsToDate('2023-01-01', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-01"`)
+  })
+
+  it('works with negative month additions (with capToCommonDate)', () => {
+    expect(
+      addMonthsToDate('2023-03-31', -1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-28"`)
+    expect(
+      addMonthsToDate('2023-03-29', -1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2023-02-28"`)
+  })
+
+  it('works with leap years (with capToCommonDate)', () => {
+    // Even in leap years, it still caps to 28th
+    expect(
+      addMonthsToDate('2024-01-31', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2024-02-28"`)
+    expect(
+      addMonthsToDate('2024-01-29', 1, { capToCommonDate: true }),
+    ).toMatchInlineSnapshot(`"2024-02-28"`)
+  })
+
   it('throws for invalid date', () => {
     expect(() => {
       addMonthsToDate('2021-01-0', 1)
