@@ -24,7 +24,7 @@
     "test:utc:watch": "TZ=Etc/Universal yarn test:watch",
     "smoke": "yarn build && yarn lint && yarn test:utc",
     "-- PRE-COMMIT HOOKS --": "",
-    "localAfterInstall": "is-ci || husky || true",
+    "localAfterInstall": "husky || true",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },
