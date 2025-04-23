@@ -104,7 +104,7 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
 
 - **`getDateForLastDayOfMonth(date)`**: Returns a new date set to the last day of the month, which varies depending on the month and year (accounting for leap years).
 
-- **`addMonthsToDate(date, months)`**: Handles month overflow correctly. For example, adding one month to January 31 will result in either February 28 or 29 (depending on leap year), not March 3.
+- **`addMonthsToDate(date, months)`**: Properly handles month boundaries by clamping to the last day of the target month. For example, adding one month to January 31 will result in February 28/29 (depending on leap year), adding 3 months will result in April 30, and adding 5 months will result in June 30. This ensures consistent and predictable date handling when crossing between months with different numbers of days.
 
 - **`isDateToday(date, timeZone)`**: The comparison is time-zone aware, so a date that is "today" in one time zone might not be "today" in another time zone.
 

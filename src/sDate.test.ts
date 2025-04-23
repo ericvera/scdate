@@ -659,9 +659,60 @@ describe('addMonthsToDate', () => {
     )
   })
 
+  it('works for the previous month (with day overflow leap year)', () => {
+    expect(addMonthsToDate('2024-02-29', -12)).toMatchInlineSnapshot(
+      `"2023-02-28"`,
+    )
+  })
+
+  it('works for the previous month (with day overflow)', () => {
+    expect(addMonthsToDate('2024-03-30', -1)).toMatchInlineSnapshot(
+      `"2024-02-29"`,
+    )
+  })
+
   it('works for the no change in month', () => {
     expect(addMonthsToDate('2021-01-01', 0)).toMatchInlineSnapshot(
       `"2021-01-01"`,
+    )
+  })
+
+  it('properly handles 31st day to months with less than 31 days', () => {
+    expect(addMonthsToDate('2023-01-31', 1)).toMatchInlineSnapshot(
+      `"2023-02-28"`,
+    )
+    expect(addMonthsToDate('2023-01-31', 3)).toMatchInlineSnapshot(
+      `"2023-04-30"`,
+    )
+    expect(addMonthsToDate('2023-01-31', 5)).toMatchInlineSnapshot(
+      `"2023-06-30"`,
+    )
+  })
+
+  it('properly handles month transitions across year boundaries', () => {
+    expect(addMonthsToDate('2023-12-31', 1)).toMatchInlineSnapshot(
+      `"2024-01-31"`,
+    )
+    expect(addMonthsToDate('2023-12-31', 2)).toMatchInlineSnapshot(
+      `"2024-02-29"`,
+    )
+  })
+
+  it('properly handles negative month additions across year boundaries', () => {
+    expect(addMonthsToDate('2024-01-31', -1)).toMatchInlineSnapshot(
+      `"2023-12-31"`,
+    )
+    expect(addMonthsToDate('2024-01-31', -2)).toMatchInlineSnapshot(
+      `"2023-11-30"`,
+    )
+  })
+
+  it('handles large month differences', () => {
+    expect(addMonthsToDate('2023-01-31', 24)).toMatchInlineSnapshot(
+      `"2025-01-31"`,
+    )
+    expect(addMonthsToDate('2023-01-31', -24)).toMatchInlineSnapshot(
+      `"2021-01-31"`,
     )
   })
 
