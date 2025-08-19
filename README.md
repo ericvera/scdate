@@ -78,6 +78,11 @@ const weekday = getWeekdayFromDate(date1) // Get weekday (0-6)
 const nextTuesday = getNextDateByWeekday(date1, Weekday.Tue)
 const prevFriday = getPreviousDateByWeekday(date1, Weekday.Fri)
 
+// Date calculations
+const daysBetween = getDaysBetweenDates(date1, date2) // Days between dates (positive if date2 is later)
+const utcMs = getUTCMillisecondsFromDate(date1, 'America/Puerto_Rico') // Convert to UTC milliseconds
+const zonedDate = getTimeZonedDateFromDate(date1, 'America/Puerto_Rico') // Get timezone-adjusted Date
+
 // Date comparison
 const isEqual = isSameDate(date1, date2)
 const isBefore = isBeforeDate(date1, date2)
@@ -85,6 +90,10 @@ const isAfter = isAfterDate(date1, date2)
 const isSameOrBefore = isSameDateOrBefore(date1, date2)
 const isSameOrAfter = isSameDateOrAfter(date1, date2)
 const isToday = isDateToday(date1, 'America/Puerto_Rico')
+const isSameMonth = areDatesInSameMonth(date1, date2) // Check if dates are in same month & year
+const isSameYear = areDatesInSameYear(date1, date2) // Check if dates are in same year
+const isCurrentMonth = isDateInCurrentMonth(date1, 'America/Puerto_Rico') // Check if in current month
+const isCurrentYear = isDateInCurrentYear(date1, 'America/Puerto_Rico') // Check if in current year
 
 // Date formatting
 const fullDateStr = getFullDateString(date1, 'en-US')
@@ -107,10 +116,19 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
 - **`addMonthsToDate(date, months, options?)`**: Properly handles month boundaries by clamping to the last day of the target month. For example, adding one month to January 31 will result in February 28/29 (depending on leap year), adding 3 months will result in April 30, and adding 5 months will result in June 30. This ensures consistent and predictable date handling when crossing between months with different numbers of days.
 
   Accepts an optional `options` object with:
-
   - `capToCommonDate`: When set to `true`, dates greater than the 28th will always be capped to the 28th of the target month (the last date common to all months). For example, `addMonthsToDate('2023-01-31', 3, { capToCommonDate: true })` will result in `'2023-04-28'` rather than `'2023-04-30'`. This is useful for scheduling scenarios where you need consistent date behavior across all months.
 
 - **`isDateToday(date, timeZone)`**: The comparison is time-zone aware, so a date that is "today" in one time zone might not be "today" in another time zone.
+
+- **`getDaysBetweenDates(date1, date2)`**: Returns the number of calendar days between two dates. The result is positive if date2 is after date1, negative if before. This accounts for calendar days rather than full 24-hour periods.
+
+- **`getUTCMillisecondsFromDate(date, timeZone)`**: Converts a date to UTC milliseconds since the Unix epoch, accounting for the specified time zone offset.
+
+- **`getTimeZonedDateFromDate(date, timeZone)`**: Returns a native Date object adjusted so that its local time matches the local time at the specified time zone.
+
+- **`areDatesInSameMonth(date1, date2)` / `areDatesInSameYear(date1, date2)`**: Check if two dates fall within the same month/year. For months, both the month and year must match.
+
+- **`isDateInCurrentMonth(date, timeZone)` / `isDateInCurrentYear(date, timeZone)`**: Check if a date falls within the current month or year in the specified time zone.
 
 ### Time Operations (`STime`)
 
@@ -133,6 +151,8 @@ const totalMinutes = getTimeInMinutes(time1) // Get total minutes since midnight
 
 // Time formatting
 const timeString = get12HourTimeString(time1) // e.g., "2:30 PM"
+const hoursString = get12HoursHoursStringFromTime(time1) // Get hours in 12-hour format (e.g., "2")
+const minutesString = getMinutesStringFromTime(time1) // Get minutes as 2-digit string (e.g., "30")
 
 // Time comparison
 const isEqual = isSameTime(time1, time2)
@@ -150,6 +170,10 @@ const isPM = isTimePM(time1)
 - **`getTimeInMinutes(time, midnightIs24)`**: By default, midnight (00:00) is represented as 0 minutes. If `midnightIs24` is set to `true`, midnight will be represented as 1440 minutes (24 hours).
 
 - **`isTimePM(time)`**: Hours from 12:00 to 23:59 are considered PM, while 00:00 to 11:59 are AM. 12:00 is considered PM, not AM.
+
+- **`get12HoursHoursStringFromTime(time)`**: Returns the hours component in 12-hour format as a string (1-12).
+
+- **`getMinutesStringFromTime(time)`**: Returns the minutes component as a zero-padded 2-digit string (00-59).
 
 ### Timestamp Operations (`STimestamp`)
 
