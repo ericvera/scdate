@@ -1,0 +1,53 @@
+{
+  "name": "scdate",
+  "version": "2.0.2",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "!/**/__test__",
+    "!*.test.*"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@date-fns/utc": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^4.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericvera/scdate.git"
+  },
+  "keywords": [
+    "date",
+    "time zones",
+    "time",
+    "datetime",
+    "immutable",
+    "schedule",
+    "timestamp"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

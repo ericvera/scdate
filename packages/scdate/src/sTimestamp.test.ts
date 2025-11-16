@@ -142,8 +142,9 @@ describe('getUTCMillisecondsFromTimestamp', () => {
       TestLocalTimeZone,
     )
 
-    // 1697394600000 is '2023-10-15T18:30' in UTC (+4 from local time zone) which
-    // is what is expected for the timestamp in the local time zone.
+    // 1697394600000 is '2023-10-15T18:30' in UTC (+4 from local
+    // time zone) which is what is expected for the timestamp in
+    // the local time zone.
     expect(utcMilliseconds).toBe(1697394600000)
   })
 

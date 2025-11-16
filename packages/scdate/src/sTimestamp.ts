@@ -96,13 +96,16 @@ export const getTimestampFromDateAndTime = (
  */
 
 /**
- * Returns the number of milliseconds since the Unix epoch (January 1, 1970, 00:00:00 UTC)
- * for the given timestamp in the specified time zone.
+ * Returns the number of milliseconds since the Unix epoch
+ * (January 1, 1970, 00:00:00 UTC) for the given timestamp in the
+ * specified time zone.
  *
- * @param timestamp The timestamp to convert to UTC milliseconds. It can be an STimestamp
- * or a string in the YYYY-MM-DDTHH:MM format.
- * @param timeZone The time zone to use when converting the timestamp. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timestamp The timestamp to convert to UTC milliseconds.
+ * It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM
+ * format.
+ * @param timeZone The time zone to use when converting the
+ * timestamp. See `Intl.supportedValuesOf('timeZone')` for a list
+ * of valid time zones.
  */
 export const getUTCMillisecondsFromTimestamp = (
   timestamp: string | STimestamp,
@@ -177,16 +180,26 @@ export const getTimeZonedDateFromTimestamp = (
  * In 'America/New_York'
  *
  * Transition to Eastern Daylight Time (EDT) in 2024
- * | Time Zone        | T1                    | T2                     | T3                    |
- * |------------------|-----------------------|------------------------|-----------------------|
- * | America/New_York | 2024-03-10T01:59(EST) | 2024-03-10T02:00(EDT)  | 2024-03-10T03:00(EST) |
- * | UTC              | 2024-03-10T06:59      | 2024-03-10T06:00       | 2024-03-10T07:00      |
+ * | Time Zone        | T1                  | T2                  |
+ * |------------------|---------------------|---------------------|
+ * | America/New_York | 2024-03-10T01:59EST | 2024-03-10T02:00EDT |
+ * | UTC              | 2024-03-10T06:59    | 2024-03-10T06:00    |
+ *
+ * | Time Zone        | T3                  |
+ * |------------------|---------------------|
+ * | America/New_York | 2024-03-10T03:00EST |
+ * | UTC              | 2024-03-10T07:00    |
  *
  * Transition to Eastern Standard Time (EST) in 2024
- * | Time Zone        | T1                    | T2                     | T3                    |
- * |------------------|-----------------------|------------------------|-----------------------|
- * | America/New_York | 2024-11-03T01:59(EDT) | 2024-11-03T02:00(EST)  | 2024-11-03T03:00(EST) |
- * | UTC              | 2024-11-03T05:59      | 2024-11-03T07:00       | 2024-11-03T08:00      |
+ * | Time Zone        | T1                  | T2                  |
+ * |------------------|---------------------|---------------------|
+ * | America/New_York | 2024-11-03T01:59EDT | 2024-11-03T02:00EST |
+ * | UTC              | 2024-11-03T05:59    | 2024-11-03T07:00    |
+ *
+ * | Time Zone        | T3                  |
+ * |------------------|---------------------|
+ * | America/New_York | 2024-11-03T03:00EST |
+ * | UTC              | 2024-11-03T08:00    |
  *
  * @param timestamp The timestamp to get the seconds to. It can be an STimestamp
  * or a string in the YYYY-MM-DDTHH:MM format.
@@ -355,16 +368,26 @@ export const addDaysToTimestamp = (
  * In 'America/New_York'
  *
  * Transition to Eastern Daylight Time (EDT) in 2024
- * | Time Zone        | T1                    | T2                     | T3                    |
- * |------------------|-----------------------|------------------------|-----------------------|
- * | America/New_York | 2024-03-10T01:59(EST) | 2024-03-10T02:00(EDT)  | 2024-03-10T03:00(EST) |
- * | UTC              | 2024-03-10T06:59      | 2024-03-10T06:00       | 2024-03-10T07:00      |
+ * | Time Zone        | T1                  | T2                  |
+ * |------------------|---------------------|---------------------|
+ * | America/New_York | 2024-03-10T01:59EST | 2024-03-10T02:00EDT |
+ * | UTC              | 2024-03-10T06:59    | 2024-03-10T06:00    |
+ *
+ * | Time Zone        | T3                  |
+ * |------------------|---------------------|
+ * | America/New_York | 2024-03-10T03:00EST |
+ * | UTC              | 2024-03-10T07:00    |
  *
  * Transition to Eastern Standard Time (EST) in 2024
- * | Time Zone        | T1                    | T2                     | T3                    |
- * |------------------|-----------------------|------------------------|-----------------------|
- * | America/New_York | 2024-11-03T01:59(EDT) | 2024-11-03T02:00(EST)  | 2024-11-03T03:00(EST) |
- * | UTC              | 2024-11-03T05:59      | 2024-11-03T07:00       | 2024-11-03T08:00      |
+ * | Time Zone        | T1                  | T2                  |
+ * |------------------|---------------------|---------------------|
+ * | America/New_York | 2024-11-03T01:59EDT | 2024-11-03T02:00EST |
+ * | UTC              | 2024-11-03T05:59    | 2024-11-03T07:00    |
+ *
+ * | Time Zone        | T3                  |
+ * |------------------|---------------------|
+ * | America/New_York | 2024-11-03T03:00EST |
+ * | UTC              | 2024-11-03T08:00    |
  *
  * @param timestamp The timestamp to add minutes to. It can be an STimestamp or
  * a string in the YYYY-MM-DDTHH:MM format.

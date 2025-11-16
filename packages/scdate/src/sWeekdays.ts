@@ -64,9 +64,11 @@ export const sWeekdays = (weekdays: string | SWeekdays): SWeekdays => {
  *
  * @example
  * ```ts
- * getWeekdaysFromWeekdayFlags(Weekday.Monday | Weekday.Wednesday | Weekday.Friday)
- * // Returns an instance of SWeekdays with the weekdays Monday, Wednesday, and
- * // Friday included while the rest are excluded.
+ * getWeekdaysFromWeekdayFlags(
+ *   Weekday.Monday | Weekday.Wednesday | Weekday.Friday
+ * )
+ * // Returns an instance of SWeekdays with the weekdays Monday,
+ * // Wednesday, and Friday included while the rest are excluded.
  * ```
  *
  * @example

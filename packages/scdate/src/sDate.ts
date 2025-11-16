@@ -201,11 +201,11 @@ export const getWeekdayFromDate = (date: string | SDate): number => {
 }
 
 /**
- * Returns the number of milliseconds since the Unix epoch (January 1, 1970, 00:00:00 UTC)
- * for the given date in the specified time zone.
+ * Returns the number of milliseconds since the Unix epoch (January 1,
+ * 1970, 00:00:00 UTC) for the given date in the specified time zone.
  *
- * @param date The date to convert to UTC milliseconds. It can be an SDate or a string
- * in the YYYY-MM-DD format.
+ * @param date The date to convert to UTC milliseconds. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
  * @param timeZone The time zone to use when converting the date. See
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
@@ -383,18 +383,21 @@ export const addDaysToDate = (date: string | SDate, days: number): SDate => {
  * number of months to the given date. Because it just adds to the month
  * component of the date, this operation is not affected by time zones.
  *
- * When the original date's day exceeds the number of days in the target month,
- * the function will automatically clamp to the last day of the target month
- * rather than rolling over to the next month. For example, adding 1 month to
- * January 31 will result in February 28/29 (depending on leap year), not March 3.
+ * When the original date's day exceeds the number of days in the
+ * target month, the function will automatically clamp to the last day of
+ * the target month rather than rolling over to the next month. For
+ * example, adding 1 month to January 31 will result in February 28/29
+ * (depending on leap year), not March 3.
  *
- * @param date The date to add months to. It can be an SDate or a string in the
- * YYYY-MM-DD format.
+ * @param date The date to add months to. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
  * @param months The number of months to add to the date.
- * @param options Additional options for controlling the behavior of the function.
- * @param options.capToCommonDate When true, if the original date is the 29th,
- * 30th, or 31st, the result will be capped to the 28th of the month (the last
- * date common to all months) rather than the last day of the target month.
+ * @param options Additional options for controlling the behavior of the
+ * function.
+ * @param options.capToCommonDate When true, if the original date is the
+ * 29th, 30th, or 31st, the result will be capped to the 28th of the
+ * month (the last date common to all months) rather than the last day of
+ * the target month.
  * This ensures consistent date handling across all months.
  *
  * @example
@@ -440,7 +443,8 @@ export const addMonthsToDate = (
   // Then set the new month
   nativeDate.setMonth(currentMonth + months)
 
-  // If capToCommonDate is true and the original day is greater than 28, cap to 28
+  // If capToCommonDate is true and the original day is greater than
+  // 28, cap to 28
   if (options?.capToCommonDate && currentDay > 28) {
     nativeDate.setDate(28)
   } else {
@@ -519,13 +523,13 @@ export const isBeforeDate = (
 }
 
 /**
- * Returns true when the first date represents a date that happens on the same
- * date or before the second date and false otherwise.
+ * Returns true when the first date represents a date that happens on the
+ * same date or before the second date and false otherwise.
  *
- * @param date1 The first date to compare. It can be an SDate or a string in the
- * YYYY-MM-DD format.
- * @param date2 The second date to compare. It can be an SDate or a string in the
- * the YYYY-MM-DD format.
+ * @param date1 The first date to compare. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
  */
 export const isSameDateOrBefore = (
   date1: string | SDate,
@@ -538,13 +542,13 @@ export const isSameDateOrBefore = (
 }
 
 /**
- * Returns true when the first date represents a date that happens after the
- * second date and false otherwise.
+ * Returns true when the first date represents a date that happens after
+ * the second date and false otherwise.
  *
- * @param date1 The first date to compare. It can be an SDate or a string in the
- * YYYY-MM-DD format.
- * @param date2 The second date to compare. It can be an SDate or a string in the
- * the YYYY-MM-DD format.
+ * @param date1 The first date to compare. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
  */
 export const isAfterDate = (
   date1: string | SDate,
@@ -557,13 +561,13 @@ export const isAfterDate = (
 }
 
 /**
- * Returns true when the first date represents a date that happens on the same
- * date or after the second date and false otherwise.
+ * Returns true when the first date represents a date that happens on the
+ * same date or after the second date and false otherwise.
  *
- * @param date1 The first date to compare. It can be an SDate or a string in the
- * YYYY-MM-DD format.
- * @param date2 The second date to compare. It can be an SDate or a string in the
- * the YYYY-MM-DD format.
+ * @param date1 The first date to compare. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param date2 The second date to compare. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
  */
 export const isSameDateOrAfter = (
   date1: string | SDate,
