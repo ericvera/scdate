@@ -2,10 +2,10 @@
  * --- Factory ---
  */
 
-import { Weekday } from './constants.js'
+import { DayToWeekday, Weekday } from './constants.js'
 import { SDate } from './internal/SDate.js'
 import { SWeekdays } from './internal/SWeekdays.js'
-import { DayToWeekday, DaysInWeek } from './internal/constants.js'
+import { DaysInWeek } from './internal/constants.js'
 import { getAtIndex, hasFlag } from './internal/utils.js'
 import { getIndexForWeekday } from './internal/weekdays.js'
 import {
@@ -109,6 +109,54 @@ export const getWeekdaysWithNoneIncluded = (): SWeekdays => {
 /**
  * --- Operations ---
  */
+
+/**
+ * Returns the previous weekday (the day before the provided weekday).
+ *
+ * @param weekday The weekday to get the previous weekday for.
+ *
+ * @example
+ * ```ts
+ * getPreviousWeekday(Weekday.Mon)
+ * // Returns Weekday.Sun
+ * ```
+ *
+ * @example
+ * ```ts
+ * getPreviousWeekday(Weekday.Sun)
+ * // Returns Weekday.Sat
+ * ```
+ */
+export const getPreviousWeekday = (weekday: Weekday): Weekday => {
+  const weekdayIndex = getIndexForWeekday(weekday)
+  const previousIndex = (weekdayIndex + DaysInWeek - 1) % DaysInWeek
+
+  return getAtIndex(DayToWeekday, previousIndex)
+}
+
+/**
+ * Returns the next weekday (the day after the provided weekday).
+ *
+ * @param weekday The weekday to get the next weekday for.
+ *
+ * @example
+ * ```ts
+ * getNextWeekday(Weekday.Mon)
+ * // Returns Weekday.Tue
+ * ```
+ *
+ * @example
+ * ```ts
+ * getNextWeekday(Weekday.Sat)
+ * // Returns Weekday.Sun
+ * ```
+ */
+export const getNextWeekday = (weekday: Weekday): Weekday => {
+  const weekdayIndex = getIndexForWeekday(weekday)
+  const nextIndex = (weekdayIndex + 1) % DaysInWeek
+
+  return getAtIndex(DayToWeekday, nextIndex)
+}
 
 /**
  * Returns a new SWeekdays instance with the weekdays shifted forward by one
@@ -269,4 +317,58 @@ export const doesWeekdaysHaveOverlapWithWeekdays = (
   }
 
   return false
+}
+
+/**
+ * Returns true if the two weekdays patterns are equal (have the same days
+ * included). Returns false otherwise.
+ *
+ * @param weekdays1 The first weekdays pattern to compare. It can be an
+ * SWeekdays or a string in the SMTWTFS format.
+ * @param weekdays2 The second weekdays pattern to compare. It can be an
+ * SWeekdays or a string in the SMTWTFS format.
+ *
+ * @example
+ * ```ts
+ * areWeekdaysEqual('SMTWTFS', 'SMTWTFS')
+ * // Returns true
+ * ```
+ *
+ * @example
+ * ```ts
+ * areWeekdaysEqual('SM----S', '-MTWTF-')
+ * // Returns false
+ * ```
+ */
+export const areWeekdaysEqual = (
+  weekdays1: string | SWeekdays,
+  weekdays2: string | SWeekdays,
+): boolean => {
+  const sWeekdays1 = sWeekdays(weekdays1)
+  const sWeekdays2 = sWeekdays(weekdays2)
+
+  return sWeekdays1.weekdays === sWeekdays2.weekdays
+}
+
+/**
+ * Returns true if the weekdays pattern has no days selected (i.e., '-------').
+ * Returns false otherwise.
+ *
+ * @param weekdays The weekdays pattern to check. It can be an SWeekdays or a
+ * string in the SMTWTFS format.
+ *
+ * @example
+ * ```ts
+ * isWeekdaysEmpty('-------')
+ * // Returns true
+ * ```
+ *
+ * @example
+ * ```ts
+ * isWeekdaysEmpty('S------')
+ * // Returns false (Sunday is included)
+ * ```
+ */
+export const isWeekdaysEmpty = (weekdays: string | SWeekdays): boolean => {
+  return areWeekdaysEqual(weekdays, getWeekdaysWithNoneIncluded())
 }

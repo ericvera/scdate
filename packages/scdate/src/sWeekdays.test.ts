@@ -3,12 +3,16 @@ import { Weekday } from './constants.js'
 import { sDate } from './sDate.js'
 import {
   addWeekdayToWeekdays,
+  areWeekdaysEqual,
   doesWeekdaysHaveOverlapWithWeekdays,
   doesWeekdaysIncludeWeekday,
   filterWeekdaysForDates,
+  getNextWeekday,
+  getPreviousWeekday,
   getWeekdaysFromWeekdayFlags,
   getWeekdaysWithAllIncluded,
   getWeekdaysWithNoneIncluded,
+  isWeekdaysEmpty,
   sWeekdays,
   shiftWeekdaysForward,
 } from './sWeekdays.js'
@@ -131,6 +135,66 @@ describe('getWeekdaysWithNoneIncluded', () => {
 /**
  * --- Operations ---
  */
+
+describe('getPreviousWeekday', () => {
+  it('returns Saturday when given Sunday', () => {
+    expect(getPreviousWeekday(Weekday.Sun)).toBe(Weekday.Sat)
+  })
+
+  it('returns Sunday when given Monday', () => {
+    expect(getPreviousWeekday(Weekday.Mon)).toBe(Weekday.Sun)
+  })
+
+  it('returns Monday when given Tuesday', () => {
+    expect(getPreviousWeekday(Weekday.Tue)).toBe(Weekday.Mon)
+  })
+
+  it('returns Tuesday when given Wednesday', () => {
+    expect(getPreviousWeekday(Weekday.Wed)).toBe(Weekday.Tue)
+  })
+
+  it('returns Wednesday when given Thursday', () => {
+    expect(getPreviousWeekday(Weekday.Thu)).toBe(Weekday.Wed)
+  })
+
+  it('returns Thursday when given Friday', () => {
+    expect(getPreviousWeekday(Weekday.Fri)).toBe(Weekday.Thu)
+  })
+
+  it('returns Friday when given Saturday', () => {
+    expect(getPreviousWeekday(Weekday.Sat)).toBe(Weekday.Fri)
+  })
+})
+
+describe('getNextWeekday', () => {
+  it('returns Monday when given Sunday', () => {
+    expect(getNextWeekday(Weekday.Sun)).toBe(Weekday.Mon)
+  })
+
+  it('returns Tuesday when given Monday', () => {
+    expect(getNextWeekday(Weekday.Mon)).toBe(Weekday.Tue)
+  })
+
+  it('returns Wednesday when given Tuesday', () => {
+    expect(getNextWeekday(Weekday.Tue)).toBe(Weekday.Wed)
+  })
+
+  it('returns Thursday when given Wednesday', () => {
+    expect(getNextWeekday(Weekday.Wed)).toBe(Weekday.Thu)
+  })
+
+  it('returns Friday when given Thursday', () => {
+    expect(getNextWeekday(Weekday.Thu)).toBe(Weekday.Fri)
+  })
+
+  it('returns Saturday when given Friday', () => {
+    expect(getNextWeekday(Weekday.Fri)).toBe(Weekday.Sat)
+  })
+
+  it('returns Sunday when given Saturday', () => {
+    expect(getNextWeekday(Weekday.Sat)).toBe(Weekday.Sun)
+  })
+})
 
 describe('shiftWeekdaysForward', () => {
   it('works with a single day (first)', () => {
@@ -422,5 +486,75 @@ describe('doesWeekdaysOverlapWithWeekdays', () => {
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid weekdays format. Expected format: SMTWTFS. Any of the values can be replaced with a '-'. Current value: 'xxxxxxx'.]`,
     )
+  })
+})
+
+describe('areWeekdaysEqual', () => {
+  it('returns true for identical weekdays patterns', () => {
+    expect(areWeekdaysEqual('SMTWTFS', 'SMTWTFS')).toBe(true)
+  })
+
+  it('returns true for identical partial weekdays patterns', () => {
+    expect(areWeekdaysEqual('SM----S', 'SM----S')).toBe(true)
+  })
+
+  it('returns true for identical empty weekdays patterns', () => {
+    expect(areWeekdaysEqual('-------', '-------')).toBe(true)
+  })
+
+  it('returns false for different weekdays patterns', () => {
+    expect(areWeekdaysEqual('SM----S', '-MTWTF-')).toBe(false)
+  })
+
+  it('returns false when one pattern has all days and other has none', () => {
+    expect(areWeekdaysEqual('SMTWTFS', '-------')).toBe(false)
+  })
+
+  it('returns false when patterns differ by one day', () => {
+    expect(areWeekdaysEqual('SMTWTFS', 'SMTWTF-')).toBe(false)
+  })
+
+  it('works with SWeekdays instances', () => {
+    expect(areWeekdaysEqual(sWeekdays('SM----S'), sWeekdays('SM----S'))).toBe(
+      true,
+    )
+  })
+
+  it('works with mixed string and SWeekdays instances', () => {
+    expect(areWeekdaysEqual('SM----S', sWeekdays('SM----S'))).toBe(true)
+  })
+})
+
+describe('isWeekdaysEmpty', () => {
+  it('returns true for empty weekdays pattern', () => {
+    expect(isWeekdaysEmpty('-------')).toBe(true)
+  })
+
+  it('returns false when Sunday is included', () => {
+    expect(isWeekdaysEmpty('S------')).toBe(false)
+  })
+
+  it('returns false when Monday is included', () => {
+    expect(isWeekdaysEmpty('-M-----')).toBe(false)
+  })
+
+  it('returns false when Saturday is included', () => {
+    expect(isWeekdaysEmpty('------S')).toBe(false)
+  })
+
+  it('returns false when all days are included', () => {
+    expect(isWeekdaysEmpty('SMTWTFS')).toBe(false)
+  })
+
+  it('returns false when multiple days are included', () => {
+    expect(isWeekdaysEmpty('SM----S')).toBe(false)
+  })
+
+  it('works with SWeekdays instances', () => {
+    expect(isWeekdaysEmpty(sWeekdays('-------'))).toBe(true)
+  })
+
+  it('works with getWeekdaysWithNoneIncluded', () => {
+    expect(isWeekdaysEmpty(getWeekdaysWithNoneIncluded())).toBe(true)
   })
 })

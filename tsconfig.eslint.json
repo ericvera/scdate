@@ -5,6 +5,7 @@
     "checkJs": true
   },
   "include": [
+    "vitest.config.ts",
     "eslint.config.mjs",
     "packages/*/vitest.config.ts",
     "packages/*/eslint.config.mjs"

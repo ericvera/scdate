@@ -1,12 +1,8 @@
 import { UTCDateMini } from '@date-fns/utc'
 import { getTimezoneOffset } from 'date-fns-tz'
-import { Weekday } from './constants.js'
+import { DayToWeekday, Weekday } from './constants.js'
 import { SDate } from './internal/SDate.js'
-import {
-  DayToWeekday,
-  DaysInWeek,
-  MillisecondsInDay,
-} from './internal/constants.js'
+import { DaysInWeek, MillisecondsInDay } from './internal/constants.js'
 import {
   getDateAsUTCDateMini,
   getISODateFromISODate,

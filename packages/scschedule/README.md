@@ -131,8 +131,8 @@ interface OverrideScheduleRule {
 
 Rules are evaluated in order of priority:
 
-1. **Specific override** (with both `from` and `to`) - highest priority
-2. **Indefinite override** (with only `from`, no `to`)
+1. **Specific override** (with both `from` and `to`) - highest priority, shortest duration wins when multiple could apply
+2. **Indefinite override** (with only `from`, no `to`) - when multiple indefinite overrides could apply, the one with the latest `from` date wins (most recent policy)
 3. **Weekly rules** - lowest priority (base schedule)
 
 ## API Reference
@@ -168,17 +168,19 @@ if (!result.valid) {
 **Validation checks**:
 
 - Valid timezone (in `Intl.supportedValuesOf('timeZone')`)
-- At most one indefinite override
-- No overlapping specific overrides
+- No duplicate overrides (identical from/to dates)
+- No overlapping specific overrides (hierarchical nesting allowed)
 - No overlapping time ranges within rules (same weekday)
 - All rules have at least one time range
 - Valid scdate formats (SDate, STime, SWeekdays)
+- No empty weekdays patterns (e.g., '-------' with no days selected)
+- Override weekdays must match at least one date in the override's date range
 
 ### Schedule Management
 
 #### `cleanupExpiredOverridesFromSchedule(schedule: Schedule, beforeDate: SDate | string): Schedule`
 
-Removes expired overrides before a given date. Returns a new Schedule instance.
+Removes expired overrides (with a `to` date) that ended before a given date. Indefinite overrides (no `to` date) are never removed. Returns a new Schedule instance.
 
 ```typescript
 import { cleanupExpiredOverridesFromSchedule } from 'scschedule'
@@ -206,9 +208,9 @@ const isOpen = isScheduleAvailable(
 )
 ```
 
-#### `getNextAvailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string): STimestamp | undefined`
+#### `getNextAvailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch?: number): STimestamp | undefined`
 
-Find the next available timestamp from a given time.
+Find the next available timestamp from a given time. Searches up to `maxDaysToSearch` days (default: 365).
 
 ```typescript
 import { getNextAvailableFromSchedule } from 'scschedule'
@@ -413,8 +415,8 @@ type ValidationError =
       timezone: string
     }
   | {
-      issue: ValidationIssue.MultipleIndefiniteOverrides
-      overrideIndexes: number[]
+      issue: ValidationIssue.DuplicateOverrides
+      overrideIndexes: [number, number]
     }
   | {
       issue: ValidationIssue.OverlappingSpecificOverrides
@@ -447,16 +449,34 @@ type ValidationError =
       value: string
       expectedFormat: string
     }
+  | {
+      issue: ValidationIssue.EmptyWeekdays
+      location:
+        | { type: RuleLocationType.Weekly; ruleIndex: number }
+        | {
+            type: RuleLocationType.Override
+            overrideIndex: number
+            ruleIndex: number
+          }
+    }
+  | {
+      issue: ValidationIssue.OverrideWeekdaysMismatch
+      overrideIndex: number
+      ruleIndex: number
+      weekdays: string
+      dateRange: { from: string; to: string }
+    }
 ```
 
 ## Best Practices
 
 1. **Always validate schedules** before using them in production
 2. **Clean up expired overrides** periodically to keep schedules manageable
-3. **Use specific date ranges** for overrides when possible (instead of indefinite)
-4. **Test cross-midnight ranges** thoroughly if your schedule uses them
-5. **Consider timezone** carefully - all times are interpreted in the schedule's timezone
-6. **Handle DST transitions** by testing schedules during spring forward and fall back
+3. **Use specific date ranges** for overrides when possible - indefinite overrides are useful for permanent schedule changes
+4. **When using multiple indefinite overrides**, remember that the most recent one (latest `from` date) takes precedence
+5. **Test cross-midnight ranges** thoroughly if your schedule uses them
+6. **Consider timezone** carefully - all times are interpreted in the schedule's timezone
+7. **Handle DST transitions** by testing schedules during spring forward and fall back
 
 ## Edge Cases
 
@@ -470,7 +490,7 @@ Time ranges that cross midnight (e.g., `22:00-02:00`) are split internally and a
 
 ### Overlapping Overrides
 
-Specific overrides (with both `from` and `to`) cannot overlap - this is a validation error. However, an indefinite override can coexist with future specific overrides.
+Specific overrides (with both `from` and `to`) cannot overlap - this is a validation error. However, indefinite overrides can coexist with each other and with future specific overrides. When multiple indefinite overrides could apply to a date, the one with the latest `from` date is used (most recent policy wins).
 
 ## TypeScript Support
 

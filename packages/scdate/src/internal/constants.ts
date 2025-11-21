@@ -1,15 +1,3 @@
-import { Weekday } from '../constants.js'
-
-export const DayToWeekday: Weekday[] = [
-  Weekday.Sun,
-  Weekday.Mon,
-  Weekday.Tue,
-  Weekday.Wed,
-  Weekday.Thu,
-  Weekday.Fri,
-  Weekday.Sat,
-]
-
 export const DaysInWeek = 7
 export const MinutesInDay = 1440
 export const MinutesInHour = 60
