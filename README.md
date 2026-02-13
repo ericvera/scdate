@@ -7,7 +7,7 @@ TypeScript libraries for working with dates, times, and schedules.
 This monorepo contains the following packages:
 
 - [scdate](./packages/scdate) - Date and time library for working with schedules
-- [scschedule](./packages/scschedule) - Schedule management utilities (coming soon)
+- [scschedule](./packages/scschedule) - Schedule management utilities
 
 ## Features
 

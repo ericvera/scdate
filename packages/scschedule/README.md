@@ -68,8 +68,8 @@ const now = getTimestampNow('America/Puerto_Rico')
 const isOpen = isScheduleAvailable(restaurant, now)
 console.log(`Restaurant is ${isOpen ? 'open' : 'closed'}`)
 
-// Find next opening time
-const nextOpen = getNextAvailableFromSchedule(restaurant, now)
+// Find next opening time (search up to 30 days ahead)
+const nextOpen = getNextAvailableFromSchedule(restaurant, now, 30)
 if (nextOpen) {
   console.log(`Next opening: ${nextOpen.timestamp}`)
 }
@@ -82,13 +82,13 @@ if (nextOpen) {
 A `Schedule` consists of:
 
 - **timezone**: The timezone for all time calculations
-- **weekly**: Base recurring schedule (array of `WeeklyScheduleRule`)
+- **weekly**: Base recurring schedule — `true` (available 24/7), an array of `WeeklyScheduleRule` (time-based), or `[]` (never available; overrides can open windows)
 - **overrides** (optional): Date-specific exceptions (array of `OverrideScheduleRule`)
 
 ```typescript
 interface Schedule {
   timezone: string
-  weekly: WeeklyScheduleRule[]
+  weekly: WeeklyScheduleRule[] | true
   overrides?: OverrideScheduleRule[]
 }
 ```
@@ -168,12 +168,16 @@ if (!result.valid) {
 **Validation checks**:
 
 - Valid timezone (in `Intl.supportedValuesOf('timeZone')`)
+- Valid scdate formats (SDate, STime, SWeekdays)
+- Override `to` date must not be before `from` date
 - No duplicate overrides (identical from/to dates)
 - No overlapping specific overrides (hierarchical nesting allowed)
-- No overlapping time ranges within rules (same weekday)
+- No overlapping time ranges within a single rule (same weekday)
+- No overlapping rules within the weekly schedule (shared weekdays with overlapping times)
+- No overlapping rules within the same override (shared weekdays with overlapping times)
+- No cross-midnight spillover conflicts at override boundaries
 - All rules have at least one time range
-- Valid scdate formats (SDate, STime, SWeekdays)
-- No empty weekdays patterns (e.g., '-------' with no days selected)
+- No empty weekdays patterns (e.g., `'-------'` with no days selected)
 - Override weekdays must match at least one date in the override's date range
 
 ### Schedule Management
@@ -208,27 +212,27 @@ const isOpen = isScheduleAvailable(
 )
 ```
 
-#### `getNextAvailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch?: number): STimestamp | undefined`
+#### `getNextAvailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch: number): STimestamp | undefined`
 
-Find the next available timestamp from a given time. Searches up to `maxDaysToSearch` days (default: 365).
+Find the next available timestamp from a given time. Searches up to `maxDaysToSearch` days forward.
 
 ```typescript
 import { getNextAvailableFromSchedule } from 'scschedule'
 
-const nextOpen = getNextAvailableFromSchedule(restaurant, now)
+const nextOpen = getNextAvailableFromSchedule(restaurant, now, 30)
 if (nextOpen) {
   console.log(`Opens at: ${nextOpen.timestamp}`)
 }
 ```
 
-#### `getNextUnavailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string): STimestamp | undefined`
+#### `getNextUnavailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch: number): STimestamp | undefined`
 
-Find the next unavailable timestamp from a given time.
+Find the next unavailable timestamp from a given time. Searches up to `maxDaysToSearch` days forward.
 
 ```typescript
 import { getNextUnavailableFromSchedule } from 'scschedule'
 
-const nextClosed = getNextUnavailableFromSchedule(restaurant, now)
+const nextClosed = getNextUnavailableFromSchedule(restaurant, now, 30)
 if (nextClosed) {
   console.log(`Closes at: ${nextClosed.timestamp}`)
 }
@@ -386,16 +390,69 @@ const lateNightBar: Schedule = {
 // - Saturday: 20:00-23:59, Sunday: 00:00-03:00
 ```
 
+### Always Available (`weekly: true`)
+
+Use `weekly: true` when an entity is available 24/7 by default. This is useful for items that inherit availability from a parent schedule (e.g., menu items that go through the restaurant's schedule filter first).
+
+```typescript
+// Menu item available 24/7 (restaurant hours handle the filtering)
+const menuItem: Schedule = {
+  timezone: 'America/Puerto_Rico',
+  weekly: true,
+  overrides: [
+    {
+      // Except Christmas Day
+      from: sDate('2025-12-25'),
+      to: sDate('2025-12-25'),
+      rules: [],
+    },
+  ],
+}
+```
+
+### Closed by Default (`weekly: []`)
+
+Use `weekly: []` when an entity is unavailable by default and only opens during specific override periods.
+
+```typescript
+// Pop-up shop: closed by default, open only during specific events
+const popUpShop: Schedule = {
+  timezone: 'America/Puerto_Rico',
+  weekly: [],
+  overrides: [
+    {
+      from: sDate('2025-12-20'),
+      to: sDate('2025-12-24'),
+      rules: [
+        {
+          weekdays: sWeekdays('SMTWTFS'),
+          times: [{ from: sTime('10:00'), to: sTime('18:00') }],
+        },
+      ],
+    },
+  ],
+}
+```
+
 ### Multiple Schedules (Layered Availability)
 
 ```typescript
 import { isScheduleAvailable } from 'scschedule'
 
 const businessHours: Schedule = {
-  /* ... */
+  timezone: 'America/Puerto_Rico',
+  weekly: [
+    {
+      weekdays: sWeekdays('-MTWTFS'),
+      times: [{ from: sTime('11:00'), to: sTime('22:00') }],
+    },
+  ],
 }
+
+// Menu available 24/7 — restaurant hours do the filtering
 const breakfastMenu: Schedule = {
-  /* ... */
+  timezone: 'America/Puerto_Rico',
+  weekly: true,
 }
 
 // Both must be available
@@ -413,6 +470,18 @@ type ValidationError =
   | {
       issue: ValidationIssue.InvalidTimezone
       timezone: string
+    }
+  | {
+      issue: ValidationIssue.InvalidScDateFormat
+      field: string
+      value: string
+      expectedFormat: string
+    }
+  | {
+      issue: ValidationIssue.InvalidOverrideDateOrder
+      overrideIndex: number
+      from: string
+      to: string
     }
   | {
       issue: ValidationIssue.DuplicateOverrides
@@ -434,6 +503,17 @@ type ValidationError =
       timeRangeIndexes: [number, number]
     }
   | {
+      issue: ValidationIssue.OverlappingRulesInWeekly
+      ruleIndexes: [number, number]
+      weekday: Weekday
+    }
+  | {
+      issue: ValidationIssue.OverlappingRulesInOverride
+      overrideIndex: number
+      ruleIndexes: [number, number]
+      weekday: Weekday
+    }
+  | {
       issue: ValidationIssue.EmptyTimes
       location:
         | { type: RuleLocationType.Weekly; ruleIndex: number }
@@ -442,12 +522,6 @@ type ValidationError =
             overrideIndex: number
             ruleIndex: number
           }
-    }
-  | {
-      issue: ValidationIssue.InvalidScDateFormat
-      field: string
-      value: string
-      expectedFormat: string
     }
   | {
       issue: ValidationIssue.EmptyWeekdays
@@ -465,6 +539,24 @@ type ValidationError =
       ruleIndex: number
       weekdays: string
       dateRange: { from: string; to: string }
+    }
+  | {
+      issue: ValidationIssue.SpilloverConflictIntoOverrideFirstDay
+      overrideIndex: number
+      date: string
+      overrideRuleIndex: number
+      sourceWeeklyRuleIndex?: number
+      sourceOverrideIndex?: number
+      sourceOverrideRuleIndex?: number
+    }
+  | {
+      issue: ValidationIssue.SpilloverConflictOverrideIntoNext
+      overrideIndex: number
+      date: string
+      overrideRuleIndex: number
+      nextDayWeeklyRuleIndex?: number
+      nextDayOverrideIndex?: number
+      nextDayOverrideRuleIndex?: number
     }
 ```
 

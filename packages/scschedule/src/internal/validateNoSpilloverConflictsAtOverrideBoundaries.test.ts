@@ -403,3 +403,39 @@ it('handles multiple spillover conflicts', () => {
     ]
   `)
 })
+
+it('should flag spillover from override into weekly: true', () => {
+  const schedule: Schedule = {
+    ...baseSchedule,
+    weekly: true,
+    overrides: [
+      {
+        from: sDate('2025-12-06'),
+        to: sDate('2025-12-07'),
+        rules: [
+          {
+            // Sunday (Dec 7 is the last day)
+            weekdays: sWeekdays('S------'),
+            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+          },
+        ],
+      },
+    ],
+  }
+
+  // No spillover conflict INTO the override (weekly: true has no
+  // cross-midnight rules), but spillover FROM override's last day
+  // (Sun Dec 7) into Mon Dec 8 (weekly: true) creates overlapping
+  // ranges in getAvailableRangesFromSchedule.
+  const errors = validateNoSpilloverConflictsAtOverrideBoundaries(schedule)
+  expect(errors).toMatchInlineSnapshot(`
+    [
+      {
+        "date": "2025-12-07",
+        "issue": "spillover-conflict-override-into-next",
+        "overrideIndex": 0,
+        "overrideRuleIndex": 0,
+      },
+    ]
+  `)
+})

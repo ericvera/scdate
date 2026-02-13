@@ -11,20 +11,17 @@ import type {
   WeeklyScheduleRule,
 } from '../types.js'
 
-export type RuleSource =
-  | { type: 'weekly' }
-  | { type: 'override'; overrideIndex: number }
-
-export interface RuleWithSource {
-  rules: WeeklyScheduleRule[]
-  source: RuleSource
-}
+export type ApplicableRule =
+  | { source: 'weekly'; rules: WeeklyScheduleRule[] | true }
+  | { source: 'override'; overrideIndex: number; rules: WeeklyScheduleRule[] }
 
 /**
  * Determines which rules apply for a given date based on overrides or weekly
- * schedule, and returns the source information (weekly vs which override
- * index). When multiple overrides apply, selects the most specific (shortest)
- * duration).
+ * schedule. Returns a discriminated union indicating the source (`'weekly'` or
+ * `'override'`) and the applicable rules. When the source is `'weekly'` and
+ * the schedule has `weekly: true`, the returned `rules` will be `true`.
+ *
+ * When multiple overrides apply, selects the most specific (shortest duration).
  *
  * Priority:
  * 1. Specific overrides (with 'to' date) - shortest duration wins
@@ -34,13 +31,13 @@ export interface RuleWithSource {
 export const getApplicableRuleForDate = (
   schedule: Schedule,
   date: SDate | SDateString,
-): RuleWithSource => {
+): ApplicableRule => {
   // - Check the case where there are no overrides (just return the weekly
   // schedule)
   if (!schedule.overrides || schedule.overrides.length === 0) {
     return {
+      source: 'weekly',
       rules: schedule.weekly,
-      source: { type: 'weekly' },
     }
   }
 
@@ -89,8 +86,9 @@ export const getApplicableRuleForDate = (
     })
 
     return {
+      source: 'override',
+      overrideIndex: mostSpecific.index,
       rules: mostSpecific.override.rules,
-      source: { type: 'override', overrideIndex: mostSpecific.index },
     }
   }
 
@@ -120,14 +118,15 @@ export const getApplicableRuleForDate = (
     )
 
     return {
+      source: 'override',
+      overrideIndex: mostRecent.index,
       rules: mostRecent.override.rules,
-      source: { type: 'override', overrideIndex: mostRecent.index },
     }
   }
 
   // - If there are no applicable indefinite overrides, return the weekly rules
   return {
+    source: 'weekly',
     rules: schedule.weekly,
-    source: { type: 'weekly' },
   }
 }

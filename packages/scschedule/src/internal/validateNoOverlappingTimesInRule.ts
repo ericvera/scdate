@@ -55,7 +55,8 @@ export const validateNoOverlappingTimesInRule = (
   const errors: ValidationError[] = []
 
   // Validate weekly rules
-  schedule.weekly.forEach((rule, ruleIndex) => {
+  const weeklyRules = schedule.weekly === true ? [] : schedule.weekly
+  weeklyRules.forEach((rule, ruleIndex) => {
     const ruleErrors = validateRuleTimes(rule, {
       type: RuleLocationType.Weekly,
       ruleIndex,

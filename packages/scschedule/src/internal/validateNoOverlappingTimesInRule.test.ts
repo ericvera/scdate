@@ -163,3 +163,13 @@ it('should return empty array when rule has only one time range', () => {
   const errors = validateNoOverlappingTimesInRule(schedule)
   expect(errors).toMatchInlineSnapshot(`[]`)
 })
+
+it('should return no errors when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  const errors = validateNoOverlappingTimesInRule(schedule)
+  expect(errors).toMatchInlineSnapshot(`[]`)
+})

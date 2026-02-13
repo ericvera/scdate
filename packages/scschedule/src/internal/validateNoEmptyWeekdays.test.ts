@@ -154,3 +154,13 @@ it('should accept weekdays with at least one day selected', () => {
   const errors = validateNoEmptyWeekdays(schedule)
   expect(errors).toMatchInlineSnapshot(`[]`)
 })
+
+it('should return no errors when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  const errors = validateNoEmptyWeekdays(schedule)
+  expect(errors).toMatchInlineSnapshot(`[]`)
+})

@@ -49,7 +49,7 @@ export enum ValidationIssue {
   SpilloverConflictIntoOverrideFirstDay = 'spillover-conflict-into-override-first-day',
   /**
    * Cross-midnight spillover from override's last day conflicts with next
-   * day's time ranges (weekly or another override)
+   * day's time ranges (weekly rules, weekly: true, or another override)
    */
   SpilloverConflictOverrideIntoNext = 'spillover-conflict-override-into-next',
   /**

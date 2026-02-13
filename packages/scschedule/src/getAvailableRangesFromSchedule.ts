@@ -13,6 +13,16 @@ import type { AvailabilityRange, Schedule } from './types.js'
 /**
  * Returns all available time ranges within a schedule for the specified
  * date range.
+ *
+ * Iterates day-by-day from startDate to endDate (inclusive). For each day,
+ * when rules are `true` (always available), emits a full-day range
+ * (00:00-23:59). Otherwise, emits each matching time range, including
+ * cross-midnight ranges that extend into the next day.
+ *
+ * @param schedule - The schedule to get availability from
+ * @param startDate - The start of the date range (inclusive)
+ * @param endDate - The end of the date range (inclusive)
+ * @returns An array of availability ranges within the date range
  */
 export const getAvailableRangesFromSchedule = (
   schedule: Schedule,
@@ -27,6 +37,18 @@ export const getAvailableRangesFromSchedule = (
   while (isSameDateOrBefore(currentDate, endDate)) {
     const weekday = getWeekdayFromDate(currentDate)
     const { rules } = getApplicableRuleForDate(schedule, currentDate)
+
+    // If weekly is true, the entire day is available
+    if (rules === true) {
+      ranges.push({
+        from: getTimestampFromDateAndTime(currentDate, '00:00'),
+        to: getTimestampFromDateAndTime(currentDate, '23:59'),
+      })
+
+      currentDate = addDaysToDate(currentDate, 1)
+
+      continue
+    }
 
     // Find all time ranges for this day
     for (const rule of rules) {

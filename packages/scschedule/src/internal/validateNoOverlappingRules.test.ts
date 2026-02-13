@@ -403,3 +403,13 @@ it('handles single-day override correctly', () => {
   const errors = validateNoOverlappingRules(schedule)
   expect(errors).toMatchInlineSnapshot(`[]`)
 })
+
+it('should return no errors when weekly is true', () => {
+  const schedule: Schedule = {
+    ...baseSchedule,
+    weekly: true,
+  }
+
+  const errors = validateNoOverlappingRules(schedule)
+  expect(errors).toMatchInlineSnapshot(`[]`)
+})

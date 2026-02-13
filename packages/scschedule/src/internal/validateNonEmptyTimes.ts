@@ -10,7 +10,9 @@ export const validateNonEmptyTimes = (
   const errors: ValidationError[] = []
 
   // Validate weekly rules
-  schedule.weekly.forEach((rule, ruleIndex) => {
+  const weeklyRules = schedule.weekly === true ? [] : schedule.weekly
+
+  weeklyRules.forEach((rule, ruleIndex) => {
     if (rule.times.length === 0) {
       errors.push({
         issue: ValidationIssue.EmptyTimes,

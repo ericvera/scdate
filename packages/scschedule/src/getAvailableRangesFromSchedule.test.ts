@@ -307,3 +307,66 @@ it('should handle overrides with different hours', () => {
     ]
   `)
 })
+
+it('should return full-day ranges when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  const ranges = getAvailableRangesFromSchedule(
+    schedule,
+    sDate('2025-01-06'),
+    sDate('2025-01-08'),
+  )
+
+  expect(ranges).toMatchInlineSnapshot(`
+    [
+      {
+        "from": "2025-01-06T00:00",
+        "to": "2025-01-06T23:59",
+      },
+      {
+        "from": "2025-01-07T00:00",
+        "to": "2025-01-07T23:59",
+      },
+      {
+        "from": "2025-01-08T00:00",
+        "to": "2025-01-08T23:59",
+      },
+    ]
+  `)
+})
+
+it('should return no ranges for override closure days when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+    overrides: [
+      {
+        from: sDate('2025-01-07'),
+        to: sDate('2025-01-07'),
+        rules: [],
+      },
+    ],
+  }
+
+  const ranges = getAvailableRangesFromSchedule(
+    schedule,
+    sDate('2025-01-06'),
+    sDate('2025-01-08'),
+  )
+
+  expect(ranges).toMatchInlineSnapshot(`
+    [
+      {
+        "from": "2025-01-06T00:00",
+        "to": "2025-01-06T23:59",
+      },
+      {
+        "from": "2025-01-08T00:00",
+        "to": "2025-01-08T23:59",
+      },
+    ]
+  `)
+})

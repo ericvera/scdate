@@ -214,3 +214,13 @@ it('should provide detailed field paths in errors', () => {
     ]
   `)
 })
+
+it('should return no errors when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  const errors = validateScDateFormats(schedule)
+  expect(errors).toMatchInlineSnapshot(`[]`)
+})
