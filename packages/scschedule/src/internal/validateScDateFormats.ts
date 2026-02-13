@@ -134,7 +134,8 @@ export const validateScDateFormats = (
   const errors: ValidationError[] = []
 
   // Validate weekly rules
-  schedule.weekly.forEach((rule, ruleIndex) => {
+  const weeklyRules = schedule.weekly === true ? [] : schedule.weekly
+  weeklyRules.forEach((rule, ruleIndex) => {
     errors.push(...validateRule(rule, `weekly[${String(ruleIndex)}]`))
   })
 

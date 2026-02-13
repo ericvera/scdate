@@ -21,6 +21,7 @@ import type { Schedule, STimeString } from './types.js'
  *
  * This function searches forward from the given timestamp to find when the
  * schedule next becomes available. It handles:
+ * - Always-available days (`weekly: true` or `rules: true` from an override)
  * - Same-day availability (finding the next time range on the current day)
  * - Cross-midnight spillover (ranges that extend past midnight are detected
  *   via isScheduleAvailable)
@@ -30,8 +31,9 @@ import type { Schedule, STimeString } from './types.js'
  * The algorithm works by:
  * 1. Checking if fromTimestamp is already available (including spillover from
  *    the previous day's cross-midnight ranges)
- * 2. If not, finding the earliest time range start on the current day that
- *    occurs after fromTimestamp
+ * 2. If not, iterating day-by-day:
+ *    - If rules are `true`, the entire day is available (returns 00:00)
+ *    - Otherwise, finding the earliest time range start after fromTimestamp
  * 3. If no ranges found on current day, moving to the next day and repeating
  *
  * Note: Spillover ranges don't need explicit tracking because:
@@ -43,8 +45,7 @@ import type { Schedule, STimeString } from './types.js'
  *
  * @param schedule - The schedule to check availability against
  * @param fromTimestamp - The starting timestamp to search from
- * @param maxDaysToSearch - Maximum number of days to search forward (default:
- *   365)
+ * @param maxDaysToSearch - Maximum number of days to search forward
  * @returns The next available timestamp, or undefined if none found within
  *   the search window
  *
@@ -70,7 +71,7 @@ import type { Schedule, STimeString } from './types.js'
 export const getNextAvailableFromSchedule = (
   schedule: Schedule,
   fromTimestamp: STimestamp | string,
-  maxDaysToSearch = 365,
+  maxDaysToSearch: number,
 ): STimestamp | undefined => {
   const initialTimestamp = sTimestamp(fromTimestamp)
 
@@ -86,6 +87,12 @@ export const getNextAvailableFromSchedule = (
   for (let day = 0; day < maxDaysToSearch; day++) {
     const weekday = getWeekdayFromDate(currentDate)
     const { rules } = getApplicableRuleForDate(schedule, currentDate.date)
+
+    // If rules are true, the entire day is available. This only happens on
+    // day 1+ because on day 0, isScheduleAvailable would have returned true.
+    if (rules === true) {
+      return getTimestampFromDateAndTime(currentDate, '00:00')
+    }
 
     // Track earliest time
     let earliestTime: STime | STimeString | undefined

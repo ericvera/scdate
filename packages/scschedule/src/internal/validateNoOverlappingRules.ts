@@ -19,10 +19,12 @@ export const validateNoOverlappingRules = (
   const errors: ValidationError[] = []
 
   // Check weekly rules for overlaps
-  for (let i = 0; i < schedule.weekly.length; i++) {
-    for (let j = i + 1; j < schedule.weekly.length; j++) {
-      const rule1 = schedule.weekly[i]
-      const rule2 = schedule.weekly[j]
+  const weeklyRules = schedule.weekly === true ? [] : schedule.weekly
+
+  for (let i = 0; i < weeklyRules.length; i++) {
+    for (let j = i + 1; j < weeklyRules.length; j++) {
+      const rule1 = weeklyRules[i]
+      const rule2 = weeklyRules[j]
 
       if (rule1 && rule2) {
         const overlapWeekday = doRulesOverlap(rule1, rule2)

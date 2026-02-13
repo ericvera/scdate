@@ -28,9 +28,7 @@ it('should return weekly rules when no overrides exist', () => {
           "weekdays": "-MTWTF-",
         },
       ],
-      "source": {
-        "type": "weekly",
-      },
+      "source": "weekly",
     }
   `)
 })
@@ -64,9 +62,7 @@ it('should return weekly rules when date is outside all override ranges', () => 
           "weekdays": "-MTWTF-",
         },
       ],
-      "source": {
-        "type": "weekly",
-      },
+      "source": "weekly",
     }
   `)
 })
@@ -94,6 +90,7 @@ it('should return specific override rules when date is in range', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -105,10 +102,7 @@ it('should return specific override rules when date is in range', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -133,6 +127,7 @@ it('should return override rules on start boundary date', () => {
   const result = getApplicableRuleForDate(scheduleWithOverrides, '2025-12-01')
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -144,10 +139,7 @@ it('should return override rules on start boundary date', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -175,6 +167,7 @@ it('should return override rules on end boundary date', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -186,10 +179,7 @@ it('should return override rules on end boundary date', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -216,6 +206,7 @@ it('should return indefinite override rules on start date', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -227,10 +218,7 @@ it('should return indefinite override rules on start date', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -254,6 +242,7 @@ it('should return indefinite override rules months after start date', () => {
   const result = getApplicableRuleForDate(scheduleWithIndefinite, '2026-06-15')
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -265,10 +254,7 @@ it('should return indefinite override rules months after start date', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -295,6 +281,7 @@ it('should return indefinite override rules years after start date', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -306,10 +293,7 @@ it('should return indefinite override rules years after start date', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -356,9 +340,7 @@ it('should return weekly rules before any overrides start', () => {
           "weekdays": "-MTWTF-",
         },
       ],
-      "source": {
-        "type": "weekly",
-      },
+      "source": "weekly",
     }
   `)
 })
@@ -394,6 +376,7 @@ it('should return indefinite override rules between indefinite start and specifi
   const result = getApplicableRuleForDate(scheduleWithBoth, sDate('2026-06-15'))
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -405,10 +388,7 @@ it('should return indefinite override rules between indefinite start and specifi
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -444,6 +424,7 @@ it('should prioritize specific override over indefinite override on specific dat
   const result = getApplicableRuleForDate(scheduleWithBoth, '2026-12-25')
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 1,
       "rules": [
         {
           "times": [
@@ -455,10 +436,7 @@ it('should prioritize specific override over indefinite override on specific dat
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 1,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -494,6 +472,7 @@ it('should return indefinite override rules after specific override ends', () =>
   const result = getApplicableRuleForDate(scheduleWithBoth, sDate('2026-12-26'))
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -505,10 +484,7 @@ it('should return indefinite override rules after specific override ends', () =>
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -546,9 +522,7 @@ it('should return weekly rules when date is before indefinite override', () => {
           "weekdays": "-MTWTF-",
         },
       ],
-      "source": {
-        "type": "weekly",
-      },
+      "source": "weekly",
     }
   `)
 })
@@ -583,11 +557,9 @@ it('should select most specific override on Christmas when multiple apply', () =
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 1,
       "rules": [],
-      "source": {
-        "overrideIndex": 1,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -619,6 +591,7 @@ it('should select broader override on day before specific override', () => {
   const result = getApplicableRuleForDate(scheduleWithHierarchy, '2025-12-24')
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -630,10 +603,7 @@ it('should select broader override on day before specific override', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -668,6 +638,7 @@ it('should select broader override on day after specific override', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -679,10 +650,7 @@ it('should select broader override on day after specific override', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -728,6 +696,7 @@ it('should select December rules before Christmas week in multi-level overrides'
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -739,10 +708,7 @@ it('should select December rules before Christmas week in multi-level overrides'
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -785,6 +751,7 @@ it('should select Christmas week rules on day before Christmas in multi-level ov
   const result = getApplicableRuleForDate(scheduleWithMultiLevel, '2025-12-24')
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 1,
       "rules": [
         {
           "times": [
@@ -796,10 +763,7 @@ it('should select Christmas week rules on day before Christmas in multi-level ov
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 1,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -845,6 +809,7 @@ it('should select Christmas week rules on day after Christmas in multi-level ove
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 1,
       "rules": [
         {
           "times": [
@@ -856,10 +821,7 @@ it('should select Christmas week rules on day after Christmas in multi-level ove
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 1,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -902,11 +864,9 @@ it('should select most specific Christmas Day rules in multi-level overrides', (
   const result = getApplicableRuleForDate(scheduleWithMultiLevel, '2025-12-25')
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 2,
       "rules": [],
-      "source": {
-        "overrideIndex": 2,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -952,6 +912,7 @@ it('should select December rules after Christmas week in multi-level overrides',
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -963,10 +924,7 @@ it('should select December rules after Christmas week in multi-level overrides',
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -1014,9 +972,7 @@ it('should select weekly when none of the indefinite overrides apply', () => {
           "weekdays": "-MTWTF-",
         },
       ],
-      "source": {
-        "type": "weekly",
-      },
+      "source": "weekly",
     }
   `)
 })
@@ -1053,6 +1009,7 @@ it('should use first indefinite override before second starts', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 0,
       "rules": [
         {
           "times": [
@@ -1064,10 +1021,7 @@ it('should use first indefinite override before second starts', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 0,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -1104,6 +1058,7 @@ it('should use most recent indefinite override after it starts', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 1,
       "rules": [
         {
           "times": [
@@ -1115,10 +1070,7 @@ it('should use most recent indefinite override after it starts', () => {
           "weekdays": "SMTWTFS",
         },
       ],
-      "source": {
-        "overrideIndex": 1,
-        "type": "override",
-      },
+      "source": "override",
     }
   `)
 })
@@ -1161,11 +1113,69 @@ it('should prioritize specific override over any indefinite overrides', () => {
   )
   expect(result).toMatchInlineSnapshot(`
     {
+      "overrideIndex": 2,
       "rules": [],
-      "source": {
-        "overrideIndex": 2,
-        "type": "override",
+      "source": "override",
+    }
+  `)
+})
+
+it('should return weekly source with rules true when weekly is true and no overrides', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  const result = getApplicableRuleForDate(schedule, sDate('2025-11-17'))
+  expect(result).toMatchInlineSnapshot(`
+    {
+      "rules": true,
+      "source": "weekly",
+    }
+  `)
+})
+
+it('should return override rules when weekly is true and date falls in override', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+    overrides: [
+      {
+        from: sDate('2025-12-25'),
+        to: sDate('2025-12-25'),
+        rules: [],
       },
+    ],
+  }
+
+  const result = getApplicableRuleForDate(schedule, sDate('2025-12-25'))
+  expect(result).toMatchInlineSnapshot(`
+    {
+      "overrideIndex": 0,
+      "rules": [],
+      "source": "override",
+    }
+  `)
+})
+
+it('should return weekly source with rules true when weekly is true and date is outside override', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+    overrides: [
+      {
+        from: sDate('2025-12-25'),
+        to: sDate('2025-12-25'),
+        rules: [],
+      },
+    ],
+  }
+
+  const result = getApplicableRuleForDate(schedule, sDate('2025-12-26'))
+  expect(result).toMatchInlineSnapshot(`
+    {
+      "rules": true,
+      "source": "weekly",
     }
   `)
 })

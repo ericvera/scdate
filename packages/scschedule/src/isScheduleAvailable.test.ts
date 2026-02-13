@@ -569,3 +569,50 @@ it('should NOT spillover when previous day is outside override range', () => {
     false,
   )
 })
+
+it('should return true at any time when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  // Weekday during business hours
+  expect(isScheduleAvailable(schedule, sTimestamp('2025-01-07T10:00'))).toBe(
+    true,
+  )
+  // Weekend at midnight
+  expect(isScheduleAvailable(schedule, sTimestamp('2025-01-05T00:00'))).toBe(
+    true,
+  )
+  // Late night
+  expect(isScheduleAvailable(schedule, sTimestamp('2025-01-07T23:59'))).toBe(
+    true,
+  )
+})
+
+it('should respect overrides when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+    overrides: [
+      {
+        from: sDate('2025-12-25'),
+        to: sDate('2025-12-25'),
+        rules: [],
+      },
+    ],
+  }
+
+  // Christmas day - override with empty rules means closed
+  expect(isScheduleAvailable(schedule, sTimestamp('2025-12-25T10:00'))).toBe(
+    false,
+  )
+  // Day before - still available (weekly: true)
+  expect(isScheduleAvailable(schedule, sTimestamp('2025-12-24T10:00'))).toBe(
+    true,
+  )
+  // Day after - still available (weekly: true)
+  expect(isScheduleAvailable(schedule, sTimestamp('2025-12-26T10:00'))).toBe(
+    true,
+  )
+})

@@ -14,10 +14,12 @@ import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
  * Validates that cross-midnight spillover at override boundaries doesn't
  * create overlapping time ranges. Checks:
  * 1. Spillover into override first day (from weekly or previous override)
- * 2. Override last day spillover into next day (weekly or another override)
+ * 2. Override last day spillover into next day (weekly, weekly: true, or
+ *    another override)
  *
  * Note: Spillover into empty/closed days is allowed (adds availability).
- * Only spillover that OVERLAPS with explicit time ranges is flagged as error.
+ * Spillover that overlaps with explicit time ranges OR into weekly: true
+ * days (which are fully available) is flagged as an error.
  */
 export const validateNoSpilloverConflictsAtOverrideBoundaries = (
   schedule: Schedule,
@@ -40,78 +42,85 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
     // Get rules that apply to previous day (weekly or override)
     const previousDayResult = getApplicableRuleForDate(schedule, previousDate)
 
-    // Check each rule from previous day for cross-midnight spillover
-    previousDayResult.rules.forEach((previousDayRule, previousDayRuleIndex) => {
-      // Skip if previous day rule doesn't include previous weekday
-      if (
-        !doesWeekdaysIncludeWeekday(previousDayRule.weekdays, previousWeekday)
-      ) {
-        return
-      }
+    // If previous day is always available (weekly: true), no cross-midnight
+    // rules to check
+    if (previousDayResult.rules !== true) {
+      // Check each rule from previous day for cross-midnight spillover
+      previousDayResult.rules.forEach(
+        (previousDayRule, previousDayRuleIndex) => {
+          // Skip if previous day rule doesn't include previous weekday
+          if (
+            !doesWeekdaysIncludeWeekday(
+              previousDayRule.weekdays,
+              previousWeekday,
+            )
+          ) {
+            return
+          }
 
-      // Check each time range for cross-midnight
-      previousDayRule.times.forEach((timeRange) => {
-        const splitRanges = splitCrossMidnightTimeRange(timeRange)
+          // Check each time range for cross-midnight
+          previousDayRule.times.forEach((timeRange) => {
+            const splitRanges = splitCrossMidnightTimeRange(timeRange)
 
-        // If cross-midnight, splitRanges[1] is the spillover portion
-        if (splitRanges.length === 2 && splitRanges[1]) {
-          const spilloverRange = splitRanges[1]
+            // If cross-midnight, splitRanges[1] is the spillover portion
+            if (splitRanges.length === 2 && splitRanges[1]) {
+              const spilloverRange = splitRanges[1]
 
-          // Check if spillover conflicts with override first day's times
-          override.rules.forEach((overrideRule, overrideRuleIndex) => {
-            // Does first day match override rule's weekdays?
-            if (
-              !doesWeekdaysIncludeWeekday(
-                overrideRule.weekdays,
-                firstDateWeekday,
-              )
-            ) {
-              return
-            }
-
-            // Check each time range in override rule
-            overrideRule.times.forEach((overrideTimeRange) => {
-              const overrideSplitRanges =
-                splitCrossMidnightTimeRange(overrideTimeRange)
-
-              // Check same-day portion of override time range
-              const overrideSameDayRange = overrideSplitRanges[0]
-
-              if (
-                overrideSameDayRange &&
-                doTimeRangesOverlap(spilloverRange, overrideSameDayRange)
-              ) {
-                // Use source information from getApplicableRuleForDate
-                if (previousDayResult.source.type === 'override') {
-                  // Previous day is in an override
-
-                  errors.push({
-                    issue:
-                      ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
-                    overrideIndex,
-                    date: firstDate.toJSON(),
-                    overrideRuleIndex,
-                    sourceOverrideIndex: previousDayResult.source.overrideIndex,
-                    sourceOverrideRuleIndex: previousDayRuleIndex,
-                  })
-                } else {
-                  // Previous day is weekly
-
-                  errors.push({
-                    issue:
-                      ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
-                    overrideIndex,
-                    date: firstDate.toJSON(),
-                    overrideRuleIndex,
-                    sourceWeeklyRuleIndex: previousDayRuleIndex,
-                  })
+              // Check if spillover conflicts with override first day's times
+              override.rules.forEach((overrideRule, overrideRuleIndex) => {
+                // Does first day match override rule's weekdays?
+                if (
+                  !doesWeekdaysIncludeWeekday(
+                    overrideRule.weekdays,
+                    firstDateWeekday,
+                  )
+                ) {
+                  return
                 }
-              }
-            })
+
+                // Check each time range in override rule
+                overrideRule.times.forEach((overrideTimeRange) => {
+                  const overrideSplitRanges =
+                    splitCrossMidnightTimeRange(overrideTimeRange)
+
+                  // Check same-day portion of override time range
+                  const overrideSameDayRange = overrideSplitRanges[0]
+
+                  if (
+                    overrideSameDayRange &&
+                    doTimeRangesOverlap(spilloverRange, overrideSameDayRange)
+                  ) {
+                    // Use source information from getApplicableRuleForDate
+                    if (previousDayResult.source === 'override') {
+                      // Previous day is in an override
+                      errors.push({
+                        issue:
+                          ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
+                        overrideIndex,
+                        date: firstDate.toJSON(),
+                        overrideRuleIndex,
+                        sourceOverrideIndex: previousDayResult.overrideIndex,
+                        sourceOverrideRuleIndex: previousDayRuleIndex,
+                      })
+                    } else {
+                      // Previous day is weekly
+                      errors.push({
+                        issue:
+                          ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
+                        overrideIndex,
+                        date: firstDate.toJSON(),
+                        overrideRuleIndex,
+                        sourceWeeklyRuleIndex: previousDayRuleIndex,
+                      })
+                    }
+                  }
+                })
+              })
+            }
           })
-        }
-      })
-    })
+        },
+      )
+    }
 
     // PART 2: Check spillover FROM override last day into next day
     // Skip for indefinite overrides (no last day)
@@ -142,6 +151,19 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
           // Get what rule applies to next day
           const nextDayResult = getApplicableRuleForDate(schedule, nextDate)
 
+          // If next day is always available (weekly: true), spillover
+          // creates overlapping ranges with the full-day availability.
+          if (nextDayResult.rules === true) {
+            errors.push({
+              issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
+              overrideIndex,
+              date: lastDate.toJSON(),
+              overrideRuleIndex,
+            })
+
+            return
+          }
+
           // Check if spillover conflicts with next day's times
           nextDayResult.rules.forEach((nextDayRule, nextDayRuleIndex) => {
             // Does next day match the rule's weekdays?
@@ -163,14 +185,14 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
                 doTimeRangesOverlap(spilloverRange, nextDaySameDayRange)
               ) {
                 // Use source information from getApplicableRuleForDate
-                if (nextDayResult.source.type === 'override') {
+                if (nextDayResult.source === 'override') {
                   // Next day is in an override
                   errors.push({
                     issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
                     overrideIndex,
                     date: lastDate.toJSON(),
                     overrideRuleIndex,
-                    nextDayOverrideIndex: nextDayResult.source.overrideIndex,
+                    nextDayOverrideIndex: nextDayResult.overrideIndex,
                     nextDayOverrideRuleIndex: nextDayRuleIndex,
                   })
                 } else {

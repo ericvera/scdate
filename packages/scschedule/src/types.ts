@@ -80,8 +80,13 @@ export interface Schedule {
    * be in `Intl.supportedValuesOf('timeZone')`.
    */
   timezone: string
-  /** Base recurring weekly schedule patterns */
-  weekly: WeeklyScheduleRule[]
+  /**
+   * Base recurring weekly schedule patterns.
+   * - `true`: available 24/7 (overrides can close windows)
+   * - `WeeklyScheduleRule[]`: available during defined time ranges
+   * - `[]`: never available (overrides can open windows)
+   */
+  weekly: WeeklyScheduleRule[] | true
   /**
    * Date-specific exceptions to the weekly schedule. Overrides take precedence
    * over weekly rules.
@@ -241,7 +246,7 @@ export type ValidationError =
   | {
       /**
        * Cross-midnight spillover from override's last day conflicts with next
-       * day's time ranges
+       * day's time ranges or weekly: true availability
        */
       issue: ValidationIssue.SpilloverConflictOverrideIntoNext
       /** Index of the override whose last day causes spillover */
@@ -251,8 +256,8 @@ export type ValidationError =
       /** The override rule index causing the spillover */
       overrideRuleIndex: number
       /**
-       * The next day's rule that conflicts (weekly or another override). If
-       * nextDayOverrideIndex is undefined, it's a weekly rule.
+       * The next day's rule that conflicts. When all three fields are
+       * undefined, the next day is weekly: true (fully available).
        */
       nextDayWeeklyRuleIndex?: number
       nextDayOverrideIndex?: number

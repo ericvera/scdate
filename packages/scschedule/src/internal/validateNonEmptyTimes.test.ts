@@ -140,3 +140,13 @@ it('should return multiple errors for multiple empty times', () => {
     ]
   `)
 })
+
+it('should return no errors when weekly is true', () => {
+  const schedule: Schedule = {
+    timezone: 'America/Puerto_Rico',
+    weekly: true,
+  }
+
+  const errors = validateNonEmptyTimes(schedule)
+  expect(errors).toMatchInlineSnapshot(`[]`)
+})

@@ -13,7 +13,9 @@ export const validateNoEmptyWeekdays = (
   const errors: ValidationError[] = []
 
   // Check weekly rules
-  schedule.weekly.forEach((rule, ruleIndex) => {
+  const weeklyRules = schedule.weekly === true ? [] : schedule.weekly
+
+  weeklyRules.forEach((rule, ruleIndex) => {
     try {
       if (isWeekdaysEmpty(rule.weekdays)) {
         errors.push({
