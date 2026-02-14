@@ -148,7 +148,7 @@ describe('getUTCMillisecondsFromTimestamp', () => {
     expect(utcMilliseconds).toBe(1697394600000)
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     const timestamp = sTimestamp('2023-10-15T14:30')
 
     expect(() => {

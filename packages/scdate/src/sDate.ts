@@ -62,7 +62,7 @@ export const getDateToday = (timeZone: string): SDate => {
 
 /**
  * Returns a new SDate instance set to the next date after the provided date
- * that match the given weekday.
+ * that matches the given weekday.
  *
  * @param date The date to start from (not included). It can be an SDate or a
  * string in the YYYY-MM-DD format.
@@ -90,8 +90,8 @@ export const getNextDateByWeekday = (
 }
 
 /**
- * Returns a new SDate instance set to date that is before the provided date and
- * matches the given weekday.
+ * Returns a new SDate instance set to the date that is before the provided date
+ * and matches the given weekday.
  *
  * @param date The date to start from (not included). It can be an SDate or a
  * string in the YYYY-MM-DD format.
@@ -365,7 +365,7 @@ export const getShortDateString = (
  */
 
 /**
- * Returns a new SDates instance with the date resulting from adding the given
+ * Returns a new SDate instance with the date resulting from adding the given
  * number of days to the given date. Because it adds calendar days rather than
  * 24-hour days, this operation is not affected by time zones.
  *
