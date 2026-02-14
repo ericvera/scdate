@@ -4,6 +4,10 @@ import type { Schedule } from './types.js'
 /**
  * Removes expired overrides from a schedule that ended before the
  * specified date. It does not remove indefinite overrides (no to date).
+ *
+ * @param schedule The schedule to clean up.
+ * @param beforeDate Overrides that ended before this date are removed. It
+ * can be an SDate or a string in the YYYY-MM-DD format.
  */
 export const cleanupExpiredOverridesFromSchedule = (
   schedule: Schedule,

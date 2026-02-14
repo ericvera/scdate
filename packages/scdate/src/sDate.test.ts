@@ -137,7 +137,7 @@ describe('getDateToday', () => {
     )
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     expect(() => {
       getDateToday('invalid')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -156,7 +156,7 @@ describe('getUTCMillisecondsFromDate', () => {
     expect(utcMilliseconds).toBe(1697342400000)
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     const date = sDate('2023-10-15')
 
     expect(() => {
@@ -450,7 +450,7 @@ describe('getTimeZonedDateFromDate', () => {
     )
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     expect(() => {
       getTimeZonedDateFromDate('2035-12-31', TestLocalTimeZone + '1')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -590,7 +590,7 @@ describe('getShortDateString', () => {
     )
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     expect(() => {
       getShortDateString('2022-08-05', 'invalid', 'en', {
         onTodayText,
@@ -1109,7 +1109,7 @@ describe('isDateInCurrentMonth', () => {
     )
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     expect(() => {
       isDateInCurrentMonth('2021-01-01', TestLocalTimeZone + '1')
     }).toThrowErrorMatchingInlineSnapshot(
@@ -1207,7 +1207,7 @@ describe('isDateInCurrentYear', () => {
     )
   })
 
-  it('throws for invalid timezone', () => {
+  it('throws for invalid time zone', () => {
     expect(() => {
       isDateInCurrentYear('2021-01-01', TestLocalTimeZone + '1')
     }).toThrowErrorMatchingInlineSnapshot(

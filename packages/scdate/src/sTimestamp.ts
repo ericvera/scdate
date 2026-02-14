@@ -23,7 +23,7 @@ export interface STimestampShortStringOptions {
   /** Whether to include the abbreviated weekday name in the output. */
   includeWeekday: boolean
   /**
-   * Called when the timestamp is today. Return value is used as prefix test.
+   * Called when the timestamp is today. Return value is used as prefix text.
    */
   onTodayAtText: () => string
 }
@@ -366,7 +366,7 @@ export const addDaysToTimestamp = (
  * 2024-03-10T02:00 (a time that technically does not exist on a watch that
  * automatically adjusts for Daylight Saving) will result in 2024-03-10T01:01.
  * This is because 2024-03-10T02:00 is converted to 2024-03-10T06:00 UTC (due
- * to timezone offset being -4 starting from 02:00 local time) and one minute
+ * to time zone offset being -4 starting from 02:00 local time) and one minute
  * later would be 2024-03-10T06:01 UTC  which would be 2024-03-10T01:01 in
  * `America/New_York`. A similar situation happens when the time zone
  * transitions from Daylight Saving Time to Standard Time as can be derived from

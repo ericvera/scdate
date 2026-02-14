@@ -72,7 +72,7 @@ const businessDays = getWeekdaysFromWeekdayFlags(
 ```typescript
 // Creating dates
 const date1 = sDate('2023-12-25') // From ISO string
-const date2 = getDateToday('America/Puerto_Rico') // Current date in timezone
+const date2 = getDateToday('America/Puerto_Rico') // Current date in time zone
 const date3 = getDateForFirstDayOfMonth(date1) // First day of month
 const date4 = getDateForLastDayOfMonth(date1) // Last day of month
 
@@ -94,7 +94,7 @@ const prevFriday = getPreviousDateByWeekday(date1, Weekday.Fri)
 // Date calculations
 const daysBetween = getDaysBetweenDates(date1, date2) // Days between dates (positive if date2 is later)
 const utcMs = getUTCMillisecondsFromDate(date1, 'America/Puerto_Rico') // Convert to UTC milliseconds
-const zonedDate = getTimeZonedDateFromDate(date1, 'America/Puerto_Rico') // Get timezone-adjusted Date
+const zonedDate = getTimeZonedDateFromDate(date1, 'America/Puerto_Rico') // Get time-zone-adjusted Date
 
 // Date comparison
 const isEqual = isSameDate(date1, date2)
@@ -150,7 +150,7 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
 ```typescript
 // Creating times
 const time1 = sTime('14:30') // From ISO string
-const time2 = getTimeNow('America/Puerto_Rico') // Current time in timezone
+const time2 = getTimeNow('America/Puerto_Rico') // Current time in time zone
 const time3 = getTimeAtMidnight() // 00:00
 const time4 = getTimeFromMinutes(60) // 01:00 (60 minutes after midnight)
 
@@ -195,7 +195,7 @@ const isPM = isTimePM(time1)
 ```typescript
 // Creating timestamps
 const ts1 = sTimestamp('2023-12-25T14:30') // From ISO string
-const ts2 = getTimestampNow('America/Puerto_Rico') // Current timestamp in timezone
+const ts2 = getTimestampNow('America/Puerto_Rico') // Current timestamp in time zone
 const ts3 = getTimestampFromDateAndTime(date1, time1) // From date and time
 const ts4 = getTimestampFromUTCMilliseconds(
   1640444400000,
