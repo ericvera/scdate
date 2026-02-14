@@ -1,3 +1,17 @@
+/**
+ * Weekday flags for use with bitwise operations. Each value is a power of 2,
+ * allowing multiple days to be combined using the bitwise OR operator.
+ *
+ * @example
+ * ```ts
+ * // Combine weekdays with bitwise OR
+ * const weekendDays = Weekday.Sat | Weekday.Sun
+ *
+ * // Business days
+ * const businessDays =
+ *   Weekday.Mon | Weekday.Tue | Weekday.Wed | Weekday.Thu | Weekday.Fri
+ * ```
+ */
 export enum Weekday {
   Sun = 1,
   Mon = 2,

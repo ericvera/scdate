@@ -4,7 +4,6 @@ import type { Schedule } from '../types.js'
 import { normalizeScheduleForValidation } from './normalizeScheduleForValidation.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: '-MTWTF-',
@@ -17,7 +16,6 @@ it('returns schedule as-is when there are no overrides', () => {
   const normalized = normalizeScheduleForValidation(baseSchedule)
   expect(normalized).toMatchInlineSnapshot(`
     {
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -69,7 +67,6 @@ it('preserves indefinite overrides without filtering weekdays', () => {
           ],
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -125,7 +122,6 @@ it('filters weekdays for specific override to match actual dates in range', () =
           "to": "2025-12-12",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -181,7 +177,6 @@ it('filters weekdays to empty when none match the date range', () => {
           "to": "2025-12-12",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -237,7 +232,6 @@ it('handles single-day override correctly', () => {
           "to": "2025-12-25",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -322,7 +316,6 @@ it('filters multiple rules within same override independently', () => {
           "to": "2025-12-12",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -429,7 +422,6 @@ it('handles multiple overrides independently', () => {
           ],
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -469,7 +461,6 @@ it('preserves empty rules arrays in overrides', () => {
           "to": "2025-12-25",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -525,7 +516,6 @@ it('handles week-long override spanning all weekdays', () => {
           "to": "2025-12-13",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -581,7 +571,6 @@ it('filters partial weekday matches correctly', () => {
           "to": "2025-12-05",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [
@@ -637,7 +626,6 @@ it('handles cross-month override correctly', () => {
           "to": "2026-01-02",
         },
       ],
-      "timezone": "America/Puerto_Rico",
       "weekly": [
         {
           "times": [

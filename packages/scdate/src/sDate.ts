@@ -14,8 +14,16 @@ import { getAtIndex } from './internal/utils.js'
 import { getIndexForWeekday } from './internal/weekdays.js'
 import { getTimeZonedDate } from './internal/zoned.js'
 
+/**
+ * Options for customizing the short date string representation.
+ */
 export interface SDateShortStringOptions {
+  /** Whether to include the abbreviated weekday name in the output. */
   includeWeekday: boolean
+  /**
+   * Called when the date is today. Return value is used as the display
+   * text.
+   */
   onTodayText: () => string
 }
 
@@ -85,9 +93,9 @@ export const getNextDateByWeekday = (
  * Returns a new SDate instance set to date that is before the provided date and
  * matches the given weekday.
  *
- * @param date The date to start from (not included).
- * @param weekday The weekday to find the previous date for. It can be an SDate
- * or a string in the YYYY-MM-DD format.
+ * @param date The date to start from (not included). It can be an SDate or a
+ * string in the YYYY-MM-DD format.
+ * @param weekday The weekday to find the previous date for.
  */
 export const getPreviousDateByWeekday = (
   date: string | SDate,
@@ -129,8 +137,8 @@ export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
  * Returns a new SDate instance set to the last day of the month for the
  * provided date.
  *
- * @param date The date to get the last day of the month for. It can be an SDate
- * or a string in the YYYY-MM-DD format.
+ * @param date The date to get the last day of the month for. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
  */
 export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
   const sDateValue = sDate(date)
@@ -148,8 +156,8 @@ export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
 /**
  * Returns the year from the given date.
  *
- * @param date The date to get the year from. It can be an SDate or a string in
- * the YYYY-MM-DD format.
+ * @param date The date to get the year from. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
  */
 export const getYearFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -158,11 +166,11 @@ export const getYearFromDate = (date: string | SDate): number => {
 }
 
 /**
- * Returns the month from the given date. Returns a 0-index value (i.e. Janary
+ * Returns the month from the given date. Returns a 0-index value (i.e. January
  * is 0 and December is 11) to match the result from native Date object.
  *
- * @param date The date to get the month from. It can be an SDate or a string in
- * the YYYY-MM-DD format.
+ * @param date The date to get the month from. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
  */
 export const getMonthFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -173,8 +181,8 @@ export const getMonthFromDate = (date: string | SDate): number => {
 /**
  * Returns the day of the month from the given date.
  *
- * @param date The date to get the day from. It can be an SDate or a string in
- * the YYYY-MM-DD format.
+ * @param date The date to get the day from. It can be an SDate or a string
+ * in the YYYY-MM-DD format.
  */
 export const getDateFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -186,8 +194,8 @@ export const getDateFromDate = (date: string | SDate): number => {
  * Returns the day of the week from the given date (Sunday to Saturday / 0 to
  * 6).
  *
- * @param date The date to get the weekday from. It can be an SDate or a string
- * in the YYYY-MM-DD format.
+ * @param date The date to get the weekday from. It can be an SDate or a
+ * string in the YYYY-MM-DD format.
  */
 export const getWeekdayFromDate = (date: string | SDate): number => {
   const sDateValue = sDate(date)
@@ -224,8 +232,8 @@ export const getUTCMillisecondsFromDate = (
  * Returns a native Date adjusted so that the local time of that date matches
  * the local time at the specified time zone.
  *
- * @param date The date to get the time zoned date from. It can be an SDate or a
- * string in the YYYY-MM-DD format.
+ * @param date The date to get the time zoned date from. It can be an SDate
+ * or a string in the YYYY-MM-DD format.
  * @param timeZone The time zone to adjust the date to. See
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
@@ -249,10 +257,10 @@ export const getTimeZonedDateFromDate = (
  * and not full 24-hour periods which could be different due to daylight saving
  * adjustments.
  *
- * @param date1 The first date to get the days between. It can be an SDate or a
- * string in the YYYY-MM-DD format.
- * @param date2 The second date to get the days between. It can be an SDate or a
- * string in the YYYY-MM-DD format.
+ * @param date1 The first date to get the days between. It can be an SDate or
+ * a string in the YYYY-MM-DD format.
+ * @param date2 The second date to get the days between. It can be an SDate
+ * or a string in the YYYY-MM-DD format.
  */
 export const getDaysBetweenDates = (
   date1: string | SDate,
@@ -271,8 +279,8 @@ export const getDaysBetweenDates = (
  * Returns a string representation that includes all of the date components of
  * the given date formatted according to the given locale.
  *
- * @param date The date to get the full string representation for. It can be an
- * SDate or a string in the YYYY-MM-DD format.
+ * @param date The date to get the full string representation for. It can be
+ * an SDate or a string in the YYYY-MM-DD format.
  * @param locale The locale to use for the string representation.
  *
  * @example
@@ -303,10 +311,10 @@ export const getFullDateString = (
 /**
  * Get the short string representation of the given date in the given locale.
  *
- * @param date The date to get the short string representation for. It can be an
- * SDate or a string in the YYYY-MM-DD format.
- * @param timeZone The time zone used to determine if in the current year. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param date The date to get the short string representation for. It can be
+ * an SDate or a string in the YYYY-MM-DD format.
+ * @param timeZone The time zone used to determine if in the current year.
+ * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  * @param locale The locale to use for the string representation.
  * @param options The options to customize the short string representation.
  *
@@ -484,8 +492,8 @@ export const addYearsToDate = (date: string | SDate, years: number): SDate => {
  * Returns true when the two given dates represent the same day and false
  * otherwise.
  *
- * @param date1 The first date to compare. It can be an SDate or a string in the
- * YYYY-MM-DD format.
+ * @param date1 The first date to compare. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  * @param date2 The second date to compare. It can be an SDate or a string in
  * the YYYY-MM-DD format.
  */
@@ -503,8 +511,8 @@ export const isSameDate = (
  * Returns true when the first date represents a date before the second date and
  * false otherwise.
  *
- * @param date1 The first date to compare. It can be an SDate or a string in the
- * YYYY-MM-DD format.
+ * @param date1 The first date to compare. It can be an SDate or a string in
+ * the YYYY-MM-DD format.
  * @param date2 The second date to compare. It can be an SDate or a string in
  * the YYYY-MM-DD format.
  */
@@ -568,7 +576,7 @@ export const isAfterDate = (
 export const isSameDateOrAfter = (
   date1: string | SDate,
   date2: string | SDate,
-) => {
+): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
 

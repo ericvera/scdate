@@ -4,8 +4,6 @@
  * validation failure.
  */
 export enum ValidationIssue {
-  /** The timezone string is not a valid IANA timezone identifier */
-  InvalidTimezone = 'invalid-timezone',
   /** Two or more specific overrides have identical date ranges */
   DuplicateOverrides = 'duplicate-overrides',
   /** Two or more specific overrides have overlapping date ranges */

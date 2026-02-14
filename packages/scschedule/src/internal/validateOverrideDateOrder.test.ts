@@ -4,7 +4,6 @@ import type { Schedule } from '../types.js'
 import { validateOverrideDateOrder } from './validateOverrideDateOrder.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [],
 }
 

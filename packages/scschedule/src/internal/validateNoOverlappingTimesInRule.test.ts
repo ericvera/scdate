@@ -5,7 +5,6 @@ import { validateNoOverlappingTimesInRule } from './validateNoOverlappingTimesIn
 
 it('should return empty array for non-overlapping times in weekly rule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -23,7 +22,6 @@ it('should return empty array for non-overlapping times in weekly rule', () => {
 
 it('should return error for overlapping times in weekly rule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -55,7 +53,6 @@ it('should return error for overlapping times in weekly rule', () => {
 
 it('should not error for different weekday rules even if times overlap', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -74,7 +71,6 @@ it('should not error for different weekday rules even if times overlap', () => {
 
 it('should return error for overlapping times in override rule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -119,7 +115,6 @@ it('should return error for overlapping times in override rule', () => {
 
 it('should handle cross-midnight overlaps', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('----TFS'),
@@ -151,7 +146,6 @@ it('should handle cross-midnight overlaps', () => {
 
 it('should return empty array when rule has only one time range', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -166,7 +160,6 @@ it('should return empty array when rule has only one time range', () => {
 
 it('should return no errors when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 

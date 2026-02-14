@@ -16,7 +16,7 @@ scschedule is a TypeScript library for managing time-based availability patterns
 - **Recurring patterns**: Define weekly schedules with different hours for different days
 - **Override system**: Add exceptions for holidays, special events, or schedule changes
 - **Cross-midnight support**: Handle time ranges that span midnight (e.g., 22:00-02:00)
-- **Timezone aware**: All operations use schedule's timezone for calculations
+- **Time zone aware**: Time zone passed at the call site where needed (DST-safe arithmetic)
 - **DST handling**: Properly handles daylight saving time transitions
 - **Immutable**: All operations return new instances
 - **Type-safe validation**: Discriminated union errors with detailed information
@@ -46,12 +46,11 @@ import {
 } from 'scschedule'
 import { sDate, sTime, sWeekdays, getTimestampNow } from 'scdate'
 
-// Define a restaurant schedule: Tuesday-Saturday, 11:00-22:00
+// Define a restaurant schedule: Monday-Saturday, 11:00-22:00
 const restaurant: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
-      weekdays: sWeekdays('-MTWTFS'), // Tue-Sat
+      weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
       times: [{ from: sTime('11:00'), to: sTime('22:00') }],
     },
   ],
@@ -81,13 +80,11 @@ if (nextOpen) {
 
 A `Schedule` consists of:
 
-- **timezone**: The timezone for all time calculations
 - **weekly**: Base recurring schedule — `true` (available 24/7), an array of `WeeklyScheduleRule` (time-based), or `[]` (never available; overrides can open windows)
 - **overrides** (optional): Date-specific exceptions (array of `OverrideScheduleRule`)
 
 ```typescript
 interface Schedule {
-  timezone: string
   weekly: WeeklyScheduleRule[] | true
   overrides?: OverrideScheduleRule[]
 }
@@ -139,6 +136,17 @@ Rules are evaluated in order of priority:
 
 ### Validation
 
+#### `isValidTimeZone(timeZone: string): boolean`
+
+Re-exported from `scdate`. Checks if a string is a valid IANA time zone identifier (using `Intl.supportedValuesOf('timeZone')`).
+
+```typescript
+import { isValidTimeZone } from 'scschedule' // or from 'scdate'
+
+isValidTimeZone('America/New_York') // true
+isValidTimeZone('Invalid/Timezone') // false
+```
+
 #### `validateSchedule(schedule: Schedule): ValidationResult`
 
 Validates a schedule and returns detailed errors.
@@ -151,9 +159,6 @@ const result = validateSchedule(mySchedule)
 if (!result.valid) {
   result.errors.forEach((error) => {
     switch (error.issue) {
-      case ValidationIssue.InvalidTimezone:
-        console.error(`Invalid timezone: ${error.timezone}`)
-        break
       case ValidationIssue.OverlappingSpecificOverrides:
         console.error(
           `Overlapping overrides at indexes: ${error.overrideIndexes}`,
@@ -167,7 +172,6 @@ if (!result.valid) {
 
 **Validation checks**:
 
-- Valid timezone (in `Intl.supportedValuesOf('timeZone')`)
 - Valid scdate formats (SDate, STime, SWeekdays)
 - Override `to` date must not be before `from` date
 - No duplicate overrides (identical from/to dates)
@@ -225,14 +229,19 @@ if (nextOpen) {
 }
 ```
 
-#### `getNextUnavailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch: number): STimestamp | undefined`
+#### `getNextUnavailableFromSchedule(schedule: Schedule, timeZone: string, fromTimestamp: STimestamp | string, maxDaysToSearch: number): STimestamp | undefined`
 
-Find the next unavailable timestamp from a given time. Searches up to `maxDaysToSearch` days forward.
+Find the next unavailable timestamp from a given time. Requires a time zone for DST-safe timestamp arithmetic. Searches up to `maxDaysToSearch` days forward.
 
 ```typescript
 import { getNextUnavailableFromSchedule } from 'scschedule'
 
-const nextClosed = getNextUnavailableFromSchedule(restaurant, now, 30)
+const nextClosed = getNextUnavailableFromSchedule(
+  restaurant,
+  'America/Puerto_Rico',
+  now,
+  30,
+)
 if (nextClosed) {
   console.log(`Closes at: ${nextClosed.timestamp}`)
 }
@@ -266,10 +275,9 @@ import { Schedule } from 'scschedule'
 import { sTime, sWeekdays } from 'scdate'
 
 const restaurant: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
-      weekdays: sWeekdays('-MTWTFS'), // Tue-Sat
+      weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
       times: [{ from: sTime('11:00'), to: sTime('22:00') }],
     },
   ],
@@ -280,10 +288,9 @@ const restaurant: Schedule = {
 
 ```typescript
 const restaurant: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
-      weekdays: sWeekdays('-MTWTFS'), // Tue-Sat
+      weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
       times: [
         { from: sTime('11:00'), to: sTime('14:00') }, // Lunch
         { from: sTime('17:00'), to: sTime('22:00') }, // Dinner
@@ -297,7 +304,6 @@ const restaurant: Schedule = {
 
 ```typescript
 const restaurant: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       // Weekdays: longer hours
@@ -375,7 +381,6 @@ const newSchedule: Schedule = {
 
 ```typescript
 const lateNightBar: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: sWeekdays('----TFS'), // Thu-Sat
@@ -397,7 +402,6 @@ Use `weekly: true` when an entity is available 24/7 by default. This is useful f
 ```typescript
 // Menu item available 24/7 (restaurant hours handle the filtering)
 const menuItem: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: true,
   overrides: [
     {
@@ -417,7 +421,6 @@ Use `weekly: []` when an entity is unavailable by default and only opens during 
 ```typescript
 // Pop-up shop: closed by default, open only during specific events
 const popUpShop: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [],
   overrides: [
     {
@@ -440,7 +443,6 @@ const popUpShop: Schedule = {
 import { isScheduleAvailable } from 'scschedule'
 
 const businessHours: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: sWeekdays('-MTWTFS'),
@@ -451,7 +453,6 @@ const businessHours: Schedule = {
 
 // Menu available 24/7 — restaurant hours do the filtering
 const breakfastMenu: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: true,
 }
 
@@ -467,10 +468,6 @@ The library uses discriminated unions for type-safe error handling:
 
 ```typescript
 type ValidationError =
-  | {
-      issue: ValidationIssue.InvalidTimezone
-      timezone: string
-    }
   | {
       issue: ValidationIssue.InvalidScDateFormat
       field: string
@@ -567,14 +564,14 @@ type ValidationError =
 3. **Use specific date ranges** for overrides when possible - indefinite overrides are useful for permanent schedule changes
 4. **When using multiple indefinite overrides**, remember that the most recent one (latest `from` date) takes precedence
 5. **Test cross-midnight ranges** thoroughly if your schedule uses them
-6. **Consider timezone** carefully - all times are interpreted in the schedule's timezone
+6. **Validate time zones** separately using `isValidTimeZone()` before passing them to functions that require one
 7. **Handle DST transitions** by testing schedules during spring forward and fall back
 
 ## Edge Cases
 
 ### DST Transitions
 
-The library handles DST transitions using scdate's timezone functions. Times that fall in "missing hours" (spring forward) are treated as unavailable.
+The library handles DST transitions using scdate's time zone functions. Times that fall in "missing hours" (spring forward) are treated as unavailable.
 
 ### Cross-Midnight Ranges
 
@@ -597,7 +594,19 @@ import type {
   AvailabilityRange,
   ValidationError,
   ValidationResult,
+  SDateString,
+  STimeString,
+  STimestampString,
+  SWeekdaysString,
 } from 'scschedule'
+
+import { ValidationIssue, RuleLocationType } from 'scschedule'
+```
+
+Note: The `Weekday` enum (used in some `ValidationError` variants) is exported from `scdate`, not `scschedule`:
+
+```typescript
+import { Weekday } from 'scdate'
 ```
 
 ## Dependencies

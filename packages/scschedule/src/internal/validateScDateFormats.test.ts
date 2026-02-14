@@ -5,7 +5,6 @@ import { validateScDateFormats } from './validateScDateFormats.js'
 
 it('should return empty array for valid schedule formats', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -27,7 +26,6 @@ it('should return empty array for valid schedule formats', () => {
 
 it('should accept both typed and string formats', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         // String format weekdays
@@ -77,7 +75,6 @@ it('should accept both typed and string formats', () => {
 
 it('should return error for invalid SWeekdays format in weekly rule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: 'INVALID',
@@ -101,7 +98,6 @@ it('should return error for invalid SWeekdays format in weekly rule', () => {
 
 it('should return error for invalid STime format', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -125,7 +121,6 @@ it('should return error for invalid STime format', () => {
 
 it('should return error for invalid SDate format in override', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -157,7 +152,6 @@ it('should return error for invalid SDate format in override', () => {
 
 it('should validate formats in override rules', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -193,7 +187,6 @@ it('should validate formats in override rules', () => {
 
 it('should provide detailed field paths in errors', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -217,7 +210,6 @@ it('should provide detailed field paths in errors', () => {
 
 it('should return no errors when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 

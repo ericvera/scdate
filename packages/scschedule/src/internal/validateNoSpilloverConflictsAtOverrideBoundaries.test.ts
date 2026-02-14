@@ -4,7 +4,6 @@ import type { Schedule } from '../types.js'
 import { validateNoSpilloverConflictsAtOverrideBoundaries } from './validateNoSpilloverConflictsAtOverrideBoundaries.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [],
 }
 

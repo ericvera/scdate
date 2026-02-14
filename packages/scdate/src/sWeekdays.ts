@@ -284,7 +284,7 @@ export const addWeekdayToWeekdays = (
 export const doesWeekdaysIncludeWeekday = (
   weekdays: string | SWeekdays,
   weekday: Weekday,
-) => {
+): boolean => {
   const sWeekdaysInstance = sWeekdays(weekdays)
   const weekdayIndex = getIndexForWeekday(weekday)
 
@@ -303,7 +303,7 @@ export const doesWeekdaysIncludeWeekday = (
 export const doesWeekdaysHaveOverlapWithWeekdays = (
   weekdays1: string | SWeekdays,
   weekdays2: string | SWeekdays,
-) => {
+): boolean => {
   const sWeekdays1 = sWeekdays(weekdays1)
   const sWeekdays2 = sWeekdays(weekdays2)
 

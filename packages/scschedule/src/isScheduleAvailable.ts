@@ -18,9 +18,9 @@ import type { Schedule } from './types.js'
  * matching time range for the day, including cross-midnight spillover from the
  * previous day.
  *
- * @param schedule - The schedule to check availability against
- * @param timestamp - The timestamp to check
- * @returns True if the schedule is available at the given timestamp
+ * @param schedule The schedule to check availability against.
+ * @param timestamp The timestamp to check.
+ * @returns True if the schedule is available at the given timestamp.
  */
 export const isScheduleAvailable = (
   schedule: Schedule,

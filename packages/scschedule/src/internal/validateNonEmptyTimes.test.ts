@@ -5,7 +5,6 @@ import { validateNonEmptyTimes } from './validateNonEmptyTimes.js'
 
 it('should return empty array for valid schedule with non-empty times', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -20,7 +19,6 @@ it('should return empty array for valid schedule with non-empty times', () => {
 
 it('should return error for weekly rule with empty times', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -45,7 +43,6 @@ it('should return error for weekly rule with empty times', () => {
 
 it('should allow empty rules array in overrides (represents closed)', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -68,7 +65,6 @@ it('should allow empty rules array in overrides (represents closed)', () => {
 
 it('should return error for override rule with empty times', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -107,7 +103,6 @@ it('should return error for override rule with empty times', () => {
 
 it('should return multiple errors for multiple empty times', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -143,7 +138,6 @@ it('should return multiple errors for multiple empty times', () => {
 
 it('should return no errors when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 

@@ -5,7 +5,6 @@ import type { Schedule } from './types.js'
 
 it('should return true when timestamp falls within weekly schedule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -21,7 +20,6 @@ it('should return true when timestamp falls within weekly schedule', () => {
 
 it('should return false when timestamp is outside weekly schedule hours', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -37,7 +35,6 @@ it('should return false when timestamp is outside weekly schedule hours', () => 
 
 it('should return false when timestamp is on a non-working weekday', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -53,7 +50,6 @@ it('should return false when timestamp is on a non-working weekday', () => {
 
 it('should return false during lunch break when multiple time ranges are defined', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -71,7 +67,6 @@ it('should return false during lunch break when multiple time ranges are defined
 
 it('should return true during afternoon hours when multiple time ranges are defined', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -90,7 +85,6 @@ it('should return true during afternoon hours when multiple time ranges are defi
 
 it('should respect specific date overrides', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -114,7 +108,6 @@ it('should respect specific date overrides', () => {
 
 it('should return false before indefinite override starts', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -142,7 +135,6 @@ it('should return false before indefinite override starts', () => {
 
 it('should return true after indefinite override starts', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -170,7 +162,6 @@ it('should return true after indefinite override starts', () => {
 
 it('should return true for late night hours in cross-midnight range', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('----TFS'),
@@ -187,7 +178,6 @@ it('should return true for late night hours in cross-midnight range', () => {
 
 it('should return true for early morning hours in cross-midnight range', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('----TFS'),
@@ -204,7 +194,6 @@ it('should return true for early morning hours in cross-midnight range', () => {
 
 it('should return false after cross-midnight range ends', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('----TFS'),
@@ -221,7 +210,6 @@ it('should return false after cross-midnight range ends', () => {
 
 it('should return false for empty times array', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -236,7 +224,6 @@ it('should return false for empty times array', () => {
 
 it('should return true for Saturday when override includes weekend hours', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -265,7 +252,6 @@ it('should return true for Saturday when override includes weekend hours', () =>
 
 it('should return false for weekday when override only includes weekend hours', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -294,7 +280,6 @@ it('should return false for weekday when override only includes weekend hours', 
 
 it('should return false on Christmas Eve evening when specific date override closes', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -330,7 +315,6 @@ it('should return false on Christmas Eve evening when specific date override clo
 
 it('should return false on Christmas morning with no spillover from closed Christmas Eve', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -367,7 +351,6 @@ it('should return false on Christmas morning with no spillover from closed Chris
 
 it('should return true on Dec 23 evening using December extended hours', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -403,7 +386,6 @@ it('should return true on Dec 23 evening using December extended hours', () => {
 
 it('should return true on Dec 24 morning from Dec 23 spillover', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -439,7 +421,6 @@ it('should return true on Dec 24 morning from Dec 23 spillover', () => {
 
 it('should return true on Dec 26 evening using December extended hours', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -475,7 +456,6 @@ it('should return true on Dec 26 evening using December extended hours', () => {
 
 it('should handle spillover from override last day to next day when weekdays match', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -507,7 +487,6 @@ it('should handle spillover from override last day to next day when weekdays mat
 
 it('should NOT spillover from override last day when weekday pattern does not match', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -540,7 +519,6 @@ it('should NOT spillover from override last day when weekday pattern does not ma
 
 it('should NOT spillover when previous day is outside override range', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -572,7 +550,6 @@ it('should NOT spillover when previous day is outside override range', () => {
 
 it('should return true at any time when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 
@@ -592,7 +569,6 @@ it('should return true at any time when weekly is true', () => {
 
 it('should respect overrides when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
     overrides: [
       {

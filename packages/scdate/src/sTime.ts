@@ -14,7 +14,7 @@ import { getTimeZonedDate } from './internal/zoned.js'
 /**
  * Returns a new STime instance.
  *
- * @param time And instance of STime or a string in the format 'HH:MM'.
+ * @param time An instance of STime or a string in the format 'HH:MM'.
  */
 export const sTime = (time: string | STime): STime => {
   if (time instanceof STime) {

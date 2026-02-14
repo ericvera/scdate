@@ -16,8 +16,15 @@ import { getTimeZonedDate } from './internal/zoned.js'
 import { getShortDateString, sDate } from './sDate.js'
 import { get12HourTimeString, sTime } from './sTime.js'
 
+/**
+ * Options for customizing the short timestamp string representation.
+ */
 export interface STimestampShortStringOptions {
+  /** Whether to include the abbreviated weekday name in the output. */
   includeWeekday: boolean
+  /**
+   * Called when the timestamp is today. Return value is used as prefix test.
+   */
   onTodayAtText: () => string
 }
 
@@ -86,9 +93,9 @@ export const getTimestampFromDateAndTime = (
   time: string | STime,
 ): STimestamp => {
   const sDateValue = sDate(date)
-  const sDimeValue = sTime(time)
+  const sTimeValue = sTime(time)
 
-  return sTimestamp(`${sDateValue.date}T${sDimeValue.time}`)
+  return sTimestamp(`${sDateValue.date}T${sTimeValue.time}`)
 }
 
 /**
@@ -126,9 +133,9 @@ export const getUTCMillisecondsFromTimestamp = (
  * Returns a native Date adjusted so that the local time of that date matches
  * the local timestamp at the specified time zone.
  *
- * @param date The date to get the time zoned date from. It can be an SDate or a
- * string in the YYYY-MM-DD format.
- * @param timeZone The time zone to adjust the date to. See
+ * @param timestamp The timestamp to get the time zoned date from. It can be
+ * an STimestamp or a string in the YYYY-MM-DDTHH:MM format.
+ * @param timeZone The time zone to adjust the timestamp to. See
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getTimeZonedDateFromTimestamp = (
