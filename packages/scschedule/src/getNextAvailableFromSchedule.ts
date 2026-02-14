@@ -43,11 +43,11 @@ import type { Schedule, STimeString } from './types.js'
  * - The "next available" time is always a time range start, never a spillover
  *   timestamp
  *
- * @param schedule - The schedule to check availability against
- * @param fromTimestamp - The starting timestamp to search from
- * @param maxDaysToSearch - Maximum number of days to search forward
+ * @param schedule The schedule to check availability against.
+ * @param fromTimestamp The starting timestamp to search from.
+ * @param maxDaysToSearch Maximum number of days to search forward.
  * @returns The next available timestamp, or undefined if none found within
- *   the search window
+ *   the search window.
  *
  * @example
  * // Schedule: Mon-Fri 09:00-17:00

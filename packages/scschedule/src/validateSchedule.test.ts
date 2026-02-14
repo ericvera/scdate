@@ -5,7 +5,6 @@ import { validateSchedule } from './validateSchedule.js'
 
 it('should return valid for a correct schedule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTFS',
@@ -23,34 +22,8 @@ it('should return valid for a correct schedule', () => {
     `)
 })
 
-it('should detect invalid timezone', () => {
-  const schedule: Schedule = {
-    timezone: 'Invalid/Timezone',
-    weekly: [
-      {
-        weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: sTime('17:00') }],
-      },
-    ],
-  }
-
-  const result = validateSchedule(schedule)
-  expect(result).toMatchInlineSnapshot(`
-      {
-        "errors": [
-          {
-            "issue": "invalid-timezone",
-            "timezone": "Invalid/Timezone",
-          },
-        ],
-        "valid": false,
-      }
-    `)
-})
-
 it('should allow multiple indefinite overrides', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -80,7 +53,6 @@ it('should allow multiple indefinite overrides', () => {
 
 it('should detect overlapping specific overrides', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -120,7 +92,6 @@ it('should detect overlapping specific overrides', () => {
 
 it('should detect overlapping times in rule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -155,7 +126,6 @@ it('should detect overlapping times in rule', () => {
 
 it('should detect empty times in rule', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -183,7 +153,6 @@ it('should detect empty times in rule', () => {
 
 it('should detect invalid scdate formats', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: 'INVALID',
@@ -210,7 +179,6 @@ it('should detect invalid scdate formats', () => {
 
 it('should return all validation errors when multiple issues exist', () => {
   const schedule: Schedule = {
-    timezone: 'Invalid/Timezone',
     weekly: [
       {
         weekdays: 'INVALID',
@@ -225,10 +193,6 @@ it('should return all validation errors when multiple issues exist', () => {
   expect(result).toMatchInlineSnapshot(`
       {
         "errors": [
-          {
-            "issue": "invalid-timezone",
-            "timezone": "Invalid/Timezone",
-          },
           {
             "expectedFormat": "SMTWTFS",
             "field": "weekly[0].weekdays",
@@ -250,7 +214,6 @@ it('should return all validation errors when multiple issues exist', () => {
 
 it('should validate complex valid schedule with overrides', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -294,7 +257,6 @@ it('should validate complex valid schedule with overrides', () => {
 
 it('should validate schedule with hierarchical overrides (December + Christmas)', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -333,7 +295,6 @@ it('should validate schedule with hierarchical overrides (December + Christmas)'
 
 it('should detect invalid override date order (to before from)', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),

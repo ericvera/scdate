@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { isValidTimezone } from './isValidTimezone.js'
+import { isValidTimeZone } from './isValidTimeZone.js'
 
 it.each([
   'America/Puerto_Rico',
@@ -7,8 +7,8 @@ it.each([
   'Europe/London',
   'Asia/Tokyo',
   'Australia/Sydney',
-])('should return true for valid timezone: %s', (timezone) => {
-  expect(isValidTimezone(timezone)).toBe(true)
+])('should return true for valid time zone: %s', (timeZone) => {
+  expect(isValidTimeZone(timeZone)).toBe(true)
 })
 
 it.each([
@@ -20,6 +20,6 @@ it.each([
   'EST',
   'PST',
   'UTC',
-])('should return false for invalid timezone: %s', (timezone) => {
-  expect(isValidTimezone(timezone)).toBe(false)
+])('should return false for invalid time zone: %s', (timeZone) => {
+  expect(isValidTimeZone(timeZone)).toBe(false)
 })

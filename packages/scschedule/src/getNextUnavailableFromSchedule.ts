@@ -27,7 +27,7 @@ import type { Schedule, STimeString, WeeklyScheduleRule } from './types.js'
 const collectRangeEndCandidates = (
   rules: WeeklyScheduleRule[],
   date: SDate,
-  timezone: string,
+  timeZone: string,
   afterTime?: STime | STimeString,
 ): STimestamp[] => {
   const candidates: STimestamp[] = []
@@ -43,14 +43,14 @@ const collectRangeEndCandidates = (
         // Cross-midnight range ends tomorrow
         const tomorrow = addDaysToDate(date, 1)
         const rangeEnd = getTimestampFromDateAndTime(tomorrow, timeRange.to)
-        candidates.push(addMinutesToTimestamp(rangeEnd, 1, timezone))
+        candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
       } else {
         if (afterTime && !isSameTimeOrAfter(timeRange.to, afterTime)) {
           continue
         }
 
         const rangeEnd = getTimestampFromDateAndTime(date, timeRange.to)
-        candidates.push(addMinutesToTimestamp(rangeEnd, 1, timezone))
+        candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
       }
     }
   }
@@ -66,6 +66,7 @@ const collectRangeEndCandidates = (
 const collectSpilloverCandidates = (
   schedule: Schedule,
   currentDate: SDate,
+  timeZone: string,
   afterTime: STime | STimeString,
 ): STimestamp[] => {
   const candidates: STimestamp[] = []
@@ -93,7 +94,7 @@ const collectSpilloverCandidates = (
       }
 
       const rangeEnd = getTimestampFromDateAndTime(currentDate, timeRange.to)
-      candidates.push(addMinutesToTimestamp(rangeEnd, 1, schedule.timezone))
+      candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
     }
   }
 
@@ -143,11 +144,12 @@ const findFirstUnavailableTimestamp = (
  * Note: For rule-based schedules, no day-by-day iteration is needed because if
  * available, the current range ends within at most ~48 hours (cross-midnight).
  *
- * @param schedule - The schedule to check availability against
- * @param fromTimestamp - The starting timestamp to search from
- * @param maxDaysToSearch - Maximum number of days to search forward
+ * @param schedule The schedule to check availability against.
+ * @param timeZone IANA time zone identifier for timestamp arithmetic.
+ * @param fromTimestamp The starting timestamp to search from.
+ * @param maxDaysToSearch Maximum number of days to search forward.
  * @returns The next unavailable timestamp, or undefined if no unavailability
- *   is found within the search window
+ *   is found within the search window.
  *
  * @example
  * // Schedule: Mon-Fri 09:00-17:00
@@ -171,6 +173,7 @@ const findFirstUnavailableTimestamp = (
  */
 export const getNextUnavailableFromSchedule = (
   schedule: Schedule,
+  timeZone: string,
   fromTimestamp: STimestamp | string,
   maxDaysToSearch: number,
 ): STimestamp | undefined => {
@@ -203,11 +206,7 @@ export const getNextUnavailableFromSchedule = (
 
         const nextUnavailable = findFirstUnavailableTimestamp(schedule, [
           dayStart,
-          ...collectRangeEndCandidates(
-            result.rules,
-            searchDate,
-            schedule.timezone,
-          ),
+          ...collectRangeEndCandidates(result.rules, searchDate, timeZone),
         ])
 
         if (nextUnavailable) {
@@ -230,12 +229,7 @@ export const getNextUnavailableFromSchedule = (
   }
 
   return findFirstUnavailableTimestamp(schedule, [
-    ...collectSpilloverCandidates(schedule, currentDate, fromTime),
-    ...collectRangeEndCandidates(
-      rules,
-      currentDate,
-      schedule.timezone,
-      fromTime,
-    ),
+    ...collectSpilloverCandidates(schedule, currentDate, timeZone, fromTime),
+    ...collectRangeEndCandidates(rules, currentDate, timeZone, fromTime),
   ])
 }

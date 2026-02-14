@@ -68,18 +68,12 @@ export interface OverrideScheduleRule {
 }
 
 /**
- * Represents a complete availability schedule. A schedule consists of a
- * timezone for all date/time operations, base weekly recurring patterns, and
- * optional date-specific overrides. Priority order for determining
- * availability: 1. Specific override (with both from and to dates) 2.
- * Indefinite override (with only from date) 3. Weekly schedule
+ * Represents a complete availability schedule. A schedule consists of base
+ * weekly recurring patterns and optional date-specific overrides. Priority
+ * order for determining availability: 1. Specific override (with both from and
+ * to dates) 2. Indefinite override (with only from date) 3. Weekly schedule
  */
 export interface Schedule {
-  /**
-   * IANA timezone identifier (e.g., 'America/New_York', 'Europe/London'). Must
-   * be in `Intl.supportedValuesOf('timeZone')`.
-   */
-  timezone: string
   /**
    * Base recurring weekly schedule patterns.
    * - `true`: available 24/7 (overrides can close windows)
@@ -110,12 +104,6 @@ export interface AvailabilityRange {
  * property to narrow the type and access error-specific fields.
  */
 export type ValidationError =
-  | {
-      /** The timezone string is not a valid IANA timezone identifier */
-      issue: ValidationIssue.InvalidTimezone
-      /** The invalid timezone string that was provided */
-      timezone: string
-    }
   | {
       /** Two or more specific overrides have identical date ranges */
       issue: ValidationIssue.DuplicateOverrides

@@ -19,10 +19,10 @@ import type { AvailabilityRange, Schedule } from './types.js'
  * (00:00-23:59). Otherwise, emits each matching time range, including
  * cross-midnight ranges that extend into the next day.
  *
- * @param schedule - The schedule to get availability from
- * @param startDate - The start of the date range (inclusive)
- * @param endDate - The end of the date range (inclusive)
- * @returns An array of availability ranges within the date range
+ * @param schedule The schedule to get availability from.
+ * @param startDate The start of the date range (inclusive).
+ * @param endDate The end of the date range (inclusive).
+ * @returns An array of availability ranges within the date range.
  */
 export const getAvailableRangesFromSchedule = (
   schedule: Schedule,

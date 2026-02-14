@@ -5,7 +5,6 @@ import type { Schedule } from './types.js'
 
 it('should return the same timestamp if already available', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -22,7 +21,6 @@ it('should return the same timestamp if already available', () => {
 
 it('should return the next available time on the same day', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -39,7 +37,6 @@ it('should return the next available time on the same day', () => {
 
 it('should skip to the next available day when current day is closed', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -56,7 +53,6 @@ it('should skip to the next available day when current day is closed', () => {
 
 it('should handle multiple time ranges and return the next one', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -76,7 +72,6 @@ it('should handle multiple time ranges and return the next one', () => {
 
 it('should respect date overrides that close on specific dates', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -101,7 +96,6 @@ it('should respect date overrides that close on specific dates', () => {
 
 it('should handle indefinite overrides before override starts', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -130,7 +124,6 @@ it('should handle indefinite overrides before override starts', () => {
 
 it('should handle indefinite overrides after override starts', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -159,7 +152,6 @@ it('should handle indefinite overrides after override starts', () => {
 
 it('should handle cross-midnight time ranges', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '----TFS',
@@ -177,7 +169,6 @@ it('should handle cross-midnight time ranges', () => {
 
 it('should return undefined when no availability within search window', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-------'),
@@ -201,7 +192,6 @@ it('should return undefined when no availability within search window', () => {
 
 it('should find availability after a long closed period', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -226,7 +216,6 @@ it('should find availability after a long closed period', () => {
 
 it('should return the same timestamp immediately when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 
@@ -237,7 +226,6 @@ it('should return the same timestamp immediately when weekly is true', () => {
 
 it('should find next available after override closure when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
     overrides: [
       {
@@ -256,7 +244,6 @@ it('should find next available after override closure when weekly is true', () =
 
 it('should find next available within override partial hours when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
     overrides: [
       {
@@ -280,7 +267,6 @@ it('should find next available within override partial hours when weekly is true
 
 it('should return undefined when availability is beyond maxDaysToSearch', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [],
     overrides: [
       {

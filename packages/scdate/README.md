@@ -29,7 +29,20 @@ yarn add scdate
 ## Basic Usage
 
 ```typescript
-import { sDate, sTime, sTimestamp, sWeekdays, Weekday } from 'scdate'
+import {
+  sDate,
+  sTime,
+  sTimestamp,
+  sWeekdays,
+  Weekday,
+  getDateToday,
+  getNextDateByWeekday,
+  getTimeNow,
+  addMinutesToTime,
+  getTimestampNow,
+  getTimestampFromDateAndTime,
+  getWeekdaysFromWeekdayFlags,
+} from 'scdate'
 
 // Working with dates
 const today = getDateToday('America/Puerto_Rico')
@@ -251,9 +264,15 @@ const filteredWeekdays = filterWeekdaysForDates(
 )
 const updatedWeekdays = addWeekdayToWeekdays(weekdays5, Weekday.Fri) // Add Friday to pattern
 
+// Weekday navigation
+const previousDay = getPreviousWeekday(Weekday.Mon) // Returns Weekday.Sun
+const nextDay = getNextWeekday(Weekday.Mon) // Returns Weekday.Tue
+
 // Weekday queries
 const includesMonday = doesWeekdaysIncludeWeekday(weekdays2, Weekday.Mon)
 const hasOverlap = doesWeekdaysHaveOverlapWithWeekdays(weekdays2, weekdays3)
+const areEqual = areWeekdaysEqual(weekdays1, weekdays4) // true (both all days)
+const isEmpty = isWeekdaysEmpty(weekdays5) // true (no days)
 ```
 
 #### Important Behaviors and Edge Cases
@@ -292,7 +311,14 @@ scDate intentionally omits seconds and milliseconds from time representations. T
 - Simpler time representations lead to more intuitive API and usage patterns
 - Performance is optimized by avoiding unnecessary precision
 
-## Time zones
+## Time Zones
+
+```typescript
+import { isValidTimeZone } from 'scdate'
+
+isValidTimeZone('America/New_York') // true
+isValidTimeZone('Invalid/Timezone') // false
+```
 
 For a list of valid time zones run `Intl.supportedValuesOf('timeZone')` in your environment.
 

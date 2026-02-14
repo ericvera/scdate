@@ -4,7 +4,6 @@ import type { Schedule } from '../types.js'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
@@ -1122,7 +1121,6 @@ it('should prioritize specific override over any indefinite overrides', () => {
 
 it('should return weekly source with rules true when weekly is true and no overrides', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 
@@ -1137,7 +1135,6 @@ it('should return weekly source with rules true when weekly is true and no overr
 
 it('should return override rules when weekly is true and date falls in override', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
     overrides: [
       {
@@ -1160,7 +1157,6 @@ it('should return override rules when weekly is true and date falls in override'
 
 it('should return weekly source with rules true when weekly is true and date is outside override', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
     overrides: [
       {

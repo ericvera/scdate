@@ -1,4 +1,5 @@
 export * from './constants.js'
+export * from './isValidTimeZone.js'
 export * from './sDate.js'
 export * from './sTime.js'
 export * from './sTimestamp.js'

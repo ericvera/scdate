@@ -5,7 +5,6 @@ import type { Schedule } from './types.js'
 
 it('should return single range for continuous availability', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -49,7 +48,6 @@ it('should return single range for continuous availability', () => {
 
 it('should skip unavailable days', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: '-MTWTF-',
@@ -81,7 +79,6 @@ it('should skip unavailable days', () => {
 
 it('should handle multiple time ranges per day', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -116,7 +113,6 @@ it('should handle multiple time ranges per day', () => {
 
 it('should return empty array when no availability', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-------'),
@@ -136,7 +132,6 @@ it('should return empty array when no availability', () => {
 
 it('should handle date overrides', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('SMTWTFS'),
@@ -176,7 +171,6 @@ it('should handle date overrides', () => {
 
 it('should handle cross-midnight time ranges', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('----TFS'),
@@ -213,7 +207,6 @@ it('should handle cross-midnight time ranges', () => {
 
 it('should handle single day range', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -240,7 +233,6 @@ it('should handle single day range', () => {
 
 it('should handle overrides with different hours', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
@@ -310,7 +302,6 @@ it('should handle overrides with different hours', () => {
 
 it('should return full-day ranges when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 
@@ -340,7 +331,6 @@ it('should return full-day ranges when weekly is true', () => {
 
 it('should return no ranges for override closure days when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
     overrides: [
       {

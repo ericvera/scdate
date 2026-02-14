@@ -4,7 +4,6 @@ import { cleanupExpiredOverridesFromSchedule } from './cleanupExpiredOverridesFr
 import type { Schedule } from './types.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
@@ -17,7 +16,6 @@ it('should return schedule as-is when there are no overrides', () => {
   const result = cleanupExpiredOverridesFromSchedule(baseSchedule, '2025-12-31')
   expect(result).toMatchInlineSnapshot(`
       {
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [
@@ -60,7 +58,6 @@ it('should remove overrides that ended before the given date', () => {
             "to": "2025-12-31",
           },
         ],
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [
@@ -101,7 +98,6 @@ it('should keep overrides that end on the given date', () => {
             "to": "2025-12-31",
           },
         ],
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [
@@ -139,7 +135,6 @@ it('should keep active overrides (cleanup date within override period)', () => {
             "to": "2025-12-31",
           },
         ],
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [
@@ -181,7 +176,6 @@ it('should keep indefinite overrides', () => {
             "rules": [],
           },
         ],
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [
@@ -215,7 +209,6 @@ it('should remove overrides property when all overrides are removed', () => {
   )
   expect(result).toMatchInlineSnapshot(`
       {
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [
@@ -289,7 +282,6 @@ it('should handle multiple expired and active overrides', () => {
             "to": "2025-04-30",
           },
         ],
-        "timezone": "America/Puerto_Rico",
         "weekly": [
           {
             "times": [

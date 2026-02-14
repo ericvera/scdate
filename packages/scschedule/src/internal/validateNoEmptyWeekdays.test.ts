@@ -4,7 +4,6 @@ import type { Schedule } from '../types.js'
 import { validateNoEmptyWeekdays } from './validateNoEmptyWeekdays.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
@@ -79,7 +78,6 @@ it('should return error for empty weekdays in override rule', () => {
 
 it('should return multiple errors for multiple empty weekdays', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         // Empty
@@ -136,7 +134,6 @@ it('should handle schedules with no overrides', () => {
 
 it('should accept weekdays with at least one day selected', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: [
       {
         // Only Sunday
@@ -157,7 +154,6 @@ it('should accept weekdays with at least one day selected', () => {
 
 it('should return no errors when weekly is true', () => {
   const schedule: Schedule = {
-    timezone: 'America/Puerto_Rico',
     weekly: true,
   }
 

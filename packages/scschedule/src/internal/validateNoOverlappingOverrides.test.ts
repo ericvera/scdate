@@ -4,7 +4,6 @@ import type { Schedule } from '../types.js'
 import { validateNoOverlappingOverrides } from './validateNoOverlappingOverrides.js'
 
 const baseSchedule: Schedule = {
-  timezone: 'America/Puerto_Rico',
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
