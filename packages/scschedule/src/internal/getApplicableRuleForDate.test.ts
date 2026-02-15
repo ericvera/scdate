@@ -7,7 +7,8 @@ const baseSchedule: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
-      times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+      from: sTime('09:00'),
+      to: sTime('17:00'),
     },
   ],
 }
@@ -18,12 +19,8 @@ it('should return weekly rules when no overrides exist', () => {
     {
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -52,12 +49,8 @@ it('should return weekly rules when date is outside all override ranges', () => 
     {
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -76,7 +69,8 @@ it('should return specific override rules when date is in range', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: sTime('20:00') }],
+            from: sTime('10:00'),
+            to: sTime('20:00'),
           },
         ],
       },
@@ -92,12 +86,8 @@ it('should return specific override rules when date is in range', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "10:00",
-              "to": "20:00",
-            },
-          ],
+          "from": "10:00",
+          "to": "20:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -116,7 +106,8 @@ it('should return override rules on start boundary date', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '10:00', to: sTime('20:00') }],
+            from: '10:00',
+            to: sTime('20:00'),
           },
         ],
       },
@@ -129,12 +120,8 @@ it('should return override rules on start boundary date', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "10:00",
-              "to": "20:00",
-            },
-          ],
+          "from": "10:00",
+          "to": "20:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -153,7 +140,8 @@ it('should return override rules on end boundary date', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: '20:00' }],
+            from: sTime('10:00'),
+            to: '20:00',
           },
         ],
       },
@@ -169,12 +157,8 @@ it('should return override rules on end boundary date', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "10:00",
-              "to": "20:00",
-            },
-          ],
+          "from": "10:00",
+          "to": "20:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -192,7 +176,8 @@ it('should return indefinite override rules on start date', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -208,12 +193,8 @@ it('should return indefinite override rules on start date', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -231,7 +212,8 @@ it('should return indefinite override rules months after start date', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '08:00', to: sTime('22:00') }],
+            from: '08:00',
+            to: sTime('22:00'),
           },
         ],
       },
@@ -244,12 +226,8 @@ it('should return indefinite override rules months after start date', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -267,7 +245,8 @@ it('should return indefinite override rules years after start date', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -283,12 +262,8 @@ it('should return indefinite override rules years after start date', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -307,7 +282,8 @@ it('should return weekly rules before any overrides start', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: '22:00' }],
+            from: '08:00',
+            to: '22:00',
           },
         ],
       },
@@ -318,7 +294,8 @@ it('should return weekly rules before any overrides start', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '12:00', to: '16:00' }],
+            from: '12:00',
+            to: '16:00',
           },
         ],
       },
@@ -330,12 +307,8 @@ it('should return weekly rules before any overrides start', () => {
     {
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -354,7 +327,8 @@ it('should return indefinite override rules between indefinite start and specifi
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: '22:00' }],
+            from: '08:00',
+            to: '22:00',
           },
         ],
       },
@@ -365,7 +339,8 @@ it('should return indefinite override rules between indefinite start and specifi
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '12:00', to: '16:00' }],
+            from: '12:00',
+            to: '16:00',
           },
         ],
       },
@@ -378,12 +353,8 @@ it('should return indefinite override rules between indefinite start and specifi
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -402,7 +373,8 @@ it('should prioritize specific override over indefinite override on specific dat
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: '22:00' }],
+            from: '08:00',
+            to: '22:00',
           },
         ],
       },
@@ -413,7 +385,8 @@ it('should prioritize specific override over indefinite override on specific dat
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '12:00', to: '16:00' }],
+            from: '12:00',
+            to: '16:00',
           },
         ],
       },
@@ -426,12 +399,8 @@ it('should prioritize specific override over indefinite override on specific dat
       "overrideIndex": 1,
       "rules": [
         {
-          "times": [
-            {
-              "from": "12:00",
-              "to": "16:00",
-            },
-          ],
+          "from": "12:00",
+          "to": "16:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -450,7 +419,8 @@ it('should return indefinite override rules after specific override ends', () =>
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: '22:00' }],
+            from: '08:00',
+            to: '22:00',
           },
         ],
       },
@@ -461,7 +431,8 @@ it('should return indefinite override rules after specific override ends', () =>
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '12:00', to: '16:00' }],
+            from: '12:00',
+            to: '16:00',
           },
         ],
       },
@@ -474,12 +445,8 @@ it('should return indefinite override rules after specific override ends', () =>
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -497,7 +464,8 @@ it('should return weekly rules when date is before indefinite override', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -512,12 +480,8 @@ it('should return weekly rules when date is before indefinite override', () => {
     {
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -537,7 +501,8 @@ it('should select most specific override on Christmas when multiple apply', () =
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -574,7 +539,8 @@ it('should select broader override on day before specific override', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '08:00', to: sTime('22:00') }],
+            from: '08:00',
+            to: sTime('22:00'),
           },
         ],
       },
@@ -593,12 +559,8 @@ it('should select broader override on day before specific override', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -618,7 +580,8 @@ it('should select broader override on day after specific override', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -640,12 +603,8 @@ it('should select broader override on day after specific override', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -665,7 +624,8 @@ it('should select December rules before Christmas week in multi-level overrides'
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -676,7 +636,8 @@ it('should select December rules before Christmas week in multi-level overrides'
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '09:00', to: sTime('18:00') }],
+            from: '09:00',
+            to: sTime('18:00'),
           },
         ],
       },
@@ -698,12 +659,8 @@ it('should select December rules before Christmas week in multi-level overrides'
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -723,7 +680,8 @@ it('should select Christmas week rules on day before Christmas in multi-level ov
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -734,7 +692,8 @@ it('should select Christmas week rules on day before Christmas in multi-level ov
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('09:00'), to: '18:00' }],
+            from: sTime('09:00'),
+            to: '18:00',
           },
         ],
       },
@@ -753,12 +712,8 @@ it('should select Christmas week rules on day before Christmas in multi-level ov
       "overrideIndex": 1,
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "18:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "18:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -778,7 +733,8 @@ it('should select Christmas week rules on day after Christmas in multi-level ove
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: '22:00' }],
+            from: '08:00',
+            to: '22:00',
           },
         ],
       },
@@ -789,7 +745,8 @@ it('should select Christmas week rules on day after Christmas in multi-level ove
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('09:00'), to: sTime('18:00') }],
+            from: sTime('09:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -811,12 +768,8 @@ it('should select Christmas week rules on day after Christmas in multi-level ove
       "overrideIndex": 1,
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "18:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "18:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -836,7 +789,8 @@ it('should select most specific Christmas Day rules in multi-level overrides', (
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '08:00', to: sTime('22:00') }],
+            from: '08:00',
+            to: sTime('22:00'),
           },
         ],
       },
@@ -847,7 +801,8 @@ it('should select most specific Christmas Day rules in multi-level overrides', (
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('09:00'), to: '18:00' }],
+            from: sTime('09:00'),
+            to: '18:00',
           },
         ],
       },
@@ -881,7 +836,8 @@ it('should select December rules after Christmas week in multi-level overrides',
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -892,7 +848,8 @@ it('should select December rules after Christmas week in multi-level overrides',
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '09:00', to: '18:00' }],
+            from: '09:00',
+            to: '18:00',
           },
         ],
       },
@@ -914,12 +871,8 @@ it('should select December rules after Christmas week in multi-level overrides',
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -937,7 +890,8 @@ it('should select weekly when none of the indefinite overrides apply', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -946,7 +900,8 @@ it('should select weekly when none of the indefinite overrides apply', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '07:00', to: sTime('23:00') }],
+            from: '07:00',
+            to: sTime('23:00'),
           },
         ],
       },
@@ -962,12 +917,8 @@ it('should select weekly when none of the indefinite overrides apply', () => {
     {
       "rules": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -985,7 +936,8 @@ it('should use first indefinite override before second starts', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -994,7 +946,8 @@ it('should use first indefinite override before second starts', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '07:00', to: sTime('23:00') }],
+            from: '07:00',
+            to: sTime('23:00'),
           },
         ],
       },
@@ -1011,12 +964,8 @@ it('should use first indefinite override before second starts', () => {
       "overrideIndex": 0,
       "rules": [
         {
-          "times": [
-            {
-              "from": "08:00",
-              "to": "22:00",
-            },
-          ],
+          "from": "08:00",
+          "to": "22:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -1034,7 +983,8 @@ it('should use most recent indefinite override after it starts', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -1043,7 +993,8 @@ it('should use most recent indefinite override after it starts', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '07:00', to: sTime('23:00') }],
+            from: '07:00',
+            to: sTime('23:00'),
           },
         ],
       },
@@ -1060,12 +1011,8 @@ it('should use most recent indefinite override after it starts', () => {
       "overrideIndex": 1,
       "rules": [
         {
-          "times": [
-            {
-              "from": "07:00",
-              "to": "23:00",
-            },
-          ],
+          "from": "07:00",
+          "to": "23:00",
           "weekdays": "SMTWTFS",
         },
       ],
@@ -1083,7 +1030,8 @@ it('should prioritize specific override over any indefinite overrides', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: sTime('22:00') }],
+            from: '08:00',
+            to: sTime('22:00'),
           },
         ],
       },
@@ -1092,7 +1040,8 @@ it('should prioritize specific override over any indefinite overrides', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('07:00'), to: '23:00' }],
+            from: sTime('07:00'),
+            to: '23:00',
           },
         ],
       },

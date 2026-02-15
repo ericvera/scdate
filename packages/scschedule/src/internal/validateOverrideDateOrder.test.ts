@@ -22,7 +22,8 @@ it('returns empty array when override has valid date order (from before to)', ()
         rules: [
           {
             weekdays: sWeekdays('-MTWTF-'),
-            times: [{ from: sTime('09:00'), to: '17:00' }],
+            from: sTime('09:00'),
+            to: '17:00',
           },
         ],
       },
@@ -58,7 +59,8 @@ it('returns empty array for indefinite overrides (no to date)', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '09:00', to: sTime('17:00') }],
+            from: '09:00',
+            to: sTime('17:00'),
           },
         ],
       },
@@ -79,7 +81,8 @@ it('detects when to date is before from date', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('09:00'), to: '17:00' }],
+            from: sTime('09:00'),
+            to: '17:00',
           },
         ],
       },

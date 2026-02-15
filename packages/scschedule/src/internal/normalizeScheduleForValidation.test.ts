@@ -7,7 +7,8 @@ const baseSchedule: Schedule = {
   weekly: [
     {
       weekdays: '-MTWTF-',
-      times: [{ from: '09:00', to: '17:00' }],
+      from: '09:00',
+      to: '17:00',
     },
   ],
 }
@@ -18,12 +19,8 @@ it('returns schedule as-is when there are no overrides', () => {
     {
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -41,7 +38,8 @@ it('preserves indefinite overrides without filtering weekdays', () => {
         rules: [
           {
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('10:00'), to: '14:00' }],
+            from: sTime('10:00'),
+            to: '14:00',
           },
         ],
       },
@@ -56,12 +54,8 @@ it('preserves indefinite overrides without filtering weekdays', () => {
           "from": "2026-01-01",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "14:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "14:00",
               "weekdays": "S-----S",
             },
           ],
@@ -69,12 +63,8 @@ it('preserves indefinite overrides without filtering weekdays', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -94,7 +84,8 @@ it('filters weekdays for specific override to match actual dates in range', () =
           {
             // All weekdays - should be filtered to Thu-Fri only
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: '14:00' }],
+            from: sTime('10:00'),
+            to: '14:00',
           },
         ],
       },
@@ -110,12 +101,8 @@ it('filters weekdays for specific override to match actual dates in range', () =
           "from": "2025-12-11",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "14:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "14:00",
               "weekdays": "----TF-",
             },
           ],
@@ -124,12 +111,8 @@ it('filters weekdays for specific override to match actual dates in range', () =
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -149,7 +132,8 @@ it('filters weekdays to empty when none match the date range', () => {
           {
             // Only Sat-Sun - no match with Thu-Fri
             weekdays: 'S-----S',
-            times: [{ from: '10:00', to: sTime('14:00') }],
+            from: '10:00',
+            to: sTime('14:00'),
           },
         ],
       },
@@ -165,12 +149,8 @@ it('filters weekdays to empty when none match the date range', () => {
           "from": "2025-12-11",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "14:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "14:00",
               "weekdays": "-------",
             },
           ],
@@ -179,12 +159,8 @@ it('filters weekdays to empty when none match the date range', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -204,7 +180,8 @@ it('handles single-day override correctly', () => {
           {
             // All weekdays - should be filtered to only Thursday
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: '18:00' }],
+            from: sTime('10:00'),
+            to: '18:00',
           },
         ],
       },
@@ -220,12 +197,8 @@ it('handles single-day override correctly', () => {
           "from": "2025-12-25",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "18:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "18:00",
               "weekdays": "----T--",
             },
           ],
@@ -234,12 +207,8 @@ it('handles single-day override correctly', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -259,17 +228,20 @@ it('filters multiple rules within same override independently', () => {
           {
             // All days - should become Thu-Fri
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('09:00'), to: '17:00' }],
+            from: sTime('09:00'),
+            to: '17:00',
           },
           {
             // Mon-Wed - should become empty (no match)
             weekdays: sWeekdays('-MTW---'),
-            times: [{ from: '10:00', to: sTime('14:00') }],
+            from: '10:00',
+            to: sTime('14:00'),
           },
           {
             // Thu-Sat - should become Thu-Fri (Sat filtered out)
             weekdays: sWeekdays('----TFS'),
-            times: [{ from: sTime('12:00'), to: '20:00' }],
+            from: sTime('12:00'),
+            to: '20:00',
           },
         ],
       },
@@ -286,30 +258,18 @@ it('filters multiple rules within same override independently', () => {
           "from": "2025-12-11",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "09:00",
-                  "to": "17:00",
-                },
-              ],
+              "from": "09:00",
+              "to": "17:00",
               "weekdays": "----TF-",
             },
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "14:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "14:00",
               "weekdays": "-------",
             },
             {
-              "times": [
-                {
-                  "from": "12:00",
-                  "to": "20:00",
-                },
-              ],
+              "from": "12:00",
+              "to": "20:00",
               "weekdays": "----TF-",
             },
           ],
@@ -318,12 +278,8 @@ it('filters multiple rules within same override independently', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -342,7 +298,8 @@ it('handles multiple overrides independently', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '09:00', to: sTime('17:00') }],
+            from: '09:00',
+            to: sTime('17:00'),
           },
         ],
       },
@@ -353,7 +310,8 @@ it('handles multiple overrides independently', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: '14:00' }],
+            from: sTime('10:00'),
+            to: '14:00',
           },
         ],
       },
@@ -363,7 +321,8 @@ it('handles multiple overrides independently', () => {
         rules: [
           {
             weekdays: 'S-----S',
-            times: [{ from: '12:00', to: sTime('18:00') }],
+            from: '12:00',
+            to: sTime('18:00'),
           },
         ],
       },
@@ -381,12 +340,8 @@ it('handles multiple overrides independently', () => {
           "from": "2025-12-11",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "09:00",
-                  "to": "17:00",
-                },
-              ],
+              "from": "09:00",
+              "to": "17:00",
               "weekdays": "----TF-",
             },
           ],
@@ -396,12 +351,8 @@ it('handles multiple overrides independently', () => {
           "from": "2026-01-01",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "14:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "14:00",
               "weekdays": "----T--",
             },
           ],
@@ -411,12 +362,8 @@ it('handles multiple overrides independently', () => {
           "from": "2026-06-01",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "12:00",
-                  "to": "18:00",
-                },
-              ],
+              "from": "12:00",
+              "to": "18:00",
               "weekdays": "S-----S",
             },
           ],
@@ -424,12 +371,8 @@ it('handles multiple overrides independently', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -463,12 +406,8 @@ it('preserves empty rules arrays in overrides', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -488,7 +427,8 @@ it('handles week-long override spanning all weekdays', () => {
           {
             // All days - should remain all days
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: '22:00' }],
+            from: sTime('08:00'),
+            to: '22:00',
           },
         ],
       },
@@ -504,12 +444,8 @@ it('handles week-long override spanning all weekdays', () => {
           "from": "2025-12-07",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "08:00",
-                  "to": "22:00",
-                },
-              ],
+              "from": "08:00",
+              "to": "22:00",
               "weekdays": "SMTWTFS",
             },
           ],
@@ -518,12 +454,8 @@ it('handles week-long override spanning all weekdays', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -543,7 +475,8 @@ it('filters partial weekday matches correctly', () => {
           {
             // Wed-Sun - should become Wed-Fri (Sat-Sun filtered out)
             weekdays: '---WTFS',
-            times: [{ from: '09:00', to: sTime('17:00') }],
+            from: '09:00',
+            to: sTime('17:00'),
           },
         ],
       },
@@ -559,12 +492,8 @@ it('filters partial weekday matches correctly', () => {
           "from": "2025-12-01",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "09:00",
-                  "to": "17:00",
-                },
-              ],
+              "from": "09:00",
+              "to": "17:00",
               "weekdays": "---WTF-",
             },
           ],
@@ -573,12 +502,8 @@ it('filters partial weekday matches correctly', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],
@@ -598,7 +523,8 @@ it('handles cross-month override correctly', () => {
           {
             // All weekdays
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: '18:00' }],
+            from: sTime('10:00'),
+            to: '18:00',
           },
         ],
       },
@@ -614,12 +540,8 @@ it('handles cross-month override correctly', () => {
           "from": "2025-12-29",
           "rules": [
             {
-              "times": [
-                {
-                  "from": "10:00",
-                  "to": "18:00",
-                },
-              ],
+              "from": "10:00",
+              "to": "18:00",
               "weekdays": "-MTWTF-",
             },
           ],
@@ -628,12 +550,8 @@ it('handles cross-month override correctly', () => {
       ],
       "weekly": [
         {
-          "times": [
-            {
-              "from": "09:00",
-              "to": "17:00",
-            },
-          ],
+          "from": "09:00",
+          "to": "17:00",
           "weekdays": "-MTWTF-",
         },
       ],

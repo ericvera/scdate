@@ -22,29 +22,17 @@ export type STimestampString = string
 export type SWeekdaysString = string
 
 /**
- * Represents a time range within a day. Time ranges can cross midnight. For
- * example, a range from 20:00 to 02:00 represents 8:00 PM to 2:00 AM the next
- * day.
- */
-export interface TimeRange {
-  /** Start time of the range (inclusive) */
-  from: STime | STimeString
-  /** End time of the range (inclusive) */
-  to: STime | STimeString
-}
-
-/**
  * Defines a recurring weekly availability pattern. Specifies which days of the
- * week are available and what time ranges apply on those days.
+ * week are available and what time range applies on those days. For split
+ * shifts, use multiple rules with the same weekdays.
  */
 export interface WeeklyScheduleRule {
   /** Days of the week this rule applies to */
   weekdays: SWeekdays | SWeekdaysString
-  /**
-   * Time ranges when available on the specified weekdays. Empty array means
-   * unavailable on these days.
-   */
-  times: TimeRange[]
+  /** Start time of the range (inclusive). Ranges can cross midnight. */
+  from: STime | STimeString
+  /** End time of the range (inclusive). Ranges can cross midnight. */
+  to: STime | STimeString
 }
 
 /**
@@ -115,35 +103,6 @@ export type ValidationError =
       issue: ValidationIssue.OverlappingSpecificOverrides
       /** Indexes of the two overlapping overrides */
       overrideIndexes: [number, number]
-    }
-  | {
-      /** Time ranges within a single rule overlap with each other */
-      issue: ValidationIssue.OverlappingTimesInRule
-      /** Location of the rule containing overlapping times */
-      location:
-        | { type: RuleLocationType.Weekly; ruleIndex: number }
-        | {
-            type: RuleLocationType.Override
-            overrideIndex: number
-            ruleIndex: number
-          }
-      /** Indexes of the two overlapping time ranges within the rule */
-      timeRangeIndexes: [number, number]
-    }
-  | {
-      /**
-       * A rule has an empty times array
-       * (should have at least one time range or be removed)
-       */
-      issue: ValidationIssue.EmptyTimes
-      /** Location of the rule with empty times */
-      location:
-        | { type: RuleLocationType.Weekly; ruleIndex: number }
-        | {
-            type: RuleLocationType.Override
-            overrideIndex: number
-            ruleIndex: number
-          }
     }
   | {
       /**

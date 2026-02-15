@@ -1,6 +1,6 @@
 import { sTime } from 'scdate'
 import { expect, it } from 'vitest'
-import type { TimeRange } from '../types.js'
+import type { TimeRange } from './types.js'
 import { isTimeInTimeRange } from './isTimeInTimeRange.js'
 
 it('should return true for time within same-day range', () => {

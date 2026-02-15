@@ -19,12 +19,14 @@ it('returns empty array when weekly rules do not overlap', () => {
       {
         // Mon-Fri
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
       {
         // Sat-Sun
         weekdays: sWeekdays('S-----S'),
-        times: [{ from: sTime('10:00'), to: sTime('18:00') }],
+        from: sTime('10:00'),
+        to: sTime('18:00'),
       },
     ],
   }
@@ -40,12 +42,14 @@ it('detects overlapping weekly rules', () => {
       {
         // Mon-Fri
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
       {
         // Wed-Fri (overlaps with first rule)
         weekdays: sWeekdays('---WTF-'),
-        times: [{ from: sTime('14:00'), to: sTime('18:00') }],
+        from: sTime('14:00'),
+        to: sTime('18:00'),
       },
     ],
   }
@@ -72,12 +76,14 @@ it('detects cross-midnight overlap in weekly rules', () => {
       {
         // Saturday, crosses into Sunday
         weekdays: sWeekdays('------S'),
-        times: [{ from: sTime('22:00'), to: sTime('02:00') }],
+        from: sTime('22:00'),
+        to: sTime('02:00'),
       },
       {
         // Sunday
         weekdays: sWeekdays('S------'),
-        times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+        from: sTime('01:00'),
+        to: sTime('10:00'),
       },
     ],
   }
@@ -103,7 +109,8 @@ it('returns empty array when override rules do not overlap', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -114,12 +121,14 @@ it('returns empty array when override rules do not overlap', () => {
           {
             // Mon-Fri
             weekdays: sWeekdays('-MTWTF-'),
-            times: [{ from: sTime('08:00'), to: sTime('12:00') }],
+            from: sTime('08:00'),
+            to: sTime('12:00'),
           },
           {
             // Sat-Sun
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('10:00'), to: sTime('18:00') }],
+            from: sTime('10:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -136,7 +145,8 @@ it('detects overlapping rules within an override', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -147,12 +157,14 @@ it('detects overlapping rules within an override', () => {
           {
             // All days
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+            from: sTime('09:00'),
+            to: sTime('17:00'),
           },
           {
             // All days, overlapping times
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('14:00'), to: sTime('18:00') }],
+            from: sTime('14:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -181,7 +193,8 @@ it('detects cross-midnight overlap in override rules', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -192,12 +205,14 @@ it('detects cross-midnight overlap in override rules', () => {
           {
             // Friday, crosses into Saturday
             weekdays: sWeekdays('-----F-'),
-            times: [{ from: sTime('20:00'), to: sTime('03:00') }],
+            from: sTime('20:00'),
+            to: sTime('03:00'),
           },
           {
             // Saturday
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+            from: sTime('01:00'),
+            to: sTime('10:00'),
           },
         ],
       },
@@ -226,12 +241,14 @@ it('detects multiple overlaps across different overrides', () => {
     weekly: [
       {
         weekdays: sWeekdays('-M-----'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
       {
         // Overlaps with first rule
         weekdays: sWeekdays('-M-----'),
-        times: [{ from: sTime('14:00'), to: sTime('18:00') }],
+        from: sTime('14:00'),
+        to: sTime('18:00'),
       },
     ],
     overrides: [
@@ -241,12 +258,14 @@ it('detects multiple overlaps across different overrides', () => {
         rules: [
           {
             weekdays: sWeekdays('--T----'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
           {
             // Overlaps with first rule
             weekdays: sWeekdays('--T----'),
-            times: [{ from: sTime('12:00'), to: sTime('16:00') }],
+            from: sTime('12:00'),
+            to: sTime('16:00'),
           },
         ],
       },
@@ -256,12 +275,14 @@ it('detects multiple overlaps across different overrides', () => {
         rules: [
           {
             weekdays: sWeekdays('---W---'),
-            times: [{ from: sTime('08:00'), to: sTime('12:00') }],
+            from: sTime('08:00'),
+            to: sTime('12:00'),
           },
           {
             // Overlaps with first rule
             weekdays: sWeekdays('---W---'),
-            times: [{ from: sTime('11:00'), to: sTime('15:00') }],
+            from: sTime('11:00'),
+            to: sTime('15:00'),
           },
         ],
       },
@@ -314,12 +335,14 @@ it('does not report overlap when weekdays do not occur in override date range', 
           {
             // Normalized to Mon-Wed only
             weekdays: '-MTW---',
-            times: [{ from: '09:00', to: '17:00' }],
+            from: '09:00',
+            to: '17:00',
           },
           {
             // Normalized - Sat-Sun don't occur in Mon-Wed, becomes empty
             weekdays: sWeekdays('-------'),
-            times: [{ from: sTime('10:00'), to: sTime('18:00') }],
+            from: sTime('10:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -344,12 +367,14 @@ it('reports overlap only on weekdays that occur in override date range', () => {
           {
             // Normalized to Mon-Wed only
             weekdays: sWeekdays('-MTW---'),
-            times: [{ from: '09:00', to: '17:00' }],
+            from: '09:00',
+            to: '17:00',
           },
           {
             // Normalized - Monday remains, Saturday filtered out
             weekdays: '-M-----',
-            times: [{ from: sTime('10:00'), to: sTime('18:00') }],
+            from: sTime('10:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -386,12 +411,14 @@ it('handles single-day override correctly', () => {
           {
             // Normalized to Monday only
             weekdays: '-M-----',
-            times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+            from: sTime('09:00'),
+            to: sTime('17:00'),
           },
           {
             // Normalized - Tue-Thu don't occur, becomes empty
             weekdays: sWeekdays('-------'),
-            times: [{ from: '10:00', to: '18:00' }],
+            from: '10:00',
+            to: '18:00',
           },
         ],
       },
@@ -399,6 +426,27 @@ it('handles single-day override correctly', () => {
   }
 
   // Should NOT report overlap because rule2 has no weekdays
+  const errors = validateNoOverlappingRules(schedule)
+  expect(errors).toMatchInlineSnapshot(`[]`)
+})
+
+it('should not report overlap for split shift rules with non-overlapping times', () => {
+  const schedule: Schedule = {
+    ...baseSchedule,
+    weekly: [
+      {
+        weekdays: sWeekdays('-MTWTF-'),
+        from: sTime('09:00'),
+        to: sTime('12:00'),
+      },
+      {
+        weekdays: sWeekdays('-MTWTF-'),
+        from: sTime('13:00'),
+        to: sTime('17:00'),
+      },
+    ],
+  }
+
   const errors = validateNoOverlappingRules(schedule)
   expect(errors).toMatchInlineSnapshot(`[]`)
 })

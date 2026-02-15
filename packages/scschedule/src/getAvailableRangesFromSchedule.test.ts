@@ -8,7 +8,8 @@ it('should return single range for continuous availability', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -51,7 +52,8 @@ it('should skip unavailable days', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
   }
@@ -77,15 +79,18 @@ it('should skip unavailable days', () => {
   `)
 })
 
-it('should handle multiple time ranges per day', () => {
+it('should handle multiple rules per day', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [
-          { from: sTime('09:00'), to: sTime('12:00') },
-          { from: sTime('13:00'), to: sTime('17:00') },
-        ],
+        from: sTime('09:00'),
+        to: sTime('12:00'),
+      },
+      {
+        weekdays: sWeekdays('-MTWTF-'),
+        from: sTime('13:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -113,12 +118,7 @@ it('should handle multiple time ranges per day', () => {
 
 it('should return empty array when no availability', () => {
   const schedule: Schedule = {
-    weekly: [
-      {
-        weekdays: sWeekdays('-------'),
-        times: [],
-      },
-    ],
+    weekly: [],
   }
 
   const ranges = getAvailableRangesFromSchedule(
@@ -135,7 +135,8 @@ it('should handle date overrides', () => {
     weekly: [
       {
         weekdays: sWeekdays('SMTWTFS'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -169,13 +170,14 @@ it('should handle date overrides', () => {
   `)
 })
 
-it('should handle cross-midnight time ranges', () => {
+it('should handle cross-midnight rules', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: sWeekdays('----TFS'),
         // Thursday night to Friday morning
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
   }
@@ -210,7 +212,8 @@ it('should handle single day range', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -236,7 +239,8 @@ it('should handle overrides with different hours', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -247,11 +251,13 @@ it('should handle overrides with different hours', () => {
         rules: [
           {
             weekdays: sWeekdays('-MTWTF-'),
-            times: [{ from: sTime('10:00'), to: sTime('16:00') }],
+            from: sTime('10:00'),
+            to: sTime('16:00'),
           },
           {
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('12:00'), to: sTime('15:00') }],
+            from: sTime('12:00'),
+            to: sTime('15:00'),
           },
         ],
       },

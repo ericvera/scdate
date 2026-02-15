@@ -96,10 +96,10 @@ const validateTimeRange = (
 }
 
 /**
- * Validates a rule (weekdays and all time ranges).
+ * Validates a rule (weekdays and time range).
  */
 const validateRule = (
-  rule: { weekdays: unknown; times: { from: unknown; to: unknown }[] },
+  rule: { weekdays: unknown; from: unknown; to: unknown },
   fieldPrefix: string,
 ): ValidationError[] => {
   const errors: ValidationError[] = []
@@ -113,14 +113,7 @@ const validateRule = (
     errors.push(weekdaysError)
   }
 
-  rule.times.forEach((timeRange, timeIndex) => {
-    errors.push(
-      ...validateTimeRange(
-        timeRange,
-        `${fieldPrefix}.times[${String(timeIndex)}]`,
-      ),
-    )
-  })
+  errors.push(...validateTimeRange(rule, fieldPrefix))
 
   return errors
 }

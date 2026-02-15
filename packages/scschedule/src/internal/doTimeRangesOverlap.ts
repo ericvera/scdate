@@ -1,6 +1,5 @@
 import { isAfterTime, isSameTimeOrBefore } from 'scdate'
-
-import type { TimeRange } from '../types.js'
+import type { TimeRange } from './types.js'
 
 /**
  * Checks if two time ranges overlap when both start on the same day.

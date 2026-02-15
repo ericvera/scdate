@@ -8,13 +8,6 @@ export enum ValidationIssue {
   DuplicateOverrides = 'duplicate-overrides',
   /** Two or more specific overrides have overlapping date ranges */
   OverlappingSpecificOverrides = 'overlapping-specific-overrides',
-  /** Time ranges within a single rule overlap with each other */
-  OverlappingTimesInRule = 'overlapping-times-in-rule',
-  /**
-   * A rule has an empty times array (should have at least one time range or be
-   * removed)
-   */
-  EmptyTimes = 'empty-times',
   /**
    * A field contains an invalid scdate format (SDate, STime, SWeekdays, or
    * STimestamp)

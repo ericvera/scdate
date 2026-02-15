@@ -8,7 +8,8 @@ it('should return empty array for valid schedule formats', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -30,18 +31,23 @@ it('should accept both typed and string formats', () => {
       {
         // String format weekdays
         weekdays: '-MTWTF-',
-        times: [
-          // Mixed: typed from, string to
-          { from: sTime('09:00'), to: '17:00' },
-          // Mixed: string from, typed to
-          { from: '13:00', to: sTime('14:00') },
-        ],
+        // Mixed: typed from, string to
+        from: sTime('09:00'),
+        to: '17:00',
+      },
+      {
+        // String format weekdays
+        weekdays: '-MTWTF-',
+        // Mixed: string from, typed to
+        from: '13:00',
+        to: sTime('14:00'),
       },
       {
         // Typed format weekdays
         weekdays: sWeekdays('S-----S'),
         // String format times
-        times: [{ from: '10:00', to: '16:00' }],
+        from: '10:00',
+        to: '16:00',
       },
     ],
     overrides: [
@@ -55,7 +61,8 @@ it('should accept both typed and string formats', () => {
             // Typed format weekdays
             weekdays: sWeekdays('SMTWTFS'),
             // Mixed: string from, typed to
-            times: [{ from: '08:00', to: sTime('20:00') }],
+            from: '08:00',
+            to: sTime('20:00'),
           },
         ],
       },
@@ -78,7 +85,8 @@ it('should return error for invalid SWeekdays format in weekly rule', () => {
     weekly: [
       {
         weekdays: 'INVALID',
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -101,7 +109,8 @@ it('should return error for invalid STime format', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: '25:00', to: sTime('17:00') }],
+        from: '25:00',
+        to: sTime('17:00'),
       },
     ],
   }
@@ -111,7 +120,7 @@ it('should return error for invalid STime format', () => {
     [
       {
         "expectedFormat": "HH:MM",
-        "field": "weekly[0].times[0].from",
+        "field": "weekly[0].from",
         "issue": "invalid-scdate-format",
         "value": "25:00",
       },
@@ -124,7 +133,8 @@ it('should return error for invalid SDate format in override', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -155,7 +165,8 @@ it('should validate formats in override rules', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -165,7 +176,8 @@ it('should validate formats in override rules', () => {
         rules: [
           {
             weekdays: 'INVALID_WEEKDAYS',
-            times: [{ from: sTime('10:00'), to: sTime('20:00') }],
+            from: sTime('10:00'),
+            to: sTime('20:00'),
           },
         ],
       },
@@ -190,7 +202,8 @@ it('should provide detailed field paths in errors', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: 'INVALID', to: sTime('17:00') }],
+        from: 'INVALID',
+        to: sTime('17:00'),
       },
     ],
   }
@@ -200,7 +213,7 @@ it('should provide detailed field paths in errors', () => {
     [
       {
         "expectedFormat": "HH:MM",
-        "field": "weekly[0].times[0].from",
+        "field": "weekly[0].from",
         "issue": "invalid-scdate-format",
         "value": "INVALID",
       },

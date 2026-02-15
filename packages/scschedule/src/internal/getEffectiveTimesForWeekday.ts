@@ -1,5 +1,6 @@
 import { doesWeekdaysIncludeWeekday, getPreviousWeekday, Weekday } from 'scdate'
-import type { TimeRange, WeeklyScheduleRule } from '../types.js'
+import type { WeeklyScheduleRule } from '../types.js'
+import type { TimeRange } from './types.js'
 import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
 
 /**
@@ -20,14 +21,11 @@ export const getEffectiveTimesForWeekday = (
 
   // Check if this weekday is directly included in the rule's weekdays
   if (doesWeekdaysIncludeWeekday(rule.weekdays, weekday)) {
-    // Add all time ranges for this weekday
-    rule.times.forEach((timeRange) => {
-      const splitRanges = splitCrossMidnightTimeRange(timeRange)
+    const splitRanges = splitCrossMidnightTimeRange(rule)
 
-      if (splitRanges.length > 0 && splitRanges[0]) {
-        effectiveTimes.push(splitRanges[0])
-      }
-    })
+    if (splitRanges.length > 0 && splitRanges[0]) {
+      effectiveTimes.push(splitRanges[0])
+    }
   }
 
   // Check if previous weekday has cross-midnight ranges that spill into this
@@ -38,14 +36,12 @@ export const getEffectiveTimesForWeekday = (
   // only those that occur in the date range. This ensures spillover is only
   // included from days that actually exist in the override period.
   if (doesWeekdaysIncludeWeekday(rule.weekdays, previousWeekday)) {
-    rule.times.forEach((timeRange) => {
-      const splitRanges = splitCrossMidnightTimeRange(timeRange)
+    const splitRanges = splitCrossMidnightTimeRange(rule)
 
-      // If there are 2 ranges, the second one is the spillover to next day
-      if (splitRanges.length === 2 && splitRanges[1]) {
-        effectiveTimes.push(splitRanges[1])
-      }
-    })
+    // If there are 2 ranges, the second one is the spillover to next day
+    if (splitRanges.length === 2 && splitRanges[1]) {
+      effectiveTimes.push(splitRanges[1])
+    }
   }
 
   return effectiveTimes

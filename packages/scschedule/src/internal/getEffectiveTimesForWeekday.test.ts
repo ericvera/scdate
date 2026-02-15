@@ -7,7 +7,8 @@ it('returns direct times when weekday is in pattern', () => {
   const rule: WeeklyScheduleRule = {
     // Monday
     weekdays: '-M-----',
-    times: [{ from: sTime('09:00'), to: '17:00' }],
+    from: sTime('09:00'),
+    to: '17:00',
   }
 
   const times = getEffectiveTimesForWeekday(rule, Weekday.Mon)
@@ -26,7 +27,8 @@ it('returns empty array when weekday is not in pattern', () => {
   const rule: WeeklyScheduleRule = {
     // Monday only
     weekdays: sWeekdays('-M-----'),
-    times: [{ from: '09:00', to: sTime('17:00') }],
+    from: '09:00',
+    to: sTime('17:00'),
   }
 
   const times = getEffectiveTimesForWeekday(rule, Weekday.Tue)
@@ -38,7 +40,8 @@ it('returns spillover times from cross-midnight range on previous day', () => {
   const rule: WeeklyScheduleRule = {
     // Saturday only
     weekdays: '------S',
-    times: [{ from: sTime('22:00'), to: '02:00' }],
+    from: sTime('22:00'),
+    to: '02:00',
   }
 
   const times = getEffectiveTimesForWeekday(rule, Weekday.Sun)
@@ -57,7 +60,8 @@ it('splits cross-midnight ranges correctly', () => {
   const rule: WeeklyScheduleRule = {
     // Friday only
     weekdays: sWeekdays('-----F-'),
-    times: [{ from: '20:00', to: sTime('03:00') }],
+    from: '20:00',
+    to: sTime('03:00'),
   }
 
   const fridayTimes = getEffectiveTimesForWeekday(rule, Weekday.Fri)
@@ -82,38 +86,12 @@ it('splits cross-midnight ranges correctly', () => {
     ]
   `)
 })
-
-it('handles multiple time ranges in a rule', () => {
-  const rule: WeeklyScheduleRule = {
-    // Monday
-    weekdays: '-M-----',
-    times: [
-      { from: sTime('09:00'), to: '12:00' },
-      { from: '13:00', to: sTime('17:00') },
-    ],
-  }
-
-  const times = getEffectiveTimesForWeekday(rule, Weekday.Mon)
-
-  expect(times).toMatchInlineSnapshot(`
-    [
-      {
-        "from": "09:00",
-        "to": "12:00",
-      },
-      {
-        "from": "13:00",
-        "to": "17:00",
-      },
-    ]
-  `)
-})
-
 it('handles Sunday to Monday spillover correctly', () => {
   const rule: WeeklyScheduleRule = {
     // Sunday only
     weekdays: sWeekdays('S------'),
-    times: [{ from: sTime('23:00'), to: '01:00' }],
+    from: sTime('23:00'),
+    to: '01:00',
   }
 
   const times = getEffectiveTimesForWeekday(rule, Weekday.Mon)
@@ -132,7 +110,8 @@ it('returns both direct and spillover times when applicable', () => {
   const rule: WeeklyScheduleRule = {
     // Saturday and Sunday
     weekdays: 'S-----S',
-    times: [{ from: '22:00', to: sTime('02:00') }],
+    from: '22:00',
+    to: sTime('02:00'),
   }
 
   const times = getEffectiveTimesForWeekday(rule, Weekday.Sun)

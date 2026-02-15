@@ -45,10 +45,8 @@ export const isScheduleAvailable = (
       return false
     }
 
-    // Check if any time range matches
-    return rule.times.some((timeRange) =>
-      isTimeInTimeRange(time, timeRange, true),
-    )
+    // Check if time range matches
+    return isTimeInTimeRange(time, rule, true)
   })
 
   if (matchesSameDay) {
@@ -71,9 +69,7 @@ export const isScheduleAvailable = (
       return false
     }
 
-    // Check if any time range matches (next-day portion)
-    return rule.times.some((timeRange) =>
-      isTimeInTimeRange(time, timeRange, false),
-    )
+    // Check if time range matches (next-day portion)
+    return isTimeInTimeRange(time, rule, false)
   })
 }

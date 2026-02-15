@@ -58,66 +58,61 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
             return
           }
 
-          // Check each time range for cross-midnight
-          previousDayRule.times.forEach((timeRange) => {
-            const splitRanges = splitCrossMidnightTimeRange(timeRange)
+          // Check for cross-midnight
+          const splitRanges = splitCrossMidnightTimeRange(previousDayRule)
 
-            // If cross-midnight, splitRanges[1] is the spillover portion
-            if (splitRanges.length === 2 && splitRanges[1]) {
-              const spilloverRange = splitRanges[1]
+          // If cross-midnight, splitRanges[1] is the spillover portion
+          if (splitRanges.length === 2 && splitRanges[1]) {
+            const spilloverRange = splitRanges[1]
 
-              // Check if spillover conflicts with override first day's times
-              override.rules.forEach((overrideRule, overrideRuleIndex) => {
-                // Does first day match override rule's weekdays?
-                if (
-                  !doesWeekdaysIncludeWeekday(
-                    overrideRule.weekdays,
-                    firstDateWeekday,
-                  )
-                ) {
-                  return
+            // Check if spillover conflicts with override first day's times
+            override.rules.forEach((overrideRule, overrideRuleIndex) => {
+              // Does first day match override rule's weekdays?
+              if (
+                !doesWeekdaysIncludeWeekday(
+                  overrideRule.weekdays,
+                  firstDateWeekday,
+                )
+              ) {
+                return
+              }
+
+              const overrideSplitRanges =
+                splitCrossMidnightTimeRange(overrideRule)
+
+              // Check same-day portion of override time range
+              const overrideSameDayRange = overrideSplitRanges[0]
+
+              if (
+                overrideSameDayRange &&
+                doTimeRangesOverlap(spilloverRange, overrideSameDayRange)
+              ) {
+                // Use source information from getApplicableRuleForDate
+                if (previousDayResult.source === 'override') {
+                  // Previous day is in an override
+                  errors.push({
+                    issue:
+                      ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
+                    overrideIndex,
+                    date: firstDate.toJSON(),
+                    overrideRuleIndex,
+                    sourceOverrideIndex: previousDayResult.overrideIndex,
+                    sourceOverrideRuleIndex: previousDayRuleIndex,
+                  })
+                } else {
+                  // Previous day is weekly
+                  errors.push({
+                    issue:
+                      ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
+                    overrideIndex,
+                    date: firstDate.toJSON(),
+                    overrideRuleIndex,
+                    sourceWeeklyRuleIndex: previousDayRuleIndex,
+                  })
                 }
-
-                // Check each time range in override rule
-                overrideRule.times.forEach((overrideTimeRange) => {
-                  const overrideSplitRanges =
-                    splitCrossMidnightTimeRange(overrideTimeRange)
-
-                  // Check same-day portion of override time range
-                  const overrideSameDayRange = overrideSplitRanges[0]
-
-                  if (
-                    overrideSameDayRange &&
-                    doTimeRangesOverlap(spilloverRange, overrideSameDayRange)
-                  ) {
-                    // Use source information from getApplicableRuleForDate
-                    if (previousDayResult.source === 'override') {
-                      // Previous day is in an override
-                      errors.push({
-                        issue:
-                          ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
-                        overrideIndex,
-                        date: firstDate.toJSON(),
-                        overrideRuleIndex,
-                        sourceOverrideIndex: previousDayResult.overrideIndex,
-                        sourceOverrideRuleIndex: previousDayRuleIndex,
-                      })
-                    } else {
-                      // Previous day is weekly
-                      errors.push({
-                        issue:
-                          ValidationIssue.SpilloverConflictIntoOverrideFirstDay,
-                        overrideIndex,
-                        date: firstDate.toJSON(),
-                        overrideRuleIndex,
-                        sourceWeeklyRuleIndex: previousDayRuleIndex,
-                      })
-                    }
-                  }
-                })
-              })
-            }
-          })
+              }
+            })
+          }
         },
       )
     }
@@ -140,76 +135,70 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
         return
       }
 
-      // Check each time range for cross-midnight
-      overrideRule.times.forEach((timeRange) => {
-        const splitRanges = splitCrossMidnightTimeRange(timeRange)
+      // Check for cross-midnight
+      const splitRanges = splitCrossMidnightTimeRange(overrideRule)
 
-        // If cross-midnight, splitRanges[1] is the spillover portion
-        if (splitRanges.length === 2 && splitRanges[1]) {
-          const spilloverRange = splitRanges[1]
+      // If cross-midnight, splitRanges[1] is the spillover portion
+      if (splitRanges.length === 2 && splitRanges[1]) {
+        const spilloverRange = splitRanges[1]
 
-          // Get what rule applies to next day
-          const nextDayResult = getApplicableRuleForDate(schedule, nextDate)
+        // Get what rule applies to next day
+        const nextDayResult = getApplicableRuleForDate(schedule, nextDate)
 
-          // If next day is always available (weekly: true), spillover
-          // creates overlapping ranges with the full-day availability.
-          if (nextDayResult.rules === true) {
-            errors.push({
-              issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
-              overrideIndex,
-              date: lastDate.toJSON(),
-              overrideRuleIndex,
-            })
+        // If next day is always available (weekly: true), spillover
+        // creates overlapping ranges with the full-day availability.
+        if (nextDayResult.rules === true) {
+          errors.push({
+            issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
+            overrideIndex,
+            date: lastDate.toJSON(),
+            overrideRuleIndex,
+          })
 
+          return
+        }
+
+        // Check if spillover conflicts with next day's times
+        nextDayResult.rules.forEach((nextDayRule, nextDayRuleIndex) => {
+          // Does next day match the rule's weekdays?
+          if (
+            !doesWeekdaysIncludeWeekday(nextDayRule.weekdays, nextDateWeekday)
+          ) {
             return
           }
 
-          // Check if spillover conflicts with next day's times
-          nextDayResult.rules.forEach((nextDayRule, nextDayRuleIndex) => {
-            // Does next day match the rule's weekdays?
-            if (
-              !doesWeekdaysIncludeWeekday(nextDayRule.weekdays, nextDateWeekday)
-            ) {
-              return
+          const nextDaySplitRanges = splitCrossMidnightTimeRange(nextDayRule)
+
+          // Check same-day portion of next day's time range
+          const nextDaySameDayRange = nextDaySplitRanges[0]
+          if (
+            nextDaySameDayRange &&
+            doTimeRangesOverlap(spilloverRange, nextDaySameDayRange)
+          ) {
+            // Use source information from getApplicableRuleForDate
+            if (nextDayResult.source === 'override') {
+              // Next day is in an override
+              errors.push({
+                issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
+                overrideIndex,
+                date: lastDate.toJSON(),
+                overrideRuleIndex,
+                nextDayOverrideIndex: nextDayResult.overrideIndex,
+                nextDayOverrideRuleIndex: nextDayRuleIndex,
+              })
+            } else {
+              // Next day is weekly
+              errors.push({
+                issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
+                overrideIndex,
+                date: lastDate.toJSON(),
+                overrideRuleIndex,
+                nextDayWeeklyRuleIndex: nextDayRuleIndex,
+              })
             }
-
-            // Check each time range in next day's rule
-            nextDayRule.times.forEach((nextDayTimeRange) => {
-              const nextDaySplitRanges =
-                splitCrossMidnightTimeRange(nextDayTimeRange)
-
-              // Check same-day portion of next day's time range
-              const nextDaySameDayRange = nextDaySplitRanges[0]
-              if (
-                nextDaySameDayRange &&
-                doTimeRangesOverlap(spilloverRange, nextDaySameDayRange)
-              ) {
-                // Use source information from getApplicableRuleForDate
-                if (nextDayResult.source === 'override') {
-                  // Next day is in an override
-                  errors.push({
-                    issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
-                    overrideIndex,
-                    date: lastDate.toJSON(),
-                    overrideRuleIndex,
-                    nextDayOverrideIndex: nextDayResult.overrideIndex,
-                    nextDayOverrideRuleIndex: nextDayRuleIndex,
-                  })
-                } else {
-                  // Next day is weekly
-                  errors.push({
-                    issue: ValidationIssue.SpilloverConflictOverrideIntoNext,
-                    overrideIndex,
-                    date: lastDate.toJSON(),
-                    overrideRuleIndex,
-                    nextDayWeeklyRuleIndex: nextDayRuleIndex,
-                  })
-                }
-              }
-            })
-          })
-        }
-      })
+          }
+        })
+      }
     })
   })
 

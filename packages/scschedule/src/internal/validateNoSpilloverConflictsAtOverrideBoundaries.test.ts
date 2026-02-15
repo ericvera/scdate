@@ -13,7 +13,8 @@ it('returns empty array when no overrides', () => {
     weekly: [
       {
         weekdays: 'SMTWTFS',
-        times: [{ from: '20:00', to: sTime('02:00') }],
+        from: '20:00',
+        to: sTime('02:00'),
       },
     ],
   }
@@ -28,7 +29,8 @@ it('returns empty array when override has no spillover conflicts', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: sTime('09:00'), to: '17:00' }],
+        from: sTime('09:00'),
+        to: '17:00',
       },
     ],
     overrides: [
@@ -38,7 +40,8 @@ it('returns empty array when override has no spillover conflicts', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '10:00', to: sTime('18:00') }],
+            from: '10:00',
+            to: sTime('18:00'),
           },
         ],
       },
@@ -56,7 +59,8 @@ it('allows cross-midnight spillover into closed/empty override day', () => {
       {
         // Friday cross-midnight
         weekdays: '-----F-',
-        times: [{ from: sTime('20:00'), to: '02:00' }],
+        from: sTime('20:00'),
+        to: '02:00',
       },
     ],
     overrides: [
@@ -83,7 +87,8 @@ it('detects weekly cross-midnight spillover conflict with override first day', (
       {
         // Friday cross-midnight: 20:00-02:00 (spills 00:00-02:00 into Saturday)
         weekdays: sWeekdays('-----F-'),
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
     overrides: [
@@ -95,7 +100,8 @@ it('detects weekly cross-midnight spillover conflict with override first day', (
           {
             // Saturday 01:00-10:00 overlaps with spillover 00:00-02:00
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+            from: sTime('01:00'),
+            to: sTime('10:00'),
           },
         ],
       },
@@ -123,7 +129,8 @@ it('detects override cross-midnight spillover conflict with next day weekly rule
       {
         // Saturday 01:00-10:00
         weekdays: '------S',
-        times: [{ from: '01:00', to: sTime('10:00') }],
+        from: '01:00',
+        to: sTime('10:00'),
       },
     ],
     overrides: [
@@ -135,7 +142,8 @@ it('detects override cross-midnight spillover conflict with next day weekly rule
           {
             // Friday cross-midnight: 20:00-02:00 (spills into Saturday)
             weekdays: sWeekdays('-----F-'),
-            times: [{ from: sTime('20:00'), to: '02:00' }],
+            from: sTime('20:00'),
+            to: '02:00',
           },
         ],
       },
@@ -163,7 +171,8 @@ it('does not flag conflict when spillover does not overlap with next day times',
       {
         // Saturday starts at 10:00 (no conflict with 00:00-02:00 spillover)
         weekdays: sWeekdays('------S'),
-        times: [{ from: '10:00', to: sTime('18:00') }],
+        from: '10:00',
+        to: sTime('18:00'),
       },
     ],
     overrides: [
@@ -175,7 +184,8 @@ it('does not flag conflict when spillover does not overlap with next day times',
           {
             // Friday cross-midnight: 20:00-02:00 (spills 00:00-02:00)
             weekdays: '-----F-',
-            times: [{ from: sTime('20:00'), to: '02:00' }],
+            from: sTime('20:00'),
+            to: '02:00',
           },
         ],
       },
@@ -193,7 +203,8 @@ it('does not flag when weekday pattern prevents spillover', () => {
       {
         // Only Thursday (Dec 5 is Friday, so no spillover from Thursday)
         weekdays: sWeekdays('----T--'),
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
     overrides: [
@@ -204,7 +215,8 @@ it('does not flag when weekday pattern prevents spillover', () => {
         rules: [
           {
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+            from: sTime('01:00'),
+            to: sTime('10:00'),
           },
         ],
       },
@@ -221,7 +233,8 @@ it('skips last-day validation for indefinite overrides (no last day)', () => {
     weekly: [
       {
         weekdays: 'SMTWTFS',
-        times: [{ from: sTime('01:00'), to: '10:00' }],
+        from: sTime('01:00'),
+        to: '10:00',
       },
     ],
     overrides: [
@@ -231,7 +244,8 @@ it('skips last-day validation for indefinite overrides (no last day)', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: '20:00', to: sTime('02:00') }],
+            from: '20:00',
+            to: sTime('02:00'),
           },
         ],
       },
@@ -251,7 +265,8 @@ it('detects spillover into indefinite override first day', () => {
       {
         // Friday cross-midnight: 22:00-02:00 (spills 00:00-02:00 into Saturday)
         weekdays: '-----F-',
-        times: [{ from: sTime('22:00'), to: '02:00' }],
+        from: sTime('22:00'),
+        to: '02:00',
       },
     ],
     overrides: [
@@ -263,7 +278,8 @@ it('detects spillover into indefinite override first day', () => {
           {
             // Saturday 00:00-03:00 overlaps with Friday spillover 00:00-02:00
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('00:00'), to: sTime('03:00') }],
+            from: sTime('00:00'),
+            to: sTime('03:00'),
           },
         ],
       },
@@ -298,7 +314,8 @@ it('detects override spillover into another override', () => {
           {
             // Friday cross-midnight: 20:00-02:00
             weekdays: sWeekdays('-----F-'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -310,7 +327,8 @@ it('detects override spillover into another override', () => {
           {
             // Saturday 01:00-10:00 conflicts with spillover
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+            from: sTime('01:00'),
+            to: sTime('10:00'),
           },
         ],
       },
@@ -352,12 +370,14 @@ it('handles multiple spillover conflicts', () => {
       {
         // Friday with cross-midnight
         weekdays: sWeekdays('-----F-'),
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
       {
         // Monday with times that conflict with Sunday spillover
         weekdays: sWeekdays('-M-----'),
-        times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+        from: sTime('01:00'),
+        to: sTime('10:00'),
       },
     ],
     overrides: [
@@ -370,12 +390,14 @@ it('handles multiple spillover conflicts', () => {
           {
             // Saturday with times that conflict with Friday spillover
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('01:00'), to: sTime('10:00') }],
+            from: sTime('01:00'),
+            to: sTime('10:00'),
           },
           {
             // Sunday with cross-midnight
             weekdays: sWeekdays('S------'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -415,7 +437,8 @@ it('should flag spillover from override into weekly: true', () => {
           {
             // Sunday (Dec 7 is the last day)
             weekdays: sWeekdays('S------'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },

@@ -1,6 +1,6 @@
 import { sTime } from 'scdate'
 import { expect, it } from 'vitest'
-import type { TimeRange } from '../types.js'
+import type { TimeRange } from './types.js'
 import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
 
 it('should not split same-day time ranges', () => {

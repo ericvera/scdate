@@ -2,9 +2,7 @@ import { normalizeScheduleForValidation } from './internal/normalizeScheduleForV
 import { validateNoEmptyWeekdays } from './internal/validateNoEmptyWeekdays.js'
 import { validateNoOverlappingOverrides } from './internal/validateNoOverlappingOverrides.js'
 import { validateNoOverlappingRules } from './internal/validateNoOverlappingRules.js'
-import { validateNoOverlappingTimesInRule } from './internal/validateNoOverlappingTimesInRule.js'
 import { validateNoSpilloverConflictsAtOverrideBoundaries } from './internal/validateNoSpilloverConflictsAtOverrideBoundaries.js'
-import { validateNonEmptyTimes } from './internal/validateNonEmptyTimes.js'
 import { validateOverrideDateOrder } from './internal/validateOverrideDateOrder.js'
 import { validateOverrideWeekdaysMatchDates } from './internal/validateOverrideWeekdaysMatchDates.js'
 import { validateScDateFormats } from './internal/validateScDateFormats.js'
@@ -14,8 +12,8 @@ import type { Schedule, ValidationResult } from './types.js'
  * Validates a schedule configuration and returns all validation errors found.
  *
  * Validation is performed in two phases:
- * 1. Structural validation (formats, date order, empty weekdays, non-empty
- *    times, weekday-date mismatch) - runs on original schedule
+ * 1. Structural validation (formats, date order, empty weekdays,
+ *    weekday-date mismatch) - runs on original schedule
  * 2. Semantic validation (overlaps, conflicts) - runs on normalized schedule
  *    after filtering weekdays to actual dates
  *
@@ -33,7 +31,6 @@ export const validateSchedule = (schedule: Schedule): ValidationResult => {
     ...validateScDateFormats(schedule),
     ...validateOverrideDateOrder(schedule),
     ...validateNoEmptyWeekdays(schedule),
-    ...validateNonEmptyTimes(schedule),
     ...validateOverrideWeekdaysMatchDates(schedule),
   ]
 
@@ -51,7 +48,6 @@ export const validateSchedule = (schedule: Schedule): ValidationResult => {
   // Phase 3: Semantic validation on normalized schedule
   const semanticErrors = [
     ...validateNoOverlappingOverrides(normalizedSchedule),
-    ...validateNoOverlappingTimesInRule(normalizedSchedule),
     ...validateNoOverlappingRules(normalizedSchedule),
     ...validateNoSpilloverConflictsAtOverrideBoundaries(normalizedSchedule),
   ]

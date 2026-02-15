@@ -8,7 +8,8 @@ it('should return the same timestamp if already unavailable', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -29,7 +30,8 @@ it('should return the next unavailable time on the same day', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
   }
@@ -46,15 +48,18 @@ it('should return the next unavailable time on the same day', () => {
   expect(result).toMatchInlineSnapshot(`"2025-01-07T17:01"`)
 })
 
-it('should find unavailability between time ranges', () => {
+it('should find unavailability between rules', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [
-          { from: sTime('09:00'), to: sTime('12:00') },
-          { from: sTime('13:00'), to: sTime('17:00') },
-        ],
+        from: sTime('09:00'),
+        to: sTime('12:00'),
+      },
+      {
+        weekdays: sWeekdays('-MTWTF-'),
+        from: sTime('13:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -75,7 +80,8 @@ it('should find the next unavailable day when currently available', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -96,7 +102,8 @@ it('should handle schedules with near 24/7 availability', () => {
     weekly: [
       {
         weekdays: 'SMTWTFS',
-        times: [{ from: '00:00', to: sTime('23:58') }],
+        from: '00:00',
+        to: sTime('23:58'),
       },
     ],
   }
@@ -117,7 +124,8 @@ it('should handle schedule that results in next unavailable being the next day',
     weekly: [
       {
         weekdays: 'SMTWTFS',
-        times: [{ from: '02:00', to: sTime('23:59') }],
+        from: '02:00',
+        to: sTime('23:59'),
       },
     ],
   }
@@ -138,7 +146,8 @@ it('should handle overrides that create unavailability', () => {
     weekly: [
       {
         weekdays: sWeekdays('SMTWTFS'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -169,7 +178,8 @@ it('should handle cross-midnight unavailability', () => {
       {
         weekdays: sWeekdays('----TFS'),
         // Thursday night to Friday morning
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
   }
@@ -191,7 +201,8 @@ it('should return unavailable weekday', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -213,7 +224,8 @@ it('should handle indefinite overrides', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -284,7 +296,8 @@ it('should find unavailability in override with partial rules when weekly is tru
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('00:00'), to: sTime('17:00') }],
+            from: sTime('00:00'),
+            to: sTime('17:00'),
           },
         ],
       },

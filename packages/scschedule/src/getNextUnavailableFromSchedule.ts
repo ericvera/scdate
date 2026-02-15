@@ -38,20 +38,18 @@ const collectRangeEndCandidates = (
       continue
     }
 
-    for (const timeRange of rule.times) {
-      if (isAfterTime(timeRange.from, timeRange.to)) {
-        // Cross-midnight range ends tomorrow
-        const tomorrow = addDaysToDate(date, 1)
-        const rangeEnd = getTimestampFromDateAndTime(tomorrow, timeRange.to)
-        candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
-      } else {
-        if (afterTime && !isSameTimeOrAfter(timeRange.to, afterTime)) {
-          continue
-        }
-
-        const rangeEnd = getTimestampFromDateAndTime(date, timeRange.to)
-        candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
+    if (isAfterTime(rule.from, rule.to)) {
+      // Cross-midnight range ends tomorrow
+      const tomorrow = addDaysToDate(date, 1)
+      const rangeEnd = getTimestampFromDateAndTime(tomorrow, rule.to)
+      candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
+    } else {
+      if (afterTime && !isSameTimeOrAfter(rule.to, afterTime)) {
+        continue
       }
+
+      const rangeEnd = getTimestampFromDateAndTime(date, rule.to)
+      candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
     }
   }
 
@@ -83,19 +81,17 @@ const collectSpilloverCandidates = (
       continue
     }
 
-    for (const timeRange of rule.times) {
-      // Only cross-midnight ranges (from > to) spill into today
-      if (!isAfterTime(timeRange.from, timeRange.to)) {
-        continue
-      }
-
-      if (!isSameTimeOrAfter(timeRange.to, afterTime)) {
-        continue
-      }
-
-      const rangeEnd = getTimestampFromDateAndTime(currentDate, timeRange.to)
-      candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
+    // Only cross-midnight ranges (from > to) spill into today
+    if (!isAfterTime(rule.from, rule.to)) {
+      continue
     }
+
+    if (!isSameTimeOrAfter(rule.to, afterTime)) {
+      continue
+    }
+
+    const rangeEnd = getTimestampFromDateAndTime(currentDate, rule.to)
+    candidates.push(addMinutesToTimestamp(rangeEnd, 1, timeZone))
   }
 
   return candidates

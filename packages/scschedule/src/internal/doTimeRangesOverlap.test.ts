@@ -1,6 +1,6 @@
 import { sTime } from 'scdate'
 import { expect, it } from 'vitest'
-import type { TimeRange } from '../types.js'
+import type { TimeRange } from './types.js'
 import { doTimeRangesOverlap } from './doTimeRangesOverlap.js'
 
 it('should return false for non-overlapping same-day ranges', () => {

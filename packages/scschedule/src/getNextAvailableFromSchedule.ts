@@ -102,16 +102,14 @@ export const getNextAvailableFromSchedule = (
         continue
       }
 
-      for (const timeRange of rule.times) {
-        // Day 0: only consider ranges starting after fromTimestamp's time
-        // Day 1+: consider all ranges (any start time qualifies)
-        if (day === 0 && !isAfterTime(timeRange.from, fromTime)) {
-          continue
-        }
+      // Day 0: only consider ranges starting after fromTimestamp's time
+      // Day 1+: consider all ranges (any start time qualifies)
+      if (day === 0 && !isAfterTime(rule.from, fromTime)) {
+        continue
+      }
 
-        if (!earliestTime || isBeforeTime(timeRange.from, earliestTime)) {
-          earliestTime = timeRange.from
-        }
+      if (!earliestTime || isBeforeTime(rule.from, earliestTime)) {
+        earliestTime = rule.from
       }
     }
 

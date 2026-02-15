@@ -57,26 +57,17 @@ export const getAvailableRangesFromSchedule = (
         continue
       }
 
-      // Process each time range
-      for (const timeRange of rule.times) {
-        // Handle cross-midnight ranges (from > to means it crosses midnight)
-        const isCrossMidnight = isAfterTime(timeRange.from, timeRange.to)
-        const rangeStart = getTimestampFromDateAndTime(
-          currentDate,
-          timeRange.from,
-        )
-        const rangeEnd = isCrossMidnight
-          ? getTimestampFromDateAndTime(
-              addDaysToDate(currentDate, 1),
-              timeRange.to,
-            )
-          : getTimestampFromDateAndTime(currentDate, timeRange.to)
+      // Handle cross-midnight ranges (from > to means it crosses midnight)
+      const isCrossMidnight = isAfterTime(rule.from, rule.to)
+      const rangeStart = getTimestampFromDateAndTime(currentDate, rule.from)
+      const rangeEnd = isCrossMidnight
+        ? getTimestampFromDateAndTime(addDaysToDate(currentDate, 1), rule.to)
+        : getTimestampFromDateAndTime(currentDate, rule.to)
 
-        ranges.push({
-          from: rangeStart,
-          to: rangeEnd,
-        })
-      }
+      ranges.push({
+        from: rangeStart,
+        to: rangeEnd,
+      })
     }
 
     // Move to the next day

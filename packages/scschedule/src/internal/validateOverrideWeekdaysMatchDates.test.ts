@@ -7,7 +7,8 @@ const baseSchedule: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
-      times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+      from: sTime('09:00'),
+      to: sTime('17:00'),
     },
   ],
 }
@@ -29,7 +30,8 @@ it('should return empty array when override weekdays match the dates', () => {
           {
             // Thursday and Friday match!
             weekdays: sWeekdays('----TF-'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -52,7 +54,8 @@ it('should return error when override weekdays do not match any dates in range',
           {
             // Saturday/Sunday - no match!
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -88,7 +91,8 @@ it('should allow partial weekday match (at least one day matches)', () => {
           {
             // Only Thursday - matches one day in the range
             weekdays: sWeekdays('----T--'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -110,7 +114,8 @@ it('should skip indefinite overrides (no to date)', () => {
           {
             // Only Sunday
             weekdays: sWeekdays('S------'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -150,7 +155,8 @@ it('should return error for single-day override with wrong weekday', () => {
           {
             // Saturday/Sunday - Thursday doesn't match
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -186,12 +192,14 @@ it('should return multiple errors for multiple mismatched rules', () => {
           {
             // Only Sunday - no match
             weekdays: sWeekdays('S------'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
           {
             // Only Saturday - no match
             weekdays: sWeekdays('------S'),
-            times: [{ from: sTime('15:00'), to: sTime('18:00') }],
+            from: sTime('15:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -237,7 +245,8 @@ it('should handle week-long override spanning all weekdays', () => {
           {
             // All days - definitely matches
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },

@@ -8,7 +8,8 @@ it('should return the same timestamp if already available', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -24,7 +25,8 @@ it('should return the next available time on the same day', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
   }
@@ -40,7 +42,8 @@ it('should skip to the next available day when current day is closed', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -51,15 +54,18 @@ it('should skip to the next available day when current day is closed', () => {
   expect(result).toMatchInlineSnapshot(`"2025-01-06T09:00"`)
 })
 
-it('should handle multiple time ranges and return the next one', () => {
+it('should handle multiple rules and return the next one', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [
-          { from: sTime('09:00'), to: '12:00' },
-          { from: '13:00', to: sTime('17:00') },
-        ],
+        from: sTime('09:00'),
+        to: '12:00',
+      },
+      {
+        weekdays: '-MTWTF-',
+        from: '13:00',
+        to: sTime('17:00'),
       },
     ],
   }
@@ -75,7 +81,8 @@ it('should respect date overrides that close on specific dates', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -99,7 +106,8 @@ it('should handle indefinite overrides before override starts', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -109,7 +117,8 @@ it('should handle indefinite overrides before override starts', () => {
         rules: [
           {
             weekdays: sWeekdays('-MTWTF-'),
-            times: [{ from: sTime('08:00'), to: sTime('18:00') }],
+            from: sTime('08:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -127,7 +136,8 @@ it('should handle indefinite overrides after override starts', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -137,7 +147,8 @@ it('should handle indefinite overrides after override starts', () => {
         rules: [
           {
             weekdays: sWeekdays('-MTWTF-'),
-            times: [{ from: sTime('08:00'), to: sTime('18:00') }],
+            from: sTime('08:00'),
+            to: sTime('18:00'),
           },
         ],
       },
@@ -150,13 +161,14 @@ it('should handle indefinite overrides after override starts', () => {
   expect(resultAfter).toMatchInlineSnapshot(`"2026-01-15T08:30"`)
 })
 
-it('should handle cross-midnight time ranges', () => {
+it('should handle cross-midnight rules', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: '----TFS',
         // Thursday night to Friday morning
-        times: [{ from: '20:00', to: '02:00' }],
+        from: '20:00',
+        to: '02:00',
       },
     ],
   }
@@ -172,7 +184,8 @@ it('should return undefined when no availability within search window', () => {
     weekly: [
       {
         weekdays: sWeekdays('-------'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -195,7 +208,8 @@ it('should find availability after a long closed period', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -252,7 +266,8 @@ it('should find next available within override partial hours when weekly is true
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+            from: sTime('09:00'),
+            to: sTime('17:00'),
           },
         ],
       },
@@ -275,7 +290,8 @@ it('should return undefined when availability is beyond maxDaysToSearch', () => 
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+            from: sTime('09:00'),
+            to: sTime('17:00'),
           },
         ],
       },

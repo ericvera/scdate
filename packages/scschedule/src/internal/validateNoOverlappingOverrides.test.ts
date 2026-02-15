@@ -7,7 +7,8 @@ const baseSchedule: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
-      times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+      from: sTime('09:00'),
+      to: sTime('17:00'),
     },
   ],
 }
@@ -100,7 +101,8 @@ it('should return error for duplicate overrides', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: sTime('16:00') }],
+            from: sTime('10:00'),
+            to: sTime('16:00'),
           },
         ],
       },
@@ -234,7 +236,8 @@ it('should allow fully contained override (hierarchical)', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -262,7 +265,8 @@ it('should allow multiple nested overrides within a broader one', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -273,7 +277,8 @@ it('should allow multiple nested overrides within a broader one', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: sTime('13:00') }],
+            from: sTime('08:00'),
+            to: sTime('13:00'),
           },
         ],
       },
@@ -307,7 +312,8 @@ it('should allow nested override at exact boundary dates', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('08:00'), to: sTime('22:00') }],
+            from: sTime('08:00'),
+            to: sTime('22:00'),
           },
         ],
       },
@@ -318,7 +324,8 @@ it('should allow nested override at exact boundary dates', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('10:00'), to: sTime('20:00') }],
+            from: sTime('10:00'),
+            to: sTime('20:00'),
           },
         ],
       },

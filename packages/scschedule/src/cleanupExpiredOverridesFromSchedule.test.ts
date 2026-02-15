@@ -7,7 +7,8 @@ const baseSchedule: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
-      times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+      from: sTime('09:00'),
+      to: sTime('17:00'),
     },
   ],
 }
@@ -18,12 +19,8 @@ it('should return schedule as-is when there are no overrides', () => {
       {
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],
@@ -60,12 +57,8 @@ it('should remove overrides that ended before the given date', () => {
         ],
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],
@@ -100,12 +93,8 @@ it('should keep overrides that end on the given date', () => {
         ],
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],
@@ -137,12 +126,8 @@ it('should keep active overrides (cleanup date within override period)', () => {
         ],
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],
@@ -178,12 +163,8 @@ it('should keep indefinite overrides', () => {
         ],
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],
@@ -211,12 +192,8 @@ it('should remove overrides property when all overrides are removed', () => {
       {
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],
@@ -284,12 +261,8 @@ it('should handle multiple expired and active overrides', () => {
         ],
         "weekly": [
           {
-            "times": [
-              {
-                "from": "09:00",
-                "to": "17:00",
-              },
-            ],
+            "from": "09:00",
+            "to": "17:00",
             "weekdays": "-MTWTF-",
           },
         ],

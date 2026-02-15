@@ -51,7 +51,8 @@ const restaurant: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
-      times: [{ from: sTime('11:00'), to: sTime('22:00') }],
+      from: sTime('11:00'),
+      to: sTime('22:00'),
     },
   ],
 }
@@ -97,10 +98,6 @@ Define recurring availability patterns for specific days of the week:
 ```typescript
 interface WeeklyScheduleRule {
   weekdays: SWeekdays // e.g., 'SMTWTFS' or '-MTWTF-'
-  times: TimeRange[] // Array of time ranges
-}
-
-interface TimeRange {
   from: STime // e.g., '09:00'
   to: STime // e.g., '17:00'
 }
@@ -278,7 +275,8 @@ const restaurant: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
-      times: [{ from: sTime('11:00'), to: sTime('22:00') }],
+      from: sTime('11:00'),
+      to: sTime('22:00'),
     },
   ],
 }
@@ -291,10 +289,13 @@ const restaurant: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
-      times: [
-        { from: sTime('11:00'), to: sTime('14:00') }, // Lunch
-        { from: sTime('17:00'), to: sTime('22:00') }, // Dinner
-      ],
+      from: sTime('11:00'),
+      to: sTime('14:00'), // Lunch
+    },
+    {
+      weekdays: sWeekdays('-MTWTFS'), // Mon-Sat
+      from: sTime('17:00'),
+      to: sTime('22:00'), // Dinner
     },
   ],
 }
@@ -308,12 +309,14 @@ const restaurant: Schedule = {
     {
       // Weekdays: longer hours
       weekdays: sWeekdays('-MTWTF-'), // Mon-Fri
-      times: [{ from: sTime('10:00'), to: sTime('23:00') }],
+      from: sTime('10:00'),
+      to: sTime('23:00'),
     },
     {
       // Weekends: shorter hours
       weekdays: sWeekdays('S-----S'), // Sat-Sun
-      times: [{ from: sTime('12:00'), to: sTime('20:00') }],
+      from: sTime('12:00'),
+      to: sTime('20:00'),
     },
   ],
 }
@@ -348,7 +351,8 @@ const withExtendedHours: Schedule = {
         {
           // Extended hours for December, weekends only
           weekdays: sWeekdays('S-----S'),
-          times: [{ from: sTime('08:00'), to: sTime('23:00') }],
+          from: sTime('08:00'),
+          to: sTime('23:00'),
         },
       ],
     },
@@ -369,7 +373,8 @@ const newSchedule: Schedule = {
       rules: [
         {
           weekdays: sWeekdays('SMTWTFS'), // All days
-          times: [{ from: sTime('09:00'), to: sTime('21:00') }],
+          from: sTime('09:00'),
+          to: sTime('21:00'),
         },
       ],
     },
@@ -384,7 +389,8 @@ const lateNightBar: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('----TFS'), // Thu-Sat
-      times: [{ from: sTime('20:00'), to: sTime('03:00') }], // 8PM-3AM
+      from: sTime('20:00'),
+      to: sTime('03:00'), // 8PM-3AM
     },
   ],
 }
@@ -429,7 +435,8 @@ const popUpShop: Schedule = {
       rules: [
         {
           weekdays: sWeekdays('SMTWTFS'),
-          times: [{ from: sTime('10:00'), to: sTime('18:00') }],
+          from: sTime('10:00'),
+          to: sTime('18:00'),
         },
       ],
     },
@@ -446,7 +453,8 @@ const businessHours: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTFS'),
-      times: [{ from: sTime('11:00'), to: sTime('22:00') }],
+      from: sTime('11:00'),
+      to: sTime('22:00'),
     },
   ],
 }
@@ -489,17 +497,6 @@ type ValidationError =
       overrideIndexes: [number, number]
     }
   | {
-      issue: ValidationIssue.OverlappingTimesInRule
-      location:
-        | { type: RuleLocationType.Weekly; ruleIndex: number }
-        | {
-            type: RuleLocationType.Override
-            overrideIndex: number
-            ruleIndex: number
-          }
-      timeRangeIndexes: [number, number]
-    }
-  | {
       issue: ValidationIssue.OverlappingRulesInWeekly
       ruleIndexes: [number, number]
       weekday: Weekday
@@ -509,16 +506,6 @@ type ValidationError =
       overrideIndex: number
       ruleIndexes: [number, number]
       weekday: Weekday
-    }
-  | {
-      issue: ValidationIssue.EmptyTimes
-      location:
-        | { type: RuleLocationType.Weekly; ruleIndex: number }
-        | {
-            type: RuleLocationType.Override
-            overrideIndex: number
-            ruleIndex: number
-          }
     }
   | {
       issue: ValidationIssue.EmptyWeekdays
@@ -590,7 +577,6 @@ import type {
   Schedule,
   WeeklyScheduleRule,
   OverrideScheduleRule,
-  TimeRange,
   AvailabilityRange,
   ValidationError,
   ValidationResult,

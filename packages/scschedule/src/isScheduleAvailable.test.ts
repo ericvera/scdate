@@ -8,7 +8,8 @@ it('should return true when timestamp falls within weekly schedule', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -23,7 +24,8 @@ it('should return false when timestamp is outside weekly schedule hours', () => 
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
   }
@@ -38,7 +40,8 @@ it('should return false when timestamp is on a non-working weekday', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -48,15 +51,18 @@ it('should return false when timestamp is on a non-working weekday', () => {
   expect(isScheduleAvailable(schedule, timestamp)).toBe(false)
 })
 
-it('should return false during lunch break when multiple time ranges are defined', () => {
+it('should return false during lunch break when multiple rules are defined', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [
-          { from: '09:00', to: '12:00' },
-          { from: '13:00', to: '17:00' },
-        ],
+        from: '09:00',
+        to: '12:00',
+      },
+      {
+        weekdays: '-MTWTF-',
+        from: '13:00',
+        to: '17:00',
       },
     ],
   }
@@ -65,15 +71,18 @@ it('should return false during lunch break when multiple time ranges are defined
   expect(isScheduleAvailable(schedule, lunchTime)).toBe(false)
 })
 
-it('should return true during afternoon hours when multiple time ranges are defined', () => {
+it('should return true during afternoon hours when multiple rules are defined', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [
-          { from: '09:00', to: '12:00' },
-          { from: '13:00', to: '17:00' },
-        ],
+        from: '09:00',
+        to: '12:00',
+      },
+      {
+        weekdays: '-MTWTF-',
+        from: '13:00',
+        to: '17:00',
       },
     ],
   }
@@ -88,7 +97,8 @@ it('should respect specific date overrides', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -111,7 +121,8 @@ it('should return false before indefinite override starts', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
     overrides: [
@@ -121,7 +132,8 @@ it('should return false before indefinite override starts', () => {
         rules: [
           {
             weekdays: '-MTWTF-',
-            times: [{ from: '08:00', to: '18:00' }],
+            from: '08:00',
+            to: '18:00',
           },
         ],
       },
@@ -138,7 +150,8 @@ it('should return true after indefinite override starts', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
     overrides: [
@@ -148,7 +161,8 @@ it('should return true after indefinite override starts', () => {
         rules: [
           {
             weekdays: '-MTWTF-',
-            times: [{ from: '08:00', to: '18:00' }],
+            from: '08:00',
+            to: '18:00',
           },
         ],
       },
@@ -166,7 +180,8 @@ it('should return true for late night hours in cross-midnight range', () => {
       {
         weekdays: sWeekdays('----TFS'),
         // Thursday night to Friday morning
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
   }
@@ -182,7 +197,8 @@ it('should return true for early morning hours in cross-midnight range', () => {
       {
         weekdays: sWeekdays('----TFS'),
         // Thursday night to Friday morning
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
   }
@@ -198,7 +214,8 @@ it('should return false after cross-midnight range ends', () => {
       {
         weekdays: sWeekdays('----TFS'),
         // Thursday night to Friday morning
-        times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+        from: sTime('20:00'),
+        to: sTime('02:00'),
       },
     ],
   }
@@ -208,14 +225,9 @@ it('should return false after cross-midnight range ends', () => {
   expect(isScheduleAvailable(schedule, tooLate)).toBe(false)
 })
 
-it('should return false for empty times array', () => {
+it('should return false for empty weekly array', () => {
   const schedule: Schedule = {
-    weekly: [
-      {
-        weekdays: sWeekdays('-MTWTF-'),
-        times: [],
-      },
-    ],
+    weekly: [],
   }
 
   const timestamp = sTimestamp('2025-01-07T10:00')
@@ -227,7 +239,8 @@ it('should return true for Saturday when override includes weekend hours', () =>
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -238,7 +251,8 @@ it('should return true for Saturday when override includes weekend hours', () =>
         rules: [
           {
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('10:00'), to: sTime('16:00') }],
+            from: sTime('10:00'),
+            to: sTime('16:00'),
           },
         ],
       },
@@ -255,7 +269,8 @@ it('should return false for weekday when override only includes weekend hours', 
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -266,7 +281,8 @@ it('should return false for weekday when override only includes weekend hours', 
         rules: [
           {
             weekdays: sWeekdays('S-----S'),
-            times: [{ from: sTime('10:00'), to: sTime('16:00') }],
+            from: sTime('10:00'),
+            to: sTime('16:00'),
           },
         ],
       },
@@ -283,7 +299,8 @@ it('should return false on Christmas Eve evening when specific date override clo
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -294,7 +311,8 @@ it('should return false on Christmas Eve evening when specific date override clo
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -318,7 +336,8 @@ it('should return false on Christmas morning with no spillover from closed Chris
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -329,7 +348,8 @@ it('should return false on Christmas morning with no spillover from closed Chris
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -354,7 +374,8 @@ it('should return true on Dec 23 evening using December extended hours', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -365,7 +386,8 @@ it('should return true on Dec 23 evening using December extended hours', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -389,7 +411,8 @@ it('should return true on Dec 24 morning from Dec 23 spillover', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -400,7 +423,8 @@ it('should return true on Dec 24 morning from Dec 23 spillover', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -424,7 +448,8 @@ it('should return true on Dec 26 evening using December extended hours', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -435,7 +460,8 @@ it('should return true on Dec 26 evening using December extended hours', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -459,7 +485,8 @@ it('should handle spillover from override last day to next day when weekdays mat
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -471,7 +498,8 @@ it('should handle spillover from override last day to next day when weekdays mat
           {
             // All weekdays included
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -490,7 +518,8 @@ it('should NOT spillover from override last day when weekday pattern does not ma
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -502,7 +531,8 @@ it('should NOT spillover from override last day when weekday pattern does not ma
           {
             // Only Thursday included
             weekdays: sWeekdays('----T--'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },
@@ -522,7 +552,8 @@ it('should NOT spillover when previous day is outside override range', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -533,7 +564,8 @@ it('should NOT spillover when previous day is outside override range', () => {
         rules: [
           {
             weekdays: sWeekdays('SMTWTFS'),
-            times: [{ from: sTime('20:00'), to: sTime('02:00') }],
+            from: sTime('20:00'),
+            to: sTime('02:00'),
           },
         ],
       },

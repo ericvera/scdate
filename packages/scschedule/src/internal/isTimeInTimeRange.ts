@@ -1,5 +1,6 @@
 import { isSameTimeOrAfter, isSameTimeOrBefore, type STime } from 'scdate'
-import type { STimeString, TimeRange } from '../types.js'
+import type { STimeString } from '../types.js'
+import type { TimeRange } from './types.js'
 import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
 
 /**

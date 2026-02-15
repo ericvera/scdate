@@ -1,3 +1,6 @@
+// Internal types
+export type * from './types.js'
+
 // Internal utility functions
 export * from './doOverridesOverlap.js'
 export * from './doRulesOverlap.js'
@@ -10,10 +13,8 @@ export * from './splitCrossMidnightTimeRange.js'
 
 // Internal validation helpers
 export * from './validateNoEmptyWeekdays.js'
-export * from './validateNonEmptyTimes.js'
 export * from './validateNoOverlappingOverrides.js'
 export * from './validateNoOverlappingRules.js'
-export * from './validateNoOverlappingTimesInRule.js'
 export * from './validateNoSpilloverConflictsAtOverrideBoundaries.js'
 export * from './validateOverrideDateOrder.js'
 export * from './validateOverrideWeekdaysMatchDates.js'

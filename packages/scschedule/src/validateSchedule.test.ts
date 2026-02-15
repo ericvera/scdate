@@ -8,7 +8,8 @@ it('should return valid for a correct schedule', () => {
     weekly: [
       {
         weekdays: '-MTWTFS',
-        times: [{ from: sTime('11:00'), to: '22:00' }],
+        from: sTime('11:00'),
+        to: '22:00',
       },
     ],
   }
@@ -27,7 +28,8 @@ it('should allow multiple indefinite overrides', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: '09:00', to: '17:00' }],
+        from: '09:00',
+        to: '17:00',
       },
     ],
     overrides: [
@@ -56,7 +58,8 @@ it('should detect overlapping specific overrides', () => {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('09:00'), to: '17:00' }],
+        from: sTime('09:00'),
+        to: '17:00',
       },
     ],
     overrides: [
@@ -90,73 +93,13 @@ it('should detect overlapping specific overrides', () => {
     `)
 })
 
-it('should detect overlapping times in rule', () => {
-  const schedule: Schedule = {
-    weekly: [
-      {
-        weekdays: '-MTWTF-',
-        times: [
-          { from: '09:00', to: sTime('14:00') },
-          { from: sTime('12:00'), to: '17:00' },
-        ],
-      },
-    ],
-  }
-
-  const result = validateSchedule(schedule)
-  expect(result).toMatchInlineSnapshot(`
-      {
-        "errors": [
-          {
-            "issue": "overlapping-times-in-rule",
-            "location": {
-              "ruleIndex": 0,
-              "type": "weekly",
-            },
-            "timeRangeIndexes": [
-              0,
-              1,
-            ],
-          },
-        ],
-        "valid": false,
-      }
-    `)
-})
-
-it('should detect empty times in rule', () => {
-  const schedule: Schedule = {
-    weekly: [
-      {
-        weekdays: '-MTWTF-',
-        times: [],
-      },
-    ],
-  }
-
-  const result = validateSchedule(schedule)
-  expect(result).toMatchInlineSnapshot(`
-      {
-        "errors": [
-          {
-            "issue": "empty-times",
-            "location": {
-              "ruleIndex": 0,
-              "type": "weekly",
-            },
-          },
-        ],
-        "valid": false,
-      }
-    `)
-})
-
 it('should detect invalid scdate formats', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: 'INVALID',
-        times: [{ from: '09:00', to: sTime('17:00') }],
+        from: '09:00',
+        to: sTime('17:00'),
       },
     ],
   }
@@ -177,39 +120,37 @@ it('should detect invalid scdate formats', () => {
     `)
 })
 
-it('should return all validation errors when multiple issues exist', () => {
+it('should return all structural errors when multiple issues exist', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: 'INVALID',
-        times: [],
+        from: '09:00',
+        to: 'BADTIME',
       },
     ],
   }
 
   const result = validateSchedule(schedule)
-  // With early return architecture, all structural errors are returned
-  // (semantic validation is skipped when structural errors exist)
   expect(result).toMatchInlineSnapshot(`
-      {
-        "errors": [
-          {
-            "expectedFormat": "SMTWTFS",
-            "field": "weekly[0].weekdays",
-            "issue": "invalid-scdate-format",
-            "value": "INVALID",
-          },
-          {
-            "issue": "empty-times",
-            "location": {
-              "ruleIndex": 0,
-              "type": "weekly",
-            },
-          },
-        ],
-        "valid": false,
-      }
-    `)
+    {
+      "errors": [
+        {
+          "expectedFormat": "SMTWTFS",
+          "field": "weekly[0].weekdays",
+          "issue": "invalid-scdate-format",
+          "value": "INVALID",
+        },
+        {
+          "expectedFormat": "HH:MM",
+          "field": "weekly[0].to",
+          "issue": "invalid-scdate-format",
+          "value": "BADTIME",
+        },
+      ],
+      "valid": false,
+    }
+  `)
 })
 
 it('should validate complex valid schedule with overrides', () => {
@@ -217,14 +158,18 @@ it('should validate complex valid schedule with overrides', () => {
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [
-          { from: sTime('11:00'), to: '14:00' },
-          { from: '17:00', to: sTime('22:00') },
-        ],
+        from: sTime('11:00'),
+        to: '14:00',
+      },
+      {
+        weekdays: '-MTWTF-',
+        from: '17:00',
+        to: sTime('22:00'),
       },
       {
         weekdays: sWeekdays('S-----S'),
-        times: [{ from: '12:00', to: sTime('20:00') }],
+        from: '12:00',
+        to: sTime('20:00'),
       },
     ],
     overrides: [
@@ -239,7 +184,8 @@ it('should validate complex valid schedule with overrides', () => {
         rules: [
           {
             weekdays: 'S-----S',
-            times: [{ from: sTime('08:00'), to: '23:00' }],
+            from: sTime('08:00'),
+            to: '23:00',
           },
         ],
       },
@@ -260,7 +206,8 @@ it('should validate schedule with hierarchical overrides (December + Christmas)'
     weekly: [
       {
         weekdays: '-MTWTF-',
-        times: [{ from: sTime('09:00'), to: '17:00' }],
+        from: sTime('09:00'),
+        to: '17:00',
       },
     ],
     overrides: [
@@ -271,7 +218,8 @@ it('should validate schedule with hierarchical overrides (December + Christmas)'
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: '08:00', to: sTime('22:00') }],
+            from: '08:00',
+            to: sTime('22:00'),
           },
         ],
       },
@@ -293,12 +241,93 @@ it('should validate schedule with hierarchical overrides (December + Christmas)'
   `)
 })
 
+it('should validate split shift schedule (non-overlapping rules for same weekdays)', () => {
+  const schedule: Schedule = {
+    weekly: [
+      {
+        weekdays: '-MTWTF-',
+        from: sTime('09:00'),
+        to: '12:00',
+      },
+      {
+        weekdays: sWeekdays('-MTWTF-'),
+        from: '13:00',
+        to: sTime('17:00'),
+      },
+    ],
+  }
+
+  const result = validateSchedule(schedule)
+  expect(result).toMatchInlineSnapshot(`
+    {
+      "errors": [],
+      "valid": true,
+    }
+  `)
+})
+
+it('should detect overlapping split shift rules', () => {
+  const schedule: Schedule = {
+    weekly: [
+      {
+        weekdays: sWeekdays('-MTWTF-'),
+        from: sTime('09:00'),
+        to: '14:00',
+      },
+      {
+        weekdays: '-MTWTF-',
+        from: '13:00',
+        to: sTime('17:00'),
+      },
+    ],
+  }
+
+  const result = validateSchedule(schedule)
+  expect(result).toMatchInlineSnapshot(`
+    {
+      "errors": [
+        {
+          "issue": "overlapping-rules-in-weekly",
+          "ruleIndexes": [
+            0,
+            1,
+          ],
+          "weekday": 2,
+        },
+      ],
+      "valid": false,
+    }
+  `)
+})
+
+it('should validate weekly:true with overrides', () => {
+  const schedule: Schedule = {
+    weekly: true,
+    overrides: [
+      {
+        from: sDate('2025-12-25'),
+        to: '2025-12-25',
+        rules: [],
+      },
+    ],
+  }
+
+  const result = validateSchedule(schedule)
+  expect(result).toMatchInlineSnapshot(`
+    {
+      "errors": [],
+      "valid": true,
+    }
+  `)
+})
+
 it('should detect invalid override date order (to before from)', () => {
   const schedule: Schedule = {
     weekly: [
       {
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: '09:00', to: sTime('17:00') }],
+        from: '09:00',
+        to: sTime('17:00'),
       },
     ],
     overrides: [
@@ -308,7 +337,8 @@ it('should detect invalid override date order (to before from)', () => {
         rules: [
           {
             weekdays: 'SMTWTFS',
-            times: [{ from: sTime('10:00'), to: '18:00' }],
+            from: sTime('10:00'),
+            to: '18:00',
           },
         ],
       },

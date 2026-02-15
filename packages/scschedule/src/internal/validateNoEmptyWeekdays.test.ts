@@ -7,7 +7,8 @@ const baseSchedule: Schedule = {
   weekly: [
     {
       weekdays: sWeekdays('-MTWTF-'),
-      times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+      from: sTime('09:00'),
+      to: sTime('17:00'),
     },
   ],
 }
@@ -24,7 +25,8 @@ it('should return error for empty weekdays in weekly rule', () => {
       {
         // No days selected
         weekdays: '-------',
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
     ],
   }
@@ -54,7 +56,8 @@ it('should return error for empty weekdays in override rule', () => {
           {
             // No days selected
             weekdays: '-------',
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -82,12 +85,14 @@ it('should return multiple errors for multiple empty weekdays', () => {
       {
         // Empty
         weekdays: '-------',
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
       {
         // Valid
         weekdays: sWeekdays('-MTWTF-'),
-        times: [{ from: sTime('10:00'), to: sTime('16:00') }],
+        from: sTime('10:00'),
+        to: sTime('16:00'),
       },
     ],
     overrides: [
@@ -98,7 +103,8 @@ it('should return multiple errors for multiple empty weekdays', () => {
           {
             // Empty
             weekdays: '-------',
-            times: [{ from: sTime('10:00'), to: sTime('14:00') }],
+            from: sTime('10:00'),
+            to: sTime('14:00'),
           },
         ],
       },
@@ -127,23 +133,20 @@ it('should return multiple errors for multiple empty weekdays', () => {
   `)
 })
 
-it('should handle schedules with no overrides', () => {
-  const errors = validateNoEmptyWeekdays(baseSchedule)
-  expect(errors).toMatchInlineSnapshot(`[]`)
-})
-
 it('should accept weekdays with at least one day selected', () => {
   const schedule: Schedule = {
     weekly: [
       {
         // Only Sunday
         weekdays: sWeekdays('S------'),
-        times: [{ from: sTime('09:00'), to: sTime('17:00') }],
+        from: sTime('09:00'),
+        to: sTime('17:00'),
       },
       {
         // Only Saturday
         weekdays: sWeekdays('------S'),
-        times: [{ from: sTime('10:00'), to: sTime('16:00') }],
+        from: sTime('10:00'),
+        to: sTime('16:00'),
       },
     ],
   }
