@@ -539,7 +539,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.39.2"
     "@tsconfig/strictest": "npm:^2.0.8"
-    "@types/node": "npm:^24.10.13"
+    "@types/node": "npm:^25.2.3"
     eslint: "npm:^9.39.2"
     husky: "npm:^9.1.7"
     lint-staged: "npm:^16.2.7"
@@ -597,12 +597,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.10.13":
-  version: 24.10.13
-  resolution: "@types/node@npm:24.10.13"
+"@types/node@npm:^25.2.3":
+  version: 25.2.3
+  resolution: "@types/node@npm:25.2.3"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10c0/4ff0b9b060b5477c0fec5b11a176f294be588104ab546295db65b17a92ba0a6077b52ad92dd3c0d2154198c7f9d0021e6c1d42b00c9ac7ebfd85632afbcc48a4
+  checksum: 10c0/925833029ce0bb4a72c36f90b93287184d3511aeb0fa60a994ae94b5430c22f9be6693d67d210df79267cb54c6f6978caaefb149d99ab5f83af5827ba7cb9822
   languageName: node
   linkType: hard
 
@@ -2367,7 +2367,7 @@ __metadata:
     "@date-fns/utc": "npm:^2.1.1"
     "@eslint/js": "npm:^9.39.2"
     "@tsconfig/strictest": "npm:^2.0.8"
-    "@types/node": "npm:^24.10.13"
+    "@types/node": "npm:^25.2.3"
     date-fns: "npm:^4.1.0"
     date-fns-tz: "npm:^3.2.0"
     eslint: "npm:^9.39.2"
@@ -2383,7 +2383,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.39.2"
     "@tsconfig/strictest": "npm:^2.0.8"
-    "@types/node": "npm:^24.10.13"
+    "@types/node": "npm:^25.2.3"
     eslint: "npm:^9.39.2"
     scdate: "workspace:*"
     typescript: "npm:^5.9.3"
