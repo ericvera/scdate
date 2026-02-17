@@ -7,6 +7,8 @@ import {
   doesWeekdaysHaveOverlapWithWeekdays,
   doesWeekdaysIncludeWeekday,
   filterWeekdaysForDates,
+  removeWeekdayFromWeekdays,
+  toggleWeekdayInWeekdays,
   getNextWeekday,
   getPreviousWeekday,
   getWeekdaysFromWeekdayFlags,
@@ -382,6 +384,90 @@ describe('addWeekdayToWeekdays', () => {
       addWeekdayToWeekdays('---W---', Weekday.Fri | Weekday.Mon)
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid weekday '34'. Expected a single weekday.]`,
+    )
+  })
+})
+
+describe('removeWeekdayFromWeekdays', () => {
+  it('works when removing a day from all', () => {
+    expect(
+      removeWeekdayFromWeekdays('SMTWTFS', Weekday.Wed),
+    ).toMatchInlineSnapshot(`"SMT-TFS"`)
+  })
+
+  it('works when removing a day from some', () => {
+    expect(
+      removeWeekdayFromWeekdays(sWeekdays('-MTWTF-'), Weekday.Wed),
+    ).toMatchInlineSnapshot(`"-MT-TF-"`)
+  })
+
+  it('works when removing a day that is already excluded', () => {
+    expect(
+      removeWeekdayFromWeekdays('---W---', Weekday.Fri),
+    ).toMatchInlineSnapshot(`"---W---"`)
+  })
+
+  it('works when removing last remaining day', () => {
+    expect(
+      removeWeekdayFromWeekdays('------S', Weekday.Sat),
+    ).toMatchInlineSnapshot(`"-------"`)
+  })
+
+  it('throws if trying to remove an invalid weekday', () => {
+    expect(() => {
+      removeWeekdayFromWeekdays('---W---', 999 as Weekday)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid weekday '999'. Expected a single weekday.]`,
+    )
+  })
+
+  it('throws if trying to remove multiple weekdays at the same time', () => {
+    expect(() => {
+      removeWeekdayFromWeekdays('---W---', Weekday.Fri | Weekday.Mon)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid weekday '34'. Expected a single weekday.]`,
+    )
+  })
+})
+
+describe('toggleWeekdayInWeekdays', () => {
+  it('adds a day when it is excluded', () => {
+    expect(
+      toggleWeekdayInWeekdays('---W---', Weekday.Fri),
+    ).toMatchInlineSnapshot(`"---W-F-"`)
+  })
+
+  it('removes a day when it is included', () => {
+    expect(
+      toggleWeekdayInWeekdays('---W-F-', Weekday.Fri),
+    ).toMatchInlineSnapshot(`"---W---"`)
+  })
+
+  it('toggles from none to one', () => {
+    const none = getWeekdaysWithNoneIncluded()
+
+    expect(toggleWeekdayInWeekdays(none, Weekday.Mon)).toMatchInlineSnapshot(
+      `"-M-----"`,
+    )
+  })
+
+  it('toggles from one to none', () => {
+    expect(
+      toggleWeekdayInWeekdays('S------', Weekday.Sun),
+    ).toMatchInlineSnapshot(`"-------"`)
+  })
+
+  it('works with string input', () => {
+    expect(
+      toggleWeekdayInWeekdays('SMTWTFS', Weekday.Tue),
+    ).toMatchInlineSnapshot(`"SM-WTFS"`)
+  })
+
+  it('throws if trying to toggle an invalid weekday', () => {
+    expect(() => {
+      toggleWeekdayInWeekdays('---W---', 999 as Weekday)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid weekday '999'. Expected a single weekday.]`,
     )
   })
 })

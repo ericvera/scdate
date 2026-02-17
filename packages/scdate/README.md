@@ -263,6 +263,8 @@ const filteredWeekdays = filterWeekdaysForDates(
   '2023-12-31',
 )
 const updatedWeekdays = addWeekdayToWeekdays(weekdays5, Weekday.Fri) // Add Friday to pattern
+const withoutWednesday = removeWeekdayFromWeekdays(weekdays4, Weekday.Wed) // Remove Wednesday
+const toggled = toggleWeekdayInWeekdays(weekdays2, Weekday.Mon) // Toggle Monday
 
 // Weekday navigation
 const previousDay = getPreviousWeekday(Weekday.Mon) // Returns Weekday.Sun

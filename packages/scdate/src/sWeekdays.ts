@@ -270,6 +270,47 @@ export const addWeekdayToWeekdays = (
 }
 
 /**
+ * Returns a new SWeekdays instance with the provided weekday removed from the
+ * current set of weekdays.
+ *
+ * @param weekdays The weekdays to remove the weekday from. It can be an
+ * SWeekdays or a string in the SMTWTFS format.
+ * @param weekdayToRemove The weekday to remove.
+ */
+export const removeWeekdayFromWeekdays = (
+  weekdays: string | SWeekdays,
+  weekdayToRemove: Weekday,
+): SWeekdays => {
+  const sWeekdaysInstance = sWeekdays(weekdays)
+  const newWeekdays = Array.from(sWeekdaysInstance.weekdays)
+  const weekdayIndex = getIndexForWeekday(weekdayToRemove)
+
+  newWeekdays[weekdayIndex] = NotIncludedDay
+
+  return sWeekdays(newWeekdays.join(''))
+}
+
+/**
+ * Returns a new SWeekdays instance with the provided weekday toggled. If the
+ * weekday is currently included, it is removed. If it is excluded, it is
+ * added.
+ *
+ * @param weekdays The weekdays to toggle the weekday in. It can be an
+ * SWeekdays or a string in the SMTWTFS format.
+ * @param weekdayToToggle The weekday to toggle.
+ */
+export const toggleWeekdayInWeekdays = (
+  weekdays: string | SWeekdays,
+  weekdayToToggle: Weekday,
+): SWeekdays => {
+  if (doesWeekdaysIncludeWeekday(weekdays, weekdayToToggle)) {
+    return removeWeekdayFromWeekdays(weekdays, weekdayToToggle)
+  }
+
+  return addWeekdayToWeekdays(weekdays, weekdayToToggle)
+}
+
+/**
  * --- Comparisons ---
  */
 
