@@ -110,8 +110,12 @@ it('should detect invalid scdate formats', () => {
         "errors": [
           {
             "expectedFormat": "SMTWTFS",
-            "field": "weekly[0].weekdays",
             "issue": "invalid-scdate-format",
+            "location": {
+              "field": "weekdays",
+              "ruleIndex": 0,
+              "type": "weekly",
+            },
             "value": "INVALID",
           },
         ],
@@ -137,14 +141,22 @@ it('should return all structural errors when multiple issues exist', () => {
       "errors": [
         {
           "expectedFormat": "SMTWTFS",
-          "field": "weekly[0].weekdays",
           "issue": "invalid-scdate-format",
+          "location": {
+            "field": "weekdays",
+            "ruleIndex": 0,
+            "type": "weekly",
+          },
           "value": "INVALID",
         },
         {
           "expectedFormat": "HH:MM",
-          "field": "weekly[0].to",
           "issue": "invalid-scdate-format",
+          "location": {
+            "field": "to",
+            "ruleIndex": 0,
+            "type": "weekly",
+          },
           "value": "BADTIME",
         },
       ],

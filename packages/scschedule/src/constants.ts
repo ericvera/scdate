@@ -59,3 +59,27 @@ export enum RuleLocationType {
   /** The rule is in an override section */
   Override = 'override',
 }
+
+/**
+ * Fields within a rule (weekly or override rule) that can contain scdate
+ * format values. Used in validation errors for rule-level format failures.
+ */
+export enum RuleField {
+  /** Days of the week (SMTWTFS format) */
+  Weekdays = 'weekdays',
+  /** Start time */
+  From = 'from',
+  /** End time */
+  To = 'to',
+}
+
+/**
+ * Fields on an override's date range that can contain scdate format values.
+ * Used in validation errors for override-level format failures.
+ */
+export enum OverrideField {
+  /** Start date */
+  From = 'from',
+  /** End date */
+  To = 'to',
+}

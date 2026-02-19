@@ -472,13 +472,52 @@ const canOrderBreakfast =
 
 ## Validation Error Types
 
-The library uses discriminated unions for type-safe error handling:
+The library uses discriminated unions for type-safe error handling. Location types (`RuleLocation`, `FieldLocation`) provide structured data for finding and highlighting errors in the UI—no path parsing required.
+
+```typescript
+// RuleLocation - where a rule lives (used by EmptyWeekdays)
+type RuleLocation =
+  | { type: RuleLocationType.Weekly; ruleIndex: number }
+  | {
+      type: RuleLocationType.Override
+      overrideIndex: number
+      ruleIndex: number
+    }
+
+// FieldLocation - where a field lives (used by InvalidScDateFormat)
+type FieldLocation =
+  | { type: RuleLocationType.Weekly; ruleIndex: number; field: RuleField }
+  | {
+      type: RuleLocationType.Override
+      overrideIndex: number
+      field: OverrideField
+    }
+  | {
+      type: RuleLocationType.Override
+      overrideIndex: number
+      ruleIndex: number
+      field: RuleField
+    }
+
+// RuleField - rule-level fields (weekdays, from, to)
+enum RuleField {
+  Weekdays = 'weekdays',
+  From = 'from',
+  To = 'to',
+}
+
+// OverrideField - override date range fields (from, to)
+enum OverrideField {
+  From = 'from',
+  To = 'to',
+}
+```
 
 ```typescript
 type ValidationError =
   | {
       issue: ValidationIssue.InvalidScDateFormat
-      field: string
+      location: FieldLocation
       value: string
       expectedFormat: string
     }
@@ -509,13 +548,7 @@ type ValidationError =
     }
   | {
       issue: ValidationIssue.EmptyWeekdays
-      location:
-        | { type: RuleLocationType.Weekly; ruleIndex: number }
-        | {
-            type: RuleLocationType.Override
-            overrideIndex: number
-            ruleIndex: number
-          }
+      location: RuleLocation
     }
   | {
       issue: ValidationIssue.OverrideWeekdaysMismatch
@@ -580,13 +613,20 @@ import type {
   AvailabilityRange,
   ValidationError,
   ValidationResult,
+  RuleLocation,
+  FieldLocation,
   SDateString,
   STimeString,
   STimestampString,
   SWeekdaysString,
 } from 'scschedule'
 
-import { ValidationIssue, RuleLocationType } from 'scschedule'
+import {
+  ValidationIssue,
+  RuleLocationType,
+  RuleField,
+  OverrideField,
+} from 'scschedule'
 ```
 
 Note: The `Weekday` enum (used in some `ValidationError` variants) is exported from `scdate`, not `scschedule`:

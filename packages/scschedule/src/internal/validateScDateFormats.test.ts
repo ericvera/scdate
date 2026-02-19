@@ -96,8 +96,12 @@ it('should return error for invalid SWeekdays format in weekly rule', () => {
     [
       {
         "expectedFormat": "SMTWTFS",
-        "field": "weekly[0].weekdays",
         "issue": "invalid-scdate-format",
+        "location": {
+          "field": "weekdays",
+          "ruleIndex": 0,
+          "type": "weekly",
+        },
         "value": "INVALID",
       },
     ]
@@ -120,8 +124,12 @@ it('should return error for invalid STime format', () => {
     [
       {
         "expectedFormat": "HH:MM",
-        "field": "weekly[0].from",
         "issue": "invalid-scdate-format",
+        "location": {
+          "field": "from",
+          "ruleIndex": 0,
+          "type": "weekly",
+        },
         "value": "25:00",
       },
     ]
@@ -152,8 +160,12 @@ it('should return error for invalid SDate format in override', () => {
     [
       {
         "expectedFormat": "YYYY-MM-DD",
-        "field": "overrides[0].from",
         "issue": "invalid-scdate-format",
+        "location": {
+          "field": "from",
+          "overrideIndex": 0,
+          "type": "override",
+        },
         "value": "2025-13-45",
       },
     ]
@@ -189,8 +201,13 @@ it('should validate formats in override rules', () => {
     [
       {
         "expectedFormat": "SMTWTFS",
-        "field": "overrides[0].rules[0].weekdays",
         "issue": "invalid-scdate-format",
+        "location": {
+          "field": "weekdays",
+          "overrideIndex": 0,
+          "ruleIndex": 0,
+          "type": "override",
+        },
         "value": "INVALID_WEEKDAYS",
       },
     ]
@@ -213,8 +230,12 @@ it('should provide detailed field paths in errors', () => {
     [
       {
         "expectedFormat": "HH:MM",
-        "field": "weekly[0].from",
         "issue": "invalid-scdate-format",
+        "location": {
+          "field": "from",
+          "ruleIndex": 0,
+          "type": "weekly",
+        },
         "value": "INVALID",
       },
     ]

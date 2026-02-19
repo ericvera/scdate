@@ -1,5 +1,40 @@
 import type { SDate, STime, STimestamp, SWeekdays, Weekday } from 'scdate'
-import { RuleLocationType, ValidationIssue } from './constants.js'
+import {
+  OverrideField,
+  RuleField,
+  RuleLocationType,
+  ValidationIssue,
+} from './constants.js'
+
+/**
+ * Location of a rule within the schedule structure. Used by validation errors
+ * that point to a specific rule (e.g. EmptyWeekdays).
+ */
+export type RuleLocation =
+  | { type: RuleLocationType.Weekly; ruleIndex: number }
+  | {
+      type: RuleLocationType.Override
+      overrideIndex: number
+      ruleIndex: number
+    }
+
+/**
+ * Location of a field within the schedule structure. Used by validation errors
+ * that point to a specific field (e.g. InvalidScDateFormat).
+ */
+export type FieldLocation =
+  | { type: RuleLocationType.Weekly; ruleIndex: number; field: RuleField }
+  | {
+      type: RuleLocationType.Override
+      overrideIndex: number
+      field: OverrideField
+    }
+  | {
+      type: RuleLocationType.Override
+      overrideIndex: number
+      ruleIndex: number
+      field: RuleField
+    }
 
 /**
  * String in YYYY-MM-DD format representing a date.
@@ -110,8 +145,8 @@ export type ValidationError =
        * (SDate, STime, SWeekdays, or STimestamp)
        */
       issue: ValidationIssue.InvalidScDateFormat
-      /** Path to the field with invalid format (e.g., 'weekly[0].weekdays') */
-      field: string
+      /** Location of the field with invalid format */
+      location: FieldLocation
       /** The invalid value that was provided */
       value: string
       /** The expected format (e.g., 'SMTWTFS', 'HH:MM', 'YYYY-MM-DD') */
@@ -123,13 +158,7 @@ export type ValidationError =
        */
       issue: ValidationIssue.EmptyWeekdays
       /** Location of the rule with empty weekdays */
-      location:
-        | { type: RuleLocationType.Weekly; ruleIndex: number }
-        | {
-            type: RuleLocationType.Override
-            overrideIndex: number
-            ruleIndex: number
-          }
+      location: RuleLocation
     }
   | {
       /**

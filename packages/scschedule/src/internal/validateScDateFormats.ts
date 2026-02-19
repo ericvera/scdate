@@ -1,6 +1,13 @@
 import { SDate, sDate, STime, sTime, SWeekdays, sWeekdays } from 'scdate'
-import { ValidationIssue } from '../constants.js'
+import {
+  OverrideField,
+  RuleField,
+  RuleLocationType,
+  ValidationIssue,
+} from '../constants.js'
 import type {
+  FieldLocation,
+  RuleLocation,
   Schedule,
   SDateString,
   STimeString,
@@ -13,14 +20,14 @@ import type {
  */
 const validateSDateValue = (
   value: unknown,
-  field: string,
+  location: FieldLocation,
 ): ValidationError | undefined => {
   try {
     sDate(value as SDateString | SDate)
   } catch {
     return {
       issue: ValidationIssue.InvalidScDateFormat,
-      field,
+      location,
       value: String(value),
       expectedFormat: 'YYYY-MM-DD',
     }
@@ -34,14 +41,14 @@ const validateSDateValue = (
  */
 const validateSTimeValue = (
   value: unknown,
-  field: string,
+  location: FieldLocation,
 ): ValidationError | undefined => {
   try {
     sTime(value as STimeString | STime)
   } catch {
     return {
       issue: ValidationIssue.InvalidScDateFormat,
-      field,
+      location,
       value: String(value),
       expectedFormat: 'HH:MM',
     }
@@ -55,14 +62,14 @@ const validateSTimeValue = (
  */
 const validateSWeekdaysValue = (
   value: unknown,
-  field: string,
+  location: FieldLocation,
 ): ValidationError | undefined => {
   try {
     sWeekdays(value as SWeekdaysString | SWeekdays)
   } catch {
     return {
       issue: ValidationIssue.InvalidScDateFormat,
-      field,
+      location,
       value: String(value),
       expectedFormat: 'SMTWTFS',
     }
@@ -76,17 +83,23 @@ const validateSWeekdaysValue = (
  */
 const validateTimeRange = (
   timeRange: { from: unknown; to: unknown },
-  fieldPrefix: string,
+  locationBase: RuleLocation,
 ): ValidationError[] => {
   const errors: ValidationError[] = []
 
-  const fromError = validateSTimeValue(timeRange.from, `${fieldPrefix}.from`)
+  const fromError = validateSTimeValue(timeRange.from, {
+    ...locationBase,
+    field: RuleField.From,
+  })
 
   if (fromError) {
     errors.push(fromError)
   }
 
-  const toError = validateSTimeValue(timeRange.to, `${fieldPrefix}.to`)
+  const toError = validateSTimeValue(timeRange.to, {
+    ...locationBase,
+    field: RuleField.To,
+  })
 
   if (toError) {
     errors.push(toError)
@@ -100,20 +113,20 @@ const validateTimeRange = (
  */
 const validateRule = (
   rule: { weekdays: unknown; from: unknown; to: unknown },
-  fieldPrefix: string,
+  locationBase: RuleLocation,
 ): ValidationError[] => {
   const errors: ValidationError[] = []
 
-  const weekdaysError = validateSWeekdaysValue(
-    rule.weekdays,
-    `${fieldPrefix}.weekdays`,
-  )
+  const weekdaysError = validateSWeekdaysValue(rule.weekdays, {
+    ...locationBase,
+    field: RuleField.Weekdays,
+  })
 
   if (weekdaysError) {
     errors.push(weekdaysError)
   }
 
-  errors.push(...validateTimeRange(rule, fieldPrefix))
+  errors.push(...validateTimeRange(rule, locationBase))
 
   return errors
 }
@@ -129,25 +142,32 @@ export const validateScDateFormats = (
   // Validate weekly rules
   const weeklyRules = schedule.weekly === true ? [] : schedule.weekly
   weeklyRules.forEach((rule, ruleIndex) => {
-    errors.push(...validateRule(rule, `weekly[${String(ruleIndex)}]`))
+    errors.push(
+      ...validateRule(rule, {
+        type: RuleLocationType.Weekly,
+        ruleIndex,
+      }),
+    )
   })
 
   // Validate overrides
   schedule.overrides?.forEach((override, overrideIndex) => {
-    const fromError = validateSDateValue(
-      override.from,
-      `overrides[${String(overrideIndex)}].from`,
-    )
+    const fromError = validateSDateValue(override.from, {
+      type: RuleLocationType.Override,
+      overrideIndex,
+      field: OverrideField.From,
+    })
 
     if (fromError) {
       errors.push(fromError)
     }
 
     if (override.to) {
-      const toError = validateSDateValue(
-        override.to,
-        `overrides[${String(overrideIndex)}].to`,
-      )
+      const toError = validateSDateValue(override.to, {
+        type: RuleLocationType.Override,
+        overrideIndex,
+        field: OverrideField.To,
+      })
 
       if (toError) {
         errors.push(toError)
@@ -156,10 +176,11 @@ export const validateScDateFormats = (
 
     override.rules.forEach((rule, ruleIndex) => {
       errors.push(
-        ...validateRule(
-          rule,
-          `overrides[${String(overrideIndex)}].rules[${String(ruleIndex)}]`,
-        ),
+        ...validateRule(rule, {
+          type: RuleLocationType.Override,
+          overrideIndex,
+          ruleIndex,
+        }),
       )
     })
   })
