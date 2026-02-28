@@ -30,6 +30,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
         run: yarn
@@ -71,19 +72,19 @@ jobs:
           skip_fetch: true
           skip_checkout: true
 
+      - name: Ensure npm supports OIDC trusted publishing
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: npm install -g 'npm@>=11.5.1'
+
       - name: Publish scdate Package
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: packages/scdate
-        run: yarn npm publish --access public
+        run: npm publish --access public
 
       - name: Publish scschedule Package
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: packages/scschedule
-        run: yarn npm publish --access public
+        run: npm publish --access public
 
       - name: Create Release
         uses: ncipollo/release-action@v1
