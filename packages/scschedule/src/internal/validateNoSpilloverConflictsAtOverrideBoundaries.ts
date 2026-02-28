@@ -7,7 +7,7 @@ import {
 import { ValidationIssue } from '../constants.js'
 import type { Schedule, ValidationError } from '../types.js'
 import { doTimeRangesOverlap } from './doTimeRangesOverlap.js'
-import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
+import { getApplicableRuleForDate } from '../getApplicableRuleForDate.js'
 import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
 
 /**

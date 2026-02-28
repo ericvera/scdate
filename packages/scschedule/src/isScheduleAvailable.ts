@@ -6,7 +6,7 @@ import {
   getTimeFromTimestamp,
   getWeekdayFromDate,
 } from 'scdate'
-import { getApplicableRuleForDate } from './internal/getApplicableRuleForDate.js'
+import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 import { isTimeInTimeRange } from './internal/isTimeInTimeRange.js'
 import type { Schedule } from './types.js'
 

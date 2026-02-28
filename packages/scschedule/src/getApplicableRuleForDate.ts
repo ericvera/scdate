@@ -9,7 +9,7 @@ import type {
   Schedule,
   SDateString,
   WeeklyScheduleRule,
-} from '../types.js'
+} from './types.js'
 
 export type ApplicableRule =
   | { source: 'weekly'; rules: WeeklyScheduleRule[] | true }

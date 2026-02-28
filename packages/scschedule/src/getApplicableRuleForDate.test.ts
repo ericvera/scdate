@@ -1,6 +1,6 @@
 import { sDate, sTime, sWeekdays } from 'scdate'
 import { expect, it } from 'vitest'
-import type { Schedule } from '../types.js'
+import type { Schedule } from './types.js'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 
 const baseSchedule: Schedule = {
@@ -244,7 +244,7 @@ it('should return indefinite override rules years after start date', () => {
         from: '2026-01-01',
         rules: [
           {
-            weekdays: 'SMTWTFS',
+            weekdays: sWeekdays('SMTWTFS'),
             from: sTime('08:00'),
             to: sTime('22:00'),
           },
@@ -835,7 +835,7 @@ it('should select December rules after Christmas week in multi-level overrides',
         to: sDate('2025-12-31'),
         rules: [
           {
-            weekdays: 'SMTWTFS',
+            weekdays: sWeekdays('SMTWTFS'),
             from: sTime('08:00'),
             to: sTime('22:00'),
           },

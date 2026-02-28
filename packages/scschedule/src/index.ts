@@ -15,6 +15,7 @@ export * from './validateSchedule.js'
 export * from './cleanupExpiredOverridesFromSchedule.js'
 
 // Export availability query functions
+export * from './getApplicableRuleForDate.js'
 export * from './getAvailableRangesFromSchedule.js'
 export * from './getNextAvailableFromSchedule.js'
 export * from './getNextUnavailableFromSchedule.js'

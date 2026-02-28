@@ -7,7 +7,7 @@ import {
   isSameDateOrBefore,
   type SDate,
 } from 'scdate'
-import { getApplicableRuleForDate } from './internal/getApplicableRuleForDate.js'
+import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 import type { AvailabilityRange, Schedule } from './types.js'
 
 /**

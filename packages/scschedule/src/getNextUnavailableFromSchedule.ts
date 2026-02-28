@@ -14,7 +14,7 @@ import {
   type STime,
   type STimestamp,
 } from 'scdate'
-import { getApplicableRuleForDate } from './internal/getApplicableRuleForDate.js'
+import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 import { isScheduleAvailable } from './isScheduleAvailable.js'
 import type { Schedule, STimeString, WeeklyScheduleRule } from './types.js'
 

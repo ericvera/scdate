@@ -263,6 +263,19 @@ ranges.forEach((range) => {
 })
 ```
 
+#### `getApplicableRuleForDate(schedule: Schedule, date: SDate | SDateString): ApplicableRule`
+
+Returns the rules that apply for a given date, indicating whether they come from the weekly schedule or an override. When `source` is `'weekly'`, `rules` is the weekly schedule (`true` or `WeeklyScheduleRule[]`). When `source` is `'override'`, `rules` is the override's rules and `overrideIndex` identifies which override applies.
+
+```typescript
+import { getApplicableRuleForDate } from 'scschedule'
+import { sDate } from 'scdate'
+
+const result = getApplicableRuleForDate(restaurant, sDate('2025-12-15'))
+// result.source === 'weekly' | 'override'
+// result.rules === true | WeeklyScheduleRule[]
+```
+
 ## Usage Examples
 
 ### Basic Business Hours
@@ -607,6 +620,7 @@ The library is written in TypeScript and provides full type definitions. All typ
 
 ```typescript
 import type {
+  ApplicableRule,
   Schedule,
   WeeklyScheduleRule,
   OverrideScheduleRule,
