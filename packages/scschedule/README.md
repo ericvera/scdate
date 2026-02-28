@@ -213,6 +213,25 @@ const isOpen = isScheduleAvailable(
 )
 ```
 
+#### `isInOvernightSpillover(schedule: Schedule, date: SDate | string, time: STime | string): boolean`
+
+Returns true if the given date and time fall within overnight spillover from the previous day's schedule. Useful when modifying the previous day's schedule would affect current availability (e.g., a business owner wanting to close early during an overnight shift that started yesterday).
+
+```typescript
+import { isInOvernightSpillover } from 'scschedule'
+import { sDate, sTime } from 'scdate'
+
+// Friday 01:00 is in Thursday's 22:00-02:00 spillover
+const inSpillover = isInOvernightSpillover(
+  schedule,
+  sDate('2025-01-11'),
+  sTime('01:00'),
+)
+if (inSpillover) {
+  // Modifying Thursday's schedule would affect current availability
+}
+```
+
 #### `getNextAvailableFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch: number): STimestamp | undefined`
 
 Find the next available timestamp from a given time. Searches up to `maxDaysToSearch` days forward.
