@@ -79,12 +79,12 @@ jobs:
       - name: Publish scdate Package
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         working-directory: packages/scdate
-        run: npm publish --access public
+        run: yarn npm publish --access public
 
       - name: Publish scschedule Package
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         working-directory: packages/scschedule
-        run: npm publish --access public
+        run: yarn npm publish --access public
 
       - name: Create Release
         uses: ncipollo/release-action@v1
