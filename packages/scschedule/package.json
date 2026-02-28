@@ -23,7 +23,7 @@
     "scdate": "workspace:*"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.3",
+    "@eslint/js": "^10.0.1",
     "@tsconfig/strictest": "^2.0.8",
     "@types/node": "^24.11.0",
     "eslint": "^9.39.3",
