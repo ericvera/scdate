@@ -5,6 +5,7 @@ import { MinutesInDay, MinutesInHour } from './internal/constants.js'
 import {
   addMinutesToTime,
   get12HourTimeString,
+  getCompact12HourTimeString,
   get12HoursHoursStringFromTime,
   getHoursFromTime,
   getMinutesFromTime,
@@ -262,6 +263,55 @@ describe('get12HourTimeString', () => {
   it('throws for invalid time', () => {
     expect(() => {
       get12HourTimeString('29:00')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO time value. Expected from 00:00 to 23:59. Current value: '29:00'.]`,
+    )
+  })
+})
+
+describe('getCompact12HourTimeString', () => {
+  it('formats am and pm without minutes when zero', () => {
+    expect(getCompact12HourTimeString(sTime('08:00'))).toMatchInlineSnapshot(
+      `"8am"`,
+    )
+    expect(getCompact12HourTimeString('23:45')).toMatchInlineSnapshot(
+      `"11:45pm"`,
+    )
+  })
+
+  it('formats midnight and noon', () => {
+    expect(getCompact12HourTimeString('00:00')).toMatchInlineSnapshot(`"12am"`)
+    expect(getCompact12HourTimeString('12:00')).toMatchInlineSnapshot(`"12pm"`)
+  })
+
+  it('uses optional callbacks only for exact midnight and noon', () => {
+    expect(
+      getCompact12HourTimeString('00:00', {
+        onMidnightText: () => 'Midnight',
+        onNoonText: () => 'Noon',
+      }),
+    ).toMatchInlineSnapshot(`"Midnight"`)
+    expect(
+      getCompact12HourTimeString('12:00', {
+        onMidnightText: () => 'Midnight',
+        onNoonText: () => 'Noon',
+      }),
+    ).toMatchInlineSnapshot(`"Noon"`)
+    expect(
+      getCompact12HourTimeString('00:01', {
+        onMidnightText: () => 'Midnight',
+      }),
+    ).toMatchInlineSnapshot(`"12:01am"`)
+    expect(
+      getCompact12HourTimeString('12:30', {
+        onNoonText: () => 'Noon',
+      }),
+    ).toMatchInlineSnapshot(`"12:30pm"`)
+  })
+
+  it('throws for invalid time', () => {
+    expect(() => {
+      getCompact12HourTimeString('29:00')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid ISO time value. Expected from 00:00 to 23:59. Current value: '29:00'.]`,
     )

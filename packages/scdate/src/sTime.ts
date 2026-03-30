@@ -8,6 +8,22 @@ import {
 import { getTimeZonedDate } from './internal/zoned.js'
 
 /**
+ * Options for customizing the compact 12-hour time string representation.
+ */
+export interface STimeCompact12HourStringOptions {
+  /**
+   * Called when the time is exactly midnight (00:00). Return value replaces the
+   * default `12am` text.
+   */
+  onMidnightText?: () => string
+  /**
+   * Called when the time is exactly noon (12:00). Return value replaces the
+   * default `12pm` text.
+   */
+  onNoonText?: () => string
+}
+
+/**
  * --- Factory ---
  */
 
@@ -124,6 +140,36 @@ export const get12HourTimeString = (time: string | STime): string => {
   return `${get12HoursHoursStringFromTime(sTimeValue)}:${getMinutesStringFromTime(sTimeValue)} ${
     isTimePM(sTimeValue) ? 'PM' : 'AM'
   }`
+}
+
+/**
+ * Returns a compact 12-hour time string: lowercase `am`/`pm`, no space before
+ * the period, and minutes omitted when they are zero (e.g. `8am`, `11:45pm`).
+ *
+ * @param time The time to format. It can be an STime or a string in the HH:MM
+ * format.
+ * @param options Optional callbacks for exact midnight and noon.
+ */
+export const getCompact12HourTimeString = (
+  time: string | STime,
+  options?: STimeCompact12HourStringOptions,
+): string => {
+  const sTimeValue = sTime(time)
+
+  if (sTimeValue.time === '00:00' && options?.onMidnightText) {
+    return options.onMidnightText()
+  }
+
+  if (sTimeValue.time === '12:00' && options?.onNoonText) {
+    return options.onNoonText()
+  }
+
+  const minutes = getMinutesFromTime(sTimeValue)
+  const minutesPart =
+    minutes === 0 ? '' : `:${getMinutesStringFromTime(sTimeValue)}`
+  const period = isTimePM(sTimeValue) ? 'pm' : 'am'
+
+  return `${get12HoursHoursStringFromTime(sTimeValue)}${minutesPart}${period}`
 }
 
 /**

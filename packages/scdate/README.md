@@ -164,6 +164,11 @@ const totalMinutes = getTimeInMinutes(time1) // Get total minutes since midnight
 
 // Time formatting
 const timeString = get12HourTimeString(time1) // e.g., "2:30 PM"
+const compactTime = getCompact12HourTimeString(time1) // e.g., "2:30pm" (or "2pm" when minutes are zero)
+const compactLabeled = getCompact12HourTimeString(time1, {
+  onMidnightText: () => 'Midnight',
+  onNoonText: () => 'Noon',
+})
 const hoursString = get12HoursHoursStringFromTime(time1) // Get hours in 12-hour format (e.g., "2")
 const minutesString = getMinutesStringFromTime(time1) // Get minutes as 2-digit string (e.g., "30")
 
@@ -185,6 +190,8 @@ const isPM = isTimePM(time1)
 - **`isTimePM(time)`**: Hours from 12:00 to 23:59 are considered PM, while 00:00 to 11:59 are AM. 12:00 is considered PM, not AM.
 
 - **`get12HoursHoursStringFromTime(time)`**: Returns the hours component in 12-hour format as a string (1-12).
+
+- **`getCompact12HourTimeString(time, options?)`**: Returns a compact 12-hour string with lowercase `am`/`pm`, no space before the period, and minutes omitted when zero (e.g. `8am`, `11:45pm`). Optional `STimeCompact12HourStringOptions` (`onMidnightText` / `onNoonText`) replace the default for exact `00:00` and `12:00` only.
 
 - **`getMinutesStringFromTime(time)`**: Returns the minutes component as a zero-padded 2-digit string (00-59).
 
