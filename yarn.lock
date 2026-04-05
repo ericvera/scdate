@@ -539,7 +539,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.39.3"
     "@tsconfig/strictest": "npm:^2.0.8"
-    "@types/node": "npm:^24.11.0"
+    "@types/node": "npm:^25.3.2"
     eslint: "npm:^9.39.3"
     husky: "npm:^9.1.7"
     lint-staged: "npm:^16.3.0"
@@ -597,12 +597,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.11.0":
-  version: 24.11.0
-  resolution: "@types/node@npm:24.11.0"
+"@types/node@npm:^25.3.2":
+  version: 25.3.2
+  resolution: "@types/node@npm:25.3.2"
   dependencies:
-    undici-types: "npm:~7.16.0"
-  checksum: 10c0/4fb7390259e3b158d25dbecf52de8ce70fa18a4ed0949c9444bb6384517c361fa19781e6821ca8c18dc5f6af43eab72e9e159e07000e6b1286d082e8585d8c41
+    undici-types: "npm:~7.18.0"
+  checksum: 10c0/946c8758668762d3c3b475281b420e580d0ce828c6847534a822b92be791e23e5879b53001ea928e5352dec8908082d854b8076b7bcfc69549e23ad54b1f98ab
   languageName: node
   linkType: hard
 
@@ -2384,7 +2384,7 @@ __metadata:
     "@date-fns/utc": "npm:^2.1.1"
     "@eslint/js": "npm:^9.39.3"
     "@tsconfig/strictest": "npm:^2.0.8"
-    "@types/node": "npm:^24.11.0"
+    "@types/node": "npm:^25.3.2"
     date-fns: "npm:^4.1.0"
     date-fns-tz: "npm:^3.2.0"
     eslint: "npm:^9.39.3"
@@ -2400,7 +2400,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.39.3"
     "@tsconfig/strictest": "npm:^2.0.8"
-    "@types/node": "npm:^24.11.0"
+    "@types/node": "npm:^25.3.2"
     eslint: "npm:^9.39.3"
     scdate: "workspace:*"
     typescript: "npm:^5.9.3"
@@ -2675,10 +2675,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.16.0":
-  version: 7.16.0
-  resolution: "undici-types@npm:7.16.0"
-  checksum: 10c0/3033e2f2b5c9f1504bdc5934646cb54e37ecaca0f9249c983f7b1fc2e87c6d18399ebb05dc7fd5419e02b2e915f734d872a65da2e3eeed1813951c427d33cc9a
+"undici-types@npm:~7.18.0":
+  version: 7.18.2
+  resolution: "undici-types@npm:7.18.2"
+  checksum: 10c0/85a79189113a238959d7a647368e4f7c5559c3a404ebdb8fc4488145ce9426fcd82252a844a302798dfc0e37e6fb178ff481ed03bc4caf634c5757d9ef43521d
   languageName: node
   linkType: hard
 
