@@ -20,7 +20,7 @@ This monorepo contains the following packages:
 
 ## Requirements
 
-- Node.js >= 22
+- Node.js >= 24
 - TypeScript >= 5.0 (for TypeScript users)
 
 ## License

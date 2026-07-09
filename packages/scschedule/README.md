@@ -2,7 +2,7 @@
 
 **Schedule management library for time-based availability patterns**
 
-[![github license](https://img.shields.io/github/license/ericvera/scdate.svg?style=flat-square)](https://github.com/ericvera/scdate/blob/master/LICENSE)
+[![github license](https://img.shields.io/github/license/ericvera/scdate.svg?style=flat-square)](https://github.com/ericvera/scdate/blob/main/LICENSE)
 [![npm version](https://img.shields.io/npm/v/scschedule.svg?style=flat-square)](https://npmjs.org/package/scschedule)
 
 ## Overview
@@ -32,7 +32,7 @@ yarn add scschedule scdate
 
 ## Requirements
 
-- Node.js >= 22
+- Node.js >= 24
 - TypeScript >= 5.0 (for TypeScript users)
 
 ## Quick Start
@@ -672,9 +672,7 @@ import { Weekday } from 'scdate'
 
 This package depends on:
 
-- `scdate`: Core date and time handling library
-
-All of scdate's peer dependencies are also required.
+- `scdate`: Core date and time handling library (installed automatically as a direct dependency)
 
 ## License
 

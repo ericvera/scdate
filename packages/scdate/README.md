@@ -2,7 +2,7 @@
 
 **Date and time library for working with schedules**
 
-[![github license](https://img.shields.io/github/license/ericvera/scdate.svg?style=flat-square)](https://github.com/ericvera/scdate/blob/master/LICENSE)
+[![github license](https://img.shields.io/github/license/ericvera/scdate.svg?style=flat-square)](https://github.com/ericvera/scdate/blob/main/LICENSE)
 [![npm version](https://img.shields.io/npm/v/scdate.svg?style=flat-square)](https://npmjs.org/package/scdate)
 
 ## Overview
@@ -25,6 +25,11 @@ npm install scdate
 # or
 yarn add scdate
 ```
+
+## Requirements
+
+- Node.js >= 24
+- TypeScript >= 5.0 (for TypeScript users)
 
 ## Basic Usage
 
@@ -277,6 +282,9 @@ const toggled = toggleWeekdayInWeekdays(weekdays2, Weekday.Mon) // Toggle Monday
 const previousDay = getPreviousWeekday(Weekday.Mon) // Returns Weekday.Sun
 const nextDay = getNextWeekday(Weekday.Mon) // Returns Weekday.Tue
 
+// Converting a weekday index (0-6, Sunday to Saturday) to a Weekday flag
+const mondayFlag = DayToWeekday[1] // Weekday.Mon (e.g., from getWeekdayFromDate)
+
 // Weekday queries
 const includesMonday = doesWeekdaysIncludeWeekday(weekdays2, Weekday.Mon)
 const hasOverlap = doesWeekdaysHaveOverlapWithWeekdays(weekdays2, weekdays3)
@@ -299,8 +307,10 @@ const isEmpty = isWeekdaysEmpty(weekdays5) // true (no days)
 This package has the following dependencies:
 
 - `date-fns-tz`: Used for time zone calculations
-- `date-fns`: Peer dependency of `date-fns-tz`
+- `date-fns`: General date manipulation utilities (also satisfies the peer dependency of `date-fns-tz`)
 - `@date-fns/utc`: Used for its `UTCDateMini` implementation that simplifies time calculations
+
+All of these are direct dependencies and are installed automatically.
 
 ## Design Decisions
 
