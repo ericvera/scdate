@@ -1,13 +1,11 @@
 import {
   addDaysToDate,
-  getTimeAtMidnight,
+  doesWeekdaysIncludeWeekday,
   getWeekdayFromDate,
-  isSameTime,
   type SDate,
   type STime,
 } from 'scdate'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
-import { getEffectiveTimesForWeekday } from './internal/getEffectiveTimesForWeekday.js'
 import { isTimeInTimeRange } from './internal/isTimeInTimeRange.js'
 import type { Schedule, SDateString, STimeString } from './types.js'
 
@@ -15,9 +13,10 @@ import type { Schedule, SDateString, STimeString } from './types.js'
  * Returns true if the given date and time fall within overnight spillover from
  * the previous day's schedule.
  *
- * An overnight rule (where `to` < `from`, e.g. 22:00-02:00) spills into the
- * next calendar day. This function checks whether the given time on the given
- * date falls before that rule's `to` time — i.e., within the spillover window.
+ * An overnight rule (e.g. 22:00-02:00) spills into the next calendar day.
+ * This function checks whether the given time on the given date falls before
+ * that rule's `to` time — i.e., within the spillover window. Ranges ending at
+ * 00:00 stop exactly at midnight and have no spillover.
  *
  * Use this to determine whether modifying the previous day's schedule would
  * affect current availability. For example, a business owner wanting to close
@@ -35,22 +34,20 @@ export const isInOvernightSpillover = (
   time: STime | STimeString,
 ): boolean => {
   const previousDate = addDaysToDate(date, -1)
-  const currentWeekday = getWeekdayFromDate(date)
+  const previousWeekday = getWeekdayFromDate(previousDate)
   const previousResult = getApplicableRuleForDate(schedule, previousDate)
 
   if (previousResult.rules === true) {
     return false
   }
 
-  const midnight = getTimeAtMidnight()
-
   return previousResult.rules.some((rule) => {
-    const effectiveTimes = getEffectiveTimesForWeekday(rule, currentWeekday)
+    // Only rules that applied on the previous day can spill into this one
+    if (!doesWeekdaysIncludeWeekday(rule.weekdays, previousWeekday)) {
+      return false
+    }
 
-    const spilloverRanges = effectiveTimes.filter((range) =>
-      isSameTime(range.from, midnight),
-    )
-
-    return spilloverRanges.some((range) => isTimeInTimeRange(time, range, true))
+    // Check the next-day (spillover) portion of the rule's time range
+    return isTimeInTimeRange(time, rule, false)
   })
 }

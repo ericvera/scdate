@@ -60,13 +60,22 @@ export type SWeekdaysString = string
  * Defines a recurring weekly availability pattern. Specifies which days of the
  * week are available and what time range applies on those days. For split
  * shifts, use multiple rules with the same weekdays.
+ *
+ * Time ranges are half-open: `from` is inclusive and `to` is exclusive (the
+ * first unavailable minute). Adjacent ranges share a boundary (one rule's
+ * `to` equals the next rule's `from`).
  */
 export interface WeeklyScheduleRule {
   /** Days of the week this rule applies to */
   weekdays: SWeekdays | SWeekdaysString
   /** Start time of the range (inclusive). Ranges can cross midnight. */
   from: STime | STimeString
-  /** End time of the range (inclusive). Ranges can cross midnight. */
+  /**
+   * End time of the range (exclusive). A `to` of 00:00 means the range runs
+   * to the end of the day (e.g. 22:00-00:00 ends at midnight, 00:00-00:00 is
+   * a full day). Ranges with `from` after `to` cross midnight into the next
+   * day; `from` equal to `to` (other than 00:00) covers a full 24 hours.
+   */
   to: STime | STimeString
 }
 
@@ -117,7 +126,7 @@ export interface Schedule {
 export interface AvailabilityRange {
   /** Start of the availability period (inclusive) */
   from: STimestamp | STimestampString
-  /** End of the availability period (inclusive) */
+  /** End of the availability period (exclusive) */
   to: STimestamp | STimestampString
 }
 

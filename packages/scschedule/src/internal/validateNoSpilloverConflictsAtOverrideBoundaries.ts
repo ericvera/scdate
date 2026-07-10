@@ -5,10 +5,10 @@ import {
   sDate,
 } from 'scdate'
 import { ValidationIssue } from '../constants.js'
-import type { Schedule, ValidationError } from '../types.js'
-import { doTimeRangesOverlap } from './doTimeRangesOverlap.js'
 import { getApplicableRuleForDate } from '../getApplicableRuleForDate.js'
-import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
+import type { Schedule, ValidationError } from '../types.js'
+import { doMinuteIntervalsOverlap } from './doMinuteIntervalsOverlap.js'
+import { getMinuteIntervalsFromTimeRange } from './getMinuteIntervalsFromTimeRange.js'
 
 /**
  * Validates that cross-midnight spillover at override boundaries doesn't
@@ -58,13 +58,11 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
             return
           }
 
-          // Check for cross-midnight
-          const splitRanges = splitCrossMidnightTimeRange(previousDayRule)
+          // Check for cross-midnight spillover into the next day
+          const { nextDay: spilloverInterval } =
+            getMinuteIntervalsFromTimeRange(previousDayRule)
 
-          // If cross-midnight, splitRanges[1] is the spillover portion
-          if (splitRanges.length === 2 && splitRanges[1]) {
-            const spilloverRange = splitRanges[1]
-
+          if (spilloverInterval) {
             // Check if spillover conflicts with override first day's times
             override.rules.forEach((overrideRule, overrideRuleIndex) => {
               // Does first day match override rule's weekdays?
@@ -77,15 +75,15 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
                 return
               }
 
-              const overrideSplitRanges =
-                splitCrossMidnightTimeRange(overrideRule)
-
               // Check same-day portion of override time range
-              const overrideSameDayRange = overrideSplitRanges[0]
+              const { sameDay: overrideSameDayInterval } =
+                getMinuteIntervalsFromTimeRange(overrideRule)
 
               if (
-                overrideSameDayRange &&
-                doTimeRangesOverlap(spilloverRange, overrideSameDayRange)
+                doMinuteIntervalsOverlap(
+                  spilloverInterval,
+                  overrideSameDayInterval,
+                )
               ) {
                 // Use source information from getApplicableRuleForDate
                 if (previousDayResult.source === 'override') {
@@ -135,13 +133,11 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
         return
       }
 
-      // Check for cross-midnight
-      const splitRanges = splitCrossMidnightTimeRange(overrideRule)
+      // Check for cross-midnight spillover into the next day
+      const { nextDay: spilloverInterval } =
+        getMinuteIntervalsFromTimeRange(overrideRule)
 
-      // If cross-midnight, splitRanges[1] is the spillover portion
-      if (splitRanges.length === 2 && splitRanges[1]) {
-        const spilloverRange = splitRanges[1]
-
+      if (spilloverInterval) {
         // Get what rule applies to next day
         const nextDayResult = getApplicableRuleForDate(schedule, nextDate)
 
@@ -167,13 +163,12 @@ export const validateNoSpilloverConflictsAtOverrideBoundaries = (
             return
           }
 
-          const nextDaySplitRanges = splitCrossMidnightTimeRange(nextDayRule)
-
           // Check same-day portion of next day's time range
-          const nextDaySameDayRange = nextDaySplitRanges[0]
+          const { sameDay: nextDaySameDayInterval } =
+            getMinuteIntervalsFromTimeRange(nextDayRule)
+
           if (
-            nextDaySameDayRange &&
-            doTimeRangesOverlap(spilloverRange, nextDaySameDayRange)
+            doMinuteIntervalsOverlap(spilloverInterval, nextDaySameDayInterval)
           ) {
             // Use source information from getApplicableRuleForDate
             if (nextDayResult.source === 'override') {

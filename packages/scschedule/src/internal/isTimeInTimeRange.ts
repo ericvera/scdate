@@ -1,31 +1,29 @@
-import { isSameTimeOrAfter, isSameTimeOrBefore, type STime } from 'scdate'
+import { getTimeInMinutes, type STime } from 'scdate'
 import type { STimeString } from '../types.js'
+import { getMinuteIntervalsFromTimeRange } from './getMinuteIntervalsFromTimeRange.js'
 import type { TimeRange } from './types.js'
-import { splitCrossMidnightTimeRange } from './splitCrossMidnightTimeRange.js'
 
 /**
- * Checks if a time falls within a time range, with support for
- * cross-midnight ranges (next-day portion).
+ * Checks if a time falls within a time range (`from` inclusive, `to`
+ * exclusive), with support for cross-midnight ranges (next-day portion).
  */
 export const isTimeInTimeRange = (
   time: STime | STimeString,
   timeRange: TimeRange,
   onSameDay: boolean,
 ): boolean => {
-  const ranges = splitCrossMidnightTimeRange(timeRange)
+  const timeInMinutes = getTimeInMinutes(time)
 
-  // For same-day check, only check the first range
-  // For next-day check (cross-midnight spillover),
-  // only check the second range if it exists
-  const rangeToCheck = onSameDay ? ranges[0] : ranges[1]
+  const { sameDay, nextDay } = getMinuteIntervalsFromTimeRange(timeRange)
 
-  if (!rangeToCheck) {
+  // For same-day check, use the same-day interval
+  // For next-day check (cross-midnight spillover), use the next-day interval
+  // if it exists
+  const interval = onSameDay ? sameDay : nextDay
+
+  if (!interval) {
     return false
   }
 
-  // Check if time is within range (inclusive)
-  return (
-    isSameTimeOrAfter(time, rangeToCheck.from) &&
-    isSameTimeOrBefore(time, rangeToCheck.to)
-  )
+  return timeInMinutes >= interval.from && timeInMinutes < interval.to
 }

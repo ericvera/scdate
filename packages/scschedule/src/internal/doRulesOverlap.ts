@@ -1,6 +1,6 @@
 import { DayToWeekday, Weekday } from 'scdate'
 import type { WeeklyScheduleRule } from '../types.js'
-import { doTimeRangesOverlap } from './doTimeRangesOverlap.js'
+import { doMinuteIntervalsOverlap } from './doMinuteIntervalsOverlap.js'
 import { getEffectiveTimesForWeekday } from './getEffectiveTimesForWeekday.js'
 
 /**
@@ -26,10 +26,10 @@ export const doRulesOverlap = (
 
     // If both rules have times on this weekday, check for overlaps
     if (rule1Times.length > 0 && rule2Times.length > 0) {
-      // Check all pairs of time ranges
+      // Check all pairs of minute intervals
       for (const time1 of rule1Times) {
         for (const time2 of rule2Times) {
-          if (doTimeRangesOverlap(time1, time2)) {
+          if (doMinuteIntervalsOverlap(time1, time2)) {
             // Found an overlap - return the weekday
             return weekday
           }

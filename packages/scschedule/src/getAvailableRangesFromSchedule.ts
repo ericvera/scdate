@@ -3,11 +3,11 @@ import {
   doesWeekdaysIncludeWeekday,
   getTimestampFromDateAndTime,
   getWeekdayFromDate,
-  isAfterTime,
   isSameDateOrBefore,
   type SDate,
 } from 'scdate'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
+import { getRangeEndTimestamp } from './internal/getRangeEndTimestamp.js'
 import type { AvailabilityRange, Schedule } from './types.js'
 
 /**
@@ -15,9 +15,10 @@ import type { AvailabilityRange, Schedule } from './types.js'
  * date range.
  *
  * Iterates day-by-day from startDate to endDate (inclusive). For each day,
- * when rules are `true` (always available), emits a full-day range
- * (00:00-23:59). Otherwise, emits each matching time range, including
- * cross-midnight ranges that extend into the next day.
+ * when rules are `true` (always available), emits a full-day range (00:00 up
+ * to the next day's 00:00). Otherwise, emits each matching time range,
+ * including cross-midnight ranges that extend into the next day. Range ends
+ * are exclusive.
  *
  * @param schedule The schedule to get availability from.
  * @param startDate The start of the date range (inclusive).
@@ -42,7 +43,7 @@ export const getAvailableRangesFromSchedule = (
     if (rules === true) {
       ranges.push({
         from: getTimestampFromDateAndTime(currentDate, '00:00'),
-        to: getTimestampFromDateAndTime(currentDate, '23:59'),
+        to: getTimestampFromDateAndTime(addDaysToDate(currentDate, 1), '00:00'),
       })
 
       currentDate = addDaysToDate(currentDate, 1)
@@ -57,16 +58,9 @@ export const getAvailableRangesFromSchedule = (
         continue
       }
 
-      // Handle cross-midnight ranges (from > to means it crosses midnight)
-      const isCrossMidnight = isAfterTime(rule.from, rule.to)
-      const rangeStart = getTimestampFromDateAndTime(currentDate, rule.from)
-      const rangeEnd = isCrossMidnight
-        ? getTimestampFromDateAndTime(addDaysToDate(currentDate, 1), rule.to)
-        : getTimestampFromDateAndTime(currentDate, rule.to)
-
       ranges.push({
-        from: rangeStart,
-        to: rangeEnd,
+        from: getTimestampFromDateAndTime(currentDate, rule.from),
+        to: getRangeEndTimestamp(currentDate, rule),
       })
     }
 

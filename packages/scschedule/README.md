@@ -17,8 +17,7 @@ scschedule is a TypeScript library for managing time-based availability patterns
 - **Override system**: Add exceptions for holidays, special events, or schedule changes
 - **Cross-midnight support**: Handle time ranges that span midnight (e.g., 22:00-02:00)
 - **Layered schedules**: Combine multiple schedules by intersection (e.g., business hours + item-specific restrictions) and query combined availability
-- **Time zone aware**: Time zone passed at the call site where needed (DST-safe arithmetic)
-- **DST handling**: Properly handles daylight saving time transitions
+- **Half-open ranges**: `from` is inclusive, `to` is exclusive — matching the convention used by iCalendar, spatie/opening-hours, and Luxon intervals
 - **Immutable**: All operations return new instances
 - **Type-safe validation**: Discriminated union errors with detailed information
 - **Tree-shakeable**: Each function in its own file for optimal bundling
@@ -35,6 +34,10 @@ yarn add scschedule scdate
 
 - Node.js >= 24
 - TypeScript >= 5.0 (for TypeScript users)
+
+## Migrating from v5
+
+v6 changes time ranges to half-open (`to` is exclusive), replaces `getNextUnavailableFromSchedule` with availability-range queries, and drops the `timeZone` parameter. See [MIGRATION-V6.md](https://github.com/ericvera/scdate/blob/main/packages/scschedule/MIGRATION-V6.md) for the breaking changes and the stored-data migration checklist.
 
 ## Quick Start
 
@@ -99,10 +102,18 @@ Define recurring availability patterns for specific days of the week:
 ```typescript
 interface WeeklyScheduleRule {
   weekdays: SWeekdays // e.g., 'SMTWTFS' or '-MTWTF-'
-  from: STime // e.g., '09:00'
-  to: STime // e.g., '17:00'
+  from: STime // e.g., '09:00' (inclusive)
+  to: STime // e.g., '17:00' (exclusive)
 }
 ```
+
+**Time range semantics** — ranges are half-open (`from` inclusive, `to` exclusive):
+
+- `09:00`–`17:00` is available from 09:00 up to, but not including, 17:00
+- Adjacent ranges share a boundary: `09:00`–`12:00` and `12:00`–`17:00` form one contiguous period with no gap and no overlap
+- A `to` of `00:00` means "until the end of the day": `22:00`–`00:00` ends exactly at midnight
+- `00:00`–`00:00` is a full day
+- `from` after `to` crosses midnight into the next day (e.g., `22:00`–`02:00`); `from` equal to `to` (other than `00:00`) covers a full 24 hours
 
 ### Override Rules
 
@@ -152,17 +163,6 @@ const closedToday: Schedule = {
 A frozen schedule that is never available (`{ weekly: [] }`). Spread it to open specific windows via overrides.
 
 ### Validation
-
-#### `isValidTimeZone(timeZone: string): boolean`
-
-Re-exported from `scdate`. Checks if a string is a valid IANA time zone identifier (using `Intl.supportedValuesOf('timeZone')`).
-
-```typescript
-import { isValidTimeZone } from 'scschedule' // or from 'scdate'
-
-isValidTimeZone('America/New_York') // true
-isValidTimeZone('Invalid/Timezone') // false
-```
 
 #### `validateSchedule(schedule: Schedule): ValidationResult`
 
@@ -265,21 +265,23 @@ if (nextOpen) {
 }
 ```
 
-#### `getNextUnavailableFromSchedule(schedule: Schedule, timeZone: string, fromTimestamp: STimestamp | string, maxDaysToSearch: number): STimestamp | undefined`
+#### `getNextAvailabilityRangeFromSchedule(schedule: Schedule, fromTimestamp: STimestamp | string, maxDaysToSearch: number): NextAvailabilityRangeFromScheduleResult`
 
-Find the next unavailable timestamp from a given time. Requires a time zone for DST-safe timestamp arithmetic. Searches up to `maxDaysToSearch` days forward.
+Find the availability range containing the given timestamp, or the next one to begin. One call answers "available now?" (`available`), "when next?" (`range.from`), and "until when?" (`range.to`). The range's `to` is exclusive — the first unavailable instant — and is `undefined` when availability does not end within the search window (e.g. `weekly: true` with no closing override). Adjacent ranges chain into one contiguous period. `range` is `undefined` when there is no availability within the search window.
 
 ```typescript
-import { getNextUnavailableFromSchedule } from 'scschedule'
+import { getNextAvailabilityRangeFromSchedule } from 'scschedule'
 
-const nextClosed = getNextUnavailableFromSchedule(
+const { available, range } = getNextAvailabilityRangeFromSchedule(
   restaurant,
-  'America/Puerto_Rico',
   now,
   30,
 )
-if (nextClosed) {
-  console.log(`Closes at: ${nextClosed.timestamp}`)
+
+if (available && range) {
+  console.log(`Open until ${range.to?.timestamp}`)
+} else if (range) {
+  console.log(`Opens at ${range.from.timestamp}`)
 }
 ```
 
@@ -339,40 +341,25 @@ if (blocking.length === 0) {
 }
 ```
 
-#### `getNextAvailableFromSchedules(schedules: Schedule[], fromTimestamp: STimestamp | string, maxDaysToSearch: number): NextAvailableFromSchedulesResult`
+#### `getNextAvailabilityRangeFromSchedules(schedules: Schedule[], fromTimestamp: STimestamp | string, maxDaysToSearch: number): NextAvailabilityRangeFromSchedulesResult`
 
-Find the next timestamp at which every schedule is available. The result also includes the indexes of the schedules unavailable at `fromTimestamp`, explaining why availability is blocked now.
+Find the availability range of the intersection of the schedules — containing the given timestamp, or the next one to begin. The combined availability starts when the last schedule opens and ends as soon as any one schedule closes. The result also includes whether everything is available at `fromTimestamp` (`available`) and the indexes of the schedules unavailable at `fromTimestamp`, explaining why availability is blocked now.
 
 ```typescript
-import { getNextAvailableFromSchedules } from 'scschedule'
+import { getNextAvailabilityRangeFromSchedules } from 'scschedule'
 
-const { timestamp, unavailableScheduleIndexes } = getNextAvailableFromSchedules(
-  [restaurant, menuItem],
-  now,
-  30,
-)
+const { available, range, unavailableScheduleIndexes } =
+  getNextAvailabilityRangeFromSchedules([restaurant, menuItem], now, 30)
 
-if (timestamp) {
-  console.log(`Available at: ${timestamp.timestamp}`)
+if (available && range) {
+  console.log(`Available until ${range.to?.timestamp}`)
+} else if (range) {
+  // e.g. "Back Monday at 11:00" — unavailableScheduleIndexes says why
+  console.log(`Available ${range.from.timestamp} until ${range.to?.timestamp}`)
 }
 ```
 
-#### `getNextUnavailableFromSchedules(schedules: Schedule[], timeZone: string, fromTimestamp: STimestamp | string, maxDaysToSearch: number): NextUnavailableFromSchedulesResult`
-
-Find the next timestamp at which any schedule becomes unavailable (the end of the combined availability). The result also includes the indexes of the schedules that are unavailable at that timestamp — the schedules that end the availability. Pairs with `getNextAvailableFromSchedules` to answer "available Monday from 11:00 until 14:00".
-
-```typescript
-import { getNextUnavailableFromSchedules } from 'scschedule'
-
-const { timestamp, unavailableScheduleIndexes } =
-  getNextUnavailableFromSchedules(
-    [restaurant, menuItem],
-    'America/Puerto_Rico',
-    now,
-    30,
-  )
-// unavailableScheduleIndexes: [0] = restaurant closes, [1] = item window ends
-```
+To find out which schedule ends the availability, call `getUnavailableScheduleIndexes` with `range.to` — it is the first unavailable instant.
 
 #### `getApplicableRuleForDate(schedule: Schedule, date: SDate | SDateString): ApplicableRule`
 
@@ -520,10 +507,12 @@ const lateNightBar: Schedule = {
 }
 
 // This means:
-// - Thursday: 20:00-23:59, Friday: 00:00-03:00
-// - Friday: 20:00-23:59, Saturday: 00:00-03:00
-// - Saturday: 20:00-23:59, Sunday: 00:00-03:00
+// - Thursday 20:00 until Friday 03:00
+// - Friday 20:00 until Saturday 03:00
+// - Saturday 20:00 until Sunday 03:00
 ```
+
+To end exactly at midnight, use a `to` of `00:00` (e.g., `18:00`–`00:00`) — no spillover into the next day.
 
 ### Always Available (`weekly: true`)
 
@@ -580,8 +569,7 @@ const popUpShop: Schedule = {
 ```typescript
 import {
   areSchedulesAvailable,
-  getNextAvailableFromSchedules,
-  getNextUnavailableFromSchedules,
+  getNextAvailabilityRangeFromSchedules,
 } from 'scschedule'
 
 const businessHours: Schedule = {
@@ -600,31 +588,27 @@ const mondaySpecial: Schedule = {
     {
       weekdays: sWeekdays('-M-----'),
       from: sTime('00:00'),
-      to: sTime('23:59'),
+      to: sTime('00:00'), // full day
     },
   ],
 }
 
-// All schedules must be available (intersection)
-const canOrder = areSchedulesAvailable([businessHours, mondaySpecial], now)
+// One call answers: available now? why not? when next? until when?
+const { available, range, unavailableScheduleIndexes } =
+  getNextAvailabilityRangeFromSchedules([businessHours, mondaySpecial], now, 30)
 
-if (!canOrder) {
-  // When is it available next, and what is blocking it right now?
-  const { timestamp, unavailableScheduleIndexes } =
-    getNextAvailableFromSchedules([businessHours, mondaySpecial], now, 30)
+// unavailableScheduleIndexes: [0] = location closed, [1] = item restricted
 
-  // unavailableScheduleIndexes: [0] = location closed, [1] = item restricted
-
-  if (timestamp) {
-    // ...and until when? (e.g. "Available Monday 11:00 until 22:01")
-    const { timestamp: until } = getNextUnavailableFromSchedules(
-      [businessHours, mondaySpecial],
-      'America/Puerto_Rico',
-      timestamp,
-      30,
-    )
-  }
+if (available && range) {
+  // e.g. "Available until 22:00"
+  console.log(`Available until ${range.to?.timestamp}`)
+} else if (range) {
+  // e.g. "Back Monday at 11:00"
+  console.log(`Back at ${range.from.timestamp}`)
 }
+
+// For a boolean-only check, use areSchedulesAvailable
+const canOrder = areSchedulesAvailable([businessHours, mondaySpecial], now)
 ```
 
 ## Validation Error Types
@@ -741,18 +725,16 @@ type ValidationError =
 3. **Use specific date ranges** for overrides when possible - indefinite overrides are useful for permanent schedule changes
 4. **When using multiple indefinite overrides**, remember that the most recent one (latest `from` date) takes precedence
 5. **Test cross-midnight ranges** thoroughly if your schedule uses them
-6. **Validate time zones** separately using `isValidTimeZone()` before passing them to functions that require one
-7. **Handle DST transitions** by testing schedules during spring forward and fall back
 
 ## Edge Cases
 
-### DST Transitions
+### Time Zones and DST
 
-The library handles DST transitions using scdate's time zone functions. Times that fall in "missing hours" (spring forward) are treated as unavailable.
+Schedules are wall-clock definitions: all queries compare wall-clock timestamps, so no scschedule function takes a time zone. Time zones enter the picture only when producing the query timestamp (e.g., `getTimestampNow(timeZone)` from scdate). Because evaluation is purely wall-clock, DST transitions do not affect schedule queries: a wall-clock time that occurs twice (fall back) or is skipped (spring forward) is compared like any other time.
 
 ### Cross-Midnight Ranges
 
-Time ranges that cross midnight (e.g., `22:00-02:00`) are split internally and always spill into the next calendar day, regardless of whether that day is in the weekdays pattern.
+Time ranges that cross midnight (e.g., `22:00-02:00`) are split internally and always spill into the next calendar day, regardless of whether that day is in the weekdays pattern. Ranges ending at `00:00` stop exactly at midnight and do not spill.
 
 ### Overlapping Overrides
 
@@ -769,6 +751,9 @@ import type {
   WeeklyScheduleRule,
   OverrideScheduleRule,
   AvailabilityRange,
+  NextAvailabilityRange,
+  NextAvailabilityRangeFromScheduleResult,
+  NextAvailabilityRangeFromSchedulesResult,
   ValidationError,
   ValidationResult,
   RuleLocation,

@@ -21,7 +21,7 @@ const mondaysOnlySchedule: Schedule = {
     {
       weekdays: sWeekdays('-M-----'),
       from: sTime('00:00'),
-      to: sTime('23:59'),
+      to: sTime('00:00'),
     },
   ],
 }

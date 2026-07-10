@@ -2,13 +2,15 @@
 export type * from './types.js'
 
 // Internal utility functions
+export * from './doMinuteIntervalsOverlap.js'
 export * from './doOverridesOverlap.js'
 export * from './doRulesOverlap.js'
-export * from './doTimeRangesOverlap.js'
+export * from './getAvailabilityRangeEnd.js'
 export * from './getEffectiveTimesForWeekday.js'
+export * from './getMinuteIntervalsFromTimeRange.js'
+export * from './getRangeEndTimestamp.js'
 export * from './isTimeInTimeRange.js'
 export * from './normalizeScheduleForValidation.js'
-export * from './splitCrossMidnightTimeRange.js'
 
 // Internal validation helpers
 export * from './validateNoEmptyWeekdays.js'

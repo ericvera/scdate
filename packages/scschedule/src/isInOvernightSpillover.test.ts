@@ -70,7 +70,7 @@ it('returns false when time is in same-day portion of overnight rule', () => {
   ).toBe(false)
 })
 
-it('returns true at spillover boundary (inclusive)', () => {
+it('returns false at spillover boundary (exclusive)', () => {
   const schedule: Schedule = {
     weekly: [
       {
@@ -81,9 +81,25 @@ it('returns true at spillover boundary (inclusive)', () => {
     ],
   }
 
-  // Friday 02:00 is the inclusive end of spillover
+  // Friday 02:00 is the exclusive end of spillover
   expect(
     isInOvernightSpillover(schedule, sDate('2025-01-10'), sTime('02:00')),
+  ).toBe(false)
+})
+
+it('returns true for the last minute of spillover', () => {
+  const schedule: Schedule = {
+    weekly: [
+      {
+        weekdays: sWeekdays('----TFS'),
+        from: sTime('20:00'),
+        to: sTime('02:00'),
+      },
+    ],
+  }
+
+  expect(
+    isInOvernightSpillover(schedule, sDate('2025-01-10'), sTime('01:59')),
   ).toBe(true)
 })
 
