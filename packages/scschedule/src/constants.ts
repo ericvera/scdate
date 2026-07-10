@@ -1,3 +1,26 @@
+import type { Schedule, WeeklyScheduleRule } from './types.js'
+
+/**
+ * Schedule that is always available (24/7). The identity for layered
+ * schedules: combining it with other schedules restricts nothing. Frozen —
+ * extend it by spreading (e.g.
+ * `{ ...AlwaysAvailableSchedule, overrides: [...] }`).
+ */
+export const AlwaysAvailableSchedule: Schedule = Object.freeze<Schedule>({
+  weekly: true,
+})
+
+/**
+ * Schedule that is never available. Frozen — extend it by spreading (e.g.
+ * `{ ...NeverAvailableSchedule, overrides: [...] }` to open specific
+ * windows).
+ */
+const neverAvailableRules: WeeklyScheduleRule[] = []
+
+export const NeverAvailableSchedule: Schedule = Object.freeze<Schedule>({
+  weekly: Object.freeze(neverAvailableRules) as WeeklyScheduleRule[],
+})
+
 /**
  * Enumeration of all possible validation issues that can occur when validating
  * a schedule. Used in ValidationError to identify the specific type of

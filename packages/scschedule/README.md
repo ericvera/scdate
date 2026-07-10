@@ -16,6 +16,7 @@ scschedule is a TypeScript library for managing time-based availability patterns
 - **Recurring patterns**: Define weekly schedules with different hours for different days
 - **Override system**: Add exceptions for holidays, special events, or schedule changes
 - **Cross-midnight support**: Handle time ranges that span midnight (e.g., 22:00-02:00)
+- **Layered schedules**: Combine multiple schedules by intersection (e.g., business hours + item-specific restrictions) and query combined availability
 - **Time zone aware**: Time zone passed at the call site where needed (DST-safe arithmetic)
 - **DST handling**: Properly handles daylight saving time transitions
 - **Immutable**: All operations return new instances
@@ -130,6 +131,25 @@ Rules are evaluated in order of priority:
 3. **Weekly rules** - lowest priority (base schedule)
 
 ## API Reference
+
+### Constants
+
+#### `AlwaysAvailableSchedule: Schedule`
+
+A frozen schedule that is always available (`{ weekly: true }`). The identity for layered schedules: combining it with other schedules restricts nothing. Spread it to add overrides:
+
+```typescript
+import { AlwaysAvailableSchedule } from 'scschedule'
+
+const closedToday: Schedule = {
+  ...AlwaysAvailableSchedule,
+  overrides: [{ from: today, to: today, rules: [] }],
+}
+```
+
+#### `NeverAvailableSchedule: Schedule`
+
+A frozen schedule that is never available (`{ weekly: [] }`). Spread it to open specific windows via overrides.
 
 ### Validation
 
@@ -280,6 +300,78 @@ const ranges = getAvailableRangesFromSchedule(
 ranges.forEach((range) => {
   console.log(`Available: ${range.from.timestamp} to ${range.to.timestamp}`)
 })
+```
+
+### Multi-Schedule Queries (Layered Availability)
+
+Layered schedules combine by intersection: something is available only when every schedule in the list is available (e.g., a menu item is orderable only while the restaurant is open AND the item's own schedule allows it). Order does not affect the result, but the indexes reported by these functions refer to positions in the array, so a stable convention (e.g., index 0 = restaurant hours) makes results easy to interpret. `AlwaysAvailableSchedule` (`{ weekly: true }`) is the identity: it restricts nothing.
+
+#### `areSchedulesAvailable(schedules: Schedule[], timestamp: STimestamp | string): boolean`
+
+Check if all schedules are available at a specific time.
+
+```typescript
+import { areSchedulesAvailable } from 'scschedule'
+
+const canOrder = areSchedulesAvailable([restaurant, menuItem], now)
+```
+
+#### `getUnavailableScheduleIndexes(schedules: Schedule[], timestamp: STimestamp | string): number[]`
+
+Returns the indexes of the schedules that are unavailable at a specific time. Empty when everything is available — useful for explaining _why_ something is unavailable at any point in time, without paying for a forward search.
+
+```typescript
+import { getUnavailableScheduleIndexes } from 'scschedule'
+import { sTimestamp } from 'scdate'
+
+// A customer wants to schedule a pickup for Saturday at 18:00
+const blocking = getUnavailableScheduleIndexes(
+  [restaurant, menuItem],
+  sTimestamp('2025-01-11T18:00'),
+)
+
+if (blocking.length === 0) {
+  // Pickup time works
+} else if (blocking.includes(0)) {
+  // "The restaurant is closed at that time"
+} else {
+  // "This item is not offered at that time"
+}
+```
+
+#### `getNextAvailableFromSchedules(schedules: Schedule[], fromTimestamp: STimestamp | string, maxDaysToSearch: number): NextAvailableFromSchedulesResult`
+
+Find the next timestamp at which every schedule is available. The result also includes the indexes of the schedules unavailable at `fromTimestamp`, explaining why availability is blocked now.
+
+```typescript
+import { getNextAvailableFromSchedules } from 'scschedule'
+
+const { timestamp, unavailableScheduleIndexes } = getNextAvailableFromSchedules(
+  [restaurant, menuItem],
+  now,
+  30,
+)
+
+if (timestamp) {
+  console.log(`Available at: ${timestamp.timestamp}`)
+}
+```
+
+#### `getNextUnavailableFromSchedules(schedules: Schedule[], timeZone: string, fromTimestamp: STimestamp | string, maxDaysToSearch: number): NextUnavailableFromSchedulesResult`
+
+Find the next timestamp at which any schedule becomes unavailable (the end of the combined availability). The result also includes the indexes of the schedules that are unavailable at that timestamp — the schedules that end the availability. Pairs with `getNextAvailableFromSchedules` to answer "available Monday from 11:00 until 14:00".
+
+```typescript
+import { getNextUnavailableFromSchedules } from 'scschedule'
+
+const { timestamp, unavailableScheduleIndexes } =
+  getNextUnavailableFromSchedules(
+    [restaurant, menuItem],
+    'America/Puerto_Rico',
+    now,
+    30,
+  )
+// unavailableScheduleIndexes: [0] = restaurant closes, [1] = item window ends
 ```
 
 #### `getApplicableRuleForDate(schedule: Schedule, date: SDate | SDateString): ApplicableRule`
@@ -435,12 +527,17 @@ const lateNightBar: Schedule = {
 
 ### Always Available (`weekly: true`)
 
-Use `weekly: true` when an entity is available 24/7 by default. This is useful for items that inherit availability from a parent schedule (e.g., menu items that go through the restaurant's schedule filter first).
+Use `weekly: true` when an entity is available 24/7 by default. This is useful for items that inherit availability from a parent schedule (e.g., menu items that go through the restaurant's schedule filter first). The `AlwaysAvailableSchedule` constant provides this schedule ready-made; spread it to add overrides.
 
 ```typescript
+import { AlwaysAvailableSchedule } from 'scschedule'
+
 // Menu item available 24/7 (restaurant hours handle the filtering)
-const menuItem: Schedule = {
-  weekly: true,
+const menuItem: Schedule = AlwaysAvailableSchedule
+
+// Same, but with an exception
+const seasonalItem: Schedule = {
+  ...AlwaysAvailableSchedule,
   overrides: [
     {
       // Except Christmas Day
@@ -454,12 +551,14 @@ const menuItem: Schedule = {
 
 ### Closed by Default (`weekly: []`)
 
-Use `weekly: []` when an entity is unavailable by default and only opens during specific override periods.
+Use `weekly: []` when an entity is unavailable by default and only opens during specific override periods. The `NeverAvailableSchedule` constant provides this schedule ready-made; spread it to add overrides.
 
 ```typescript
+import { NeverAvailableSchedule } from 'scschedule'
+
 // Pop-up shop: closed by default, open only during specific events
 const popUpShop: Schedule = {
-  weekly: [],
+  ...NeverAvailableSchedule,
   overrides: [
     {
       from: sDate('2025-12-20'),
@@ -479,7 +578,11 @@ const popUpShop: Schedule = {
 ### Multiple Schedules (Layered Availability)
 
 ```typescript
-import { isScheduleAvailable } from 'scschedule'
+import {
+  areSchedulesAvailable,
+  getNextAvailableFromSchedules,
+  getNextUnavailableFromSchedules,
+} from 'scschedule'
 
 const businessHours: Schedule = {
   weekly: [
@@ -491,15 +594,37 @@ const businessHours: Schedule = {
   ],
 }
 
-// Menu available 24/7 — restaurant hours do the filtering
-const breakfastMenu: Schedule = {
-  weekly: true,
+// Item only available Mondays — business hours do the rest of the filtering
+const mondaySpecial: Schedule = {
+  weekly: [
+    {
+      weekdays: sWeekdays('-M-----'),
+      from: sTime('00:00'),
+      to: sTime('23:59'),
+    },
+  ],
 }
 
-// Both must be available
-const canOrderBreakfast =
-  isScheduleAvailable(businessHours, timestamp) &&
-  isScheduleAvailable(breakfastMenu, timestamp)
+// All schedules must be available (intersection)
+const canOrder = areSchedulesAvailable([businessHours, mondaySpecial], now)
+
+if (!canOrder) {
+  // When is it available next, and what is blocking it right now?
+  const { timestamp, unavailableScheduleIndexes } =
+    getNextAvailableFromSchedules([businessHours, mondaySpecial], now, 30)
+
+  // unavailableScheduleIndexes: [0] = location closed, [1] = item restricted
+
+  if (timestamp) {
+    // ...and until when? (e.g. "Available Monday 11:00 until 22:01")
+    const { timestamp: until } = getNextUnavailableFromSchedules(
+      [businessHours, mondaySpecial],
+      'America/Puerto_Rico',
+      timestamp,
+      30,
+    )
+  }
+}
 ```
 
 ## Validation Error Types

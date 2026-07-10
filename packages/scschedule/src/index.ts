@@ -21,3 +21,9 @@ export * from './getNextAvailableFromSchedule.js'
 export * from './getNextUnavailableFromSchedule.js'
 export * from './isInOvernightSpillover.js'
 export * from './isScheduleAvailable.js'
+
+// Export multi-schedule (layered availability) query functions
+export * from './areSchedulesAvailable.js'
+export * from './getNextAvailableFromSchedules.js'
+export * from './getNextUnavailableFromSchedules.js'
+export * from './getUnavailableScheduleIndexes.js'
