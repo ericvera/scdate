@@ -6,8 +6,8 @@ import {
   getWeekdayFromDate,
   isAfterTimestamp,
   isBeforeTimestamp,
-  type STimestamp,
 } from 'scdate'
+import type { STimestamp } from 'scdate'
 import { getApplicableRuleForDate } from '../getApplicableRuleForDate.js'
 import { isScheduleAvailable } from '../isScheduleAvailable.js'
 import type { Schedule } from '../types.js'

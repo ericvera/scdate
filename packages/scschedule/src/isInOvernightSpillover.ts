@@ -2,12 +2,11 @@ import {
   addDaysToDate,
   doesWeekdaysIncludeWeekday,
   getWeekdayFromDate,
-  type SDate,
-  type STime,
 } from 'scdate'
+import type { SDate, SDateString, STime, STimeString } from 'scdate'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 import { isTimeInTimeRange } from './internal/isTimeInTimeRange.js'
-import type { Schedule, SDateString, STimeString } from './types.js'
+import type { Schedule } from './types.js'
 
 /**
  * Returns true if the given date and time fall within overnight spillover from

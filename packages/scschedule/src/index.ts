@@ -1,5 +1,14 @@
 // Re-export scdate types for convenience
-export type { SDate, STime, STimestamp, SWeekdays } from 'scdate'
+export type {
+  SDate,
+  SDateString,
+  STime,
+  STimeString,
+  STimestamp,
+  STimestampString,
+  SWeekdays,
+  SWeekdaysString,
+} from 'scdate'
 
 // Export constants
 export * from './constants.js'

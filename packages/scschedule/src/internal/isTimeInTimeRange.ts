@@ -1,5 +1,5 @@
-import { getTimeInMinutes, type STime } from 'scdate'
-import type { STimeString } from '../types.js'
+import { getTimeInMinutes } from 'scdate'
+import type { STime, STimeString } from 'scdate'
 import { getMinuteIntervalsFromTimeRange } from './getMinuteIntervalsFromTimeRange.js'
 import type { TimeRange } from './types.js'
 

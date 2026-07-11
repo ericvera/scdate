@@ -15,6 +15,7 @@ import {
 import { getTimeZonedDate } from './internal/zoned.js'
 import { getShortDateString, sDate } from './sDate.js'
 import { get12HourTimeString, sTime } from './sTime.js'
+import type { SDateString, STimeString, STimestampString } from './types.js'
 
 /**
  * Options for customizing the short timestamp string representation.
@@ -38,7 +39,9 @@ export interface STimestampShortStringOptions {
  * @param timestamp An instance of STimestamp or a string in the
  * YYYY-MM-DDTHH:MM format.
  */
-export const sTimestamp = (timestamp: string | STimestamp): STimestamp => {
+export const sTimestamp = (
+  timestamp: STimestampString | STimestamp,
+): STimestamp => {
   if (timestamp instanceof STimestamp) {
     return timestamp
   }
@@ -89,8 +92,8 @@ export const getTimestampNow = (timeZone: string): STimestamp => {
  * or a string in the HH:MM format.
  */
 export const getTimestampFromDateAndTime = (
-  date: string | SDate,
-  time: string | STime,
+  date: SDateString | SDate,
+  time: STimeString | STime,
 ): STimestamp => {
   const sDateValue = sDate(date)
   const sTimeValue = sTime(time)
@@ -115,7 +118,7 @@ export const getTimestampFromDateAndTime = (
  * of valid time zones.
  */
 export const getUTCMillisecondsFromTimestamp = (
-  timestamp: string | STimestamp,
+  timestamp: STimestampString | STimestamp,
   timeZone: string,
 ): number => {
   const sTimestampValue = sTimestamp(timestamp)
@@ -139,7 +142,7 @@ export const getUTCMillisecondsFromTimestamp = (
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getTimeZonedDateFromTimestamp = (
-  timestamp: string | STimestamp,
+  timestamp: STimestampString | STimestamp,
   timeZone: string,
 ): Date => {
   const sTimestampValue = sTimestamp(timestamp)
@@ -214,7 +217,7 @@ export const getTimeZonedDateFromTimestamp = (
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getSecondsToTimestamp = (
-  timestamp: string | STimestamp,
+  timestamp: STimestampString | STimestamp,
   timeZone: string,
 ): number => {
   const sTimestampValue = sTimestamp(timestamp)
@@ -236,7 +239,9 @@ export const getSecondsToTimestamp = (
  * @param timestamp The timestamp to get the date from. It can be an STimestamp
  * or a string in the YYYY-MM-DDTHH:MM format.
  */
-export const getDateFromTimestamp = (timestamp: string | STimestamp): SDate => {
+export const getDateFromTimestamp = (
+  timestamp: STimestampString | STimestamp,
+): SDate => {
   const sTimestampValue = sTimestamp(timestamp)
 
   return sDate(getISODateFromISOTimestamp(sTimestampValue.timestamp))
@@ -248,7 +253,9 @@ export const getDateFromTimestamp = (timestamp: string | STimestamp): SDate => {
  * @param timestamp The timestamp to get the time from. It can be an STimestamp
  * or a string in the YYYY-MM-DDTHH:MM format.
  */
-export const getTimeFromTimestamp = (timestamp: string | STimestamp): STime => {
+export const getTimeFromTimestamp = (
+  timestamp: STimestampString | STimestamp,
+): STime => {
   const sTimestampValue = sTimestamp(timestamp)
 
   return sTime(getISOTimeFromISOTimestamp(sTimestampValue.timestamp))
@@ -287,7 +294,7 @@ export const getTimeFromTimestamp = (timestamp: string | STimestamp): STime => {
  * ```
  */
 export const getShortTimestampString = (
-  timestamp: string | STimestamp,
+  timestamp: STimestampString | STimestamp,
   timeZone: string,
   locale: Intl.LocalesArgument,
   options: STimestampShortStringOptions,
@@ -319,7 +326,7 @@ export const getShortTimestampString = (
  * @param days The number of days to add to the timestamp.
  */
 export const addDaysToTimestamp = (
-  timestamp: string | STimestamp,
+  timestamp: STimestampString | STimestamp,
   days: number,
 ): STimestamp => {
   const sTimestampValue = sTimestamp(timestamp)
@@ -403,7 +410,7 @@ export const addDaysToTimestamp = (
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const addMinutesToTimestamp = (
-  timestamp: string | STimestamp,
+  timestamp: STimestampString | STimestamp,
   minutes: number,
   timeZone: string,
 ): STimestamp => {
@@ -435,8 +442,8 @@ export const addMinutesToTimestamp = (
  * a string in the YYYY-MM-DDTHH:MM format.
  */
 export const isSameTimestamp = (
-  timestamp1: string | STimestamp,
-  timestamp2: string | STimestamp,
+  timestamp1: STimestampString | STimestamp,
+  timestamp2: STimestampString | STimestamp,
 ): boolean => {
   const sTimestamp1 = sTimestamp(timestamp1)
   const sTimestamp2 = sTimestamp(timestamp2)
@@ -454,8 +461,8 @@ export const isSameTimestamp = (
  * a string in the YYYY-MM-DDTHH:MM format.
  */
 export const isBeforeTimestamp = (
-  timestamp1: string | STimestamp,
-  timestamp2: string | STimestamp,
+  timestamp1: STimestampString | STimestamp,
+  timestamp2: STimestampString | STimestamp,
 ): boolean => {
   const sTimestamp1 = sTimestamp(timestamp1)
   const sTimestamp2 = sTimestamp(timestamp2)
@@ -473,8 +480,8 @@ export const isBeforeTimestamp = (
  * a string in the YYYY-MM-DDTHH:MM format.
  */
 export const isSameTimestampOrBefore = (
-  timestamp1: string | STimestamp,
-  timestamp2: string | STimestamp,
+  timestamp1: STimestampString | STimestamp,
+  timestamp2: STimestampString | STimestamp,
 ): boolean => {
   const sTimestamp1 = sTimestamp(timestamp1)
   const sTimestamp2 = sTimestamp(timestamp2)
@@ -492,8 +499,8 @@ export const isSameTimestampOrBefore = (
  * a string in the YYYY-MM-DDTHH:MM format.
  */
 export const isAfterTimestamp = (
-  timestamp1: string | STimestamp,
-  timestamp2: string | STimestamp,
+  timestamp1: STimestampString | STimestamp,
+  timestamp2: STimestampString | STimestamp,
 ): boolean => {
   const sTimestamp1 = sTimestamp(timestamp1)
   const sTimestamp2 = sTimestamp(timestamp2)
@@ -511,8 +518,8 @@ export const isAfterTimestamp = (
  * a string in the YYYY-MM-DDTHH:MM format.
  */
 export const isSameTimestampOrAfter = (
-  timestamp1: string | STimestamp,
-  timestamp2: string | STimestamp,
+  timestamp1: STimestampString | STimestamp,
+  timestamp2: STimestampString | STimestamp,
 ): boolean => {
   const sTimestamp1 = sTimestamp(timestamp1)
   const sTimestamp2 = sTimestamp(timestamp2)

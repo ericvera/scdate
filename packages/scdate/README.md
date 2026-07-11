@@ -302,6 +302,21 @@ const isEmpty = isWeekdaysEmpty(weekdays5) // true (no days)
 
 - **`getWeekdaysFromWeekdayFlags(flags)`**: Uses bitwise operations to combine multiple weekday flags. Each weekday is represented by a power of 2, allowing for efficient combination and checking.
 
+## TypeScript Support
+
+The library is written in TypeScript and provides full type definitions. In addition to the `SDate`, `STime`, `STimestamp`, and `SWeekdays` classes, string aliases are exported for each of the supported formats:
+
+```typescript
+import type {
+  SDateString, // String in YYYY-MM-DD format
+  STimeString, // String in HH:MM format
+  STimestampString, // String in YYYY-MM-DDTHH:MM format
+  SWeekdaysString, // String in SMTWTFS format
+} from 'scdate'
+```
+
+These aliases appear throughout the API (e.g. `sDate(date: SDateString | SDate)`) to document the expected string format. They are aliases for `string` and do not provide compile-time format checking; values are validated at runtime.
+
 ## Dependencies
 
 This package has the following dependencies:

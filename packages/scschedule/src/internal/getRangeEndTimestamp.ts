@@ -1,9 +1,5 @@
-import {
-  addDaysToDate,
-  getTimestampFromDateAndTime,
-  type SDate,
-  type STimestamp,
-} from 'scdate'
+import { addDaysToDate, getTimestampFromDateAndTime } from 'scdate'
+import type { SDate, STimestamp } from 'scdate'
 import {
   getMinuteIntervalsFromTimeRange,
   MinutesInDay,

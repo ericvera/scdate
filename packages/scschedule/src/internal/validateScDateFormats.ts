@@ -1,4 +1,5 @@
 import { SDate, sDate, STime, sTime, SWeekdays, sWeekdays } from 'scdate'
+import type { SDateString, STimeString, SWeekdaysString } from 'scdate'
 import {
   OverrideField,
   RuleField,
@@ -9,9 +10,6 @@ import type {
   FieldLocation,
   RuleLocation,
   Schedule,
-  SDateString,
-  STimeString,
-  SWeekdaysString,
   ValidationError,
 } from '../types.js'
 

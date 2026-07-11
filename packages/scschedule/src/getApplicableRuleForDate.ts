@@ -4,10 +4,10 @@ import {
   isSameDateOrBefore,
   SDate,
 } from 'scdate'
+import type { SDateString } from 'scdate'
 import type {
   OverrideScheduleRule,
   Schedule,
-  SDateString,
   WeeklyScheduleRule,
 } from './types.js'
 

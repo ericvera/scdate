@@ -4,8 +4,8 @@ import {
   getTimestampFromDateAndTime,
   getWeekdayFromDate,
   isSameDateOrBefore,
-  type SDate,
 } from 'scdate'
+import type { SDate } from 'scdate'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 import { getRangeEndTimestamp } from './internal/getRangeEndTimestamp.js'
 import type { AvailabilityRange, Schedule } from './types.js'

@@ -1,4 +1,14 @@
-import type { SDate, STime, STimestamp, SWeekdays, Weekday } from 'scdate'
+import type {
+  SDate,
+  SDateString,
+  STime,
+  STimeString,
+  STimestamp,
+  STimestampString,
+  SWeekdays,
+  SWeekdaysString,
+  Weekday,
+} from 'scdate'
 import {
   OverrideField,
   RuleField,
@@ -35,26 +45,6 @@ export type FieldLocation =
       ruleIndex: number
       field: RuleField
     }
-
-/**
- * String in YYYY-MM-DD format representing a date.
- */
-export type SDateString = string
-
-/**
- * String in HH:MM format representing a time.
- */
-export type STimeString = string
-
-/**
- * String in YYYY-MM-DDTHH:MM format representing a timestamp.
- */
-export type STimestampString = string
-
-/**
- * String in SMTWTFS format representing weekdays.
- */
-export type SWeekdaysString = string
 
 /**
  * Defines a recurring weekly availability pattern. Specifies which days of the

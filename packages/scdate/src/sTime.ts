@@ -6,6 +6,7 @@ import {
   getISOTimeFromDate,
 } from './internal/time.js'
 import { getTimeZonedDate } from './internal/zoned.js'
+import type { STimeString } from './types.js'
 
 /**
  * Options for customizing the compact 12-hour time string representation.
@@ -32,7 +33,7 @@ export interface STimeCompact12HourStringOptions {
  *
  * @param time An instance of STime or a string in the format 'HH:MM'.
  */
-export const sTime = (time: string | STime): STime => {
+export const sTime = (time: STimeString | STime): STime => {
   if (time instanceof STime) {
     return time
   }
@@ -83,7 +84,7 @@ export const getTimeFromMinutes = (timeInMinutes: number): STime => {
  * @param time The time to get the hours from. It can be an STime or a string
  * in the HH:MM format.
  */
-export const getHoursFromTime = (time: string | STime): number => {
+export const getHoursFromTime = (time: STimeString | STime): number => {
   const sTimeValue = sTime(time)
 
   return Number(getISOHoursFromISOTime(sTimeValue.time))
@@ -95,7 +96,9 @@ export const getHoursFromTime = (time: string | STime): number => {
  * @param time The time to get the hours from. It can be an STime or a string
  * in the HH:MM format.
  */
-export const get12HoursHoursStringFromTime = (time: string | STime): string => {
+export const get12HoursHoursStringFromTime = (
+  time: STimeString | STime,
+): string => {
   const HoursPMStart = 12
   const sTimeValue = sTime(time)
 
@@ -110,7 +113,7 @@ export const get12HoursHoursStringFromTime = (time: string | STime): string => {
  * @param time The time to get the minutes from. It can be an STime or a string
  * in the HH:MM format.
  */
-export const getMinutesFromTime = (time: string | STime): number => {
+export const getMinutesFromTime = (time: STimeString | STime): number => {
   const sTimeValue = sTime(time)
 
   return Number(getISOMinutesFromISOTime(sTimeValue.time))
@@ -122,7 +125,7 @@ export const getMinutesFromTime = (time: string | STime): number => {
  * @param time The time to get the minutes from. It can be an STime or a string
  * in the HH:MM format.
  */
-export const getMinutesStringFromTime = (time: string | STime): string => {
+export const getMinutesStringFromTime = (time: STimeString | STime): string => {
   const sTimeValue = sTime(time)
 
   return getISOMinutesFromISOTime(sTimeValue.time)
@@ -134,7 +137,7 @@ export const getMinutesStringFromTime = (time: string | STime): string => {
  * @param time The time to get the string from. It can be an STime or a string
  * in the HH:MM format.
  */
-export const get12HourTimeString = (time: string | STime): string => {
+export const get12HourTimeString = (time: STimeString | STime): string => {
   const sTimeValue = sTime(time)
 
   return `${get12HoursHoursStringFromTime(sTimeValue)}:${getMinutesStringFromTime(sTimeValue)} ${
@@ -151,7 +154,7 @@ export const get12HourTimeString = (time: string | STime): string => {
  * @param options Optional callbacks for exact midnight and noon.
  */
 export const getCompact12HourTimeString = (
-  time: string | STime,
+  time: STimeString | STime,
   options?: STimeCompact12HourStringOptions,
 ): string => {
   const sTimeValue = sTime(time)
@@ -179,7 +182,7 @@ export const getCompact12HourTimeString = (
  * in the HH:MM format.
  */
 export const getTimeInMinutes = (
-  time: string | STime,
+  time: STimeString | STime,
   midnightIs24 = false,
 ): number => {
   const sTimeValue = sTime(time)
@@ -209,7 +212,7 @@ export const getTimeInMinutes = (
  * @param minutes The number of minutes to add.
  */
 export const addMinutesToTime = (
-  time: string | STime,
+  time: STimeString | STime,
   minutes: number,
 ): STime => {
   const sTimeValue = sTime(time)
@@ -241,8 +244,8 @@ export const addMinutesToTime = (
  * the HH:MM format.
  */
 export const isSameTime = (
-  time1: string | STime,
-  time2: string | STime,
+  time1: STimeString | STime,
+  time2: STimeString | STime,
 ): boolean => {
   const sTime1 = sTime(time1)
   const sTime2 = sTime(time2)
@@ -260,8 +263,8 @@ export const isSameTime = (
  * the HH:MM format.
  */
 export const isAfterTime = (
-  time1: string | STime,
-  time2: string | STime,
+  time1: STimeString | STime,
+  time2: STimeString | STime,
 ): boolean => {
   const sTime1 = sTime(time1)
   const sTime2 = sTime(time2)
@@ -279,8 +282,8 @@ export const isAfterTime = (
  * the HH:MM format.
  */
 export const isSameTimeOrAfter = (
-  time1: string | STime,
-  time2: string | STime,
+  time1: STimeString | STime,
+  time2: STimeString | STime,
 ): boolean => {
   const sTime1 = sTime(time1)
   const sTime2 = sTime(time2)
@@ -298,8 +301,8 @@ export const isSameTimeOrAfter = (
  * the HH:MM format.
  */
 export const isBeforeTime = (
-  time1: string | STime,
-  time2: string | STime,
+  time1: STimeString | STime,
+  time2: STimeString | STime,
 ): boolean => {
   const sTime1 = sTime(time1)
   const sTime2 = sTime(time2)
@@ -317,8 +320,8 @@ export const isBeforeTime = (
  * the HH:MM format.
  */
 export const isSameTimeOrBefore = (
-  time1: string | STime,
-  time2: string | STime,
+  time1: STimeString | STime,
+  time2: STimeString | STime,
 ): boolean => {
   const sTime1 = sTime(time1)
   const sTime2 = sTime(time2)
@@ -333,7 +336,7 @@ export const isSameTimeOrBefore = (
  * @param time The time to check. It can be an STime or a string in the HH:MM
  * format.
  */
-export const isTimePM = (time: string | STime): boolean => {
+export const isTimePM = (time: STimeString | STime): boolean => {
   const sTimeValue = sTime(time)
 
   const NoonValue = '12:00'

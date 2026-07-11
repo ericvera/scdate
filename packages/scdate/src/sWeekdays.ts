@@ -16,6 +16,7 @@ import {
   isSameDateOrBefore,
   sDate,
 } from './sDate.js'
+import type { SDateString, SWeekdaysString } from './types.js'
 
 const AllWeekdaysIncludedMask = 'SMTWTFS'
 const NotIncludedDay = '-'
@@ -44,7 +45,7 @@ const WeekdaysCount = AllWeekdaysIncludedMask.length
  * // Returns an instance of SWeekdays with all weekdays included.
  * ```
  */
-export const sWeekdays = (weekdays: string | SWeekdays): SWeekdays => {
+export const sWeekdays = (weekdays: SWeekdaysString | SWeekdays): SWeekdays => {
   if (weekdays instanceof SWeekdays) {
     return weekdays
   }
@@ -173,7 +174,7 @@ export const getNextWeekday = (weekday: Weekday): Weekday => {
  * ```
  */
 export const shiftWeekdaysForward = (
-  weekdays: string | SWeekdays,
+  weekdays: SWeekdaysString | SWeekdays,
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
   const after = Array.from(NoWeekdaysIncluded)
@@ -210,9 +211,9 @@ export const shiftWeekdaysForward = (
  * ```
  */
 export const filterWeekdaysForDates = (
-  weekdays: string | SWeekdays,
-  fromDate: string | SDate,
-  toDate: string | SDate,
+  weekdays: SWeekdaysString | SWeekdays,
+  fromDate: SDateString | SDate,
+  toDate: SDateString | SDate,
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
   const sFromDate = sDate(fromDate)
@@ -257,7 +258,7 @@ export const filterWeekdaysForDates = (
  * @param weekdayToAdd The weekday to add.
  */
 export const addWeekdayToWeekdays = (
-  weekdays: string | SWeekdays,
+  weekdays: SWeekdaysString | SWeekdays,
   weekdayToAdd: Weekday,
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
@@ -278,7 +279,7 @@ export const addWeekdayToWeekdays = (
  * @param weekdayToRemove The weekday to remove.
  */
 export const removeWeekdayFromWeekdays = (
-  weekdays: string | SWeekdays,
+  weekdays: SWeekdaysString | SWeekdays,
   weekdayToRemove: Weekday,
 ): SWeekdays => {
   const sWeekdaysInstance = sWeekdays(weekdays)
@@ -300,7 +301,7 @@ export const removeWeekdayFromWeekdays = (
  * @param weekdayToToggle The weekday to toggle.
  */
 export const toggleWeekdayInWeekdays = (
-  weekdays: string | SWeekdays,
+  weekdays: SWeekdaysString | SWeekdays,
   weekdayToToggle: Weekday,
 ): SWeekdays => {
   if (doesWeekdaysIncludeWeekday(weekdays, weekdayToToggle)) {
@@ -323,7 +324,7 @@ export const toggleWeekdayInWeekdays = (
  * @param weekday The weekday to check.
  */
 export const doesWeekdaysIncludeWeekday = (
-  weekdays: string | SWeekdays,
+  weekdays: SWeekdaysString | SWeekdays,
   weekday: Weekday,
 ): boolean => {
   const sWeekdaysInstance = sWeekdays(weekdays)
@@ -342,8 +343,8 @@ export const doesWeekdaysIncludeWeekday = (
  * SWeekdays or a string in the SMTWTFS format.
  */
 export const doesWeekdaysHaveOverlapWithWeekdays = (
-  weekdays1: string | SWeekdays,
-  weekdays2: string | SWeekdays,
+  weekdays1: SWeekdaysString | SWeekdays,
+  weekdays2: SWeekdaysString | SWeekdays,
 ): boolean => {
   const sWeekdays1 = sWeekdays(weekdays1)
   const sWeekdays2 = sWeekdays(weekdays2)
@@ -382,8 +383,8 @@ export const doesWeekdaysHaveOverlapWithWeekdays = (
  * ```
  */
 export const areWeekdaysEqual = (
-  weekdays1: string | SWeekdays,
-  weekdays2: string | SWeekdays,
+  weekdays1: SWeekdaysString | SWeekdays,
+  weekdays2: SWeekdaysString | SWeekdays,
 ): boolean => {
   const sWeekdays1 = sWeekdays(weekdays1)
   const sWeekdays2 = sWeekdays(weekdays2)
@@ -410,6 +411,8 @@ export const areWeekdaysEqual = (
  * // Returns false (Sunday is included)
  * ```
  */
-export const isWeekdaysEmpty = (weekdays: string | SWeekdays): boolean => {
+export const isWeekdaysEmpty = (
+  weekdays: SWeekdaysString | SWeekdays,
+): boolean => {
   return areWeekdaysEqual(weekdays, getWeekdaysWithNoneIncluded())
 }

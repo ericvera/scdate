@@ -772,6 +772,8 @@ import {
 } from 'scschedule'
 ```
 
+Note: The string format aliases (`SDateString`, `STimeString`, `STimestampString`, and `SWeekdaysString`) are defined in `scdate` and re-exported here for convenience.
+
 Note: The `Weekday` enum (used in some `ValidationError` variants) is exported from `scdate`, not `scschedule`:
 
 ```typescript

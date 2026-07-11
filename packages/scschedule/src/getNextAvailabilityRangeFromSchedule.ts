@@ -1,4 +1,5 @@
-import { sTimestamp, type STimestamp } from 'scdate'
+import { sTimestamp } from 'scdate'
+import type { STimestamp } from 'scdate'
 import { getAvailabilityRangeEnd } from './internal/getAvailabilityRangeEnd.js'
 import { getNextAvailableFromSchedule } from './getNextAvailableFromSchedule.js'
 import { isScheduleAvailable } from './isScheduleAvailable.js'

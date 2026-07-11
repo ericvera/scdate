@@ -1,4 +1,5 @@
-import { isSameDateOrAfter, type SDate } from 'scdate'
+import { isSameDateOrAfter } from 'scdate'
+import type { SDate } from 'scdate'
 import type { Schedule } from './types.js'
 
 /**

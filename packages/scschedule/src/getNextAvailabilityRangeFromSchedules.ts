@@ -4,8 +4,8 @@ import {
   isBeforeTimestamp,
   isSameTimestamp,
   sTimestamp,
-  type STimestamp,
 } from 'scdate'
+import type { STimestamp } from 'scdate'
 import { getAvailabilityRangeEnd } from './internal/getAvailabilityRangeEnd.js'
 import type { NextAvailabilityRange } from './getNextAvailabilityRangeFromSchedule.js'
 import { getNextAvailableFromSchedule } from './getNextAvailableFromSchedule.js'

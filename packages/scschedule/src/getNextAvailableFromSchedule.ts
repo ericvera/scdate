@@ -8,12 +8,11 @@ import {
   isAfterTime,
   isBeforeTime,
   sTimestamp,
-  type STime,
-  type STimestamp,
 } from 'scdate'
+import type { STime, STimestamp, STimeString } from 'scdate'
 import { getApplicableRuleForDate } from './getApplicableRuleForDate.js'
 import { isScheduleAvailable } from './isScheduleAvailable.js'
-import type { Schedule, STimeString } from './types.js'
+import type { Schedule } from './types.js'
 
 /**
  * Finds the next available timestamp in a schedule starting from the

@@ -13,6 +13,7 @@ import {
 import { getAtIndex } from './internal/utils.js'
 import { getIndexForWeekday } from './internal/weekdays.js'
 import { getTimeZonedDate } from './internal/zoned.js'
+import type { SDateString } from './types.js'
 
 /**
  * Options for customizing the short date string representation.
@@ -36,7 +37,7 @@ export interface SDateShortStringOptions {
  *
  * @param date An instance of SDate or a string in the YYYY-MM-DD format.
  */
-export const sDate = (date: string | SDate): SDate => {
+export const sDate = (date: SDateString | SDate): SDate => {
   if (date instanceof SDate) {
     return date
   }
@@ -69,7 +70,7 @@ export const getDateToday = (timeZone: string): SDate => {
  * @param weekday The weekday to find the next date for.
  */
 export const getNextDateByWeekday = (
-  date: string | SDate,
+  date: SDateString | SDate,
   weekday: Weekday,
 ): SDate => {
   const sDateValue = sDate(date)
@@ -98,7 +99,7 @@ export const getNextDateByWeekday = (
  * @param weekday The weekday to find the previous date for.
  */
 export const getPreviousDateByWeekday = (
-  date: string | SDate,
+  date: SDateString | SDate,
   weekday: Weekday,
 ) => {
   const sDateValue = sDate(date)
@@ -125,7 +126,7 @@ export const getPreviousDateByWeekday = (
  * @param date The date to get the first day of the month for. It can be an
  * SDate or a string in the YYYY-MM-DD format.
  */
-export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
+export const getDateForFirstDayOfMonth = (date: SDateString | SDate): SDate => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
   nativeDate.setDate(1)
@@ -140,7 +141,7 @@ export const getDateForFirstDayOfMonth = (date: string | SDate): SDate => {
  * @param date The date to get the last day of the month for. It can be an
  * SDate or a string in the YYYY-MM-DD format.
  */
-export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
+export const getDateForLastDayOfMonth = (date: SDateString | SDate): SDate => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
   nativeDate.setFullYear(nativeDate.getFullYear(), nativeDate.getMonth() + 1, 0)
@@ -159,7 +160,7 @@ export const getDateForLastDayOfMonth = (date: string | SDate): SDate => {
  * @param date The date to get the year from. It can be an SDate or a string
  * in the YYYY-MM-DD format.
  */
-export const getYearFromDate = (date: string | SDate): number => {
+export const getYearFromDate = (date: SDateString | SDate): number => {
   const sDateValue = sDate(date)
 
   return Number(getISOYearFromISODate(sDateValue.date))
@@ -172,7 +173,7 @@ export const getYearFromDate = (date: string | SDate): number => {
  * @param date The date to get the month from. It can be an SDate or a string
  * in the YYYY-MM-DD format.
  */
-export const getMonthFromDate = (date: string | SDate): number => {
+export const getMonthFromDate = (date: SDateString | SDate): number => {
   const sDateValue = sDate(date)
 
   return Number(getISOMonthFromISODate(sDateValue.date)) - 1
@@ -184,7 +185,7 @@ export const getMonthFromDate = (date: string | SDate): number => {
  * @param date The date to get the day from. It can be an SDate or a string
  * in the YYYY-MM-DD format.
  */
-export const getDateFromDate = (date: string | SDate): number => {
+export const getDateFromDate = (date: SDateString | SDate): number => {
   const sDateValue = sDate(date)
 
   return Number(getISODateFromISODate(sDateValue.date))
@@ -197,7 +198,7 @@ export const getDateFromDate = (date: string | SDate): number => {
  * @param date The date to get the weekday from. It can be an SDate or a
  * string in the YYYY-MM-DD format.
  */
-export const getWeekdayFromDate = (date: string | SDate): number => {
+export const getWeekdayFromDate = (date: SDateString | SDate): number => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
 
@@ -214,7 +215,7 @@ export const getWeekdayFromDate = (date: string | SDate): number => {
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getUTCMillisecondsFromDate = (
-  date: string | SDate,
+  date: SDateString | SDate,
   timeZone: string,
 ): number => {
   const sDateValue = sDate(date)
@@ -238,7 +239,7 @@ export const getUTCMillisecondsFromDate = (
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const getTimeZonedDateFromDate = (
-  date: string | SDate,
+  date: SDateString | SDate,
   timeZone: string,
 ): Date => {
   const sDateValue = sDate(date)
@@ -263,8 +264,8 @@ export const getTimeZonedDateFromDate = (
  * or a string in the YYYY-MM-DD format.
  */
 export const getDaysBetweenDates = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): number => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -296,7 +297,7 @@ export const getDaysBetweenDates = (
  * ```
  */
 export const getFullDateString = (
-  date: string | SDate,
+  date: SDateString | SDate,
   locale: Intl.LocalesArgument,
 ) => {
   const sDateValue = sDate(date)
@@ -337,7 +338,7 @@ export const getFullDateString = (
  * ```
  */
 export const getShortDateString = (
-  date: string | SDate,
+  date: SDateString | SDate,
   timeZone: string,
   locale: Intl.LocalesArgument,
   options: SDateShortStringOptions,
@@ -373,7 +374,10 @@ export const getShortDateString = (
  * YYYY-MM-DD format.
  * @param days The number of days to add to the date.
  */
-export const addDaysToDate = (date: string | SDate, days: number): SDate => {
+export const addDaysToDate = (
+  date: SDateString | SDate,
+  days: number,
+): SDate => {
   const sDateValue = sDate(date)
 
   const nativeDate = getDateAsUTCDateMini(sDateValue)
@@ -429,7 +433,7 @@ export const addDaysToDate = (date: string | SDate, days: number): SDate => {
  * ```
  */
 export const addMonthsToDate = (
-  date: string | SDate,
+  date: SDateString | SDate,
   months: number,
   options?: {
     capToCommonDate?: boolean
@@ -475,7 +479,10 @@ export const addMonthsToDate = (
  * YYYY-MM-DD format.
  * @param years The number of years to add to the date.
  */
-export const addYearsToDate = (date: string | SDate, years: number): SDate => {
+export const addYearsToDate = (
+  date: SDateString | SDate,
+  years: number,
+): SDate => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
 
@@ -498,8 +505,8 @@ export const addYearsToDate = (date: string | SDate, years: number): SDate => {
  * the YYYY-MM-DD format.
  */
 export const isSameDate = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -517,8 +524,8 @@ export const isSameDate = (
  * the YYYY-MM-DD format.
  */
 export const isBeforeDate = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -536,8 +543,8 @@ export const isBeforeDate = (
  * string in the YYYY-MM-DD format.
  */
 export const isSameDateOrBefore = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -555,8 +562,8 @@ export const isSameDateOrBefore = (
  * string in the YYYY-MM-DD format.
  */
 export const isAfterDate = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -574,8 +581,8 @@ export const isAfterDate = (
  * string in the YYYY-MM-DD format.
  */
 export const isSameDateOrAfter = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -592,7 +599,7 @@ export const isSameDateOrAfter = (
  * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const isDateToday = (
-  date: string | SDate,
+  date: SDateString | SDate,
   timeZone: string,
 ): boolean => {
   const sDateValue = sDate(date)
@@ -623,8 +630,8 @@ export const isDateToday = (
  * ```
  */
 export const areDatesInSameMonth = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -645,7 +652,7 @@ export const areDatesInSameMonth = (
  * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const isDateInCurrentMonth = (
-  date: string | SDate,
+  date: SDateString | SDate,
   timeZone: string,
 ): boolean => {
   const sDateValue = sDate(date)
@@ -663,8 +670,8 @@ export const isDateInCurrentMonth = (
  * the YYYY-MM-DD format.
  */
 export const areDatesInSameYear = (
-  date1: string | SDate,
-  date2: string | SDate,
+  date1: SDateString | SDate,
+  date2: SDateString | SDate,
 ): boolean => {
   const sDate1 = sDate(date1)
   const sDate2 = sDate(date2)
@@ -684,7 +691,7 @@ export const areDatesInSameYear = (
  * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
  */
 export const isDateInCurrentYear = (
-  date: string | SDate,
+  date: SDateString | SDate,
   timeZone: string,
 ): boolean => {
   const sDateValue = sDate(date)

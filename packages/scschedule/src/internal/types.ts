@@ -1,5 +1,4 @@
-import type { STime } from 'scdate'
-import type { STimeString } from '../types.js'
+import type { STime, STimeString } from 'scdate'
 
 /**
  * Represents a time range within a day. Time ranges can cross midnight. For
