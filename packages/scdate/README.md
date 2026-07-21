@@ -235,6 +235,10 @@ const tsString = getShortTimestampString(ts1, 'America/Puerto_Rico', 'en-US', {
   includeWeekday: true,
   onTodayAtText: () => 'Today at',
 })
+const tsCompact = getCompactTimestampString(ts1, 'America/Puerto_Rico', 'en', {
+  includeWeekday: false,
+  onTodayAtText: () => 'Today at',
+}) //=> 'Today at 2:30pm' (when ts1 is today; e.g. '8am' when minutes are zero)
 
 // Timestamp comparison
 const isEqual = isSameTimestamp(ts1, ts2)
@@ -253,6 +257,8 @@ const isSameOrAfter = isSameTimestampOrAfter(ts1, ts2)
 - **`getSecondsToTimestamp(timestamp, timeZone)`**: Returns a positive value for future timestamps and negative for past timestamps. Handles DST transitions correctly but might produce unexpected results for timestamps that fall in skipped or repeated hours during DST transitions.
 
 - **`getUTCMillisecondsFromTimestamp(timestamp, timeZone)`**: Converts a timestamp to UTC milliseconds, accounting for the time zone offset at that specific date and time (important for historical dates with different time zone rules).
+
+- **`getCompactTimestampString(timestamp, timeZone, locale, options)`**: Same date part as `getShortTimestampString`, but the time uses the compact 12-hour format with lowercase `am`/`pm`, no space before the period, and minutes omitted when zero (e.g. `Today at 8am`, `11 ago 9:32pm`). `STimestampCompactStringOptions` requires `includeWeekday` and `onTodayAtText`, plus optional `onMidnightText` / `onNoonText` callbacks that replace the default `12am` / `12pm` time text for exact `00:00` and `12:00` only.
 
 ### Weekday Operations (`SWeekdays`)
 

@@ -14,7 +14,11 @@ import {
 } from './internal/timestamp.js'
 import { getTimeZonedDate } from './internal/zoned.js'
 import { getShortDateString, sDate } from './sDate.js'
-import { get12HourTimeString, sTime } from './sTime.js'
+import {
+  get12HourTimeString,
+  getCompact12HourTimeString,
+  sTime,
+} from './sTime.js'
 import type { SDateString, STimeString, STimestampString } from './types.js'
 
 /**
@@ -27,6 +31,28 @@ export interface STimestampShortStringOptions {
    * Called when the timestamp is today. Return value is used as prefix text.
    */
   onTodayAtText: () => string
+}
+
+/**
+ * Options for customizing the compact timestamp string representation.
+ */
+export interface STimestampCompactStringOptions {
+  /** Whether to include the abbreviated weekday name in the output. */
+  includeWeekday: boolean
+  /**
+   * Called when the timestamp is today. Return value is used as prefix text.
+   */
+  onTodayAtText: () => string
+  /**
+   * Called when the time is exactly midnight (00:00). Return value replaces the
+   * default `12am` text.
+   */
+  onMidnightText?: () => string
+  /**
+   * Called when the time is exactly noon (12:00). Return value replaces the
+   * default `12pm` text.
+   */
+  onNoonText?: () => string
 }
 
 /**
@@ -308,6 +334,57 @@ export const getShortTimestampString = (
     onTodayText: options.onTodayAtText,
   })
   const timeText = get12HourTimeString(time)
+
+  return `${dateText} ${timeText}`
+}
+
+/**
+ * Returns a string representation that includes a minimum set of components
+ * from the given timestamp. This is a combination of the results of
+ * the `getShortDateString` method, and `getCompact12HourTimeString`.
+ *
+ * @param timestamp The timestamp to get the compact string from. It can be an
+ * STimestamp or a string in the YYYY-MM-DDTHH:MM format.
+ * @param timeZone The time zone to use when creating the compact string. See
+ * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param locale The locale to use for the string representation.
+ * @param options An object with options for the compact string representation.
+ *
+ * @example
+ * ```ts
+ * // Example when the timestamp is today
+ * getCompactTimestampString('2021-08-10T08:00', 'America/Puerto_Rico', 'en', {
+ *   includeWeekday: true,
+ *   onTodayAtText: () => 'Today at',
+ * })
+ * //=> 'Today at 8am'
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Example when the timestamp is not today
+ * getCompactTimestampString('2022-09-11T09:32', 'America/Puerto_Rico', 'es', {
+ *   includeWeekday: true,
+ *   onTodayAtText: () => 'Hoy a las',
+ * })
+ * //=> 'dom, 11 sept 22 9:32am'
+ * ```
+ */
+export const getCompactTimestampString = (
+  timestamp: STimestampString | STimestamp,
+  timeZone: string,
+  locale: Intl.LocalesArgument,
+  options: STimestampCompactStringOptions,
+): string => {
+  const sTimestampValue = sTimestamp(timestamp)
+  const date = getDateFromTimestamp(sTimestampValue)
+  const time = getTimeFromTimestamp(sTimestampValue)
+
+  const dateText = getShortDateString(date, timeZone, locale, {
+    includeWeekday: options.includeWeekday,
+    onTodayText: options.onTodayAtText,
+  })
+  const timeText = getCompact12HourTimeString(time, options)
 
   return `${dateText} ${timeText}`
 }
