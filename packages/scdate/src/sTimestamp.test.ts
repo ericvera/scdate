@@ -481,7 +481,7 @@ describe('getShortTimestampString', () => {
 describe('getCompactTimestampString', () => {
   const onTodayAtText = (): string => 'Today at'
 
-  it('works on the same day with minutes elided', () => {
+  it('works on the same day with zero minutes omitted', () => {
     setFakeTimer('2021-08-10T08:00')
     const timestamp = sTimestamp('2021-08-10T08:00')
 
@@ -504,7 +504,7 @@ describe('getCompactTimestampString', () => {
     ).toMatchInlineSnapshot(`"Today at 9:32am"`)
   })
 
-  it('works a year later (with weekday) with pm minutes elided', () => {
+  it('works a year later (with weekday) with zero pm minutes omitted', () => {
     setFakeTimer('2021-08-10T08:00')
 
     expect(
