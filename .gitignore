@@ -211,5 +211,3 @@ dist
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,node,yarn,visualstudiocode
-# mise workflow directory (kept out of formatting; tracked on feature branches by design — remove from .gitignore if mise checkpoint commits fail)
-.mise
