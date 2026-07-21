@@ -10,6 +10,7 @@ import { sTime } from './sTime.js'
 import {
   addDaysToTimestamp,
   addMinutesToTimestamp,
+  getCompactTimestampString,
   getDateFromTimestamp,
   getSecondsToTimestamp,
   getShortTimestampString,
@@ -468,6 +469,154 @@ describe('getShortTimestampString', () => {
   it('throws for invalid time zone', () => {
     expect(() => {
       getShortTimestampString('2021-08-10T08:00', 'Puerto Rico', 'es', {
+        onTodayAtText,
+        includeWeekday: true,
+      })
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid time zone. Time zone: 'Puerto Rico']`,
+    )
+  })
+})
+
+describe('getCompactTimestampString', () => {
+  const onTodayAtText = (): string => 'Today at'
+
+  it('works on the same day with minutes elided', () => {
+    setFakeTimer('2021-08-10T08:00')
+    const timestamp = sTimestamp('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString(timestamp, TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+      }),
+    ).toMatchInlineSnapshot(`"Today at 8am"`)
+  })
+
+  it('works on the same day with non-zero minutes', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-10T09:32', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+      }),
+    ).toMatchInlineSnapshot(`"Today at 9:32am"`)
+  })
+
+  it('works a year later (with weekday) with pm minutes elided', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2022-09-11T21:00', TestLocalTimeZone, 'es', {
+        onTodayAtText,
+        includeWeekday: true,
+      }),
+    ).toMatchInlineSnapshot(`"dom, 11 sept 22 9pm"`)
+  })
+
+  it('works on the next day (same year) without weekday', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-11T08:00', TestLocalTimeZone, 'es', {
+        onTodayAtText,
+        includeWeekday: false,
+      }),
+    ).toMatchInlineSnapshot(`"11 ago 8am"`)
+  })
+
+  it('works at midnight without a callback', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-11T00:00', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+      }),
+    ).toMatchInlineSnapshot(`"Aug 11 12am"`)
+  })
+
+  it('works at noon without a callback', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-11T12:00', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+      }),
+    ).toMatchInlineSnapshot(`"Aug 11 12pm"`)
+  })
+
+  it('works at midnight with onMidnightText on today', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-10T00:00', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+        onMidnightText: () => 'midnight',
+      }),
+    ).toMatchInlineSnapshot(`"Today at midnight"`)
+  })
+
+  it('works at noon with onNoonText on today', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-10T12:00', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+        onNoonText: () => 'noon',
+      }),
+    ).toMatchInlineSnapshot(`"Today at noon"`)
+  })
+
+  it('does not fire onMidnightText right after midnight', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-10T00:01', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+        onMidnightText: () => 'midnight',
+        onNoonText: () => 'noon',
+      }),
+    ).toMatchInlineSnapshot(`"Today at 12:01am"`)
+  })
+
+  it('does not fire onNoonText right after noon', () => {
+    setFakeTimer('2021-08-10T08:00')
+
+    expect(
+      getCompactTimestampString('2021-08-10T12:01', TestLocalTimeZone, 'en', {
+        onTodayAtText,
+        includeWeekday: false,
+        onMidnightText: () => 'midnight',
+        onNoonText: () => 'noon',
+      }),
+    ).toMatchInlineSnapshot(`"Today at 12:01pm"`)
+  })
+
+  it('throws for invalid timestamp', () => {
+    expect(() => {
+      getCompactTimestampString(
+        '2021-08-10T08:00:00',
+        TestLocalTimeZone,
+        'es',
+        {
+          onTodayAtText,
+          includeWeekday: true,
+        },
+      )
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid date and time format. Expected format: YYYY-MM-DDTHH:MM. Current value: '2021-08-10T08:00:00'.]`,
+    )
+  })
+
+  it('throws for invalid time zone', () => {
+    expect(() => {
+      getCompactTimestampString('2021-08-10T08:00', 'Puerto Rico', 'es', {
         onTodayAtText,
         includeWeekday: true,
       })
