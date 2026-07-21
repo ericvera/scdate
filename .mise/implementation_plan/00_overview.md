@@ -37,6 +37,6 @@ The change is a single self-contained composition of existing helpers; splitting
 
 ## Task Index
 
-| File                                  | Task                                              | Phase | Requirements                                                                     |
-| ------------------------------------- | ------------------------------------------------- | ----- | -------------------------------------------------------------------------------- |
-| `01_01_compact_timestamp_string.md`   | Add `getCompactTimestampString` + tests + README  | 1     | REQ-API-1..4, REQ-FMT-1..5, REQ-PRES-1..2, REQ-DOC-1, REQ-TEST-1                 |
+| File                                | Task                                             | Phase | Requirements                                                     |
+| ----------------------------------- | ------------------------------------------------ | ----- | ---------------------------------------------------------------- |
+| `01_01_compact_timestamp_string.md` | Add `getCompactTimestampString` + tests + README | 1     | REQ-API-1..4, REQ-FMT-1..5, REQ-PRES-1..2, REQ-DOC-1, REQ-TEST-1 |
