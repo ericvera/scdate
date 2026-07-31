@@ -1,5 +1,5 @@
 {
-  "name": "scdate",
+  "name": "scdate-testing",
   "version": "6.2.0",
   "type": "module",
   "exports": {
@@ -20,9 +20,10 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@date-fns/utc": "^2.1.1",
-    "date-fns": "^4.4.0",
-    "date-fns-tz": "^3.2.0"
+    "scdate": "workspace:*"
+  },
+  "peerDependencies": {
+    "vitest": "^4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -38,13 +39,11 @@
     "url": "git+https://github.com/ericvera/scdate.git"
   },
   "keywords": [
-    "date",
+    "testing",
+    "fake timers",
+    "vitest",
     "time zones",
-    "time",
-    "datetime",
-    "immutable",
-    "schedule",
-    "timestamp"
+    "test helpers"
   ],
   "license": "MIT",
   "publishConfig": {

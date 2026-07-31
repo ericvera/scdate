@@ -86,6 +86,11 @@ jobs:
         working-directory: packages/scschedule
         run: yarn npm publish --access public
 
+      - name: Publish scdate-testing Package
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        working-directory: packages/scdate-testing
+        run: yarn npm publish --access public
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         if: ${{ steps.changelog.outputs.skipped == 'false' }}

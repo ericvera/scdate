@@ -8,6 +8,7 @@ This monorepo contains the following packages:
 
 - [scdate](./packages/scdate) - Date and time library for working with schedules
 - [scschedule](./packages/scschedule) - Schedule management utilities
+- [scdate-testing](./packages/scdate-testing) - Vitest helpers for testing code that depends on the current time in a time zone
 
 ## Features
 

@@ -5,6 +5,7 @@
   "include": [],
   "references": [
     { "path": "./packages/scdate" },
-    { "path": "./packages/scschedule" }
+    { "path": "./packages/scschedule" },
+    { "path": "./packages/scdate-testing" }
   ]
 }

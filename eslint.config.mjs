@@ -47,6 +47,13 @@ export default defineConfig(
       // Enforce comments above code, never inline
       'line-comment-position': ['error', { position: 'above' }],
 
+      // A call-signature interface is the only shape whose doc comment
+      // survives into the emitted .d.ts. A doc comment on a function
+      // type alias is dropped, and an inferred return type loses it
+      // during declaration emit, so this stylistic rule would force
+      // undocumented callable types on consumers.
+      '@typescript-eslint/prefer-function-type': 'off',
+
       // Enforce max length for comments only
       'max-len': [
         'error',
