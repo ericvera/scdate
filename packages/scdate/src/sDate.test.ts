@@ -156,6 +156,18 @@ describe('getUTCMillisecondsFromDate', () => {
     expect(utcMilliseconds).toBe(1697342400000)
   })
 
+  it('resolves a repeated midnight to the earlier occurrence', () => {
+    const date = sDate('2024-11-03')
+    const utcMilliseconds = getUTCMillisecondsFromDate(date, 'America/Havana')
+
+    // Cuba ends daylight saving time at 01:00 local, which makes '00:00' the
+    // repeated hour on that date (unlike the TestLocalTimeZone* zones, where
+    // midnight is unambiguous). 1730606400000 is '2024-11-03T04:00' in UTC, the
+    // earlier (CDT, -4) occurrence. The later (CST, -5) occurrence,
+    // 1730610000000, must not be returned.
+    expect(utcMilliseconds).toBe(1730606400000)
+  })
+
   it('throws for invalid time zone', () => {
     const date = sDate('2023-10-15')
 

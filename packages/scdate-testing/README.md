@@ -92,7 +92,7 @@ vi.setSystemTime(almostMidnight + 59_000) // 1769317199000
 
 ### Daylight saving edges
 
-A wall-clock time is not always exactly one instant, and scdate's resolution is inherited as-is. New York has no 02:30 on 2024-03-10, so `'2024-03-10T02:30'` returns `1710052200000`, which reads 01:30 — the wall clock does not round-trip, though the value is the same on every host. New York has 01:30 twice on 2024-11-03, and which one comes back depends on the host machine's time zone: `1730611800000` (EDT) on hosts such as UTC or Europe/Paris, `1730615400000` (EST) on hosts such as Asia/Tokyo. That is the one case where a test can pin a different instant locally than in CI, so prefer a timestamp outside the repeated hour.
+A wall-clock time is not always exactly one instant, and scdate's resolution is inherited as-is. New York has no 02:30 on 2024-03-10, so `'2024-03-10T02:30'` returns `1710052200000`, which reads 01:30 — the wall clock does not round-trip. New York has 01:30 twice on 2024-11-03, and the earlier occurrence is the one that comes back: `1730611800000` (EDT). Both results are the same on every host, so a test pins the same instant locally as it does in CI.
 
 ## API Reference
 

@@ -1,4 +1,3 @@
-import { getTimezoneOffset } from 'date-fns-tz'
 import { SDate } from './internal/SDate.js'
 import { STime } from './internal/STime.js'
 import { STimestamp } from './internal/STimestamp.js'
@@ -12,7 +11,10 @@ import {
   getISOTimestampFromZonedDate,
   getTimestampAsUTCDateMini,
 } from './internal/timestamp.js'
-import { getTimeZonedDate } from './internal/zoned.js'
+import {
+  getTimeZonedDate,
+  getUTCMillisecondsFromWallClock,
+} from './internal/zoned.js'
 import { getShortDateString, sDate } from './sDate.js'
 import {
   get12HourTimeString,
@@ -150,12 +152,7 @@ export const getUTCMillisecondsFromTimestamp = (
   const sTimestampValue = sTimestamp(timestamp)
   const utcDate = getTimestampAsUTCDateMini(sTimestampValue)
 
-  const timeZoneOffset = getTimezoneOffset(timeZone, utcDate)
-  if (isNaN(timeZoneOffset)) {
-    throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
-  }
-
-  return utcDate.getTime() - timeZoneOffset
+  return getUTCMillisecondsFromWallClock(utcDate.getTime(), timeZone)
 }
 
 /**

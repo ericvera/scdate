@@ -22,12 +22,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set Node version
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
@@ -46,7 +46,7 @@ jobs:
 
       - name: Conventional Changelog Action
         id: changelog
-        uses: TriPSs/conventional-changelog-action@v5
+        uses: TriPSs/conventional-changelog-action@v6
         with:
           # Do not generate the CHANGELOG.md. Changelog details will be included
           # in the release notes.
@@ -66,7 +66,7 @@ jobs:
 
       - name: Commit and Push Updates
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'chore(release): v${{ steps.changelog.outputs.version }} [skip ci]'
           skip_fetch: true

@@ -1,5 +1,4 @@
 import { UTCDateMini } from '@date-fns/utc'
-import { getTimezoneOffset } from 'date-fns-tz'
 import { DayToWeekday, Weekday } from './constants.js'
 import { SDate } from './internal/SDate.js'
 import { DaysInWeek, MillisecondsInDay } from './internal/constants.js'
@@ -12,7 +11,10 @@ import {
 } from './internal/date.js'
 import { getAtIndex } from './internal/utils.js'
 import { getIndexForWeekday } from './internal/weekdays.js'
-import { getTimeZonedDate } from './internal/zoned.js'
+import {
+  getTimeZonedDate,
+  getUTCMillisecondsFromWallClock,
+} from './internal/zoned.js'
 import type { SDateString } from './types.js'
 
 /**
@@ -221,12 +223,7 @@ export const getUTCMillisecondsFromDate = (
   const sDateValue = sDate(date)
   const utcDate = getDateAsUTCDateMini(sDateValue)
 
-  const timeZoneOffset = getTimezoneOffset(timeZone, utcDate)
-  if (isNaN(timeZoneOffset)) {
-    throw new Error(`Invalid time zone. Time zone: '${timeZone}'`)
-  }
-
-  return utcDate.getTime() - timeZoneOffset
+  return getUTCMillisecondsFromWallClock(utcDate.getTime(), timeZone)
 }
 
 /**

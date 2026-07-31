@@ -149,6 +149,44 @@ describe('getUTCMillisecondsFromTimestamp', () => {
     expect(utcMilliseconds).toBe(1697394600000)
   })
 
+  it('resolves a repeated wall clock to the earlier occurrence', () => {
+    const timestamp = sTimestamp('2024-11-03T01:30')
+    const utcMilliseconds = getUTCMillisecondsFromTimestamp(
+      timestamp,
+      TestLocalTimeZoneWithDaylight,
+    )
+
+    // '2024-11-03T01:30' happens twice in America/New_York. 1730611800000 is
+    // '2024-11-03T05:30' in UTC, the earlier (EDT, -4) occurrence. The later
+    // (EST, -5) occurrence, 1730615400000, must not be returned.
+    expect(utcMilliseconds).toBe(1730611800000)
+  })
+
+  it('resolves a repeated wall clock to the earlier occurrence in the southern hemisphere', () => {
+    const timestamp = sTimestamp('2024-04-07T02:30')
+    const utcMilliseconds = getUTCMillisecondsFromTimestamp(
+      timestamp,
+      'Australia/Sydney',
+    )
+
+    // '2024-04-07T02:30' happens twice in Australia/Sydney. 1712417400000 is
+    // '2024-04-06T15:30' in UTC, the earlier (AEDT, +11) occurrence. The later
+    // (AEST, +10) occurrence, 1712421000000, must not be returned.
+    expect(utcMilliseconds).toBe(1712417400000)
+  })
+
+  it('resolves a non-existent wall clock to the larger offset', () => {
+    const timestamp = sTimestamp('2024-03-10T02:30')
+    const utcMilliseconds = getUTCMillisecondsFromTimestamp(
+      timestamp,
+      TestLocalTimeZoneWithDaylight,
+    )
+
+    // '2024-03-10T02:30' never happens in America/New_York. 1710052200000 is
+    // '2024-03-10T06:30' in UTC, which reads back as '01:30' local.
+    expect(utcMilliseconds).toBe(1710052200000)
+  })
+
   it('throws for invalid time zone', () => {
     const timestamp = sTimestamp('2023-10-15T14:30')
 

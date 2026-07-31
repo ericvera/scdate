@@ -32,9 +32,6 @@ it('returns the same milliseconds scdate returns for the same inputs', () => {
   // edges at once. Absolute values are anchored separately below.
   const cases: [timestamp: string, timeZone: string][] = [
     ['2026-01-24T12:00', 'UTC'],
-    // Accepted by scdate's conversion and treated as UTC. Inherited
-    // permissiveness, pinned here rather than guarded against.
-    ['2026-01-24T12:00', ''],
     ['2026-01-24T12:00', 'America/New_York'],
     ['2026-06-15T08:45', 'Asia/Tokyo'],
     ['2026-01-24T12:34', 'Australia/Eucla'],

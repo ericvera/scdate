@@ -1,5 +1,5 @@
-import { fromZonedTime } from 'date-fns-tz'
 import { vi } from 'vitest'
+import { getUTCMillisecondsFromWallClock } from '../internal/zoned.js'
 import { TestLocalTimeZone } from './constants.js'
 
 export const setFakeTimer = (
@@ -18,16 +18,18 @@ export const setFakeTimer = (
     )
   }
 
-  const localNow = new Date(
-    parseInt(year),
-    parseInt(month) - 1,
-    parseInt(day),
+  // The wall clock is built as UTC and resolved against the time zone so the
+  // instant does not depend on the host's TZ.
+  const wallClock = new Date(0)
+  wallClock.setUTCFullYear(parseInt(year), parseInt(month) - 1, parseInt(day))
+  wallClock.setUTCHours(
     parseInt(hours),
     parseInt(minutes),
     parseInt(seconds),
+    0,
   )
 
-  const now = fromZonedTime(localNow, timeZone)
+  const now = getUTCMillisecondsFromWallClock(wallClock.getTime(), timeZone)
 
   vi.useFakeTimers({
     now,
