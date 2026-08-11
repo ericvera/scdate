@@ -89,7 +89,9 @@ const getTimeZoneOffsetAtInstant = (
  * candidate is the ordinary case. Two valid candidates means the wall clock
  * repeats (daylight saving fall back) and the larger offset is the earlier
  * occurrence. No valid candidate means the wall clock does not exist (spring
- * forward) and the larger offset is used.
+ * forward); the smaller (pre-gap) offset is used, which shifts the wall clock
+ * forward by the length of the gap to the first existing instant at or after
+ * it (matching Temporal's `disambiguation: 'compatible'`).
  *
  * Every offset here comes from formatting a real instant, so the result never
  * depends on the host's `TZ`.
@@ -118,7 +120,7 @@ export const getUTCMillisecondsFromWallClock = (
       ) === candidate,
   )
 
-  const chosen = Math.max(...(valid.length > 0 ? valid : candidates))
+  const chosen = valid.length > 0 ? Math.max(...valid) : Math.min(...candidates)
 
   return wallClockMilliseconds - chosen
 }

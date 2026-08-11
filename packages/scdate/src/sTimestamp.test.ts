@@ -175,16 +175,19 @@ describe('getUTCMillisecondsFromTimestamp', () => {
     expect(utcMilliseconds).toBe(1712417400000)
   })
 
-  it('resolves a non-existent wall clock to the larger offset', () => {
+  it('resolves a non-existent wall clock forward to the first existing instant', () => {
     const timestamp = sTimestamp('2024-03-10T02:30')
     const utcMilliseconds = getUTCMillisecondsFromTimestamp(
       timestamp,
       TestLocalTimeZoneWithDaylight,
     )
 
-    // '2024-03-10T02:30' never happens in America/New_York. 1710052200000 is
-    // '2024-03-10T06:30' in UTC, which reads back as '01:30' local.
-    expect(utcMilliseconds).toBe(1710052200000)
+    // '2024-03-10T02:30' never happens in America/New_York. 1710055800000 is
+    // '2024-03-10T07:30' in UTC, which reads back as '03:30' local (EDT, -4):
+    // the skipped wall clock shifted forward across the gap. The
+    // backward-shifted value, 1710052200000 ('06:30' in UTC, reads back as
+    // '01:30' EST), must not be returned.
+    expect(utcMilliseconds).toBe(1710055800000)
   })
 
   it('throws for invalid time zone', () => {
@@ -349,13 +352,14 @@ describe('getSecondsToTimestamp', () => {
     // Time is Eastern Standard Time (UTC-5) equivalent to 06:59 UTC
     setFakeTimer('2024-03-10T01:59', TestLocalTimeZoneWithDaylight)
 
-    // Times is Eastern Daylight Time (UTC-4) and equivalent to 06:00 UTC
+    // '02:00' is skipped by the spring-forward gap, so it resolves forward to
+    // '03:00' Eastern Daylight Time (UTC-4), equivalent to 07:00 UTC
     const timestamp = sTimestamp('2024-03-10T02:00')
 
-    // Expects 59 minutes past (negative value)
+    // Expects 1 minute in the future
     expect(
       getSecondsToTimestamp(timestamp, TestLocalTimeZoneWithDaylight),
-    ).toBe(-59 * SecondsInMinute)
+    ).toBe(1 * SecondsInMinute)
   })
 
   it('works for a time zone with daylight saving time (Fall)', () => {
@@ -754,11 +758,11 @@ describe('addMinutesToTimestamp', () => {
     // be seen in a watch that automatically adjusts the time
     const timestamp = sTimestamp('2024-03-10T02:00')
 
-    // due to conversion to UTC first 02:00 becomes 01:00 daylight saving time
-    // so 5 minutes later is 01:05 DST
+    // the skipped 02:00 resolves forward to 03:00 daylight saving time, so 5
+    // minutes later is 03:05 DST
     expect(
       addMinutesToTimestamp(timestamp, 5, TestLocalTimeZoneWithDaylight),
-    ).toMatchInlineSnapshot(`"2024-03-10T01:05"`)
+    ).toMatchInlineSnapshot(`"2024-03-10T03:05"`)
   })
 
   it('works for a time zone with daylight saving time (Fall)', () => {

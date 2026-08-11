@@ -171,6 +171,19 @@ describe('getUTCMillisecondsFromDate', () => {
     expect(utcMilliseconds).toBe(1730606400000)
   })
 
+  it('resolves a skipped midnight forward to the first instant of the day', () => {
+    const date = sDate('2017-10-01')
+    const utcMilliseconds = getUTCMillisecondsFromDate(date, 'America/Asuncion')
+
+    // Paraguay started daylight saving time at 00:00 local on 2017-10-01,
+    // jumping straight to 01:00, so midnight never happened that day. The first
+    // instant of the day is '01:00' local (PYST, -3). 1506830400000 is
+    // '2017-10-01T04:00' in UTC. The backward-shifted value, 1506826800000
+    // ('2017-10-01T03:00' in UTC), reads back as '2017-09-30T23:00' local — an
+    // instant on the previous day — and must not be returned.
+    expect(utcMilliseconds).toBe(1506830400000)
+  })
+
   it('throws for invalid time zone', () => {
     const date = sDate('2023-10-15')
 

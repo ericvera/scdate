@@ -199,28 +199,29 @@ export const getTimeZonedDateFromTimestamp = (
  *
  * To account for time zone changes, this method converts the timestamp to UTC
  * milliseconds (for both the current time and the expected timestamp) before
- * calculating the difference in seconds. This works as expected for all times,
- * but the expectation for the transition times (those that don't happen on a
- * watch that automatically adjusts or that happen twice) it can work in
- * unexpected ways.
+ * calculating the difference in seconds. Wall clocks that do not exist (those
+ * skipped by the spring-forward transition) resolve forward to the first
+ * existing instant, and wall clocks that happen twice (fall back) resolve to
+ * the earlier occurrence.
  *
- * For example, trying to calculate the number of seconds to 2024-03-10T02:00
- * (the start of Daylight Saving Time) at 2024-03-10T01:59 (still in Standard
- * Time) will result in -3540 seconds (59 minutes in the past). A similar
- * situation happens when the time zone transitions from Daylight Saving Time to
- * Standard Time as can be derived from the table below.
+ * For example, calculating the number of seconds to 2024-03-10T02:00 (a time
+ * skipped by the transition to Daylight Saving Time) at 2024-03-10T01:59
+ * (still in Standard Time) will result in 60 seconds, because 02:00 resolves
+ * forward to 2024-03-10T07:00 UTC (03:00 EDT), the first existing instant
+ * after the gap. The behavior around the transition from Daylight Saving Time
+ * back to Standard Time can be derived from the table below.
  *
  * In 'America/New_York'
  *
  * Transition to Eastern Daylight Time (EDT) in 2024
- * | Time Zone        | T1                  | T2                  |
- * |------------------|---------------------|---------------------|
- * | America/New_York | 2024-03-10T01:59EST | 2024-03-10T02:00EDT |
- * | UTC              | 2024-03-10T06:59    | 2024-03-10T06:00    |
+ * | Time Zone        | T1                  | T2 (skipped, resolves forward) |
+ * |------------------|---------------------|--------------------------------|
+ * | America/New_York | 2024-03-10T01:59EST | 2024-03-10T02:00 → 03:00EDT    |
+ * | UTC              | 2024-03-10T06:59    | 2024-03-10T07:00               |
  *
  * | Time Zone        | T3                  |
  * |------------------|---------------------|
- * | America/New_York | 2024-03-10T03:00EST |
+ * | America/New_York | 2024-03-10T03:00EDT |
  * | UTC              | 2024-03-10T07:00    |
  *
  * Transition to Eastern Standard Time (EST) in 2024
@@ -430,10 +431,10 @@ export const addDaysToTimestamp = (
  * 01:00.
  *
  * To account for time zone changes, this method converts the timestamp to UTC
- * milliseconds before adding the specified minutes. This works as expected for
- * all times, but the expectation for the transition times (those that don't
- * happen on a watch that automatically adjusts or that happen twice) it can
- * work in unexpected ways.
+ * milliseconds before adding the specified minutes. Wall clocks that do not
+ * exist (those skipped by the spring-forward transition) resolve forward to
+ * the first existing instant, and wall clocks that happen twice (fall back)
+ * resolve to the earlier occurrence.
  *
  * Time is converted from the given time zone to
  * UTC before the minutes are added, and then converted back to the specified
@@ -443,27 +444,25 @@ export const addDaysToTimestamp = (
  * hour for daylight saving time at 2024-03-10T02:00.)
  *
  * For example, adding one minute to 2024-03-10T01:59 will result in
- * 2024-03-10T03:00 as expected. However, trying to add one minute to
- * 2024-03-10T02:00 (a time that technically does not exist on a watch that
- * automatically adjusts for Daylight Saving) will result in 2024-03-10T01:01.
- * This is because 2024-03-10T02:00 is converted to 2024-03-10T06:00 UTC (due
- * to time zone offset being -4 starting from 02:00 local time) and one minute
- * later would be 2024-03-10T06:01 UTC  which would be 2024-03-10T01:01 in
- * `America/New_York`. A similar situation happens when the time zone
- * transitions from Daylight Saving Time to Standard Time as can be derived from
- * the table below.
+ * 2024-03-10T03:00 as expected. Adding one minute to 2024-03-10T02:00 (a time
+ * skipped by the transition to Daylight Saving Time) will result in
+ * 2024-03-10T03:01. This is because 2024-03-10T02:00 resolves forward to the
+ * first existing instant, 2024-03-10T07:00 UTC (03:00 EDT), and one minute
+ * later is 2024-03-10T07:01 UTC, which is 2024-03-10T03:01 in
+ * `America/New_York`. The behavior around the transition from Daylight Saving
+ * Time back to Standard Time can be derived from the table below.
  *
  * In 'America/New_York'
  *
  * Transition to Eastern Daylight Time (EDT) in 2024
- * | Time Zone        | T1                  | T2                  |
- * |------------------|---------------------|---------------------|
- * | America/New_York | 2024-03-10T01:59EST | 2024-03-10T02:00EDT |
- * | UTC              | 2024-03-10T06:59    | 2024-03-10T06:00    |
+ * | Time Zone        | T1                  | T2 (skipped, resolves forward) |
+ * |------------------|---------------------|--------------------------------|
+ * | America/New_York | 2024-03-10T01:59EST | 2024-03-10T02:00 → 03:00EDT    |
+ * | UTC              | 2024-03-10T06:59    | 2024-03-10T07:00               |
  *
  * | Time Zone        | T3                  |
  * |------------------|---------------------|
- * | America/New_York | 2024-03-10T03:00EST |
+ * | America/New_York | 2024-03-10T03:00EDT |
  * | UTC              | 2024-03-10T07:00    |
  *
  * Transition to Eastern Standard Time (EST) in 2024
