@@ -21,7 +21,7 @@ export const getISODateFromISODate = (isoDate: string): string => {
 }
 
 export const getISODateFromZonedDate = (date: Date): string => {
-  return `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+  return `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
 }
 
 export const validateISODate = (isoDate: string) => {

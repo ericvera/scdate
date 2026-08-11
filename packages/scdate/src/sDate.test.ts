@@ -11,12 +11,15 @@ import {
   addYearsToDate,
   areDatesInSameMonth,
   areDatesInSameYear,
+  getDateForFirstDayOfISOWeek,
   getDateForFirstDayOfMonth,
   getDateForLastDayOfMonth,
   getDateFromDate,
   getDateToday,
   getDaysBetweenDates,
   getFullDateString,
+  getISOWeekFromDate,
+  getISOWeekYearFromDate,
   getMonthFromDate,
   getNextDateByWeekday,
   getPreviousDateByWeekday,
@@ -361,6 +364,114 @@ describe('getDateForLastDayOfMonth', () => {
   })
 })
 
+describe('getDateForFirstDayOfISOWeek', () => {
+  it('works for week 53 of a long year', () => {
+    expect(getDateForFirstDayOfISOWeek(2026, 53)).toMatchInlineSnapshot(
+      `"2026-12-28"`,
+    )
+  })
+
+  it('works for week 1 starting on January 4', () => {
+    expect(getDateForFirstDayOfISOWeek(2027, 1)).toMatchInlineSnapshot(
+      `"2027-01-04"`,
+    )
+  })
+
+  it('works for week 1 starting in the previous calendar year', () => {
+    expect(getDateForFirstDayOfISOWeek(2020, 1)).toMatchInlineSnapshot(
+      `"2019-12-30"`,
+    )
+  })
+
+  it('works for week year 0', () => {
+    expect(getDateForFirstDayOfISOWeek(0, 1)).toMatchInlineSnapshot(
+      `"0000-01-03"`,
+    )
+  })
+
+  it('throws for week 53 of a 52-week year', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(2027, 53)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week. Expected a value from 1 to 52. Current value: '53'.]`,
+    )
+  })
+
+  it('throws for a week beyond 53', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(2026, 54)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week. Expected a value from 1 to 53. Current value: '54'.]`,
+    )
+  })
+
+  it('throws for week 0', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(2026, 0)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week. Expected a value from 1 to 53. Current value: '0'.]`,
+    )
+  })
+
+  it('throws for a non-integer week year', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(2026.5, 1)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week year. Expected an integer. Current value: '2026.5'.]`,
+    )
+  })
+
+  it('throws for a non-integer week', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(2026, 1.5)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week. Expected an integer. Current value: '1.5'.]`,
+    )
+  })
+
+  it('throws when the resulting Monday is not representable', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(10000, 1)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week year. The first day of the week cannot be represented in the YYYY-MM-DD format. Current value: '10000'.]`,
+    )
+  })
+
+  it('reports the week-range error before representability', () => {
+    expect(() => {
+      getDateForFirstDayOfISOWeek(10000, 54)
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO week. Expected a value from 1 to 52. Current value: '54'.]`,
+    )
+  })
+
+  it('round-trips back to the Monday of the week for a date', () => {
+    const datesWithMonday = [
+      ['2019-12-30', '2019-12-30'],
+      ['2021-01-01', '2020-12-28'],
+      ['2026-12-28', '2026-12-28'],
+      ['2027-01-01', '2026-12-28'],
+      ['2027-01-04', '2027-01-04'],
+      ['2026-07-15', '2026-07-13'],
+      ['2026-01-04', '2025-12-29'],
+      ['2020-06-17', '2020-06-15'],
+    ] as const
+
+    for (const [date, monday] of datesWithMonday) {
+      const result = getDateForFirstDayOfISOWeek(
+        getISOWeekYearFromDate(date),
+        getISOWeekFromDate(date),
+      )
+
+      expect(isSameDate(result, monday)).toBe(true)
+
+      if (isSameDate(date, monday)) {
+        expect(isSameDate(result, date)).toBe(true)
+      }
+    }
+  })
+})
+
 /**
  * --- Getters ---
  */
@@ -432,6 +543,92 @@ describe('getWeekdayFromDate', () => {
       getWeekdayFromDate('11:00:00')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid date format. Expected format: YYYY-MM-DD. Current value: '11:00:00'.]`,
+    )
+  })
+})
+
+describe('getISOWeekFromDate', () => {
+  it('works for a Monday in week 1 of the next week year', () => {
+    expect(getISOWeekFromDate('2019-12-30')).toMatchInlineSnapshot(`1`)
+  })
+
+  it('works for a date in week 53 of the previous week year', () => {
+    expect(getISOWeekFromDate('2021-01-01')).toMatchInlineSnapshot(`53`)
+  })
+
+  it('works for the first day of week 53', () => {
+    expect(getISOWeekFromDate('2026-12-28')).toMatchInlineSnapshot(`53`)
+  })
+
+  it('works for a January date in week 53 of the previous week year', () => {
+    expect(getISOWeekFromDate('2027-01-01')).toMatchInlineSnapshot(`53`)
+  })
+
+  it('works for the first Monday after a week 53', () => {
+    expect(getISOWeekFromDate('2027-01-04')).toMatchInlineSnapshot(`1`)
+  })
+
+  it('works for a mid-year date', () => {
+    expect(getISOWeekFromDate('2026-07-15')).toMatchInlineSnapshot(`29`)
+  })
+
+  it('works for a valid date (SDate)', () => {
+    expect(getISOWeekFromDate(sDate('2026-07-15'))).toMatchInlineSnapshot(`29`)
+  })
+
+  it('works for the first day of year 0', () => {
+    expect(getISOWeekFromDate('0000-01-01')).toMatchInlineSnapshot(`52`)
+  })
+
+  it('throws for invalid date', () => {
+    expect(() => {
+      getISOWeekFromDate('2023-11-31')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO date value. Current value: '2023-11-31'.]`,
+    )
+  })
+})
+
+describe('getISOWeekYearFromDate', () => {
+  it('works for a Monday in week 1 of the next week year', () => {
+    expect(getISOWeekYearFromDate('2019-12-30')).toMatchInlineSnapshot(`2020`)
+  })
+
+  it('works for a date in week 53 of the previous week year', () => {
+    expect(getISOWeekYearFromDate('2021-01-01')).toMatchInlineSnapshot(`2020`)
+  })
+
+  it('works for the first day of week 53', () => {
+    expect(getISOWeekYearFromDate('2026-12-28')).toMatchInlineSnapshot(`2026`)
+  })
+
+  it('works for a January date in week 53 of the previous week year', () => {
+    expect(getISOWeekYearFromDate('2027-01-01')).toMatchInlineSnapshot(`2026`)
+  })
+
+  it('works for the first Monday after a week 53', () => {
+    expect(getISOWeekYearFromDate('2027-01-04')).toMatchInlineSnapshot(`2027`)
+  })
+
+  it('works for a mid-year date', () => {
+    expect(getISOWeekYearFromDate('2026-07-15')).toMatchInlineSnapshot(`2026`)
+  })
+
+  it('works for a valid date (SDate)', () => {
+    expect(getISOWeekYearFromDate(sDate('2026-07-15'))).toMatchInlineSnapshot(
+      `2026`,
+    )
+  })
+
+  it('works for the first day of year 0', () => {
+    expect(getISOWeekYearFromDate('0000-01-01')).toMatchInlineSnapshot(`-1`)
+  })
+
+  it('throws for invalid date', () => {
+    expect(() => {
+      getISOWeekYearFromDate('2023-11-31')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO date value. Current value: '2023-11-31'.]`,
     )
   })
 })

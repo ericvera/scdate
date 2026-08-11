@@ -9,6 +9,12 @@ import {
   getISOMonthFromISODate,
   getISOYearFromISODate,
 } from './internal/date.js'
+import {
+  getISOWeekForUTCDate,
+  getISOWeekYearForUTCDate,
+  getMondayBasedWeekdayIndex,
+  validateISOWeekYearAndWeek,
+} from './internal/isoWeek.js'
 import { getAtIndex } from './internal/utils.js'
 import { getIndexForWeekday } from './internal/weekdays.js'
 import {
@@ -153,6 +159,45 @@ export const getDateForLastDayOfMonth = (date: SDateString | SDate): SDate => {
 }
 
 /**
+ * Returns a new SDate instance set to the first day (Monday) of the given ISO
+ * week in the given ISO week-numbering year. Weeks follow ISO 8601: they run
+ * Monday to Sunday, and week 1 is the week that contains the first Thursday of
+ * the week-numbering year.
+ *
+ * @param weekYear The ISO week-numbering year the week belongs to.
+ * @param week The ISO week number (1 to 52 or 53 depending on the year).
+ */
+export const getDateForFirstDayOfISOWeek = (
+  weekYear: number,
+  week: number,
+): SDate => {
+  validateISOWeekYearAndWeek(weekYear, week)
+
+  // January 4 is always in week 1 of the ISO week-numbering year. Clone +
+  // setFullYear avoids the numeric Date constructors, which map years 0-99 to
+  // 1900-1999.
+  const monday = new UTCDateMini(0)
+  monday.setFullYear(weekYear, 0, 4)
+
+  monday.setDate(
+    monday.getDate() -
+      getMondayBasedWeekdayIndex(monday) +
+      (week - 1) * DaysInWeek,
+  )
+
+  const MinYear = 0
+  const MaxYear = 9999
+
+  if (monday.getFullYear() < MinYear || monday.getFullYear() > MaxYear) {
+    throw new Error(
+      `Invalid ISO week year. The first day of the week cannot be represented in the YYYY-MM-DD format. Current value: '${weekYear.toString()}'.`,
+    )
+  }
+
+  return sDate(getISODateFromZonedDate(monday))
+}
+
+/**
  * --- Getters ---
  */
 
@@ -205,6 +250,35 @@ export const getWeekdayFromDate = (date: SDateString | SDate): number => {
   const nativeDate = getDateAsUTCDateMini(sDateValue)
 
   return getAtIndex(DayToWeekday, nativeDate.getDay())
+}
+
+/**
+ * Returns the ISO 8601 week number (1 to 52 or 53) for the given date. Weeks
+ * run Monday to Sunday, and week 1 is the week that contains the first
+ * Thursday of the week-numbering year.
+ *
+ * @param date The date to get the ISO week number from. It can be an SDate or
+ * a string in the YYYY-MM-DD format.
+ */
+export const getISOWeekFromDate = (date: SDateString | SDate): number => {
+  const sDateValue = sDate(date)
+
+  return getISOWeekForUTCDate(getDateAsUTCDateMini(sDateValue))
+}
+
+/**
+ * Returns the ISO 8601 week-numbering year for the given date. Unlike
+ * getYearFromDate, dates near January 1 can belong to the last week of the
+ * previous year or the first week of the next year, so the result can differ
+ * from the calendar year.
+ *
+ * @param date The date to get the ISO week-numbering year from. It can be an
+ * SDate or a string in the YYYY-MM-DD format.
+ */
+export const getISOWeekYearFromDate = (date: SDateString | SDate): number => {
+  const sDateValue = sDate(date)
+
+  return getISOWeekYearForUTCDate(getDateAsUTCDateMini(sDateValue))
 }
 
 /**

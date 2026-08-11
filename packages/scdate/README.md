@@ -96,6 +96,11 @@ const weekday = getWeekdayFromDate(date1) // Get weekday (0-6)
 const nextTuesday = getNextDateByWeekday(date1, Weekday.Tue)
 const prevFriday = getPreviousDateByWeekday(date1, Weekday.Fri)
 
+// ISO week numbering
+const isoWeek = getISOWeekFromDate('2027-01-01') // 53 (ISO week number, 1-53)
+const isoWeekYear = getISOWeekYearFromDate('2027-01-01') // 2026 (ISO week-numbering year)
+const isoWeekMonday = getDateForFirstDayOfISOWeek(2026, 53) // 2026-12-28 (Monday the week opens on)
+
 // Date calculations
 const daysBetween = getDaysBetweenDates(date1, date2) // Days between dates (positive if date2 is later)
 const utcMs = getUTCMillisecondsFromDate(date1, 'America/Puerto_Rico') // Convert to UTC milliseconds
@@ -147,6 +152,10 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
 - **`areDatesInSameMonth(date1, date2)` / `areDatesInSameYear(date1, date2)`**: Check if two dates fall within the same month/year. For months, both the month and year must match.
 
 - **`isDateInCurrentMonth(date, timeZone)` / `isDateInCurrentYear(date, timeZone)`**: Check if a date falls within the current month or year in the specified time zone.
+
+- **`getISOWeekFromDate(date)` / `getISOWeekYearFromDate(date)`**: Return the ISO 8601 week number (1-53) and week-numbering year. ISO weeks run Monday through Sunday, and week 1 is the week containing the year's first Thursday, so the week-numbering year can differ from `getYearFromDate` near year boundaries: late-December dates can belong to week 1 of the next year (`2019-12-30` is week 1 of 2020), and early-January dates can belong to week 52/53 of the previous year (`2027-01-01` is week 53 of 2026).
+
+- **`getDateForFirstDayOfISOWeek(weekYear, week)`**: Returns the date of the Monday the given ISO week opens on, which can fall in the previous calendar year (week 1 of 2020 starts on `2019-12-30`). Throws if either argument is not an integer, if `week` is outside the valid range for that week-numbering year (1-52 or 1-53 depending on the year, e.g. week 53 of 2027 is invalid), or if the resulting Monday falls outside the supported `0000-01-01` to `9999-12-31` range.
 
 ### Time Operations (`STime`)
 
