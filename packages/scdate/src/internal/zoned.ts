@@ -1,4 +1,4 @@
-import { toZonedTime } from 'date-fns-tz'
+import { toZonedTime } from 'date-fns-tz/toZonedTime'
 import { MillisecondsInDay } from './constants.js'
 
 const HoursInDay = 24
