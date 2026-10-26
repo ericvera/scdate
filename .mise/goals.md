@@ -1,0 +1,3 @@
+[infra] import date-fns-tz subpaths in scdate and setFakeTimer helpers to halve functions test file startup
+---
+Description: scdate's src/internal/zoned.ts does import { toZonedTime } from 'date-fns-tz', loading the whole date-fns barrel (~530 ms per test file vs 13 ms for the subpath). Change it to 'date-fns-tz/toZonedTime', publish a scdate release, and move Okven off scdate 7.0.0. Then point the three setFakeTimer.ts helpers (functions/src/test/utils, hosting/test/utils, packages/core/src/test/utils) at 'date-fns-tz/fromZonedTime'. A/B on 116 functions test files: 37.5→18.7 s, 80→33 s, 75→28 s. Also helps Cloud Function cold starts.
