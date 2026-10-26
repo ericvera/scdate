@@ -373,7 +373,7 @@ describe('addWeekdayToWeekdays', () => {
 
   it('throws if trying to add an invalid weekday', () => {
     expect(() => {
-      addWeekdayToWeekdays('---W---', 999 as Weekday)
+      addWeekdayToWeekdays('---W---', 999 as unknown as Weekday)
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid weekday '999'. Expected a single weekday.]`,
     )
@@ -415,7 +415,7 @@ describe('removeWeekdayFromWeekdays', () => {
 
   it('throws if trying to remove an invalid weekday', () => {
     expect(() => {
-      removeWeekdayFromWeekdays('---W---', 999 as Weekday)
+      removeWeekdayFromWeekdays('---W---', 999 as unknown as Weekday)
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid weekday '999'. Expected a single weekday.]`,
     )
@@ -465,7 +465,7 @@ describe('toggleWeekdayInWeekdays', () => {
 
   it('throws if trying to toggle an invalid weekday', () => {
     expect(() => {
-      toggleWeekdayInWeekdays('---W---', 999 as Weekday)
+      toggleWeekdayInWeekdays('---W---', 999 as unknown as Weekday)
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid weekday '999'. Expected a single weekday.]`,
     )
@@ -517,7 +517,7 @@ describe('doesWeekdaysIncludeWeekday', () => {
 
   it('throws on invalid weekday value', () => {
     expect(() => {
-      doesWeekdaysIncludeWeekday('-------', 945 as Weekday)
+      doesWeekdaysIncludeWeekday('-------', 945 as unknown as Weekday)
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid weekday '945'. Expected a single weekday.]`,
     )
