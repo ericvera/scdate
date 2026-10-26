@@ -14,7 +14,20 @@ Description: scdate's src/internal/zoned.ts does import { toZonedTime } from 'da
 - Testing: no behavior change; existing tests (yarn test:utc + Tokyo/LA TZ runs) cover it. No new test per config.
 - Docs: CLAUDE.md:14 stays true.
 
-## Open questions
+## Decisions
 
-1. Scope of this run (Okven parts live in another repo).
-2. Commit type for the release (fix vs perf).
+- Scope: only the scdate import change and its release. Okven's upgrade off 7.0.0 and its three setFakeTimer.ts helpers are a separate run in the Okven repo.
+- Release commit type: `fix:` (patch 7.1.2 → 7.1.3; ships scdate, scschedule, scdate-testing together).
+- For the later Okven run: retarget the helpers to 'date-fns-tz/fromZonedTime' as described, noting the host-TZ risk; no new scdate public API.
+
+## Assumptions
+
+- No new test: the change has no behavior of its own; existing tests under `yarn test:utc` plus TZ=Asia/Tokyo and TZ=America/Los_Angeles runs cover it.
+- No package.json or docs change needed (`^3.2.0` already has the subpath; CLAUDE.md stays accurate).
+- Not a bug fix in the behavioral sense, so no repro/regression test; the "bug" is load time.
+
+## Proposal
+
+- Issue: scdate's `import { toZonedTime } from 'date-fns-tz'` loads the whole date-fns barrel (~530 ms per test file / cold start).
+- Fix: import from 'date-fns-tz/toZonedTime' in packages/scdate/src/internal/zoned.ts and ship as a `fix:` patch release; Okven follow-up is a separate run.
+- Skips: spec and critic (one-line change in one module, no API change).
