@@ -245,7 +245,7 @@ export const getDateFromDate = (date: SDateString | SDate): number => {
  * @param date The date to get the weekday from. It can be an SDate or a
  * string in the YYYY-MM-DD format.
  */
-export const getWeekdayFromDate = (date: SDateString | SDate): number => {
+export const getWeekdayFromDate = (date: SDateString | SDate): Weekday => {
   const sDateValue = sDate(date)
   const nativeDate = getDateAsUTCDateMini(sDateValue)
 
