@@ -90,7 +90,7 @@ const nextYear = addYearsToDate(date1, 1) // Add years
 const year = getYearFromDate(date1) // Get year (number)
 const month = getMonthFromDate(date1) // Get month (0-11)
 const day = getDateFromDate(date1) // Get day of month
-const weekday = getWeekdayFromDate(date1) // Get weekday (0-6)
+const weekday = getWeekdayFromDate(date1) // Get weekday (Weekday flag, e.g. Weekday.Mon)
 
 // Date navigation
 const nextTuesday = getNextDateByWeekday(date1, Weekday.Tue)
@@ -298,7 +298,7 @@ const previousDay = getPreviousWeekday(Weekday.Mon) // Returns Weekday.Sun
 const nextDay = getNextWeekday(Weekday.Mon) // Returns Weekday.Tue
 
 // Converting a weekday index (0-6, Sunday to Saturday) to a Weekday flag
-const mondayFlag = DayToWeekday[1] // Weekday.Mon (e.g., from getWeekdayFromDate)
+const mondayFlag = DayToWeekday[1] // Weekday.Mon (index as returned by Date#getDay())
 
 // Weekday queries
 const includesMonday = doesWeekdaysIncludeWeekday(weekdays2, Weekday.Mon)
@@ -337,7 +337,7 @@ These aliases appear throughout the API (e.g. `sDate(date: SDateString | SDate)`
 This package has the following dependencies:
 
 - `date-fns-tz`: Used for time zone calculations
-- `date-fns`: General date manipulation utilities (also satisfies the peer dependency of `date-fns-tz`)
+- `date-fns`: Peer dependency of `date-fns-tz` (not imported by scdate directly)
 - `@date-fns/utc`: Used for its `UTCDateMini` implementation that simplifies time calculations
 
 All of these are direct dependencies and are installed automatically.

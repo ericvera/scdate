@@ -27,7 +27,7 @@ yarn add --dev scdate-testing
 ## Requirements
 
 - Node.js >= 24
-- vitest >= 4 (peer dependency — the helper drives your project's vitest)
+- vitest 5 (peer dependency — the helper drives your project's vitest)
 - TypeScript >= 5.0 (for TypeScript users)
 
 ## Basic Usage
