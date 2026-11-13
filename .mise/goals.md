@@ -72,35 +72,38 @@ Task 2 makes sense as noted. Task 1 names a real gap and the wrong fix.
 - `weekdaySeparator` needs a rule for locales that put nothing after the weekday (weekday last, as in ja). The notes give none.
 - The notes cite scdate 7.1.2. This repository is at 8.0.0, so the Okven bump crosses a major (date-fns-tz subpath import; vitest 5 for scdate-testing).
 
-## Open questions
+## Decisions
 
-The owner, 2026-11-12: Temporal's shape "feels like the more correct way" — `toString()` returning the string form, and implicit coercion that throws instead of returning a value. It would cover all four value classes. It is a breaking change: `<`, `==` against a string, `+` and `Number()` on an instance would throw, and template literals, `String()`, object keys and comparator-less `.sort()` would use the string form. The comparators stay, because `<` would throw.
+The owner, 2026-11-12 and 2026-11-13:
 
-1. Does it ship in this run as one major release, or as its own run after this one, leaving this run a non-breaking minor?
-2. Is the guard a `valueOf()` that throws (Temporal's exact shape), or a `Symbol.toPrimitive` that throws for every hint but `string`? Operators behave the same either way. The difference is an explicit `.valueOf()` call, which throws only under the first. Helpers that call `.valueOf()` on any object overriding it would then throw when handed two instances. fast-deep-equal and react-fast-compare are believed to do that (from memory, not verified).
+- Temporal's shape "feels like the more correct way": `toString()` returns the string form and implicit coercion throws.
+- It ships in this run, as one PR and one major release with the comparators and the `getFullDateString` options.
+- Asked how the guard is built, the owner asked how Temporal does it and said to continue. Temporal uses a `valueOf()` that throws and defines no `Symbol.toPrimitive`. The driver took that as choosing Temporal's exact shape.
+- The owner asked whether the comparators are still needed with `toString()`. Not strictly: `String(a) < String(b)` works. They stay, because `<` on instances throws, they validate their arguments like the `isBefore*` functions, and Temporal also ships `compare` next to `toString()`.
 
 ## Assumptions
 
-- Task 1 is solved with comparator functions instead of `valueOf()`. Proposed by the driver, pending the owner's approval.
-- It adds `compareDates`, `compareTimes` and `compareTimestamps`, named after the existing `isBeforeDate` family. Each takes `S*String | S*` for both arguments, validates the way the `isBefore*` functions do, and returns -1, 0 or 1 in ascending order. It works as an `Array.prototype.sort` comparator directly or wrapped: `(a, b) => compareDates(a.from, b.from)`.
+- `SDate`, `STime`, `STimestamp` and `SWeekdays` each gain `toString()`, returning the same string `toJSON()` returns, and a `valueOf()` that throws a `TypeError` whose message names the alternatives (the comparators, the `isSame*` functions, `String(value)`).
+- Resulting behavior: template literals, `String()`, object keys and comparator-less `.sort()` use the string form. `<`, `>`, `==` against a primitive, `+`, `Number()` and an explicit `.valueOf()` throw. `===`, `==` between two instances (identity) and JSON are unchanged.
+- Risk to verify in the spec: helpers that call `.valueOf()` on any object overriding it would throw when handed two instances. fast-deep-equal and react-fast-compare are believed to do this (from memory, not verified). The spec also confirms with tsc what the new `valueOf()` member does to hand-built `SDate`-shaped objects, and checks that nothing in the three packages coerces an instance implicitly.
+- `compareDates`, `compareTimes` and `compareTimestamps` are added, named after the existing `isBeforeDate` family. Each takes `S*String | S*` for both arguments, validates the way the `isBefore*` functions do, and returns -1, 0 or 1 in ascending order. Each works as an `Array.prototype.sort` comparator directly or wrapped: `(a, b) => compareDates(a.from, b.from)`.
 - `compareTimestamps` orders wall clocks, so it is only meaningful within one zone, the same limit `isBeforeTimestamp` has. There is no comparator for `SWeekdays`.
-- The classes do not change. No `valueOf()`, `toString()` or `Symbol.toPrimitive`. `a < b` between instances stays what it is today: it compiles and is always false.
-- The README documents the comparators next to the existing comparison functions.
+- The README documents the comparators next to the existing comparison functions, and the coercion rules above.
 - Task 2 adds an optional third argument to `getFullDateString`, an options object with `includeYear?: boolean` and `weekdaySeparator?: string`, following `SDateShortStringOptions`. With no options the output is byte-identical to today's, and the existing snapshots stay untouched.
 - `includeYear: false` formats the full weekday, the full month and the day, with no year.
 - `weekdaySeparator` replaces the text Intl puts between the weekday and what follows it, found structurally with `formatToParts` and not by searching the string. `' '` gives `sábado 1 de febrero`. It works with or without the year. Where the locale puts nothing after the weekday, it does nothing.
 - Tests cover en and es for `getFullDateString`, matching its existing tests.
-- The release is a `feat` and a minor. Nothing in either task is breaking.
-- Both tasks ship together on this branch as one PR.
+- The release is a `feat!` and a major. The squash commit carries a `BREAKING CHANGE:` footer of one or two sentences describing the coercion change.
+- Everything ships together on this branch as one PR.
 
 ## Out of scope
 
-- `valueOf()`, `toString()` and any other implicit coercion on the classes.
+- A `valueOf()` that returns a value, and `Symbol.toPrimitive`.
 - Everything on the Okven side: bumping scdate, changing the sort in `selectSingleDayOverrides.ts` to use `compareDates`, and replacing the Intl formatters in `formatPopUpNotice.ts` and `toPopUpDayParts.ts`. It is a different repository, and it depends on the release that merging this PR publishes. It becomes its own run in Okven afterwards.
 - Any other punctuation or formatting change to `getFullDateString` or `getShortDateString`.
 
 ## Proposal
 
-- Issue: scdate has no way to sort `SDate | string` values without normalizing them first (`sDate(x).date`), and it cannot produce a year-less, comma-less full date such as `sábado 1 de febrero`.
-- Approach: add `compareDates`, `compareTimes` and `compareTimestamps` (take `S*String | S*`, return -1, 0 or 1) in place of `valueOf()`, leaving the classes without implicit coercion; add an optional `{ includeYear?, weekdaySeparator? }` third argument to `getFullDateString` with today's output as the default; document both in the README; ship as a non-breaking `feat`.
+- Issue: scdate has no way to sort `SDate | string` values without normalizing them first, its value classes turn into `[object Object]` or silently wrong results when coerced, and it cannot produce a year-less, comma-less full date such as `sábado 1 de febrero`.
+- Approach: add `compareDates`, `compareTimes` and `compareTimestamps`; give the four value classes `toString()` and a `valueOf()` that throws, as Temporal does; add an optional `{ includeYear?, weekdaySeparator? }` third argument to `getFullDateString` with today's output as the default; document all three in the README; ship as `feat!` with a `BREAKING CHANGE:` footer.
 - Skips: nothing. Spec and critic both run, because the public API of a published package changes.
