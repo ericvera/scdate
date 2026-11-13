@@ -715,40 +715,6 @@ export const isSameDateOrAfter = (
 }
 
 /**
- * Compares two dates for sorting. Returns -1 when the first date is before
- * the second, 1 when it is after, and 0 when both are the same. Can be passed
- * directly to `Array.prototype.sort`.
- *
- * @param date1 The first date to compare. It can be an SDate or a string in
- * the YYYY-MM-DD format.
- * @param date2 The second date to compare. It can be an SDate or a string in
- * the YYYY-MM-DD format.
- *
- * @example
- * ```ts
- * ['2024-03-01', '2024-01-15'].sort(compareDates)
- * //=> ['2024-01-15', '2024-03-01']
- * ```
- */
-export const compareDates = (
-  date1: SDateString | SDate,
-  date2: SDateString | SDate,
-): -1 | 0 | 1 => {
-  const value1 = sDate(date1).date
-  const value2 = sDate(date2).date
-
-  if (value1 < value2) {
-    return -1
-  }
-
-  if (value1 > value2) {
-    return 1
-  }
-
-  return 0
-}
-
-/**
  * Returns true when the date is today and false otherwise.
  *
  * @param date The date to check if it is today. It can be an SDate or a string

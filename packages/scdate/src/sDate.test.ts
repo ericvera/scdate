@@ -11,7 +11,6 @@ import {
   addYearsToDate,
   areDatesInSameMonth,
   areDatesInSameYear,
-  compareDates,
   getDateForFirstDayOfISOWeek,
   getDateForFirstDayOfMonth,
   getDateForLastDayOfMonth,
@@ -1314,58 +1313,6 @@ describe('isSameDateOrAfter', () => {
   it('throws for invalid second date', () => {
     expect(() => {
       isSameDateOrAfter('2021-12-31', '2022-01-01T11:00')
-    }).toThrowErrorMatchingInlineSnapshot(
-      `[Error: Invalid date format. Expected format: YYYY-MM-DD. Current value: '2022-01-01T11:00'.]`,
-    )
-  })
-})
-
-describe('compareDates', () => {
-  it('returns -1 when the first is before the second', () => {
-    expect(compareDates(sDate('2021-12-31'), '2022-01-01')).toBe(-1)
-  })
-
-  it('returns 1 when the first is after the second', () => {
-    expect(compareDates('2022-01-01', sDate('2021-12-31'))).toBe(1)
-  })
-
-  it('returns 0 when both are the same', () => {
-    expect(compareDates(sDate('2021-12-31'), '2021-12-31')).toBe(0)
-  })
-
-  it('sorts when passed as a comparator', () => {
-    const values = [sDate('2024-03-01'), '2023-12-31', '2024-01-15']
-
-    expect(values.sort(compareDates).map((value) => sDate(value).date)).toEqual(
-      ['2023-12-31', '2024-01-15', '2024-03-01'],
-    )
-  })
-
-  it('sorts when wrapped', () => {
-    const items = [
-      { from: '2024-03-01' },
-      { from: sDate('2023-12-31') },
-      { from: '2024-01-15' },
-    ]
-
-    expect(
-      items
-        .sort((a, b) => compareDates(a.from, b.from))
-        .map((item) => sDate(item.from).date),
-    ).toEqual(['2023-12-31', '2024-01-15', '2024-03-01'])
-  })
-
-  it('throws for invalid first value', () => {
-    expect(() => {
-      compareDates('2021-12-31T11:00', '2021-12-31')
-    }).toThrowErrorMatchingInlineSnapshot(
-      `[Error: Invalid date format. Expected format: YYYY-MM-DD. Current value: '2021-12-31T11:00'.]`,
-    )
-  })
-
-  it('throws for invalid second value', () => {
-    expect(() => {
-      compareDates('2021-12-31', '2022-01-01T11:00')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid date format. Expected format: YYYY-MM-DD. Current value: '2022-01-01T11:00'.]`,
     )
