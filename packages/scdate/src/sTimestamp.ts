@@ -87,8 +87,9 @@ export const sTimestamp = (
  * time zone.
  *
  * @param utcDateInMilliseconds The number of milliseconds since the Unix epoch.
- * @param timeZone The time zone to use when creating the timestamp. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when creating the timestamp. Any time
+ * zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and
+ * `UTC`); check with `isValidTimeZone`.
  */
 export const getTimestampFromUTCMilliseconds = (
   utcDateInMilliseconds: number,
@@ -103,8 +104,9 @@ export const getTimestampFromUTCMilliseconds = (
  * Returns a new STimestamp instance set to the current date and time in the
  * given time zone.
  *
- * @param timeZone The time zone to use when creating the timestamp. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when creating the timestamp. Any time
+ * zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and
+ * `UTC`); check with `isValidTimeZone`.
  */
 export const getTimestampNow = (timeZone: string): STimestamp => {
   return getTimestampFromUTCMilliseconds(Date.now(), timeZone)
@@ -141,9 +143,9 @@ export const getTimestampFromDateAndTime = (
  * @param timestamp The timestamp to convert to UTC milliseconds.
  * It can be an STimestamp or a string in the YYYY-MM-DDTHH:MM
  * format.
- * @param timeZone The time zone to use when converting the
- * timestamp. See `Intl.supportedValuesOf('timeZone')` for a list
- * of valid time zones.
+ * @param timeZone The time zone to use when converting the timestamp. Any time
+ * zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and
+ * `UTC`); check with `isValidTimeZone`.
  */
 export const getUTCMillisecondsFromTimestamp = (
   timestamp: STimestampString | STimestamp,
@@ -161,8 +163,9 @@ export const getUTCMillisecondsFromTimestamp = (
  *
  * @param timestamp The timestamp to get the time zoned date from. It can be
  * an STimestamp or a string in the YYYY-MM-DDTHH:MM format.
- * @param timeZone The time zone to adjust the timestamp to. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to adjust the timestamp to. Any time zone the
+ * runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and `UTC`);
+ * check with `isValidTimeZone`.
  */
 export const getTimeZonedDateFromTimestamp = (
   timestamp: STimestampString | STimestamp,
@@ -237,8 +240,9 @@ export const getTimeZonedDateFromTimestamp = (
  *
  * @param timestamp The timestamp to get the seconds to. It can be an STimestamp
  * or a string in the YYYY-MM-DDTHH:MM format.
- * @param timeZone The time zone to use when creating the timestamp. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when creating the timestamp. Any time
+ * zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and
+ * `UTC`); check with `isValidTimeZone`.
  */
 export const getSecondsToTimestamp = (
   timestamp: STimestampString | STimestamp,
@@ -292,8 +296,9 @@ export const getTimeFromTimestamp = (
  *
  * @param timestamp The timestamp to get the short string from. It can be an
  * STimestamp or a string in the YYYY-MM-DDTHH:MM format.
- * @param timeZone The time zone to use when creating the short string. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when creating the short string. Any time
+ * zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and
+ * `UTC`); check with `isValidTimeZone`.
  * @param locale The locale to use for the string representation.
  * @param options An object with options for the short string representation.
  *
@@ -343,8 +348,9 @@ export const getShortTimestampString = (
  *
  * @param timestamp The timestamp to get the compact string from. It can be an
  * STimestamp or a string in the YYYY-MM-DDTHH:MM format.
- * @param timeZone The time zone to use when creating the compact string. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when creating the compact string. Any
+ * time zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases
+ * and `UTC`); check with `isValidTimeZone`.
  * @param locale The locale to use for the string representation.
  * @param options An object with options for the compact string representation.
  *
@@ -479,8 +485,9 @@ export const addDaysToTimestamp = (
  * @param timestamp The timestamp to add minutes to. It can be an STimestamp or
  * a string in the YYYY-MM-DDTHH:MM format.
  * @param minutes The number of minutes to add to the timestamp.
- * @param timeZone The time zone to use when creating the timestamp. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when creating the timestamp. Any time
+ * zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and
+ * `UTC`); check with `isValidTimeZone`.
  */
 export const addMinutesToTimestamp = (
   timestamp: STimestampString | STimestamp,

@@ -126,8 +126,8 @@ export const getUTCMillisecondsFromWallClock = (
 }
 
 /**
- * @param timeZone For a list of valid time zones run
- *   `Intl.supportedValuesOf('timeZone')` on your environment.
+ * @param timeZone Any time zone the runtime's `Intl.DateTimeFormat` accepts
+ * (IANA names, aliases and `UTC`); check with `isValidTimeZone`.
  */
 export const getTimeZonedDate = (
   millisecondsInUTC: number,
