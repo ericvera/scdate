@@ -25,3 +25,30 @@ Done when:
 isValidTimeZone returns true for every zone in the table above, and false for Invalid/Zone and +05:00.
 scdate tests cover UTC, an old alias, and a lowercase name.
 validateAttributionConfig uses isValidTimeZone, and its tests still pass.
+
+## Investigation
+
+1. Reproduced on Node v24.18.0. `Intl.supportedValuesOf('timeZone')` leaves out UTC, Etc/UTC, GMT, US/Eastern, Asia/Kolkata, america/puerto_rico and utc, but `new Intl.DateTimeFormat` accepts all of them. This runtime's list has the old name Asia/Calcutta, not Asia/Kolkata.
+2. Root cause: `packages/scdate/src/isValidTimeZone.ts:8-10` checks `Intl.supportedValuesOf('timeZone').includes(timeZone)`. The regression test belongs in `packages/scdate/src/isValidTimeZone.test.ts`, which is the only file the fix touches besides the README.
+3. Contradiction with the description: on Node 24.18, `Intl.DateTimeFormat` accepts '+05:00', '-03:00' and '+0530' (resolvedOptions gives back '+05:00'). The try/catch fix alone therefore returns true for '+05:00', but the done-when requires false. Offsets need an explicit reject.
+4. Precedent for that reject: `okven/packages/attribution/src/validateAttributionConfig.ts:111` rejects zones that start with '+' or '-' before its try/catch at :117-121. Its test at `validateAttributionConfig.test.ts:495-501` expects the fixed-offset message. If isValidTimeZone simply returned true for offsets, swapping it in would lose that message.
+5. scdate itself accepts offsets today: `getUTCMillisecondsFromDate('2025-03-09', '+05:00')` returns a value. So does 'PST', both through date-fns-tz `toZonedTime` (`zoned.ts:142`) and the `Intl.DateTimeFormat` path (`zoned.ts:17-30`). Rejecting offsets in isValidTimeZone keeps it out of step with the rest of scdate for offsets only.
+6. Existing tests the fix breaks: `isValidTimeZone.test.ts:20-22` expect false for 'EST', 'PST' and 'UTC'. All three are accepted by `Intl.DateTimeFormat`, including 'PST' with this ICU. Those cases must flip to true or be dropped.
+7. Cases still correctly false after the fix: 'Invalid/Timezone', 'America/Not_A_Place', 'Random String', '' (test lines 15-18), and 'Invalid/Zone'. Each throws RangeError.
+8. Edge case: JS callers passing `undefined` would get true, because `timeZone: undefined` falls back to the host zone. The signature is `timeZone: string` (`isValidTimeZone.ts:6`), so this only matters for untyped callers.
+9. Pattern to follow: `zoned.ts:17-29` already builds `new Intl.DateTimeFormat('en-US', { timeZone, ... })` inside try/catch and caches it in a Map (`zoned.ts:6`). isValidTimeZone could reuse that check or mirror it.
+10. Docs to update: `README.md:413-421` says to list valid zones with `Intl.supportedValuesOf`, and its example uses 'Invalid/Timezone'. The same "see supportedValuesOf" JSDoc appears in `zoned.ts:130`, `sDate.ts:81`, `sTimestamp.ts:91` and others. Wording-only.
+11. Hard to undo: this is a public API behavior change shipped as a patch. isValidTimeZone is exported from `packages/scdate/src/index.ts:2`, and some inputs that returned false will now return true. The version is 9.0.0, and releases are commits like "chore(release): v9.0.0", so the commit type picks the bump. scschedule no longer re-exports it.
+12. Cross-repo: okven pins `scdate: ^8.0.0` in `packages/attribution/package.json:24` and 4 other package.json files, and has 8.0.0 installed. Using isValidTimeZone in validateAttributionConfig needs those bumped to ^9.x (a major version). That is in a different repo, outside this branch.
+
+## Open questions
+
+1. The third done-when (validateAttributionConfig uses isValidTimeZone) lives in the okven repo, which pins scdate ^8.0.0 and so needs a major bump to 9.x after this fix is published. Is that part of this run?
+
+## Assumptions
+
+- Fixed offsets are rejected explicitly: any zone starting with '+' or '-' returns false, since the done-when requires false for '+05:00' and `Intl.DateTimeFormat` accepts it. This matches the reject validateAttributionConfig already does.
+- Abbreviations the runtime accepts ('EST', 'PST', 'UTC') return true; the existing tests expecting false for them are flipped or dropped.
+- A non-string argument (untyped JS caller) returns false rather than falling through to the host zone.
+- The README section and the JSDoc that point at `Intl.supportedValuesOf` are reworded to match the new behavior.
+- The change ships as a `fix:` commit so the release tooling cuts a patch (9.0.1).
