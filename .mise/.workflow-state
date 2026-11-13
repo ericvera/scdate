@@ -6,11 +6,11 @@
     "goals": "done",
     "spec": "done",
     "critic": "done",
-    "execute": "done",
+    "execute": null,
     "review": null,
     "gate": null
   },
-  "amendments": 0,
-  "checks_from": null,
+  "amendments": 1,
+  "checks_from": "29b5fbe22f7c5af1ce78faee1ad7452480981e25",
   "fix_rounds": 0
 }
