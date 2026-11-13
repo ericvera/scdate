@@ -41,9 +41,22 @@ validateAttributionConfig uses isValidTimeZone, and its tests still pass.
 11. Hard to undo: this is a public API behavior change shipped as a patch. isValidTimeZone is exported from `packages/scdate/src/index.ts:2`, and some inputs that returned false will now return true. The version is 9.0.0, and releases are commits like "chore(release): v9.0.0", so the commit type picks the bump. scschedule no longer re-exports it.
 12. Cross-repo: okven pins `scdate: ^8.0.0` in `packages/attribution/package.json:24` and 4 other package.json files, and has 8.0.0 installed. Using isValidTimeZone in validateAttributionConfig needs those bumped to ^9.x (a major version). That is in a different repo, outside this branch.
 
-## Open questions
+## Scope
 
-1. The third done-when (validateAttributionConfig uses isValidTimeZone) lives in the okven repo, which pins scdate ^8.0.0 and so needs a major bump to 9.x after this fix is published. Is that part of this run?
+- In scope: the scdate fix, its tests, and the README/JSDoc wording.
+- Out of scope (owner's call): the third done-when. Switching okven's validateAttributionConfig to isValidTimeZone, and the scdate 8→9 bump it needs, is a follow-up in the okven repo after 9.0.1 is published.
+
+## Bug fix record
+
+- Repro: on Node 24.18, `isValidTimeZone('UTC')` (also 'Etc/UTC', 'GMT', 'US/Eastern', 'Asia/Kolkata', 'america/puerto_rico') returns false.
+- Expected: true for every zone in the table above; false for 'Invalid/Zone' and '+05:00'.
+- Regression test: `packages/scdate/src/isValidTimeZone.test.ts`, covering UTC, an old alias, and a lowercase name.
+
+## Proposal
+
+- Issue: isValidTimeZone checks `Intl.supportedValuesOf('timeZone')`, which lists only canonical names, so it rejects UTC, aliases and lowercase names that the runtime and the rest of scdate accept.
+- Fix: validate by constructing `Intl.DateTimeFormat` in a try/catch, with an explicit reject for fixed offsets ('+'/'-' prefix) and non-strings; update the tests, README and JSDoc; ship as a `fix:` commit (patch). The okven switch is a follow-up, not this run.
+- Skips: spec and critic — one small module, no new concept.
 
 ## Assumptions
 
