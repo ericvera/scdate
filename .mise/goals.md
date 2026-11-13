@@ -56,7 +56,7 @@ validateAttributionConfig uses isValidTimeZone, and its tests still pass.
 
 - Issue: isValidTimeZone checks `Intl.supportedValuesOf('timeZone')`, which lists only canonical names, so it rejects UTC, aliases and lowercase names that the runtime and the rest of scdate accept.
 - Fix: validate by constructing `Intl.DateTimeFormat` in a try/catch and return false only when it throws (plus non-strings), so fixed offsets follow the runtime; update the tests, README and JSDoc; ship as a `fix:` commit (patch). The okven switch is a follow-up, not this run.
-- Skips: spec and critic — one small module, no new concept.
+- Skips: none. Spec and critic were skipped at approval, then restored when the planner flagged the change as hard to undo (public API behavior, and the squash merge to main publishes 9.0.1 to npm).
 
 ## Assumptions
 
