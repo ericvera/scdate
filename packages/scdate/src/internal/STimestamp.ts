@@ -17,18 +17,22 @@ export class STimestamp {
   }
 
   /**
-   * Returns the timestamp in the YYYY-MM-DDTHH:MM format. Used by template
-   * literals and `String(value)`.
+   * Returns the timestamp in the YYYY-MM-DDTHH:MM format, e.g.
+   * `String(sTimestamp('2024-03-01T09:30'))` is `'2024-03-01T09:30'`. Called by
+   * `String(value)`, template literals, object keys, `.join()` and `.sort()`
+   * without a comparator.
    */
   public toString(): string {
     return this.timestamp
   }
 
   /**
-   * Always throws. STimestamp cannot be converted to a primitive value, so `<`,
-   * `>`, `==` against a string and `+` throw instead of comparing or
-   * concatenating silently. Use `compareTimestamps`, `isSameTimestamp` or
-   * `String(value)` instead.
+   * Always throws a `TypeError`. STimestamp cannot be converted to a primitive
+   * value, so `<`, `>`, `<=`, `>=`, `==` against a primitive, `+`, arithmetic,
+   * `Number(value)` and an explicit `valueOf()` call throw instead of silently
+   * producing a wrong result. Use `compareTimestamps` to order or sort,
+   * `isSameTimestamp`, `isBeforeTimestamp` or `isAfterTimestamp` to compare, or
+   * `String(value)` to get the string.
    */
   public valueOf(): never {
     throw new TypeError(

@@ -21,17 +21,21 @@ export class SWeekdays {
   }
 
   /**
-   * Returns the weekdays in the SMTWTFS format. Used by template literals and
-   * `String(value)`.
+   * Returns the weekdays in the SMTWTFS format, e.g.
+   * `String(sWeekdays('-MTWTF-'))` is `'-MTWTF-'`. Called by `String(value)`,
+   * template literals, object keys, `.join()` and `.sort()` without a
+   * comparator.
    */
   public toString(): string {
     return this.weekdays
   }
 
   /**
-   * Always throws. SWeekdays cannot be converted to a primitive value, so `<`,
-   * `>`, `==` against a string and `+` throw instead of comparing or
-   * concatenating silently. Use `areWeekdaysEqual` or `String(value)` instead.
+   * Always throws a `TypeError`. SWeekdays cannot be converted to a primitive
+   * value, so `<`, `>`, `<=`, `>=`, `==` against a primitive, `+`, arithmetic,
+   * `Number(value)` and an explicit `valueOf()` call throw instead of silently
+   * producing a wrong result. Use `areWeekdaysEqual` to compare, or
+   * `String(value)` to get the string.
    */
   public valueOf(): never {
     throw new TypeError(

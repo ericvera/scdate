@@ -369,9 +369,19 @@ scDate uses a subset of the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) s
 
 ### String Conversion and Comparison
 
-`SDate`, `STime`, `STimestamp` and `SWeekdays` instances convert to their string form wherever JavaScript asks for a string: `toString()`, template literals, `String(value)`, object keys and `.sort()` without a comparator all produce the ISO string (`SMTWTFS` for weekdays). `JSON.stringify` is unchanged and still uses `toJSON()`.
+`SDate`, `STime`, `STimestamp` and `SWeekdays` instances convert to their string form wherever JavaScript asks for a string: `toString()`, template literals, `String(value)`, object keys, `.join()` and `.sort()` without a comparator all produce the ISO string (`SMTWTFS` for weekdays). `JSON.stringify` is unchanged and still uses `toJSON()`.
 
 `valueOf()` throws a `TypeError`, so `<`, `>`, `<=`, `>=`, `==` against a string, `+` and `Number(value)` throw instead of silently producing a wrong result. Use `compareDates`, `compareTimes` and `compareTimestamps` to order values, and `isSameDate`, `isSameTime`, `isSameTimestamp` and `areWeekdaysEqual` to test equality. `===` and `==` between two instances compare identity, as with any object.
+
+| Works, returns the string form                                                                        | Throws `TypeError`                                                                                                                                                                                                   | Unchanged                                                                                                         |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `value.toString()`, `String(value)`, `` `${value}` ``, `obj[value]`, `[a, b].join()`, `[a, b].sort()` | `<`, `>`, `<=`, `>=`, `==` and `!=` against a primitive, binary `+`, unary `+value`, arithmetic (`-`, `*`, `/`, ...), `Number(value)`, `isNaN(value)`, `Math.min` / `Math.max`, `new Date(value)`, `value.valueOf()` | `===` / `!==`, `==` / `!=` between two instances (identity, no error), `JSON.stringify(value)` / `value.toJSON()` |
+
+Instead of a throwing operation:
+
+- To order or sort, use `compareDates`, `compareTimes` and `compareTimestamps` (for example `dates.sort(compareDates)`).
+- To compare, use the `isSame*`, `isBefore*` and `isAfter*` functions (`isBeforeDate`, `isSameTimeOrAfter`, `isAfterTimestamp`, ...) and `areWeekdaysEqual`.
+- To get the string from a value typed `SDate | string` (or the `STime`, `STimestamp` and `SWeekdays` equivalents), use `String(value)`.
 
 ```typescript
 const a = sDate('2024-03-01')
@@ -383,9 +393,22 @@ compareDates(a, b) // 1
 a < b // throws TypeError
 ```
 
-This follows the design of TC39 Temporal, where `Temporal.PlainDate` has `toString()`, `compare()` and a throwing `valueOf()`.
+This follows the design of TC39 Temporal, where `Temporal.PlainDate` has `toString()`, `compare()` and a throwing `valueOf()`, so that a mistaken comparison or addition fails loudly instead of returning a wrong result.
 
-Deep-equality helpers that call `valueOf()` on objects that override it (for example `fast-deep-equal`) throw when given two instances; compare their string forms instead.
+Deep-equality helpers that call `valueOf()` on objects that override it (for example `fast-deep-equal`) throw when given two instances; compare their string forms instead. Helpers that compare own properties are unaffected.
+
+At the type level, `valueOf(): never` is a member of the exported `SDate`, `STime`, `STimestamp` and `SWeekdays` types, so a hand-built object such as `{ date: '2024-03-01' }` no longer type-checks as an `SDate`. Create values with the factory functions (`sDate`, `sTime`, `sTimestamp`, `sWeekdays`).
+
+#### Migrating from scDate 8
+
+Previously instances had the default object `toString()` (`'[object Object]'`) and `valueOf()` (the instance itself), so relational operators and `+` ran without error and returned meaningless results. Now string conversion returns the ISO string and every numeric or primitive coercion throws a `TypeError`. To find affected code, search for:
+
+- `<`, `>`, `<=`, `>=` and `==` / `!=` against a string applied to scDate values; replace with `compare*`, `isBefore*`, `isAfter*` or `isSame*`.
+- `+` with an scDate value, `Number(`, `isNaN(`, `Math.min(` / `Math.max(` and `new Date(` given an scDate value; use `String(value)` or the scDate function for the operation.
+- `.valueOf()` calls on scDate values; use `String(value)` or the `date` / `time` / `timestamp` / `weekdays` property.
+- `.sort()` with a comparator that subtracts or compares instances directly; use `compareDates`, `compareTimes` or `compareTimestamps`.
+- Object literals or mocks typed as `SDate`, `STime`, `STimestamp` or `SWeekdays`; build them with the factory functions.
+- Deep-equality checks with a helper that calls `valueOf()` (for example `fast-deep-equal`) on objects containing scDate values.
 
 ### Minute-Level Precision
 

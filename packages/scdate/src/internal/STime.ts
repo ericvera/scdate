@@ -17,18 +17,21 @@ export class STime {
   }
 
   /**
-   * Returns the time in the HH:MM format. Used by template literals and
-   * `String(value)`.
+   * Returns the time in the HH:MM format, e.g. `String(sTime('09:30'))` is
+   * `'09:30'`. Called by `String(value)`, template literals, object keys,
+   * `.join()` and `.sort()` without a comparator.
    */
   public toString(): string {
     return this.time
   }
 
   /**
-   * Always throws. STime cannot be converted to a primitive value, so `<`,
-   * `>`, `==` against a string and `+` throw instead of comparing or
-   * concatenating silently. Use `compareTimes`, `isSameTime` or
-   * `String(value)` instead.
+   * Always throws a `TypeError`. STime cannot be converted to a primitive
+   * value, so `<`, `>`, `<=`, `>=`, `==` against a primitive, `+`, arithmetic,
+   * `Number(value)` and an explicit `valueOf()` call throw instead of silently
+   * producing a wrong result. Use `compareTimes` to order or sort,
+   * `isSameTime`, `isBeforeTime` or `isAfterTime` to compare, or
+   * `String(value)` to get the string.
    */
   public valueOf(): never {
     throw new TypeError(
