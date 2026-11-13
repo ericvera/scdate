@@ -8,6 +8,8 @@ All paths are under `packages/scdate`. Verify everything with `yarn build`, `yar
 - 01_02 coercion guard (`30070e5`): `toString()` and a `valueOf(): never` that throws a `TypeError` on `SDate`, `STime`, `STimestamp` and `SWeekdays` in `src/internal/`. Verify with the `describe('string conversion')` blocks in the four test files and the README section "String Conversion and Comparison".
 - 01_03 full date string options (`3eed33f`): `SDateFullStringOptions` (`includeYear`, `weekdaySeparator`) as an optional third argument of `getFullDateString` in `src/sDate.ts`. Verify with the 6 new tests in `describe('getFullDateString')`; the existing snapshots are untouched.
 
+- Review fix, documentation (`cedc730`): the README section "String Conversion and Comparison" gains a works / throws / unchanged table, the alternatives, the type-level effect and a "Migrating from scDate 8" subsection; the `toString()` and `valueOf()` JSDoc in the four classes is filled out. Documentation only. Verify by reading the README section.
+
 ## Open assumptions
 
 - The guard follows Temporal's exact shape, a throwing `valueOf()`, taken from the owner's "how does Temporal do it" plus "continue". The alternative is `Symbol.toPrimitive`, which throws for the same operators and leaves an explicit `.valueOf()` call alone.
