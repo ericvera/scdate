@@ -788,6 +788,68 @@ describe('getFullDateString', () => {
       `[RangeError: Incorrect locale information provided]`,
     )
   })
+
+  it('omits the year with includeYear false', () => {
+    expect(
+      getFullDateString('2025-02-01', 'es', { includeYear: false }),
+    ).toMatchInlineSnapshot(`"sábado, 1 de febrero"`)
+    expect(
+      getFullDateString('2025-02-01', 'en', { includeYear: false }),
+    ).toMatchInlineSnapshot(`"Saturday, February 1"`)
+  })
+
+  it('replaces the separator after the weekday without the year', () => {
+    expect(
+      getFullDateString('2025-02-01', 'es', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      }),
+    ).toMatchInlineSnapshot(`"sábado 1 de febrero"`)
+    expect(
+      getFullDateString('2025-02-01', 'en', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      }),
+    ).toMatchInlineSnapshot(`"Saturday February 1"`)
+  })
+
+  it('replaces the separator after the weekday with the year', () => {
+    expect(
+      getFullDateString('2025-02-01', 'es', { weekdaySeparator: ' ' }),
+    ).toMatchInlineSnapshot(`"sábado 1 de febrero de 2025"`)
+    expect(
+      getFullDateString('2025-02-01', 'en', { weekdaySeparator: ' ' }),
+    ).toMatchInlineSnapshot(`"Saturday February 1, 2025"`)
+  })
+
+  it('matches the default output with empty options or includeYear true', () => {
+    const expected = getFullDateString('2025-02-01', 'es')
+
+    expect(getFullDateString('2025-02-01', 'es', {})).toBe(expected)
+    expect(getFullDateString('2025-02-01', 'es', { includeYear: true })).toBe(
+      expected,
+    )
+  })
+
+  it('ignores the separator where the weekday is last', () => {
+    expect(
+      getFullDateString('2025-02-01', 'ja', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      }),
+    ).toBe(getFullDateString('2025-02-01', 'ja', { includeYear: false }))
+  })
+
+  it('throws for invalid date with options', () => {
+    expect(() => {
+      getFullDateString('2025-02-0', 'es', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      })
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid date format. Expected format: YYYY-MM-DD. Current value: '2025-02-0'.]`,
+    )
+  })
 })
 
 describe('getShortDateString', () => {

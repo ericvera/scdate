@@ -121,6 +121,10 @@ const isCurrentYear = isDateInCurrentYear(date1, 'America/Puerto_Rico') // Check
 
 // Date formatting
 const fullDateStr = getFullDateString(date1, 'en-US')
+const sentenceDate = getFullDateString(date1, 'es', {
+  includeYear: false,
+  weekdaySeparator: ' ',
+}) // 'lunes 25 de diciembre'
 const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
   includeWeekday: true,
   onTodayText: () => 'Today',
@@ -145,6 +149,8 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
 - **`isDateToday(date, timeZone)`**: The comparison is time-zone aware, so a date that is "today" in one time zone might not be "today" in another time zone.
 
 - **`compareDates(date1, date2)`**: Returns `-1`, `0` or `1` in ascending order and can be passed to `Array.prototype.sort` directly (`dates.sort(compareDates)`) or wrapped (`items.sort((a, b) => compareDates(a.from, b.from))`).
+
+- **`getFullDateString(date, locale, options?)`**: Returns the locale's full date (`dateStyle: 'full'`). Optional `SDateFullStringOptions`: `includeYear` (default `true`) drops the year when `false`, keeping the full weekday, month and day; `weekdaySeparator` replaces the text the locale puts right after the weekday (e.g. `', '` in English and Spanish), with no effect where the locale puts the weekday last, such as `ja`.
 
 - **`getDaysBetweenDates(date1, date2)`**: Returns the number of calendar days between two dates. The result is positive if date2 is after date1, negative if before. This accounts for calendar days rather than full 24-hour periods.
 

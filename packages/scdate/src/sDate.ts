@@ -37,6 +37,23 @@ export interface SDateShortStringOptions {
 }
 
 /**
+ * Options for customizing the full date string representation.
+ */
+export interface SDateFullStringOptions {
+  /**
+   * Whether to include the year. Defaults to true. When false, the output
+   * has the full weekday, the full month and the day.
+   */
+  includeYear?: boolean
+  /**
+   * Replaces the text the locale puts between the weekday and the part that
+   * follows it (e.g. ', ' in English and Spanish). Has no effect in locales
+   * where nothing follows the weekday.
+   */
+  weekdaySeparator?: string
+}
+
+/**
  * --- Factory ---
  */
 
@@ -354,6 +371,7 @@ export const getDaysBetweenDates = (
  * @param date The date to get the full string representation for. It can be
  * an SDate or a string in the YYYY-MM-DD format.
  * @param locale The locale to use for the string representation.
+ * @param options The options to customize the full string representation.
  *
  * @example
  * ```ts
@@ -366,18 +384,53 @@ export const getDaysBetweenDates = (
  * getFullDateString('2021-02-05', 'en')
  * //=> 'Friday, February 5, 2021'
  * ```
+ *
+ * @example
+ * ```ts
+ * getFullDateString('2025-02-01', 'es', {
+ *   includeYear: false,
+ *   weekdaySeparator: ' ',
+ * })
+ * //=> 'sábado 1 de febrero'
+ * ```
+ *
+ * @example
+ * ```ts
+ * getFullDateString('2025-02-01', 'en', { includeYear: false })
+ * //=> 'Saturday, February 1'
+ * ```
  */
 export const getFullDateString = (
   date: SDateString | SDate,
   locale: Intl.LocalesArgument,
-) => {
+  options?: SDateFullStringOptions,
+): string => {
   const sDateValue = sDate(date)
   const utcDate = getDateAsUTCDateMini(sDateValue)
 
-  return utcDate.toLocaleDateString(locale, {
-    timeZone: 'UTC',
-    dateStyle: 'full',
-  })
+  const formatOptions: Intl.DateTimeFormatOptions =
+    options?.includeYear === false
+      ? { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric' }
+      : { timeZone: 'UTC', dateStyle: 'full' }
+
+  const weekdaySeparator = options?.weekdaySeparator
+
+  if (weekdaySeparator === undefined) {
+    return utcDate.toLocaleDateString(locale, formatOptions)
+  }
+
+  const parts = new Intl.DateTimeFormat(locale, formatOptions).formatToParts(
+    utcDate,
+  )
+  const weekdayIndex = parts.findIndex((part) => part.type === 'weekday')
+  const partAfterWeekday =
+    weekdayIndex === -1 ? undefined : parts[weekdayIndex + 1]
+
+  if (partAfterWeekday?.type === 'literal') {
+    partAfterWeekday.value = weekdaySeparator
+  }
+
+  return parts.map((part) => part.value).join('')
 }
 
 /**
