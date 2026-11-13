@@ -65,3 +65,7 @@ validateAttributionConfig uses isValidTimeZone, and its tests still pass.
 - A non-string argument (untyped JS caller) returns false rather than falling through to the host zone.
 - The README section and the JSDoc that point at `Intl.supportedValuesOf` are reworded to match the new behavior.
 - The change ships as a `fix:` commit so the release tooling cuts a patch (9.0.1).
+
+## Open questions
+
+1. Should isValidTimeZone return true for fixed offsets like +05:00 (consistent with the rest of scdate and with other libraries), instead of the false the done-when asks for?
