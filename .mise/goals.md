@@ -71,6 +71,7 @@ The owner's call, 2026-11-12: task 1 is a breaking change.
 ## Open questions
 
 1. Proposed, pending the owner's approval: add `toString()` alongside `valueOf()`, and cover `SWeekdays` alongside the three named classes. Both were out of scope in the first proposal.
+2. The owner recalls that `toString()` was on the classes at some point and that they removed it, possibly to avoid faulty equality and addition. A history check is pending. If the removal was deliberate, task 1 reverses it: `valueOf()` is what makes `==` against a string true and `+` concatenate, with or without `toString()`. Comparator functions taking `SDate | string` (`compareDates` and its siblings) would then meet the Okven sorting need with no coercion and no breaking release. The proposal is on hold until the history is known.
 
 ## Assumptions
 
