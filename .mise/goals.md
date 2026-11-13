@@ -47,49 +47,53 @@ Run against the two task titles, before the full notes arrived. Not a bug fix. N
 - Update the README Date formatting section (`README.md:121-126`).
 - No callers in `scschedule` or `scdate-testing` for either task.
 
+### History and comparator check
+
+Run after the owner recalled removing `toString()` from the classes.
+
+- No commit on any branch ever defined `toString()`, `valueOf()` or `Symbol.toPrimitive` on `SDate`, `STime`, `STimestamp` or `SWeekdays` (`git log --all`, renames followed). Nothing was added, so nothing was removed, and there is no removal reason to find.
+- Since the first commit (ec6f42f, "feat: initial implementation", 2024-04-24) each class's only serialization method has been `toJSON()`. The class files were only touched by ec6f42f, df06dc5 (nodenext resolution) and 043cd2f (monorepo move).
+- The pickaxe hits for `toString()` and `valueOf()` (ec6f42f, cf6c68e, 30cd27c, 316bd52) are calls on numbers or `Date` inside helpers, such as `hours.toString()` and `isNaN(date.valueOf())`.
+- No tracked README mentions them and no tracked CHANGELOG exists.
+- Today's source has no exported comparator returning negative, zero or positive. Nothing in `packages/*/src` matches `compare*` or `sort*`.
+- Closest existing function: `getDaysBetweenDates(date1, date2)` at `src/sDate.ts:337`, which returns `date2 - date1` in days. As a comparator it sorts descending, covers dates only and rounds to whole days.
+- The `isBefore*`, `isSame*` and `isAfter*` functions all return boolean and take `S*String | S*` for both arguments. Dates: `isSameDate` `sDate.ts:578`, `isBeforeDate` `:597`, `isSameDateOrBefore` `:616`, `isAfterDate` `:635`, `isSameDateOrAfter` `:654`. Times: `isSameTime` `sTime.ts:246`, `isAfterTime` `:265`, `isSameTimeOrAfter` `:284`, `isBeforeTime` `:303`, `isSameTimeOrBefore` `:322`. Timestamps: `isSameTimestamp` `sTimestamp.ts:517`, `isBeforeTimestamp` `:536`, `isSameTimestampOrBefore` `:555`, `isAfterTimestamp` `:574`, `isSameTimestampOrAfter` `:593`.
+- `SDateString`, `STimeString` and `STimestampString` are plain `string` aliases (`src/types.ts:8`, `:17`, `:26`). Everything is re-exported through `src/index.ts:3-6`.
+
 ## Verdict against the full notes
 
-Both tasks make sense. The notes settle the two points the titles left open, and they miss five things.
+Task 2 makes sense as noted. Task 1 names a real gap and the wrong fix.
 
-- Task 1's call site sorts with a comparator, so `valueOf()` covers it: `a.from < b.from` and `a.from.valueOf()` both work on `SDate | string`. `a < b` between instances already compiles today and is always false, so this turns a silently wrong expression into a correct one.
+- Task 1's premise is half right. Comparing a `SDate | SDateString` value needs no normalizing today: `isBeforeDate`, `isSameDate` and their siblings take the union. Sorting is the gap, because nothing returns an ordering.
+- `valueOf()` would close the gap by making the classes coerce to strings. That is the faulty equality and addition the owner wants to avoid: `instance == 'iso-string'` becomes true while `instanceA == instanceB` stays an identity check, and `instance + 1` concatenates. Leaving out `toString()` prevents neither, because `==` and `+` ask for `valueOf()` first. Today, with neither method, nothing coerces.
+- `valueOf()` is also a breaking change (the owner's call, 2026-11-12). Results change silently for code that already runs, and `valueOf(): string` becomes a required member of the exported types, so a hand-built `SDate`-shaped object is expected to stop type-checking (not confirmed with tsc).
+- Comparator functions close the same gap with no coercion and no breaking release, in the style the library already has. TC39's Temporal made the same choice: `Temporal.PlainDate.compare`, and a `valueOf()` that throws.
 - Task 2's comma is the one after the weekday, and it has to go: the target is `sábado 1 de febrero`. Dropping the year alone leaves `sábado, 1 de febrero`.
-- Missed 1: the `==` call-out is half the story. `instance == 'iso-string'` becomes true, but `instanceA == instanceB` stays an identity check, so two equal dates are `<=` and `>=` each other and still not `==`. JS `Date` has the same wart.
-- Missed 2: the title says "sort", but with `valueOf()` alone `.sort()` with no comparator still does not order instances. That takes `toString()`.
-- Missed 3: `weekdaySeparator` needs a rule for locales that put nothing after the weekday (weekday last, as in ja).
-- Missed 4: the notes cite scdate 7.1.2. This repository is at 8.0.0, so the Okven bump crosses a major (date-fns-tz subpath import; vitest 5 for scdate-testing).
-- Missed 5: `valueOf()` without `toString()` leaves the two string coercions disagreeing. `sdate + ''` gives the ISO string and a template literal gives `[object Object]`.
-
-## Breaking change
-
-The owner's call, 2026-11-12: task 1 is a breaking change.
-
-- Results change silently for code that already runs: `instance == 'iso-string'` goes from false to true, `instance + x` from `[object Object]…` to the ISO string, `<` and `>` between instances from always false to a real comparison, and `new Date(instance)` from an invalid date to a parsed one.
-- `valueOf(): string` becomes a required member of the exported types, so an object built by hand to the `SDate` shape is expected to stop type-checking. Not yet confirmed with tsc. The spec confirms it.
-- It ships as `feat!`, a major release. The squash commit carries a `BREAKING CHANGE:` footer of one or two sentences, which is what puts the notes' call-outs into the generated release notes.
-- Task 2 is not breaking on its own. It rides in the same release.
-
-## Open questions
-
-1. Proposed, pending the owner's approval: add `toString()` alongside `valueOf()`, and cover `SWeekdays` alongside the three named classes. Both were out of scope in the first proposal.
-2. The owner recalls that `toString()` was on the classes at some point and that they removed it, possibly to avoid faulty equality and addition. A history check is pending. If the removal was deliberate, task 1 reverses it: `valueOf()` is what makes `==` against a string true and `+` concatenate, with or without `toString()`. Comparator functions taking `SDate | string` (`compareDates` and its siblings) would then meet the Okven sorting need with no coercion and no breaking release. The proposal is on hold until the history is known.
+- `weekdaySeparator` needs a rule for locales that put nothing after the weekday (weekday last, as in ja). The notes give none.
+- The notes cite scdate 7.1.2. This repository is at 8.0.0, so the Okven bump crosses a major (date-fns-tz subpath import; vitest 5 for scdate-testing).
 
 ## Assumptions
 
-- Task 1 adds `valueOf()` and `toString()` to `SDate`, `STime`, `STimestamp` and `SWeekdays`, each returning the same string `toJSON()` returns. `toString()` is in because a later addition would change template-literal output and need a second breaking release, and because without it the coercions disagree (Missed 5). `SWeekdays` is in so all four value classes coerce the same way in the one major.
-- The README documents the comparison semantics: `<`, `>`, `<=`, `>=` work on instances and on `SDate | string` unions; `instance == 'iso-string'` is true; `==` and `===` between two instances stay identity checks, so equality still goes through the `isSame*` functions; `instance + 1` concatenates; template literals, `String()` and `.sort()` with no comparator use the string form; ordering `SWeekdays` values is defined but means nothing; `STimestamp` order is only meaningful within one zone.
+- Task 1 is solved with comparator functions instead of `valueOf()`. Proposed by the driver, pending the owner's approval.
+- It adds `compareDates`, `compareTimes` and `compareTimestamps`, named after the existing `isBeforeDate` family. Each takes `S*String | S*` for both arguments, validates the way the `isBefore*` functions do, and returns -1, 0 or 1 in ascending order. It works as an `Array.prototype.sort` comparator directly or wrapped: `(a, b) => compareDates(a.from, b.from)`.
+- `compareTimestamps` orders wall clocks, so it is only meaningful within one zone, the same limit `isBeforeTimestamp` has. There is no comparator for `SWeekdays`.
+- The classes do not change. No `valueOf()`, `toString()` or `Symbol.toPrimitive`. `a < b` between instances stays what it is today: it compiles and is always false.
+- The README documents the comparators next to the existing comparison functions.
 - Task 2 adds an optional third argument to `getFullDateString`, an options object with `includeYear?: boolean` and `weekdaySeparator?: string`, following `SDateShortStringOptions`. With no options the output is byte-identical to today's, and the existing snapshots stay untouched.
 - `includeYear: false` formats the full weekday, the full month and the day, with no year.
 - `weekdaySeparator` replaces the text Intl puts between the weekday and what follows it, found structurally with `formatToParts` and not by searching the string. `' '` gives `sábado 1 de febrero`. It works with or without the year. Where the locale puts nothing after the weekday, it does nothing.
-- Tests cover en and es, matching the existing `getFullDateString` tests.
+- Tests cover en and es for `getFullDateString`, matching its existing tests.
+- The release is a `feat` and a minor. Nothing in either task is breaking.
 - Both tasks ship together on this branch as one PR.
 
 ## Out of scope
 
-- Everything on the Okven side: bumping scdate, simplifying the comparison call sites, and replacing the Intl formatters in `formatPopUpNotice.ts` and `toPopUpDayParts.ts`. It is a different repository, and it depends on the release that merging this PR publishes. It becomes its own run in Okven afterwards.
+- `valueOf()`, `toString()` and any other implicit coercion on the classes.
+- Everything on the Okven side: bumping scdate, changing the sort in `selectSingleDayOverrides.ts` to use `compareDates`, and replacing the Intl formatters in `formatPopUpNotice.ts` and `toPopUpDayParts.ts`. It is a different repository, and it depends on the release that merging this PR publishes. It becomes its own run in Okven afterwards.
 - Any other punctuation or formatting change to `getFullDateString` or `getShortDateString`.
 
 ## Proposal
 
-- Issue: scdate makes callers normalize `SDate | string` values before comparing them (`sDate(x).date`), and it cannot produce a year-less, comma-less full date such as `sábado 1 de febrero`.
-- Approach: add `valueOf()` and `toString()` returning the string form to `SDate`, `STime`, `STimestamp` and `SWeekdays`; add an optional `{ includeYear?, weekdaySeparator? }` third argument to `getFullDateString` with today's output as the default; document the comparison semantics in the README; ship as `feat!` with a `BREAKING CHANGE:` footer.
+- Issue: scdate has no way to sort `SDate | string` values without normalizing them first (`sDate(x).date`), and it cannot produce a year-less, comma-less full date such as `sábado 1 de febrero`.
+- Approach: add `compareDates`, `compareTimes` and `compareTimestamps` (take `S*String | S*`, return -1, 0 or 1) in place of `valueOf()`, leaving the classes without implicit coercion; add an optional `{ includeYear?, weekdaySeparator? }` third argument to `getFullDateString` with today's output as the default; document both in the README; ship as a non-breaking `feat`.
 - Skips: nothing. Spec and critic both run, because the public API of a published package changes.
