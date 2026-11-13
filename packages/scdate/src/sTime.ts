@@ -48,8 +48,9 @@ export const sTime = (time: STimeString | STime): STime => {
 /**
  * Returns a new STime instance with the current time in the given time zone.
  *
- * @param timeZone The time zone to get the current time in. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to get the current time in. Any time zone the
+ * runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and `UTC`);
+ * check with `isValidTimeZone`.
  */
 export const getTimeNow = (timeZone: string): STime => {
   const date = getTimeZonedDate(Date.now(), timeZone)

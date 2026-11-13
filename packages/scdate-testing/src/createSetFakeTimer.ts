@@ -30,10 +30,9 @@ export interface SetFakeTimer {
  * eagerly so an unusable zone throws here, at binding time, rather
  * than inside a test.
  *
- * @param timeZone The time zone used to interpret every timestamp
- * passed to the returned helper. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time
- * zones.
+ * @param timeZone The time zone used to interpret every timestamp passed to the
+ * returned helper. Any time zone the runtime's `Intl.DateTimeFormat` accepts
+ * (IANA names, aliases and `UTC`); check with `isValidTimeZone`.
  */
 export const createSetFakeTimer = (timeZone: string): SetFakeTimer => {
   getUTCMillisecondsFromTimestamp(ZoneProbeTimestamp, timeZone)

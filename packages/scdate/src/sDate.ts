@@ -77,8 +77,9 @@ export const sDate = (date: SDateString | SDate): SDate => {
 /**
  * Returns a new SDate instance with the current date in the given time zone.
  *
- * @param timeZone The time zone to get the current date for. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to get the current date for. Any time zone the
+ * runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and `UTC`);
+ * check with `isValidTimeZone`.
  */
 export const getDateToday = (timeZone: string): SDate => {
   const date = getTimeZonedDate(Date.now(), timeZone)
@@ -304,8 +305,9 @@ export const getISOWeekYearFromDate = (date: SDateString | SDate): number => {
  *
  * @param date The date to convert to UTC milliseconds. It can be an
  * SDate or a string in the YYYY-MM-DD format.
- * @param timeZone The time zone to use when converting the date. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to use when converting the date. Any time zone
+ * the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and `UTC`);
+ * check with `isValidTimeZone`.
  */
 export const getUTCMillisecondsFromDate = (
   date: SDateString | SDate,
@@ -323,8 +325,9 @@ export const getUTCMillisecondsFromDate = (
  *
  * @param date The date to get the time zoned date from. It can be an SDate
  * or a string in the YYYY-MM-DD format.
- * @param timeZone The time zone to adjust the date to. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to adjust the date to. Any time zone the
+ * runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and `UTC`);
+ * check with `isValidTimeZone`.
  */
 export const getTimeZonedDateFromDate = (
   date: SDateString | SDate,
@@ -438,8 +441,9 @@ export const getFullDateString = (
  *
  * @param date The date to get the short string representation for. It can be
  * an SDate or a string in the YYYY-MM-DD format.
- * @param timeZone The time zone used to determine if in the current year.
- * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone used to determine if in the current year. Any
+ * time zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases
+ * and `UTC`); check with `isValidTimeZone`.
  * @param locale The locale to use for the string representation.
  * @param options The options to customize the short string representation.
  *
@@ -719,8 +723,9 @@ export const isSameDateOrAfter = (
  *
  * @param date The date to check if it is today. It can be an SDate or a string
  * in the YYYY-MM-DD format.
- * @param timeZone The time zone to check if the date is today. See
- * `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * @param timeZone The time zone to check if the date is today. Any time zone
+ * the runtime's `Intl.DateTimeFormat` accepts (IANA names, aliases and `UTC`);
+ * check with `isValidTimeZone`.
  */
 export const isDateToday = (
   date: SDateString | SDate,
@@ -773,7 +778,8 @@ export const areDatesInSameMonth = (
  * @param date The date to check if it is in the current month. It can be an
  * SDate or a string in the YYYY-MM-DD format.
  * @param timeZone The time zone to check if the date is in the current month.
- * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * Any time zone the runtime's `Intl.DateTimeFormat` accepts (IANA names,
+ * aliases and `UTC`); check with `isValidTimeZone`.
  */
 export const isDateInCurrentMonth = (
   date: SDateString | SDate,
@@ -812,7 +818,8 @@ export const areDatesInSameYear = (
  * @param date The date to check if it is in the current year. It can be an
  * SDate or a string in the YYYY-MM-DD format.
  * @param timeZone The time zone to check if the date is in the current year.
- * See `Intl.supportedValuesOf('timeZone')` for a list of valid time zones.
+ * Any time zone the runtime's `Intl.DateTimeFormat` accepts (IANA names,
+ * aliases and `UTC`); check with `isValidTimeZone`.
  */
 export const isDateInCurrentYear = (
   date: SDateString | SDate,
