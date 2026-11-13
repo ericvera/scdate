@@ -72,6 +72,13 @@ Task 2 makes sense as noted. Task 1 names a real gap and the wrong fix.
 - `weekdaySeparator` needs a rule for locales that put nothing after the weekday (weekday last, as in ja). The notes give none.
 - The notes cite scdate 7.1.2. This repository is at 8.0.0, so the Okven bump crosses a major (date-fns-tz subpath import; vitest 5 for scdate-testing).
 
+## Open questions
+
+The owner, 2026-11-12: Temporal's shape "feels like the more correct way" — `toString()` returning the string form, and implicit coercion that throws instead of returning a value. It would cover all four value classes. It is a breaking change: `<`, `==` against a string, `+` and `Number()` on an instance would throw, and template literals, `String()`, object keys and comparator-less `.sort()` would use the string form. The comparators stay, because `<` would throw.
+
+1. Does it ship in this run as one major release, or as its own run after this one, leaving this run a non-breaking minor?
+2. Is the guard a `valueOf()` that throws (Temporal's exact shape), or a `Symbol.toPrimitive` that throws for every hint but `string`? Operators behave the same either way. The difference is an explicit `.valueOf()` call, which throws only under the first. Helpers that call `.valueOf()` on any object overriding it would then throw when handed two instances. fast-deep-equal and react-fast-compare are believed to do that (from memory, not verified).
+
 ## Assumptions
 
 - Task 1 is solved with comparator functions instead of `valueOf()`. Proposed by the driver, pending the owner's approval.
