@@ -19,4 +19,23 @@ export class SWeekdays {
   public toJSON(): string {
     return this.weekdays
   }
+
+  /**
+   * Returns the weekdays in the SMTWTFS format. Used by template literals and
+   * `String(value)`.
+   */
+  public toString(): string {
+    return this.weekdays
+  }
+
+  /**
+   * Always throws. SWeekdays cannot be converted to a primitive value, so `<`,
+   * `>`, `==` against a string and `+` throw instead of comparing or
+   * concatenating silently. Use `areWeekdaysEqual` or `String(value)` instead.
+   */
+  public valueOf(): never {
+    throw new TypeError(
+      'SWeekdays cannot be converted to a primitive value. Use areWeekdaysEqual() to compare weekdays, or String(value) to get the SMTWTFS string.',
+    )
+  }
 }

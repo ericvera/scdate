@@ -96,6 +96,41 @@ describe('JSON.stringify', () => {
   })
 })
 
+describe('string conversion', () => {
+  it('returns the string form from toString and String', () => {
+    const value = sDate('2024-03-01')
+
+    expect(value.toString()).toMatchInlineSnapshot(`"2024-03-01"`)
+    expect(String(value)).toMatchInlineSnapshot(`"2024-03-01"`)
+  })
+
+  it('sorts by the string form without a comparator', () => {
+    const values = [sDate('2024-03-01'), sDate('2023-12-31')]
+
+    expect(values.sort().map(String)).toEqual(['2023-12-31', '2024-03-01'])
+  })
+
+  it('throws from valueOf', () => {
+    const value = sDate('2024-03-01')
+
+    expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SDate cannot be converted to a primitive value. Use compareDates() or isSameDate() to compare dates, or String(value) to get the YYYY-MM-DD string.]`,
+    )
+  })
+
+  it('throws on relational comparison and numeric coercion', () => {
+    const first = sDate('2024-03-01')
+    const second = sDate('2023-12-31')
+
+    expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SDate cannot be converted to a primitive value. Use compareDates() or isSameDate() to compare dates, or String(value) to get the YYYY-MM-DD string.]`,
+    )
+    expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SDate cannot be converted to a primitive value. Use compareDates() or isSameDate() to compare dates, or String(value) to get the YYYY-MM-DD string.]`,
+    )
+  })
+})
+
 /**
  * --- Factory helpers ---
  */

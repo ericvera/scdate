@@ -359,7 +359,27 @@ scDate uses a subset of the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) s
 
 - **Human readability**: Dates and times are easy to read and interpret
 - **String sortability**: ISO-formatted strings can be sorted chronologically using simple string comparison
-- **Direct comparison**: Values can be compared directly as strings without conversion
+- **Direct comparison**: The underlying strings can be compared directly without conversion (compare instances with the comparison helpers, see below)
+
+### String Conversion and Comparison
+
+`SDate`, `STime`, `STimestamp` and `SWeekdays` instances convert to their string form wherever JavaScript asks for a string: `toString()`, template literals, `String(value)`, object keys and `.sort()` without a comparator all produce the ISO string (`SMTWTFS` for weekdays). `JSON.stringify` is unchanged and still uses `toJSON()`.
+
+`valueOf()` throws a `TypeError`, so `<`, `>`, `<=`, `>=`, `==` against a string, `+` and `Number(value)` throw instead of silently producing a wrong result. Use `compareDates`, `compareTimes` and `compareTimestamps` to order values, and `isSameDate`, `isSameTime`, `isSameTimestamp` and `areWeekdaysEqual` to test equality. `===` and `==` between two instances compare identity, as with any object.
+
+```typescript
+const a = sDate('2024-03-01')
+const b = sDate('2023-12-31')
+
+String(a) // '2024-03-01'
+const sorted = [a, b].sort().map(String) // ['2023-12-31', '2024-03-01']
+compareDates(a, b) // 1
+a < b // throws TypeError
+```
+
+This follows the design of TC39 Temporal, where `Temporal.PlainDate` has `toString()`, `compare()` and a throwing `valueOf()`.
+
+Deep-equality helpers that call `valueOf()` on objects that override it (for example `fast-deep-equal`) throw when given two instances; compare their string forms instead.
 
 ### Minute-Level Precision
 
