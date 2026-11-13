@@ -120,6 +120,10 @@ const isCurrentYear = isDateInCurrentYear(date1, 'America/Puerto_Rico') // Check
 
 // Date formatting
 const fullDateStr = getFullDateString(date1, 'en-US')
+const sentenceDate = getFullDateString(date1, 'es', {
+  includeYear: false,
+  weekdaySeparator: ' ',
+}) // 'lunes 25 de diciembre'
 const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
   includeWeekday: true,
   onTodayText: () => 'Today',
@@ -142,6 +146,8 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
   - `capToCommonDate`: When set to `true`, dates greater than the 28th will always be capped to the 28th of the target month (the last date common to all months). For example, `addMonthsToDate('2023-01-31', 3, { capToCommonDate: true })` will result in `'2023-04-28'` rather than `'2023-04-30'`. This is useful for scheduling scenarios where you need consistent date behavior across all months.
 
 - **`isDateToday(date, timeZone)`**: The comparison is time-zone aware, so a date that is "today" in one time zone might not be "today" in another time zone.
+
+- **`getFullDateString(date, locale, options?)`**: Returns the locale's full date (`dateStyle: 'full'`). Optional `SDateFullStringOptions`: `includeYear` (default `true`) drops the year when `false`, keeping the full weekday, month and day; `weekdaySeparator` replaces the text the locale puts right after the weekday (e.g. `', '` in English and Spanish), with no effect where the locale puts the weekday last, such as `ja`.
 
 - **`getDaysBetweenDates(date1, date2)`**: Returns the number of calendar days between two dates. The result is positive if date2 is after date1, negative if before. This accounts for calendar days rather than full 24-hour periods.
 
@@ -350,7 +356,50 @@ scDate uses a subset of the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) s
 
 - **Human readability**: Dates and times are easy to read and interpret
 - **String sortability**: ISO-formatted strings can be sorted chronologically using simple string comparison
-- **Direct comparison**: Values can be compared directly as strings without conversion
+- **Direct comparison**: The underlying strings can be compared directly without conversion (get an instance's string with `String(value)`, see below)
+
+### String Conversion and Comparison
+
+`SDate`, `STime`, `STimestamp` and `SWeekdays` instances convert to their string form wherever JavaScript asks for a string: `toString()`, template literals, `String(value)`, object keys, `.join()` and `.sort()` without a comparator all produce the ISO string (`SMTWTFS` for weekdays). `JSON.stringify` is unchanged and still uses `toJSON()`.
+
+`valueOf()` throws a `TypeError`, so `<`, `>`, `<=`, `>=`, `==` against a string, `+` and `Number(value)` throw instead of silently producing a wrong result. Use `String(value)` to order values (see below), and `isSameDate`, `isSameTime`, `isSameTimestamp` and `areWeekdaysEqual` to test equality. `===` and `==` between two instances compare identity, as with any object.
+
+| Works, returns the string form                                                                        | Throws `TypeError`                                                                                                                                                                                                   | Unchanged                                                                                                         |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `value.toString()`, `String(value)`, `` `${value}` ``, `obj[value]`, `[a, b].join()`, `[a, b].sort()` | `<`, `>`, `<=`, `>=`, `==` and `!=` against a primitive, binary `+`, unary `+value`, arithmetic (`-`, `*`, `/`, ...), `Number(value)`, `isNaN(value)`, `Math.min` / `Math.max`, `new Date(value)`, `value.valueOf()` | `===` / `!==`, `==` / `!=` between two instances (identity, no error), `JSON.stringify(value)` / `value.toJSON()` |
+
+Instead of a throwing operation:
+
+- To order or sort, use the string form. `.sort()` with no comparator sorts instances and ISO strings alike, and a comparator compares strings with `localeCompare` (for example `items.sort((a, b) => String(a.from).localeCompare(String(b.from)))`). Timestamps are wall clocks, so their order is only meaningful within one time zone.
+- To compare, use the `isSame*`, `isBefore*` and `isAfter*` functions (`isBeforeDate`, `isSameTimeOrAfter`, `isAfterTimestamp`, ...) and `areWeekdaysEqual`.
+- To get the string from a value typed `SDate | string` (or the `STime`, `STimestamp` and `SWeekdays` equivalents), use `String(value)`.
+
+```typescript
+const a = sDate('2024-03-01')
+const b = sDate('2023-12-31')
+
+String(a) // '2024-03-01'
+const sorted = [a, b].sort().map(String) // ['2023-12-31', '2024-03-01']
+String(a).localeCompare(String(b)) // 1
+a < b // throws TypeError
+```
+
+This follows the design of TC39 Temporal, where `Temporal.PlainDate` has `toString()` and a throwing `valueOf()`, so that a mistaken comparison or addition fails loudly instead of returning a wrong result.
+
+Deep-equality helpers that call `valueOf()` on objects that override it (for example `fast-deep-equal`) throw when given two instances; compare their string forms instead. Helpers that compare own properties are unaffected.
+
+At the type level, `valueOf(): never` is a member of the exported `SDate`, `STime`, `STimestamp` and `SWeekdays` types, so a hand-built object such as `{ date: '2024-03-01' }` no longer type-checks as an `SDate`. Create values with the factory functions (`sDate`, `sTime`, `sTimestamp`, `sWeekdays`).
+
+#### Migrating from scDate 8
+
+Previously instances had the default object `toString()` (`'[object Object]'`) and `valueOf()` (the instance itself), so relational operators and `+` ran without error and returned meaningless results. Now string conversion returns the ISO string and every numeric or primitive coercion throws a `TypeError`. To find affected code, search for:
+
+- `<`, `>`, `<=`, `>=` and `==` / `!=` against a string applied to scDate values; replace with `isBefore*`, `isAfter*` or `isSame*`, or compare `String(value)`.
+- `+` with an scDate value, `Number(`, `isNaN(`, `Math.min(` / `Math.max(` and `new Date(` given an scDate value; use `String(value)` or the scDate function for the operation.
+- `.valueOf()` calls on scDate values; use `String(value)` or the `date` / `time` / `timestamp` / `weekdays` property.
+- `.sort()` with a comparator that subtracts or compares instances directly; use `.sort()` with no comparator, or compare `String(value)` with `localeCompare`.
+- Object literals or mocks typed as `SDate`, `STime`, `STimestamp` or `SWeekdays`; build them with the factory functions.
+- Deep-equality checks with a helper that calls `valueOf()` (for example `fast-deep-equal`) on objects containing scDate values.
 
 ### Minute-Level Precision
 

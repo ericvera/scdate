@@ -84,6 +84,35 @@ describe('JSON.stringify', () => {
   })
 })
 
+describe('string conversion', () => {
+  it('returns the string form from toString and String', () => {
+    const value = sWeekdays('S-----S')
+
+    expect(value.toString()).toMatchInlineSnapshot(`"S-----S"`)
+    expect(String(value)).toMatchInlineSnapshot(`"S-----S"`)
+  })
+
+  it('throws from valueOf', () => {
+    const value = sWeekdays('S-----S')
+
+    expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SWeekdays cannot be converted to a primitive value. Use areWeekdaysEqual() to compare weekdays, or String(value) to get the SMTWTFS string.]`,
+    )
+  })
+
+  it('throws on relational comparison and numeric coercion', () => {
+    const first = sWeekdays('S-----S')
+    const second = sWeekdays('-MTWTF-')
+
+    expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SWeekdays cannot be converted to a primitive value. Use areWeekdaysEqual() to compare weekdays, or String(value) to get the SMTWTFS string.]`,
+    )
+    expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SWeekdays cannot be converted to a primitive value. Use areWeekdaysEqual() to compare weekdays, or String(value) to get the SMTWTFS string.]`,
+    )
+  })
+})
+
 /**
  * --- Factory helpers ---
  */

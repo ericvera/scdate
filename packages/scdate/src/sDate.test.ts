@@ -95,6 +95,41 @@ describe('JSON.stringify', () => {
   })
 })
 
+describe('string conversion', () => {
+  it('returns the string form from toString and String', () => {
+    const value = sDate('2024-03-01')
+
+    expect(value.toString()).toMatchInlineSnapshot(`"2024-03-01"`)
+    expect(String(value)).toMatchInlineSnapshot(`"2024-03-01"`)
+  })
+
+  it('sorts by the string form without a comparator', () => {
+    const values = [sDate('2024-03-01'), sDate('2023-12-31')]
+
+    expect(values.sort().map(String)).toEqual(['2023-12-31', '2024-03-01'])
+  })
+
+  it('throws from valueOf', () => {
+    const value = sDate('2024-03-01')
+
+    expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SDate cannot be converted to a primitive value. Use isSameDate(), isBeforeDate() or isAfterDate() to compare dates, or String(value) to get the YYYY-MM-DD string, which sorts in date order.]`,
+    )
+  })
+
+  it('throws on relational comparison and numeric coercion', () => {
+    const first = sDate('2024-03-01')
+    const second = sDate('2023-12-31')
+
+    expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SDate cannot be converted to a primitive value. Use isSameDate(), isBeforeDate() or isAfterDate() to compare dates, or String(value) to get the YYYY-MM-DD string, which sorts in date order.]`,
+    )
+    expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: SDate cannot be converted to a primitive value. Use isSameDate(), isBeforeDate() or isAfterDate() to compare dates, or String(value) to get the YYYY-MM-DD string, which sorts in date order.]`,
+    )
+  })
+})
+
 /**
  * --- Factory helpers ---
  */
@@ -750,6 +785,68 @@ describe('getFullDateString', () => {
       getFullDateString('2022-08-05', 'en1')
     }).toThrowErrorMatchingInlineSnapshot(
       `[RangeError: Incorrect locale information provided]`,
+    )
+  })
+
+  it('omits the year with includeYear false', () => {
+    expect(
+      getFullDateString('2025-02-01', 'es', { includeYear: false }),
+    ).toMatchInlineSnapshot(`"sábado, 1 de febrero"`)
+    expect(
+      getFullDateString('2025-02-01', 'en', { includeYear: false }),
+    ).toMatchInlineSnapshot(`"Saturday, February 1"`)
+  })
+
+  it('replaces the separator after the weekday without the year', () => {
+    expect(
+      getFullDateString('2025-02-01', 'es', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      }),
+    ).toMatchInlineSnapshot(`"sábado 1 de febrero"`)
+    expect(
+      getFullDateString('2025-02-01', 'en', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      }),
+    ).toMatchInlineSnapshot(`"Saturday February 1"`)
+  })
+
+  it('replaces the separator after the weekday with the year', () => {
+    expect(
+      getFullDateString('2025-02-01', 'es', { weekdaySeparator: ' ' }),
+    ).toMatchInlineSnapshot(`"sábado 1 de febrero de 2025"`)
+    expect(
+      getFullDateString('2025-02-01', 'en', { weekdaySeparator: ' ' }),
+    ).toMatchInlineSnapshot(`"Saturday February 1, 2025"`)
+  })
+
+  it('matches the default output with empty options or includeYear true', () => {
+    const expected = getFullDateString('2025-02-01', 'es')
+
+    expect(getFullDateString('2025-02-01', 'es', {})).toBe(expected)
+    expect(getFullDateString('2025-02-01', 'es', { includeYear: true })).toBe(
+      expected,
+    )
+  })
+
+  it('ignores the separator where the weekday is last', () => {
+    expect(
+      getFullDateString('2025-02-01', 'ja', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      }),
+    ).toBe(getFullDateString('2025-02-01', 'ja', { includeYear: false }))
+  })
+
+  it('throws for invalid date with options', () => {
+    expect(() => {
+      getFullDateString('2025-02-0', 'es', {
+        includeYear: false,
+        weekdaySeparator: ' ',
+      })
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid date format. Expected format: YYYY-MM-DD. Current value: '2025-02-0'.]`,
     )
   })
 })

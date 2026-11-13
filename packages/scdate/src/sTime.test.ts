@@ -84,6 +84,41 @@ describe('JSON.stringify', () => {
   })
 })
 
+describe('string conversion', () => {
+  it('returns the string form from toString and String', () => {
+    const value = sTime('13:45')
+
+    expect(value.toString()).toMatchInlineSnapshot(`"13:45"`)
+    expect(String(value)).toMatchInlineSnapshot(`"13:45"`)
+  })
+
+  it('sorts by the string form without a comparator', () => {
+    const values = [sTime('13:45'), sTime('09:30')]
+
+    expect(values.sort().map(String)).toEqual(['09:30', '13:45'])
+  })
+
+  it('throws from valueOf', () => {
+    const value = sTime('13:45')
+
+    expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: STime cannot be converted to a primitive value. Use isSameTime(), isBeforeTime() or isAfterTime() to compare times, or String(value) to get the HH:MM string, which sorts in time order.]`,
+    )
+  })
+
+  it('throws on relational comparison and numeric coercion', () => {
+    const first = sTime('13:45')
+    const second = sTime('09:30')
+
+    expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: STime cannot be converted to a primitive value. Use isSameTime(), isBeforeTime() or isAfterTime() to compare times, or String(value) to get the HH:MM string, which sorts in time order.]`,
+    )
+    expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: STime cannot be converted to a primitive value. Use isSameTime(), isBeforeTime() or isAfterTime() to compare times, or String(value) to get the HH:MM string, which sorts in time order.]`,
+    )
+  })
+})
+
 /**
  * --- Factory helpers ---
  */
