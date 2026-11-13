@@ -102,7 +102,7 @@ describe('string conversion', () => {
     const value = sTime('13:45')
 
     expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: STime cannot be converted to a primitive value. Use compareTimes() or isSameTime() to compare times, or String(value) to get the HH:MM string.]`,
+      `[TypeError: STime cannot be converted to a primitive value. Use isSameTime(), isBeforeTime() or isAfterTime() to compare times, or String(value) to get the HH:MM string, which sorts in time order.]`,
     )
   })
 
@@ -111,10 +111,10 @@ describe('string conversion', () => {
     const second = sTime('09:30')
 
     expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: STime cannot be converted to a primitive value. Use compareTimes() or isSameTime() to compare times, or String(value) to get the HH:MM string.]`,
+      `[TypeError: STime cannot be converted to a primitive value. Use isSameTime(), isBeforeTime() or isAfterTime() to compare times, or String(value) to get the HH:MM string, which sorts in time order.]`,
     )
     expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: STime cannot be converted to a primitive value. Use compareTimes() or isSameTime() to compare times, or String(value) to get the HH:MM string.]`,
+      `[TypeError: STime cannot be converted to a primitive value. Use isSameTime(), isBeforeTime() or isAfterTime() to compare times, or String(value) to get the HH:MM string, which sorts in time order.]`,
     )
   })
 })

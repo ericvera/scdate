@@ -30,13 +30,13 @@ export class STimestamp {
    * Always throws a `TypeError`. STimestamp cannot be converted to a primitive
    * value, so `<`, `>`, `<=`, `>=`, `==` against a primitive, `+`, arithmetic,
    * `Number(value)` and an explicit `valueOf()` call throw instead of silently
-   * producing a wrong result. Use `compareTimestamps` to order or sort,
-   * `isSameTimestamp`, `isBeforeTimestamp` or `isAfterTimestamp` to compare, or
-   * `String(value)` to get the string.
+   * producing a wrong result. Use `isSameTimestamp`, `isBeforeTimestamp` or
+   * `isAfterTimestamp` to compare, or `String(value)` to get the string, which
+   * sorts with `.sort()` or `localeCompare`.
    */
   public valueOf(): never {
     throw new TypeError(
-      'STimestamp cannot be converted to a primitive value. Use compareTimestamps() or isSameTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string.',
+      'STimestamp cannot be converted to a primitive value. Use isSameTimestamp(), isBeforeTimestamp() or isAfterTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string, which sorts in time order.',
     )
   }
 }

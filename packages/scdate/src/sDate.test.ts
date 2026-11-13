@@ -113,7 +113,7 @@ describe('string conversion', () => {
     const value = sDate('2024-03-01')
 
     expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: SDate cannot be converted to a primitive value. Use compareDates() or isSameDate() to compare dates, or String(value) to get the YYYY-MM-DD string.]`,
+      `[TypeError: SDate cannot be converted to a primitive value. Use isSameDate(), isBeforeDate() or isAfterDate() to compare dates, or String(value) to get the YYYY-MM-DD string, which sorts in date order.]`,
     )
   })
 
@@ -122,10 +122,10 @@ describe('string conversion', () => {
     const second = sDate('2023-12-31')
 
     expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: SDate cannot be converted to a primitive value. Use compareDates() or isSameDate() to compare dates, or String(value) to get the YYYY-MM-DD string.]`,
+      `[TypeError: SDate cannot be converted to a primitive value. Use isSameDate(), isBeforeDate() or isAfterDate() to compare dates, or String(value) to get the YYYY-MM-DD string, which sorts in date order.]`,
     )
     expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: SDate cannot be converted to a primitive value. Use compareDates() or isSameDate() to compare dates, or String(value) to get the YYYY-MM-DD string.]`,
+      `[TypeError: SDate cannot be converted to a primitive value. Use isSameDate(), isBeforeDate() or isAfterDate() to compare dates, or String(value) to get the YYYY-MM-DD string, which sorts in date order.]`,
     )
   })
 })

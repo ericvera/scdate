@@ -128,7 +128,7 @@ describe('string conversion', () => {
     const value = sTimestamp('2024-03-01T08:00')
 
     expect(() => value.valueOf()).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: STimestamp cannot be converted to a primitive value. Use compareTimestamps() or isSameTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string.]`,
+      `[TypeError: STimestamp cannot be converted to a primitive value. Use isSameTimestamp(), isBeforeTimestamp() or isAfterTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string, which sorts in time order.]`,
     )
   })
 
@@ -137,10 +137,10 @@ describe('string conversion', () => {
     const second = sTimestamp('2023-12-31T23:59')
 
     expect(() => first < second).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: STimestamp cannot be converted to a primitive value. Use compareTimestamps() or isSameTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string.]`,
+      `[TypeError: STimestamp cannot be converted to a primitive value. Use isSameTimestamp(), isBeforeTimestamp() or isAfterTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string, which sorts in time order.]`,
     )
     expect(() => Number(first)).toThrowErrorMatchingInlineSnapshot(
-      `[TypeError: STimestamp cannot be converted to a primitive value. Use compareTimestamps() or isSameTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string.]`,
+      `[TypeError: STimestamp cannot be converted to a primitive value. Use isSameTimestamp(), isBeforeTimestamp() or isAfterTimestamp() to compare timestamps, or String(value) to get the YYYY-MM-DDTHH:MM string, which sorts in time order.]`,
     )
   })
 })
