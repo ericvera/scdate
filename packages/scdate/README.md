@@ -112,6 +112,7 @@ const isBefore = isBeforeDate(date1, date2)
 const isAfter = isAfterDate(date1, date2)
 const isSameOrBefore = isSameDateOrBefore(date1, date2)
 const isSameOrAfter = isSameDateOrAfter(date1, date2)
+const order = compareDates(date1, date2) // -1, 0 or 1 (use as a sort comparator)
 const isToday = isDateToday(date1, 'America/Puerto_Rico')
 const isSameMonth = areDatesInSameMonth(date1, date2) // Check if dates are in same month & year
 const isSameYear = areDatesInSameYear(date1, date2) // Check if dates are in same year
@@ -142,6 +143,8 @@ const shortDateStr = getShortDateString(date1, 'America/Puerto_Rico', 'en-US', {
   - `capToCommonDate`: When set to `true`, dates greater than the 28th will always be capped to the 28th of the target month (the last date common to all months). For example, `addMonthsToDate('2023-01-31', 3, { capToCommonDate: true })` will result in `'2023-04-28'` rather than `'2023-04-30'`. This is useful for scheduling scenarios where you need consistent date behavior across all months.
 
 - **`isDateToday(date, timeZone)`**: The comparison is time-zone aware, so a date that is "today" in one time zone might not be "today" in another time zone.
+
+- **`compareDates(date1, date2)`**: Returns `-1`, `0` or `1` in ascending order and can be passed to `Array.prototype.sort` directly (`dates.sort(compareDates)`) or wrapped (`items.sort((a, b) => compareDates(a.from, b.from))`).
 
 - **`getDaysBetweenDates(date1, date2)`**: Returns the number of calendar days between two dates. The result is positive if date2 is after date1, negative if before. This accounts for calendar days rather than full 24-hour periods.
 
@@ -192,6 +195,7 @@ const isBefore = isBeforeTime(time1, time2)
 const isAfter = isAfterTime(time1, time2)
 const isSameOrBefore = isSameTimeOrBefore(time1, time2)
 const isSameOrAfter = isSameTimeOrAfter(time1, time2)
+const order = compareTimes(time1, time2) // -1, 0 or 1 (use as a sort comparator)
 const isPM = isTimePM(time1)
 ```
 
@@ -202,6 +206,8 @@ const isPM = isTimePM(time1)
 - **`getTimeInMinutes(time, midnightIs24)`**: By default, midnight (00:00) is represented as 0 minutes. If `midnightIs24` is set to `true`, midnight will be represented as 1440 minutes (24 hours).
 
 - **`isTimePM(time)`**: Hours from 12:00 to 23:59 are considered PM, while 00:00 to 11:59 are AM. 12:00 is considered PM, not AM.
+
+- **`compareTimes(time1, time2)`**: Returns `-1`, `0` or `1` in ascending order and can be passed to `Array.prototype.sort` directly (`times.sort(compareTimes)`) or wrapped (`items.sort((a, b) => compareTimes(a.start, b.start))`).
 
 - **`get12HoursHoursStringFromTime(time)`**: Returns the hours component in 12-hour format as a string (1-12).
 
@@ -255,6 +261,7 @@ const isBefore = isBeforeTimestamp(ts1, ts2)
 const isAfter = isAfterTimestamp(ts1, ts2)
 const isSameOrBefore = isSameTimestampOrBefore(ts1, ts2)
 const isSameOrAfter = isSameTimestampOrAfter(ts1, ts2)
+const order = compareTimestamps(ts1, ts2) // -1, 0 or 1 (use as a sort comparator)
 ```
 
 #### Important Behaviors and Edge Cases
@@ -266,6 +273,8 @@ const isSameOrAfter = isSameTimestampOrAfter(ts1, ts2)
 - **`getSecondsToTimestamp(timestamp, timeZone)`**: Returns a positive value for future timestamps and negative for past timestamps. Handles DST transitions correctly but might produce unexpected results for timestamps that fall in skipped or repeated hours during DST transitions.
 
 - **`getUTCMillisecondsFromTimestamp(timestamp, timeZone)`**: Converts a timestamp to UTC milliseconds, accounting for the time zone offset at that specific date and time (important for historical dates with different time zone rules).
+
+- **`compareTimestamps(ts1, ts2)`**: Returns `-1`, `0` or `1` in ascending order and can be passed to `Array.prototype.sort` directly (`timestamps.sort(compareTimestamps)`) or wrapped (`items.sort((a, b) => compareTimestamps(a.from, b.from))`). It compares wall-clock values, so it is only meaningful for timestamps in the same time zone.
 
 - **`getCompactTimestampString(timestamp, timeZone, locale, options)`**: Same date part as `getShortTimestampString`, but the time uses the compact 12-hour format with lowercase `am`/`pm`, no space before the period, and minutes omitted when zero (e.g. `Today at 8am`, `11 ago 9:32pm`). `STimestampCompactStringOptions` requires `includeWeekday` and `onTodayAtText`, plus optional `onMidnightText` / `onNoonText` callbacks that replace the default `12am` / `12pm` time text for exact `00:00` and `12:00` only.
 

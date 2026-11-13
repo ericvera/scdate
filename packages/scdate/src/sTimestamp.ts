@@ -599,3 +599,38 @@ export const isSameTimestampOrAfter = (
 
   return sTimestamp1.timestamp >= sTimestamp2.timestamp
 }
+
+/**
+ * Compares two timestamps for sorting. Returns -1 when the first timestamp is
+ * before the second, 1 when it is after, and 0 when both are the same. Can be
+ * passed directly to `Array.prototype.sort`. It compares wall-clock values, so
+ * it is only meaningful for timestamps in the same time zone.
+ *
+ * @param timestamp1 The first timestamp to compare. It can be an STimestamp or
+ * a string in the YYYY-MM-DDTHH:MM format.
+ * @param timestamp2 The second timestamp to compare. It can be an STimestamp or
+ * a string in the YYYY-MM-DDTHH:MM format.
+ *
+ * @example
+ * ```ts
+ * ['2024-03-01T09:30', '2024-01-15T14:00'].sort(compareTimestamps)
+ * //=> ['2024-01-15T14:00', '2024-03-01T09:30']
+ * ```
+ */
+export const compareTimestamps = (
+  timestamp1: STimestampString | STimestamp,
+  timestamp2: STimestampString | STimestamp,
+): -1 | 0 | 1 => {
+  const value1 = sTimestamp(timestamp1).timestamp
+  const value2 = sTimestamp(timestamp2).timestamp
+
+  if (value1 < value2) {
+    return -1
+  }
+
+  if (value1 > value2) {
+    return 1
+  }
+
+  return 0
+}

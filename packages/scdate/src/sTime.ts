@@ -330,6 +330,40 @@ export const isSameTimeOrBefore = (
 }
 
 /**
+ * Compares two times for sorting. Returns -1 when the first time is before
+ * the second, 1 when it is after, and 0 when both are the same. Can be passed
+ * directly to `Array.prototype.sort`.
+ *
+ * @param time1 The first time to compare. It can be an STime or a string in
+ * the HH:MM format.
+ * @param time2 The second time to compare. It can be an STime or a string in
+ * the HH:MM format.
+ *
+ * @example
+ * ```ts
+ * ['14:00', '09:30'].sort(compareTimes)
+ * //=> ['09:30', '14:00']
+ * ```
+ */
+export const compareTimes = (
+  time1: STimeString | STime,
+  time2: STimeString | STime,
+): -1 | 0 | 1 => {
+  const value1 = sTime(time1).time
+  const value2 = sTime(time2).time
+
+  if (value1 < value2) {
+    return -1
+  }
+
+  if (value1 > value2) {
+    return 1
+  }
+
+  return 0
+}
+
+/**
  * Returns true when the given time is at or after noon (12:00) and false
  * otherwise.
  *

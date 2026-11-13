@@ -10,6 +10,7 @@ import { sTime } from './sTime.js'
 import {
   addDaysToTimestamp,
   addMinutesToTimestamp,
+  compareTimestamps,
   getCompactTimestampString,
   getDateFromTimestamp,
   getSecondsToTimestamp,
@@ -1001,6 +1002,79 @@ describe('isSameTimestampOrAfter', () => {
   it('throws for invalid second timestamp', () => {
     expect(() => {
       isSameTimestampOrAfter('2023-01-02T12:00', '2023-01-02')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid date and time format. Expected format: YYYY-MM-DDTHH:MM. Current value: '2023-01-02'.]`,
+    )
+  })
+})
+
+describe('compareTimestamps', () => {
+  it('returns -1 when the first is before the second', () => {
+    expect(
+      compareTimestamps(sTimestamp('2023-01-02T23:00'), '2023-01-03T08:00'),
+    ).toBe(-1)
+  })
+
+  it('returns 1 when the first is after the second', () => {
+    expect(
+      compareTimestamps('2023-01-03T08:00', sTimestamp('2023-01-02T23:00')),
+    ).toBe(1)
+  })
+
+  it('returns 0 when both are the same', () => {
+    expect(
+      compareTimestamps(sTimestamp('2023-01-02T23:00'), '2023-01-02T23:00'),
+    ).toBe(0)
+  })
+
+  it('orders timestamps on the same date by time', () => {
+    expect(
+      compareTimestamps('2023-01-02T09:30', sTimestamp('2023-01-02T14:00')),
+    ).toBe(-1)
+    expect(
+      compareTimestamps(sTimestamp('2023-01-02T14:00'), '2023-01-02T09:30'),
+    ).toBe(1)
+  })
+
+  it('sorts when passed as a comparator', () => {
+    const values = [
+      sTimestamp('2024-03-01T09:30'),
+      '2024-01-15T14:00',
+      '2024-01-15T09:30',
+    ]
+
+    expect(
+      values
+        .sort(compareTimestamps)
+        .map((value) => sTimestamp(value).timestamp),
+    ).toEqual(['2024-01-15T09:30', '2024-01-15T14:00', '2024-03-01T09:30'])
+  })
+
+  it('sorts when wrapped', () => {
+    const items = [
+      { from: '2024-03-01T09:30' },
+      { from: sTimestamp('2024-01-15T14:00') },
+      { from: '2024-01-15T09:30' },
+    ]
+
+    expect(
+      items
+        .sort((a, b) => compareTimestamps(a.from, b.from))
+        .map((item) => sTimestamp(item.from).timestamp),
+    ).toEqual(['2024-01-15T09:30', '2024-01-15T14:00', '2024-03-01T09:30'])
+  })
+
+  it('throws for invalid first value', () => {
+    expect(() => {
+      compareTimestamps('2023-01-02T12:0', '2023-01-02T23:00')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid date and time format. Expected format: YYYY-MM-DDTHH:MM. Current value: '2023-01-02T12:0'.]`,
+    )
+  })
+
+  it('throws for invalid second value', () => {
+    expect(() => {
+      compareTimestamps('2023-01-02T23:00', '2023-01-02')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid date and time format. Expected format: YYYY-MM-DDTHH:MM. Current value: '2023-01-02'.]`,
     )

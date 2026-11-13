@@ -4,6 +4,7 @@ import { setFakeTimer } from './__test__/setFakeTimer.js'
 import { MinutesInDay, MinutesInHour } from './internal/constants.js'
 import {
   addMinutesToTime,
+  compareTimes,
   get12HourTimeString,
   getCompact12HourTimeString,
   get12HoursHoursStringFromTime,
@@ -591,6 +592,58 @@ describe('isSameTimeOrBefore', () => {
   it('throws when the second argument is an invalid time', () => {
     expect(() => {
       isSameTimeOrBefore('12:00', '24:00')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO time value. Expected from 00:00 to 23:59. Current value: '24:00'.]`,
+    )
+  })
+})
+
+describe('compareTimes', () => {
+  it('returns -1 when the first is before the second', () => {
+    expect(compareTimes(sTime('09:30'), '14:00')).toBe(-1)
+  })
+
+  it('returns 1 when the first is after the second', () => {
+    expect(compareTimes('14:00', sTime('09:30'))).toBe(1)
+  })
+
+  it('returns 0 when both are the same', () => {
+    expect(compareTimes(sTime('09:30'), '09:30')).toBe(0)
+  })
+
+  it('sorts when passed as a comparator', () => {
+    const values = [sTime('14:00'), '09:30', '12:15']
+
+    expect(values.sort(compareTimes).map((value) => sTime(value).time)).toEqual(
+      ['09:30', '12:15', '14:00'],
+    )
+  })
+
+  it('sorts when wrapped', () => {
+    const items = [
+      { from: '14:00' },
+      { from: sTime('09:30') },
+      { from: '12:15' },
+    ]
+
+    expect(
+      items
+        .sort((a, b) => compareTimes(a.from, b.from))
+        .map((item) => sTime(item.from).time),
+    ).toEqual(['09:30', '12:15', '14:00'])
+  })
+
+  it('throws for invalid first value', () => {
+    expect(() => {
+      compareTimes('24:00', '09:30')
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Invalid ISO time value. Expected from 00:00 to 23:59. Current value: '24:00'.]`,
+    )
+  })
+
+  it('throws for invalid second value', () => {
+    expect(() => {
+      compareTimes('09:30', '24:00')
     }).toThrowErrorMatchingInlineSnapshot(
       `[Error: Invalid ISO time value. Expected from 00:00 to 23:59. Current value: '24:00'.]`,
     )
