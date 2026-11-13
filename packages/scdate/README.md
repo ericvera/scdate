@@ -415,10 +415,13 @@ scDate intentionally omits seconds and milliseconds from time representations. T
 import { isValidTimeZone } from 'scdate'
 
 isValidTimeZone('America/New_York') // true
+isValidTimeZone('UTC') // true
+isValidTimeZone('US/Eastern') // true (alias)
+isValidTimeZone('america/new_york') // true (case-insensitive)
 isValidTimeZone('Invalid/Timezone') // false
 ```
 
-For a list of valid time zones run `Intl.supportedValuesOf('timeZone')` in your environment.
+scDate accepts any time zone the runtime's `Intl.DateTimeFormat` accepts (IANA names, their aliases and `UTC`), and `isValidTimeZone` checks exactly that. `Intl.supportedValuesOf('timeZone')` lists only canonical names, so it is not a complete list of accepted zones. Fixed offsets such as `+05:00` are accepted where the runtime supports them.
 
 ## License
 

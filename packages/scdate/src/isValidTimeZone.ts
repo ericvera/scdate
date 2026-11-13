@@ -1,13 +1,20 @@
 /**
- * Checks if a string is a valid IANA time zone identifier.
+ * Checks if a string is a time zone the runtime's `Intl.DateTimeFormat`
+ * accepts: IANA names, their aliases (for example `US/Eastern` or
+ * `Asia/Calcutta`), `UTC`, and names in any letter case. Fixed offsets such
+ * as `+05:00` are accepted where the runtime supports them.
  *
- * @param timeZone The string to validate as an IANA time zone identifier.
+ * @param timeZone The string to validate as a time zone.
  */
 export const isValidTimeZone = (timeZone: string): boolean => {
-  try {
-    const validTimeZones = Intl.supportedValuesOf('timeZone')
+  if (typeof timeZone !== 'string') {
+    return false
+  }
 
-    return validTimeZones.includes(timeZone)
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone })
+
+    return true
   } catch {
     return false
   }

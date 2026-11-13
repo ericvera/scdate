@@ -7,6 +7,16 @@ it.each([
   'Europe/London',
   'Asia/Tokyo',
   'Australia/Sydney',
+  // UTC, old aliases and lowercase names are absent from
+  // Intl.supportedValuesOf('timeZone') but accepted by Intl.DateTimeFormat
+  'UTC',
+  'Etc/UTC',
+  'GMT',
+  'US/Eastern',
+  'Asia/Kolkata',
+  'america/puerto_rico',
+  'EST',
+  'PST',
 ])('should return true for valid time zone: %s', (timeZone) => {
   expect(isValidTimeZone(timeZone)).toBe(true)
 })
@@ -16,10 +26,11 @@ it.each([
   'America/Not_A_Place',
   'Random String',
   '',
-  // Abbreviations aren't valid IANA identifiers
-  'EST',
-  'PST',
-  'UTC',
+  'Invalid/Zone',
 ])('should return false for invalid time zone: %s', (timeZone) => {
   expect(isValidTimeZone(timeZone)).toBe(false)
+})
+
+it('should return false for a non-string', () => {
+  expect(isValidTimeZone(undefined as unknown as string)).toBe(false)
 })
