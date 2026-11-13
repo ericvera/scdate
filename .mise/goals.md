@@ -49,21 +49,33 @@ Run against the two task titles, before the full notes arrived. Not a bug fix. N
 
 ## Verdict against the full notes
 
-Both tasks make sense. The notes settle the two points the titles left open, and they miss four things.
+Both tasks make sense. The notes settle the two points the titles left open, and they miss five things.
 
-- Task 1 is `valueOf()` only. The call site in the notes sorts with a comparator, so `valueOf` covers it: `a.from < b.from` and `a.from.valueOf()` both work on `SDate | string`. `a < b` between instances already compiles today and is always false, so this turns a silently wrong expression into a correct one.
+- Task 1's call site sorts with a comparator, so `valueOf()` covers it: `a.from < b.from` and `a.from.valueOf()` both work on `SDate | string`. `a < b` between instances already compiles today and is always false, so this turns a silently wrong expression into a correct one.
 - Task 2's comma is the one after the weekday, and it has to go: the target is `sábado 1 de febrero`. Dropping the year alone leaves `sábado, 1 de febrero`.
 - Missed 1: the `==` call-out is half the story. `instance == 'iso-string'` becomes true, but `instanceA == instanceB` stays an identity check, so two equal dates are `<=` and `>=` each other and still not `==`. JS `Date` has the same wart.
-- Missed 2: the title says "sort", but `.sort()` with no comparator still does not order instances. Only a comparator does.
+- Missed 2: the title says "sort", but with `valueOf()` alone `.sort()` with no comparator still does not order instances. That takes `toString()`.
 - Missed 3: `weekdaySeparator` needs a rule for locales that put nothing after the weekday (weekday last, as in ja).
 - Missed 4: the notes cite scdate 7.1.2. This repository is at 8.0.0, so the Okven bump crosses a major (date-fns-tz subpath import; vitest 5 for scdate-testing).
+- Missed 5: `valueOf()` without `toString()` leaves the two string coercions disagreeing. `sdate + ''` gives the ISO string and a template literal gives `[object Object]`.
+
+## Breaking change
+
+The owner's call, 2026-11-12: task 1 is a breaking change.
+
+- Results change silently for code that already runs: `instance == 'iso-string'` goes from false to true, `instance + x` from `[object Object]…` to the ISO string, `<` and `>` between instances from always false to a real comparison, and `new Date(instance)` from an invalid date to a parsed one.
+- `valueOf(): string` becomes a required member of the exported types, so an object built by hand to the `SDate` shape is expected to stop type-checking. Not yet confirmed with tsc. The spec confirms it.
+- It ships as `feat!`, a major release. The squash commit carries a `BREAKING CHANGE:` footer of one or two sentences, which is what puts the notes' call-outs into the generated release notes.
+- Task 2 is not breaking on its own. It rides in the same release.
+
+## Open questions
+
+1. Proposed, pending the owner's approval: add `toString()` alongside `valueOf()`, and cover `SWeekdays` alongside the three named classes. Both were out of scope in the first proposal.
 
 ## Assumptions
 
-- Task 1 adds `valueOf()` to `SDate`, `STime` and `STimestamp`, returning the same string `toJSON()` returns. No `toString()`: the notes list template literals as unaffected, and nothing in them needs comparator-less `.sort()`. `SWeekdays` is left alone, since ordering weekday patterns as strings means nothing.
-- The README documents the comparison semantics: `<`, `>`, `<=`, `>=` work on instances and on `SDate | string` unions; `instance == 'iso-string'` is true; `==` and `===` between two instances stay identity checks, so equality still goes through the `isSame*` functions; `instance + 1` concatenates; `.sort()` with no comparator, template literals and `String()` are unchanged; `STimestamp` order is only meaningful within one zone.
-- "Release notes" means the README and the PR description. The release notes themselves are generated from the commit subject, and `CLAUDE.md` keeps the commit body to a sentence or two.
-- The change is a `feat` and a minor release, not a breaking one: what `==` and `+` returned for instances before was meaningless.
+- Task 1 adds `valueOf()` and `toString()` to `SDate`, `STime`, `STimestamp` and `SWeekdays`, each returning the same string `toJSON()` returns. `toString()` is in because a later addition would change template-literal output and need a second breaking release, and because without it the coercions disagree (Missed 5). `SWeekdays` is in so all four value classes coerce the same way in the one major.
+- The README documents the comparison semantics: `<`, `>`, `<=`, `>=` work on instances and on `SDate | string` unions; `instance == 'iso-string'` is true; `==` and `===` between two instances stay identity checks, so equality still goes through the `isSame*` functions; `instance + 1` concatenates; template literals, `String()` and `.sort()` with no comparator use the string form; ordering `SWeekdays` values is defined but means nothing; `STimestamp` order is only meaningful within one zone.
 - Task 2 adds an optional third argument to `getFullDateString`, an options object with `includeYear?: boolean` and `weekdaySeparator?: string`, following `SDateShortStringOptions`. With no options the output is byte-identical to today's, and the existing snapshots stay untouched.
 - `includeYear: false` formats the full weekday, the full month and the day, with no year.
 - `weekdaySeparator` replaces the text Intl puts between the weekday and what follows it, found structurally with `formatToParts` and not by searching the string. `' '` gives `sábado 1 de febrero`. It works with or without the year. Where the locale puts nothing after the weekday, it does nothing.
@@ -72,12 +84,11 @@ Both tasks make sense. The notes settle the two points the titles left open, and
 
 ## Out of scope
 
-- Everything on the Okven side: bumping scdate, simplifying the comparison call sites, and replacing the Intl formatters in `formatPopUpNotice.ts` and `toPopUpDayParts.ts`.
-- `toString()` on the three classes, and any change to `SWeekdays`.
+- Everything on the Okven side: bumping scdate, simplifying the comparison call sites, and replacing the Intl formatters in `formatPopUpNotice.ts` and `toPopUpDayParts.ts`. It is a different repository, and it depends on the release that merging this PR publishes. It becomes its own run in Okven afterwards.
 - Any other punctuation or formatting change to `getFullDateString` or `getShortDateString`.
 
 ## Proposal
 
 - Issue: scdate makes callers normalize `SDate | string` values before comparing them (`sDate(x).date`), and it cannot produce a year-less, comma-less full date such as `sábado 1 de febrero`.
-- Approach: add `valueOf()` returning the ISO string to `SDate`, `STime` and `STimestamp`; add an optional `{ includeYear?, weekdaySeparator? }` third argument to `getFullDateString` with today's output as the default; document the comparison semantics in the README.
+- Approach: add `valueOf()` and `toString()` returning the string form to `SDate`, `STime`, `STimestamp` and `SWeekdays`; add an optional `{ includeYear?, weekdaySeparator? }` third argument to `getFullDateString` with today's output as the default; document the comparison semantics in the README; ship as `feat!` with a `BREAKING CHANGE:` footer.
 - Skips: nothing. Spec and critic both run, because the public API of a published package changes.
